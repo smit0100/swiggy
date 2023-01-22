@@ -1,0 +1,11 @@
+.containerr{
+    @apply max-w-screen-xl mx-auto px-6 py-3
+}
+
+.row{
+    @apply flex flex-wrap
+}
+
+.column{
+    @apply p-3 w-full  sm:w-6/12 lg:w-4/12 xl:w-3/12 flex justify-center
+}

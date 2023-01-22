@@ -1,0 +1,9 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+@import 'tailwind/dashboard.css';
+@import 'tailwind/utility.css';
+@import 'tailwind/restaurantPage.css';
+
+
+@import 'tailwindcss/utilities';
