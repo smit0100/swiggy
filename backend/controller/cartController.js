@@ -117,7 +117,8 @@ const itemAlreadyExistUpdateQuantity = async (req, res) => {
   };
   
   const addCartItemquantity = async (req, res) => {
-    let {  userId, itemId,productId } = req.body;
+    let { userId, itemId, productId } = req.body;
+    console.log('hello');
     const product = await Product.findById(productId);
     const price = product.price;
     // const user = await User.find({_id:userId});

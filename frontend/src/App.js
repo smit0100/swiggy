@@ -13,6 +13,8 @@ import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
 import Otp from './components/Otp';
 import CheckoutPage from './pages/CheckoutPage';
+import Payment from './components/StripeComponent';
+import StripeComponent from './components/StripeComponent';
 
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
         <Route path="otp" element={<Otp />} />
         <Route path='profile' element={<h1>profile</h1>} />
         <Route path='checkout' element={<CheckoutPage />} />
+        <Route path='payment' element={<StripeComponent/>}/>
       </Route>
     )
   )

@@ -8,9 +8,10 @@ router.post("/add",
     cartController.itemAlreadyExistUpdateQuantity
 )
 router.patch('/addQuantity', cartController.addCartItemquantity)
+router.patch('/subtractQuantity', cartController.subtractCartItemquantity)
 
-router.patch("/remove",
-cartController.removeItemCart)
+
+router.patch("/remove",cartController.removeItemCart)
 
 
 module.exports = router
