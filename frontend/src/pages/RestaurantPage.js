@@ -29,7 +29,7 @@ export default function RestaurantPage() {
      
 
       <div className="relative w-full h-5/6">
-        <img alt="bg" className="w-full object-cover h-[40vh] md:h-[8 0vh] first-letter blur-sm" src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80" />
+        <img alt="bg" className="w-full object-cover h-[40vh] md:h-[80vh] first-letter blur-sm" src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80" />
       </div>
 
       <div className="w-5/6 mx-auto  bg-white shadow-xl h-auto relative -top-36 rounded-md ">
@@ -99,7 +99,7 @@ export const RestroCategoryCard = ({item}) => {
         <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
           <Link
-            class="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+            className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
             to="cart"
           >
             Add

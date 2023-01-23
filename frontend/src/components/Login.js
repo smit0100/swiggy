@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import { userData} from '../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -10,6 +13,8 @@ export default function Login() {
   const [info,setInfo] = useState('');
 
   const navigate = useNavigate()
+
+  const dispatch=useDispatch()
   
 
   const handleSubmit = async  () => {
@@ -38,7 +43,7 @@ export default function Login() {
       setError(response.message);
       return;
     }
-
+    dispatch(userData(response.data.user))
 
     navigate('/');
 

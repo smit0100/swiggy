@@ -27,7 +27,7 @@ const Sidebar = ({direction}) => {
                         />
 
                         <div className="border-0 mt-6 pl-5 pr-36 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150 cursor-pointer flex items-center w-9/12">
-                            <i class="fa-sharp fa-solid fa-location-crosshairs text-xl"></i>
+                            <i className="fa-sharp fa-solid fa-location-crosshairs text-xl"></i>
                             <p> Get current location</p>
                             <p className="text-slate-500 block">Using GPS</p>
                         </div>

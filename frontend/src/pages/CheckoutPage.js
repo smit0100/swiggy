@@ -35,7 +35,7 @@ const CheckoutPage = () => {
                                         <p className="w-10/12 font-[350] text-slate-500">116, rangavdhut soc. punagam saroli road surat-395010</p>
                                         <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
                                         <button
-                                            class="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                                            className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                                             to="ewfsdf"
                                         >
                                             deliver here
@@ -53,7 +53,7 @@ const CheckoutPage = () => {
                                         <p className="font-semibold text-xl">Add New Address</p>
                                         <p className="w-10/12 font-[350] text-slate-500">116, rangavdhut soc. punagam saroli road surat-395010</p>
                                         <button
-                                            class="inline-block mt-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                                            className="inline-block mt-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                                             to="ewfsdf"
                                         >
                                             add new
