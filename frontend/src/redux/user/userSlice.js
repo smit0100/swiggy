@@ -9,8 +9,6 @@ const userslice=createSlice({
     initialState,
     reducers:{
         userData: (state, action) => {
-            console.log('hey');
-            console.log(action);
         state.user=action.payload;
        }
     }

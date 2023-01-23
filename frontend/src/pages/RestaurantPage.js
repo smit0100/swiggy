@@ -1,17 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+
 
 // import Navbar from "components/Navbars/AuthNavbar.js";
 // import Footer from "components/Footers/Footer.js";
 
 export default function RestaurantPage() {
-  const { restaurantId } = useParams();
-
+  const { restaurantId } = useParams(); 
   const [data,setData] = useState([]);
   const [load, setLoad] = useState(false);
-
+  
   useEffect(() => {
     (async () => {
       setLoad(true)
@@ -87,7 +88,26 @@ export default function RestaurantPage() {
   );
 }
 
-export const RestroCategoryCard = ({item}) => {
+export const RestroCategoryCard = ({ item }) => {
+  const id = item._id;
+  const isUser = useSelector(state => state.userData.user);
+  const navigate = useNavigate();
+
+  const addtoCart = async (e) => {
+    e.preventDefault();
+    if (!isUser) {
+        navigate('/login')
+    } else {
+      const response = await axios.post('http://localhost:4000/cart/add', {
+        productId: id,
+        userId:isUser._id
+      })
+
+    }
+
+
+  }
+
   return (
     <>
       <div className="flex flex-wrap-reverse justify-between anim py-3">
@@ -98,12 +118,12 @@ export const RestroCategoryCard = ({item}) => {
         </div>
         <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
-          <Link
-            className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-            to="cart"
-          >
-            Add
-          </Link>
+          
+            <button  onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+            >
+              Add
+              </button>
+          
         </div>
       </div>
     </>
