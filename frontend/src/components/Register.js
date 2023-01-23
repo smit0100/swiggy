@@ -1,53 +1,126 @@
 import React, { useState } from "react";
 import axios from 'axios'
-import {createSearchParams, useNavigate} from 'react-router-dom'
-import { useSelector,useDispatch} from 'react-redux';
-import {userData} from '../redux/user/userSlice'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import { userData } from '../redux/user/userSlice'
 
 export default function Register() {
+
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');
   const [number, setNumber] = useState('');
+  const [numberError, setNumberError] = useState('')
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('')
   const [pass, setPass] = useState('');
+  const [passError, setPassError] = useState('')
   const [cpass, setCpass] = useState('');
+  const [cpassError, setCpassError] = useState('')
   const [check, SetCheck] = useState(false);
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false);
-  const [info,setInfo] = useState('')
+  const [info, setInfo] = useState("")
+  const [disabled, setDisabled] = useState(true)
 
   const navigate = useNavigate();
 
+  const handleName = (e) => {
+    setName(e.target.value);
+    var regex = /^[\sA-Za-z]+$/;
+
+    if (!regex.test(e.target.value)) {
+      setNameError("please enter valid name")
+    } else {
+      setNameError("")
+    }
+  }
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    if (!regex.test(e.target.value)) {
+      setEmailError("Please enter valid email address")
+    } else {
+      setEmailError("")
+    }
+  }
+
+  const handleNumber = (e) => {
+    setNumber(e.target.value);
+    const regx = /^[789]\d{9}$/
+    if (!regx.test(e.target.value)) {
+      setNumberError("please enter valid number")
+    } else {
+      setNumberError("");
+    }
+
+  }
+
+  const handleCpass = (e) => {
+    setCpass(e.target.value)
+    if (pass == e.target.value) {
+      setCpassError('')
+    } else {
+      setCpassError('please enter same password');
+    }
+  }
+
+  const handlePassword = (e) => {
+    setPass(e.target.value);
+    if (e.target.value.length < 8) {
+      setPassError('password must be 8 character');
+    } else {
+      setPassError('')
+    }
+    if (e.target.value == cpass) {
+      setCpassError('')
+    } else {
+      setCpassError('please enter same password');
+    }
+  }
+
+
+  if (name && number && email && pass && cpass && nameError.length === 0 && numberError.length === 0 && emailError.length === 0 && passError.length === 0 && cpass.length === 0) {
+    setDisabled(false)
+    console.log(disabled)
+  }
+
+
+
+
+
+
   const user = useSelector(state => state.userData.user);
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     setLoading(true)
     console.log('hey');
-     
-    console.log(name,email,number,pass);
+
+    console.log(name, email, number, pass);
     const response = await axios.post('http://localhost:4000/user/create', {
       name,
       email,
       number,
-      password:pass
+      password: pass
     })
-    
+
     setLoading(false);
     if (response.status == 409) {
       setError(response.message)
       alert("this is error")
     };
 
-    
 
-    console.log(response.data.user._id);  
+
+    console.log(response.data.user._id);
     navigate({
       pathname: '/otp',
       search: createSearchParams({
-        id:response.data.user._id
+        id: response.data.user._id
       }).toString()
     })
-    
+
 
   }
   return (
@@ -104,10 +177,12 @@ export default function Register() {
                     <input
                       type="text"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={handleName}
+                      onBlur={handleName}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Name"
                     />
+                    <span className="text-sm text-red-500">{nameError}</span>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -120,10 +195,13 @@ export default function Register() {
                     <input
                       type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Phone no" 
+                      placeholder="Phone no"
                       value={number}
-                      onChange={(e) => setNumber(e.target.value)}
+                      onChange={handleNumber}
+                      onBlur={handleNumber}
                     />
+                    <div className="text-sm text-red-500">{numberError}</div>
+
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -138,8 +216,10 @@ export default function Register() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmail}
+                      onBlur={handleEmail}
                     />
+                    <div className="text-sm text-red-500">{emailError}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -154,8 +234,10 @@ export default function Register() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
                       value={pass}
-                      onChange={(e) => setPass(e.target.value)}
+                      onChange={handlePassword}
+                      onBlur={handlePassword}
                     />
+                    <div className="text-sm text-red-500">{passError}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -170,8 +252,11 @@ export default function Register() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
                       value={cpass}
-                      onChange={(e) => setCpass(e.target.value)}
+                      onChange={handleCpass}
+                      onBlur={handleCpass}
+
                     />
+                    <div className="text-sm text-red-500">{cpassError}</div>
                   </div>
 
                   <div>
@@ -182,7 +267,7 @@ export default function Register() {
                         id="customCheckLogin"
                         type="checkbox"
                         className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                        
+
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}
@@ -194,7 +279,7 @@ export default function Register() {
                           Privacy Policy
                         </a>
                       </span>
-                      
+
                     </label>
                     <div>
                       {/* //loading added */}
@@ -205,13 +290,7 @@ export default function Register() {
                   </div>
 
                   <div className="text-center mt-6">
-                    <button
-                      className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={handleSubmit}
-                    >
-                      Create Account
-                    </button>
+                    <button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="submit" value="Create Account" disabled={disabled} onClick={handleSubmit}> create account</button>
                   </div>
                 </form>
               </div>

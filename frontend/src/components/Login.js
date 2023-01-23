@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [emailError, setEmailError] = useState('')
+  const [passError, setPassError] = useState('')
   const [error,setError] = useState('');
   const [info,setInfo] = useState('');
 
@@ -16,7 +18,23 @@ export default function Login() {
 
   const dispatch=useDispatch()
   
-
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    if (!regex.test(e.target.value)) {
+      setEmailError("Please enter valid email address")
+    } else {
+      setEmailError("")
+    }
+  }
+  const handlePassword = (e) => {
+    setPass(e.target.value);
+    if (e.target.value.length < 8) {
+      setPassError('password must be 8 character');
+    } else {
+      setPassError('')
+    }
+  }
   const handleSubmit = async  () => {
     console.log('hey');
     console.log(email, pass);
@@ -107,8 +125,10 @@ export default function Login() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmail}
+                      onBlur={handleEmail}
                     />
+                    <div className="text-sm text-red-500">{emailError}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -123,8 +143,10 @@ export default function Login() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
                       value={pass}
-                      onChange={(e) => setPass(e.target.value)}
+                      onChange={handlePassword}
+                      onBlur={handlePassword}
                     />
+                    <div className="text-sm text-red-500">{passError}</div>
                   </div>
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
