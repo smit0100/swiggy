@@ -21,8 +21,53 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState("")
   const [disabled, setDisabled] = useState(true)
+  
 
   const navigate = useNavigate();
+
+  const handledisable = () => {
+    if ( nameError.length == 0 && numberError.length == 0 && emailError.length == 0 && passError.length == 0 && cpass.length == 0) {
+      console.log('hheydfljdskflsfd');
+      setDisabled(!disabled)
+      console.log(disabled)
+    }
+  }
+
+  function SubmitButton() {
+    if (
+      name &&
+      email &&
+      number &&
+      pass &&
+      check &&
+      cpass &&
+      nameError.length === 0 &&
+      emailError.length === 0 &&
+      numberError.length === 0 &&
+      passError.length === 0 &&
+      cpassError.length === 0 
+    ) {
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleSubmit}
+        >
+          Register Account
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          disabled
+        >
+          Register Account
+        </button>
+      );
+    }
+  }
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -33,6 +78,7 @@ export default function Register() {
     } else {
       setNameError("")
     }
+    handledisable()
   }
 
   const handleEmail = (e) => {
@@ -43,6 +89,7 @@ export default function Register() {
     } else {
       setEmailError("")
     }
+    handledisable()
   }
 
   const handleNumber = (e) => {
@@ -53,7 +100,7 @@ export default function Register() {
     } else {
       setNumberError("");
     }
-
+    handledisable()
   }
 
   const handleCpass = (e) => {
@@ -63,6 +110,7 @@ export default function Register() {
     } else {
       setCpassError('please enter same password');
     }
+    handledisable()
   }
 
   const handlePassword = (e) => {
@@ -77,13 +125,11 @@ export default function Register() {
     } else {
       setCpassError('please enter same password');
     }
+    handledisable()
   }
 
-
-  if (name && number && email && pass && cpass && nameError.length === 0 && numberError.length === 0 && emailError.length === 0 && passError.length === 0 && cpass.length === 0) {
-    setDisabled(false)
-    console.log(disabled)
-  }
+  
+  
 
 
 
@@ -281,17 +327,13 @@ export default function Register() {
                       </span>
 
                     </label>
-                    <div>
-                      {/* //loading added */}
-                      loading
-                    </div>
-                    {/* info */}
-                    {/* error */}
+                   
                   </div>
+                  { SubmitButton()}
+                  {/* <div className="text-center mt-6">
 
-                  <div className="text-center mt-6">
-                    <button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="submit" value="Create Account" disabled={disabled} onClick={handleSubmit}> create account</button>
-                  </div>
+                    <button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="submit" value="Create Account" disabled={true} onClick={handleSubmit}> create account</button>
+                  </div> */}
                 </form>
               </div>
             </div>

@@ -35,6 +35,36 @@ export default function Login() {
       setPassError('')
     }
   }
+
+  function SubmitButton() {
+    if (
+      email &&
+      
+      pass &&
+      emailError.length === 0 &&
+      passError.length === 0
+    ) {
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleSubmit}
+        >
+          Register Account
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          disabled
+        >
+          Register Account
+        </button>
+      );
+    }
+  }
   const handleSubmit = async  () => {
     console.log('hey');
     console.log(email, pass);
@@ -161,13 +191,14 @@ export default function Login() {
                     </label>
                   </div>
                   <div className="text-center mt-6">
-                    <button
+                    {/* <button
                       className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
                       onClick={handleSubmit}
                     >
                       Sign In
-                    </button>
+                    </button> */}
+                    { SubmitButton()}
                   </div>
                 </form>
               </div>
