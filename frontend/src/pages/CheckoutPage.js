@@ -1,7 +1,9 @@
 
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const CheckoutPage = () => {
+    const user =useSelector(state=>state.userData.user)
     return (
         <>
             <div className="containerr mt-28 mb-10 h-fit shadow-black shadow-md backdrop-blur-md   rounded-md">
@@ -13,8 +15,8 @@ const CheckoutPage = () => {
                             <img src="./svg/github.svg" className="w-7 h-7" alt="temp" />
                         </div>
                         <div className="flex space-x-5">
-                            <p className="font-semibold text-lg">Name</p> &nbsp;&nbsp;&nbsp; |
-                            <p className="font-semibold text-lg">number</p>
+                            <p className="font-semibold text-lg">{user.name}</p> &nbsp;&nbsp;&nbsp; |
+                            <p className="font-semibold text-lg">{user.number}</p>
                         </div>
                     </div>
 
@@ -60,9 +62,7 @@ const CheckoutPage = () => {
                                         </button>
                                     </div>
                                 </div>
-
-Poojan Sakhriliya, [1/22/2023 6:01 PM]
-</div>
+                            </div>
                         </div>
                     </div>
                     <div className="w-full h-full shadow-md px-14">Choose payment method</div>
