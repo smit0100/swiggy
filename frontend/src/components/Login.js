@@ -100,7 +100,7 @@ export default function Login() {
   return (
     <>
       <div className="relative h-screen w-screen">
-        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
+        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-[98.5vw] h-screen blur-[3px]" alt="background" />
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
