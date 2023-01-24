@@ -1,10 +1,27 @@
 
+import axios from 'axios';
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const CheckoutPage = () => {
-  const user = useSelector(state => state.userData.user)
+  
   const [showModal, setShowModal] = useState(false);
+  const [address, setaddress] = useState('')
+  const [city, setCity] = useState("")
+  const [pincode, setPincode] = useState('')
+
+  const user = useSelector(state=> state.userData.user)
+
+  const handleSubmit =async (e) => {
+    e.preventDefault();
+    const response = await axios.post("http://localhost:4000/user/addAddress", {
+      "userId": user._id,
+      "area": address,
+      city,
+      pincode
+    })
+    console.log(response);
+  }
 
   return (
     <>
@@ -84,21 +101,28 @@ const CheckoutPage = () => {
                                     <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <textarea type="text" id="address" placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
-                                  </div>
+                                    <textarea type="text"  id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                                  </div> 
                                   <label htmlFor='city'>City</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-map"></i>
                                     </span>
-                                    <input type="text" id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                  </div>
+                                  <label htmlFor='state'>state</label>
+                                  <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                                    <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                      <i className="fas fa-map"></i>
+                                    </span>
+                                    <input type="text" id='state' placeholder="Your state name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
                                   <label htmlFor='pincode'>Pincode</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <input type="number" placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="number" value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
                                 </form>
                               </div>
@@ -109,7 +133,10 @@ const CheckoutPage = () => {
                                   Close
                                 </button>
                                 <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                  onClick={() => setShowModal(false)}>
+                                  onClick={(e) => {
+                                    setShowModal(false)
+                                    handleSubmit(e);
+                                  }}>
                                   Save Address
                                 </button>
                               </div>
