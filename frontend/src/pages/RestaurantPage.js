@@ -89,6 +89,7 @@ export default function RestaurantPage() {
 
       {/* <Footer /> */}
     </>
+    
   );
 }
 
