@@ -109,9 +109,37 @@ const loginUser = async (req, res, next) => {
 
 }
 
+const addAdddress = async (req, res, next) => {
+    try {
+        const { userId, area, city, state, pincode } = req.body;
+
+        const response = await User.findByIdAndUpdate(userId, { $push: { address: { area, city, state, pincode } } }, {
+            new:true
+        });
+        console.log(response);
+        res.status(200).json({message:"address added",response})
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+    
+}
+
+const fetchAllAddress = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const response = await User.findById(id,{address:1,password:-1})
+    } catch (e) {
+        res.status(500).json({message:'something went wrong'})
+    }
+    
+}
+
 
 module.exports = {
     createUser,
     verifyUser,
-    loginUser
+    loginUser,
+    addAdddress,
+    fetchAllAddress
 }

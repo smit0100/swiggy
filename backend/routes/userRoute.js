@@ -5,7 +5,8 @@ const userController = require('../controller/userController');
 router.post('/create', userController.createUser)
 router.post('/verify', userController.verifyUser)
 router.post('/login', userController.loginUser)
-
+router.post('/addAddress', userController.addAdddress);
+router.get('/fetchAllAddress', userController.fetchAllAddress);
 
 
 module.exports = router

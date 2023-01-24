@@ -13,9 +13,21 @@ const User = new Schema({
     number: {
         type:String,
     },
-    address: {
-        type: String
-    },
+    address: [
+        {    area: {
+                type: String,
+            },
+            city: {
+                type:String
+            },
+            state: {
+                type:String
+            },
+            pincode: {
+                type:Number
+            }
+        }
+    ],
     order: [
         {
             type: mongoose.Types.ObjectId,
