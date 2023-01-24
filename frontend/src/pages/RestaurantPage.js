@@ -66,8 +66,72 @@ export default function RestaurantPage() {
   //   </>
   // );
   return (
-    <h1>hello</h1>
-  )
+    <>
+
+
+      <div className="relative w-full h-5/6">
+        <img alt="bg" className="w-full object-cover h-[40vh] md:h-[80vh] first-letter blur-sm" src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80" />
+      </div>
+
+      <div className="w-5/6 mx-auto  bg-white shadow-xl h-auto relative -top-36 rounded-md ">
+        {/* rounded_image */}
+        <div className="absolute h-full w-full rounded-full flex justify-center overflow-hidden  md:-top-28 -top-20 left-">
+          <img src="./svg/pagenotfound.svg" alt="background" className="md:w-56 md:h-56 w-40 h-40 bg-black rounded-full anim" />
+        </div>
+        {/* restroName & rating  */}
+        <div className="row">
+          <div className="restroColumn space-x-56 sm:space-x-6 md:space-x-10 lg:left-28 relative left-6 top-4 md:top-7 anim">
+            <div className="text-center">
+              <div className="font-bold  text-xl">344343</div>
+              <div className="text-base ">product</div>
+            </div>
+            <div className="text-center">
+              <div className="font-bold  text-xl">4.5</div>
+              <div className="text-base ">rating</div>
+            </div>
+          </div>
+          <div className="restroColumn justify-center relative sm:left-10 top-4 md:top-7 anim">
+            <div className="text-center">
+              <div className="font-bold text-2xl">{data.resturant ? data.resturant.name : ''}</div>
+              <div>{data.resturant ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
+            </div>
+          </div>
+        </div>
+
+        <hr className="top-[200px] relative" />
+
+        <div className="row mt-56">
+          <div className="p-3 w-full bg-red-300 sm:w-5/12">
+            <ul className="text-right px-8">
+              <li>category-1</li>
+              <li>category-1</li>
+              <li>category-1</li>
+              <li>category-1</li>
+              <li>category-1</li>
+            </ul>
+          </div>
+          <div className="sm:p-3 w-full bg-red-50 sm:w-7/12 space-y-7 pt-10">
+            {/* {
+              load === "true: ? <div></div> : data.product.map(item => <div>{ JSON.stringify(item) }</div>)
+            } */}
+            {
+              // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
+              data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
+                <div className="flex justify-center items-center h-screen">
+                  <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+                  </div>
+                </div>
+            }
+
+          </div>
+        </div>
+      </div>
+
+      {/* <Footer /> */}
+    </>
+    
+  );
 }
 
 
