@@ -9,25 +9,24 @@ import { Link } from "react-router-dom";
 // import Footer from "components/Footers/Footer.js";
 
 export default function RestaurantPage() {
-  const { restaurantId } = useParams(); 
-  const [data,setData] = useState([]);
+  const { restaurantId } = useParams();
+  const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
-  
+
   useEffect(() => {
     (async () => {
       setLoad(true)
-       
+
       const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
-      
       setData(response.data)
-      
-    setLoad(false)
-  })()
-}, [])
-  
+
+      setLoad(false)
+    })()
+  }, [])
+
   return (
     <>
-     
+
 
       <div className="relative w-full h-5/6">
         <img alt="bg" className="w-full object-cover h-[40vh] md:h-[80vh] first-letter blur-sm" src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80" />
@@ -52,8 +51,8 @@ export default function RestaurantPage() {
           </div>
           <div className="restroColumn justify-center relative sm:left-10 top-4 md:top-7 anim">
             <div className="text-center">
-              <div className="font-bold text-2xl">{ data.resturant ? data.resturant.name : ''}</div>
-              <div>address</div>
+              <div className="font-bold text-2xl">{data.resturant ? data.resturant.name : ''}</div>
+              <div>{data.resturant ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
             </div>
           </div>
         </div>
@@ -76,14 +75,14 @@ export default function RestaurantPage() {
             } */}
             {
               // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
-              data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) : 
-              <div className="flex justify-center items-center h-screen">
+              data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
+                <div className="flex justify-center items-center h-screen">
                   <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
                   </div>
-              </div>
+                </div>
             }
-            
+
           </div>
         </div>
       </div>
@@ -101,11 +100,11 @@ export const RestroCategoryCard = ({ item }) => {
   const addtoCart = async (e) => {
     e.preventDefault();
     if (!isUser) {
-        navigate('/login')
+      navigate('/login')
     } else {
       const response = await axios.post('http://localhost:4000/cart/add', {
         productId: id,
-        userId:isUser._id
+        userId: isUser._id
       })
 
     }
@@ -119,16 +118,16 @@ export const RestroCategoryCard = ({ item }) => {
         <div className="sm:pt-5 lg:pt-0">
           <img alt="github" className="w-5 mr-1" src="./svg/github.svg" />
           <p className="font-bold capitalize">{item.name} </p>
-          <p className="text-sm">{ item.price}</p>
+          <p className="text-sm">{item.price}</p>
         </div>
         <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
-          
-            <button  onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-            >
-              Add
-              </button>
-          
+
+          <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+          >
+            Add
+          </button>
+
         </div>
       </div>
     </>
