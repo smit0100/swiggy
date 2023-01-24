@@ -50,7 +50,7 @@ export default function Login() {
           type="button"
           onClick={handleSubmit}
         >
-          Register Account
+          Login
         </button>
       );
     } else {
@@ -60,7 +60,7 @@ export default function Login() {
           type="button"
           disabled
         >
-          Register Account
+          Login
         </button>
       );
     }
