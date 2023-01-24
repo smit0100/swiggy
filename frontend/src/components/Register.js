@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios'
-import { createSearchParams, useNavigate } from 'react-router-dom'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { userData } from '../redux/user/userSlice'
 
@@ -176,9 +176,9 @@ export default function Register() {
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
-              <div className="mt-28 rounded-t mb-0 px-6 py-6">
+              <div className="rounded-t mb-0 px-6">
                 <div className="text-center mb-3">
-                  <h6 className="text-blueGray-500 text-sm font-bold">
+                  <h6 className="text-blueGray-500 text-sm font-bold pt-5 ">
                     Sign up with
                   </h6>
                 </div>
@@ -317,13 +317,13 @@ export default function Register() {
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}
-                        <a
+                        <Link
                           href="#pablo"
-                          className="text-lightBlue-500"
+                          className="text-blue-500 border-b-[1px] border-blue-500"
                           onClick={(e) => e.preventDefault()}
                         >
                           Privacy Policy
-                        </a>
+                        </Link>
                       </span>
 
                     </label>
@@ -335,6 +335,15 @@ export default function Register() {
                     <button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="submit" value="Create Account" disabled={true} onClick={handleSubmit}> create account</button>
                   </div> */}
                 </form>
+              </div>
+            </div>
+            <div className="flex flex-wrap mt-6 relative">
+              <div className="w-1/2">
+              </div>
+              <div className="w-1/2 text-right">
+                <Link to="/login" className="text-blueGray-200">
+                  <div className="text-white text-md">Sign In...</div>
+                </Link>
               </div>
             </div>
           </div>
