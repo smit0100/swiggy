@@ -17,16 +17,16 @@ const Sidebar = ({direction}) => {
 
             <div className={`fixed h-screen ${toggleSidebar} z-30 transition-all duration-500`}>
                 <div className="h-full w-full bg-yellow-300">
-                    <div className="relative flex flex-col left-10 top-10" >
-                        <i className="fa-solid fa-xmark text-3xl cursor-pointer" onClick={() => dispatch(sidebarToggle())}></i>
+                    <div className="relative h-2/5 flex flex-col items-center justify-center" >
+                        <i className="fa-solid fa-xmark text-3xl cursor-pointer " onClick={() => dispatch(sidebarToggle())}></i>
 
                         <input
                             type="email"
-                            className="border-0 mt-6 pl-5 pr-36 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150 font-bold w-9/12"
+                            className="border-0 mt-6 pl-5 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150 font-bold w-9/12"
                             placeholder="Search for area, street name.."
                         />
 
-                        <div className="border-0 mt-6 pl-5 pr-36 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150 cursor-pointer flex items-center w-9/12">
+                        <div className="border-0 mt-6 pl-5 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150 cursor-pointer flex items-center w-9/12 overflow-hidden">
                             <i className="fa-sharp fa-solid fa-location-crosshairs text-xl"></i>
                             <p> Get current location</p>
                             <p className="text-slate-500 block">Using GPS</p>

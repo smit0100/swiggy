@@ -1,26 +1,32 @@
 
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { userData } from "../redux/user/userSlice"
 
 const CheckoutPage = () => {
-  
+
   const [showModal, setShowModal] = useState(false);
   const [address, setaddress] = useState('')
   const [city, setCity] = useState("")
+  const [state, setState] = useState("")
   const [pincode, setPincode] = useState('')
 
-  const user = useSelector(state=> state.userData.user)
+  const dispatch = useDispatch()
 
-  const handleSubmit =async (e) => {
+  const user = useSelector(state => state.userData.user)
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post("http://localhost:4000/user/addAddress", {
       "userId": user._id,
       "area": address,
-      city,
-      pincode
+      "city": city,
+      "state": state,
+      "pincode": pincode
     })
-    console.log(response);
+    console.log(response.data.response);
+    dispatch(userData(response.data.response))
   }
 
   return (
@@ -34,8 +40,8 @@ const CheckoutPage = () => {
               <img src="./svg/github.svg" className="w-7 h-7" alt="temp" />
             </div>
             <div className="flex space-x-5">
-              {/* <p className="font-semibold text-lg">{user.name}</p> &nbsp;&nbsp;&nbsp; | */}
-              {/* <p className="font-semibold text-lg">{user.number}</p> */}
+              <p className="font-semibold text-lg">{user.name}</p> &nbsp;&nbsp;&nbsp; |
+              <p className="font-semibold text-lg">{user.number}</p>
             </div>
           </div>
 
@@ -46,25 +52,34 @@ const CheckoutPage = () => {
             </div>
             <div className="flex flex-wrap">
 
-              <div className="p-3 w-full sm:w-6/12 flex ">
-                <div className="shadow-black hover:shadow-xl anim bg-white p-3">
-                  <div>
-                    <img src="./svg/github.svg" alt="temp" className="w-10 h-10" />
-                  </div>
-                  <div className="py-2">
-                    <p className="font-semibold text-xl">Other</p>
-                    <p className="w-10/12 font-[350] text-slate-500">116, rangavdhut soc. punagam saroli road surat-395010</p>
-                    <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
-                    <button
-                      className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-                      to="ewfsdf"
-                    >
-                      deliver here
-                    </button>
-                  </div>
-                </div>
+              {user !== null && user.address.length !== 0 ?
+                user.address.map((address,i) =>
+                  <div className="p-3 w-full sm:w-6/12 flex ">
+                    <div className="shadow-black hover:shadow-xl anim bg-white p-3">
+                      <div>
+                        <img src="./svg/github.svg" alt="temp" className="w-10 h-10" />
+                      </div><div className="py-2">
+                        <p className="font-semibold text-xl">Address {i+1}</p>
+                        <p className="w-10/12 font-[350] text-slate-500">{address.area + " " + address.city + " " + address.state + "-" + address.pincode}</p>
+                        <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
+                        <button
+                          className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                          to="ewfsdf"
+                        >
+                          deliver here
+                        </button>
+                        <button
+                          className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
 
-              </div>
+                  </div>)
+                // <></>
+                : <></>
+              }
+
               <div className="p-3 w-full sm:w-6/12 flex ">
                 <div className="shadow-black hover:shadow-xl bg-white p-3">
                   <div>
@@ -72,7 +87,7 @@ const CheckoutPage = () => {
                   </div>
                   <div className="py-2">
                     <p className="font-semibold text-xl">Add New Address</p>
-                    <p className="w-10/12 font-[350] text-slate-500">116, rangavdhut soc. punagam saroli road surat-395010</p>
+                    <p className="w-10/12 font-[350] text-slate-500"></p>
                     <button
                       className="inline-block mt-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                       type="button"
@@ -101,8 +116,8 @@ const CheckoutPage = () => {
                                     <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <textarea type="text"  id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
-                                  </div> 
+                                    <textarea type="text" id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                                  </div>
                                   <label htmlFor='city'>City</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
@@ -115,7 +130,7 @@ const CheckoutPage = () => {
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-map"></i>
                                     </span>
-                                    <input type="text" id='state' placeholder="Your state name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="text" id='state' placeholder="Your state name" onChange={(e) => setState(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
                                   <label htmlFor='pincode'>Pincode</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
