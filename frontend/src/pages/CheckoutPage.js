@@ -29,6 +29,10 @@ const CheckoutPage = () => {
     dispatch(userData(response.data.response))
   }
 
+  const handlePayment = async () => {
+    const response = await axios.post("http://localhost:4000/payment/create-checkout-session")
+  }
+
   return (
     <>
       <div className="containerr mt-28 mb-10 h-fit shadow-black shadow-md backdrop-blur-md   rounded-md">
