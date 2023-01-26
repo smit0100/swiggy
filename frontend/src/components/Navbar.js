@@ -73,16 +73,17 @@ const Navbar = () => {
                 </button>
               </li>
               <li className="text-gray-600 hover:text-blue-600">
-                <Link to="/search">Search</Link>
+                  
+                <Link to="/search"><i className="fa-solid fa-magnifying-glass pr-3"></i>Search</Link>
               </li>
               <li className="text-gray-600 hover:text-blue-600">
-                <Link to="/help">Help</Link>
+                <Link to="/help"><i className="fa-sharp fa-solid fa-circle-info pr-3"></i>Help</Link>
               </li>
               {
                 isUser ? <>
                   <li>
                     <Link to="/profile" className="block py-2 pl-3 pr-4  rounded text-gray-600 text-lg">
-                      <i className="fa-regular fa-user pr-3"></i>profile
+                      <i className="fa-regular fa-user pr-3"></i>{isUser!=null?isUser.name:"profile"}
                     </Link>
                   </li>
                   <li>
@@ -91,7 +92,7 @@ const Navbar = () => {
                   </li>
                 </> :
                   <li className="text-gray-600 hover:text-blue-600">
-                    <Link to="/login">Login</Link>
+                    <Link to="/login"><i className="fa-regular fa-user pr-3"></i>Login</Link>
                   </li>
               }
             </ul>
