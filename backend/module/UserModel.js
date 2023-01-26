@@ -55,13 +55,15 @@ const User = new Schema({
               },
               quantity: {
                 type: Number,
-                default: 1,
+                  default: 1,
+                    min:[1,'something wrong']
               },
             },
           ],
           total: {
             type: Number,
-            default: 0,
+              default: 0,
+              min:[0,'something wrong']
           },
     }
 })

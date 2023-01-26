@@ -33,6 +33,12 @@ const CheckoutPage = () => {
     const response = await axios.post("http://localhost:4000/payment/create-checkout-session")
   }
 
+  const addressDelete = async (id) => {
+    const response = await axios.get(`http://localhost:4000/user/delteAddress?userId=${user._id}&itemId=${id}`)
+        
+  dispatch(userData(response.data.response))
+  }
+
   return (
     <>
       <div className="containerr mt-28 mb-10 h-fit shadow-black shadow-md backdrop-blur-md   rounded-md">
@@ -69,11 +75,13 @@ const CheckoutPage = () => {
                         <button
                           className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                           to="ewfsdf"
+                          
                         >
                           deliver here
                         </button>
                         <button
-                          className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
+                          className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"  onClick={() => {addressDelete(address._id)}}>
+                         
                           Delete
                         </button>
                       </div>

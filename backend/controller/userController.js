@@ -135,11 +135,38 @@ const fetchAllAddress = async (req, res, next) => {
     
 }
 
+const deleteUserAddress = async (req, res, next) => {
+    try {
+        const { userId, itemId } = req.query;
+        const response = await User.findByIdAndUpdate(userId, { $pull: { address: { _id: itemId } } }, {
+            new:true
+        })
+
+        if (response) {
+            return res.status(200).json({
+                message: "deleted",
+                response
+            })
+        } else {
+            return res.status(400).json({
+                message:'messing details    '
+            })
+        }
+            
+        
+    } catch (e) {
+        res.status(500).json({
+            message:'something went wrong'
+        })
+    }
+    
+}
 
 module.exports = {
     createUser,
     verifyUser,
     loginUser,
     addAdddress,
-    fetchAllAddress
+    fetchAllAddress,
+    deleteUserAddress
 }

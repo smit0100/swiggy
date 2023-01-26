@@ -23,19 +23,18 @@ const CartPageItem = ({ item }) => {
     const decrease = async (e) => {
         e.preventDefault()
 
-        if (item.quantity > 1) {
+         
+            console.log('hey');
             const response = await axios.patch('http://localhost:4000/cart/subtractQuantity', {
                 userId: isUser._id,
                 itemId: item._id,
                 productId: item.product._id
 
             })
+            console.log(response);
     dispatch(cartData(response.data.data.cart)) 
 
-        }
-        else {
-            removeProduct(e)
-        }
+       
     }
 
     const removeProduct = async (e) => {

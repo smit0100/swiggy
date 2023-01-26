@@ -8,7 +8,7 @@ router.post("/add",
     cartController.itemAlreadyExistUpdateQuantity
 )
 router.patch('/addQuantity', cartController.addCartItemquantity)
-router.patch('/subtractQuantity', cartController.subtractCartItemquantity)
+router.patch('/subtractQuantity', cartController.subtractCartItemquantity,cartController.removeItem)
 
 
 router.patch("/remove",cartController.removeItemCart)
