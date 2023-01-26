@@ -24,18 +24,18 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Home />} >
         <Route index element={<Directory />} />
-        <Route path="restaurant/:restaurantId" element={<RestaurantPage />} />
+        <Route path="restaurant/:restaurantId" element={<Profile1/>} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="otp" element={<Otp />} />
-        <Route path='profile' element={<h1>profile</h1>} />
+        <Route path='profile' element={<UserProfile/>} />
         <Route path='checkout' element={<CheckoutPage />} />
         <Route path='payment' element={<StripeComponent />} />
         <Route path="userprofile" element={<UserProfile/>}/>
-        <Route path="profile1" element={<Profile1/>}/>
+        {/* <Route path="profile1" element={<Profile1/>}/> */}
       </Route>
     )
   )

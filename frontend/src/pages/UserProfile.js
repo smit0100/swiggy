@@ -3,7 +3,7 @@ import React from 'react'
 const UserProfile = () => {
     return (
         <>
-            <div className='containerr m-4 rounded-md '>
+            <div className='containerr rounded-md '>
                 <h1 className='text-3xl font-semibold'>My Profile </h1>
                 {/* profile image  */}
                 <div>
@@ -17,24 +17,27 @@ const UserProfile = () => {
                     <div className='border-b-2 border-black/30'></div>
                 </div>
 
-                <div className=''>
-                    <div className='px-12 pt-5 sm:px-28 md:px-40 lg:px-60'>
+                <div className='row '>
+                    <div className='w-full sm:w-1/5 p-5'>hello</div>
+                    <div className='w-full sm:w-4/5 p-5'>
                         <h1 className='text-xl font-semibold pb-5 capitalize'>your profile</h1>
                         <div>
                             <table className='table-auto'>
-                                <tbody>
-                                    <tr>
+                                <tbody className='flex space-y-5 flex-col'>
+                                    <tr className='flex gap-5'>
                                         <td>Name</td>
+                                        <td>Hitesh patel</td>
                                     </tr>
-                                    <tr>
-                                        <td>Name</td>
+                                            
+                                    <tr className='flex gap-5'>
+                                        <td>Number</td>
+                                        <td>8160651512</td>
                                     </tr>
-                                    <tr>
-                                        <td>Name</td>
+                                    <tr className='flex gap-5'>
+                                        <td>Email</td>
+                                        <td>hitesh@gmail.com</td>
                                     </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
