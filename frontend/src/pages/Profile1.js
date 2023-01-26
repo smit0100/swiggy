@@ -1,9 +1,29 @@
-import React, { useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const Profile1 = () => {
   const [openTab, setOpenTab] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [data, setData] = useState([]);
+  const [load, setLoad] = useState(false);
+
+  const { restaurantId } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      setLoad(true)
+
+      const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
+      setData(response.data)
+
+      setLoad(false)
+    })()
+  }, [])
+
   const images = [
     'https://picsum.photos/id/27/200/300',
     'https://picsum.photos/id/237/200/300',
@@ -46,9 +66,9 @@ const Profile1 = () => {
           <div className="">
             <div className=" w-full">
               <div className='sticky  top-0 z-30 bg-white'>
-                <div className='text-3xl'>Restro name</div>
+                <div className='text-3xl'>{data.resturant ? data.resturant.name : ''}</div>
                 <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
-                <div className='text-md text-slate-500 capitalize'>Address</div>
+                <div className='text-md text-slate-500 capitalize'>{data.resturant ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
                 <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
                 <ul className="flex space-x-2 relative">
                   <li>
@@ -75,7 +95,7 @@ const Profile1 = () => {
               <div className="p-3 mt-6 bg-white border">
                 <div className={openTab === 1 ? "block" : "hidden"}>
                   <div className='row overflow-auto'>
-                    <div className=' w-full sm:w-2/6 p-4 sticky top-10 left-0 overflow-hidden'>
+                    <div className=' w-full sm:w-2/6 p-4 sticky top-10 left-0 overflow-hidden '>
 
                       <ul>
                         <li>category 1</li>
@@ -87,15 +107,16 @@ const Profile1 = () => {
                         <li>category 1</li>
                       </ul>
                     </div>
-                    <div className='w-full sm:w-4/6 p-4 h-[800px] overflow-y-auto'>
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
-                      <RestroCategoryCard />
+                    <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
+                      {
+                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
+                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
+                          <div className="flex justify-center items-center h-screen">
+                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+                            </div>
+                          </div>
+                      }
                     </div>
                   </div>
                 </div>
@@ -202,25 +223,43 @@ export const UserReviewCard = () => {
 }
 
 export const RestroCategoryCard = ({ item }) => {
+  const id = item._id;
+  const isUser = useSelector(state => state.userData.user);
+  const navigate = useNavigate();
 
+  const addtoCart = async (e) => {
+    e.preventDefault();
+    if (!isUser) {
+      navigate('/login')
+    } else {
+      const response = await axios.post('http://localhost:4000/cart/add', {
+        productId: id,
+        userId: isUser._id
+      })
+
+    }
+
+
+  }
 
   return (
     <>
-      <div className="flex flex-wrap-reverse justify-between anim py-3">
-        <div className="sm:pt-5 lg:pt-0">
-          <img alt="github" className="w-5 mr-1" src="./svg/github.svg" />
-          <p className="font-bold capitalize">Pizza</p>
-          <p className="text-sm">200</p>
-        </div>
-        <div className="relative ">
+      <div className="flex flex-wrap-reverse anim py-3 gap-5">
+      <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
 
-          <button className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+          <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
           >
             Add
           </button>
 
         </div>
+        <div className="sm:pt-5 lg:pt-0">
+          <img alt="github" className="w-5 mr-1" src="./svg/github.svg" />
+          <p className="font-bold capitalize">{item.name} </p>
+          <p className="text-sm">{item.price}</p>
+        </div>
+        
       </div>
     </>
   )

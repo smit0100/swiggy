@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import FacebookLogin from 'react-facebook-login';
 import { userData} from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 
@@ -64,6 +64,15 @@ export default function Login() {
         </button>
       );
     }
+  }
+  //facebook login
+  const responseFacebook = (response) => {
+    if (response != null) {
+      dispatch(userData(response))
+      navigate('/');
+    } else {
+      console.log("error",response);
+      }
   }
   const handleSubmit = async  () => {
     console.log('hey');
@@ -133,6 +142,19 @@ export default function Login() {
                     />
                     Google
                   </button>
+                    <FacebookLogin
+                      textButton="facebook"
+                      appId="878193710074579"
+                      autoLoad={false}
+                      fields="name,email,picture"
+                      callback={responseFacebook}
+                      cssClass="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                      icon={<img
+                        alt="google"
+                        className="w-5 mr-1"
+                        src="./svg/google.svg"
+                      />}
+                    />
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>

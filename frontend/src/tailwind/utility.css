@@ -9,3 +9,12 @@
 .column{
     @apply p-3 w-full  sm:w-6/12 lg:w-4/12 xl:w-3/12 flex justify-center
 }
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
