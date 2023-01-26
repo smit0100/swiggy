@@ -21,7 +21,6 @@ const Profile1 = () => {
   const handleClick = (index) => {
     setIsOpen(true);
     setImageIndex(index);
-    console.log(index);
   }
 
   const handleClose = () => {
@@ -30,14 +29,10 @@ const Profile1 = () => {
 
   const handlePrev = () => {
     setImageIndex((imageIndex + images.length - 1) % images.length);
-    console.log(imageIndex + images.length -1);
-    console.log((imageIndex + images.length -1) % images.length)
   }
 
   const handleNext = () => {
     setImageIndex((imageIndex + 1) % images.length);
-    console.log(imageIndex + 1);
-    console.log((imageIndex + 1 ) % images.length);
   }
   return (
     <>
@@ -135,16 +130,16 @@ const Profile1 = () => {
 
                 <div className={openTab === 3 ? "block" : "hidden"}>
                   <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-                  
+
                     {images.map((image, index) => (
                       <div className='overflow-hidden'>
-                      <img
-                        key={image}
-                        src={image}
-                        className="w-[300px] h-[250px] object-cover rounded-sm transition-all duration-400 hover:scale-110 cursor-pointer z-40"
-                        onClick={() => handleClick(index)}
-                        alt="backbone of text"
-                      />
+                        <img
+                          key={image}
+                          src={image}
+                          className="w-[300px] h-[250px] object-cover rounded-sm transition-all duration-400 hover:scale-110 cursor-pointer z-40"
+                          onClick={() => handleClick(index)}
+                          alt="backbone of text"
+                        />
                       </div>
                     ))}
                     {isOpen && (
