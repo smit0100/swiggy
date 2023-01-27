@@ -38,7 +38,6 @@ const Otp = () => {
         dispatch(userData(response.data.user))
         navigate('/')
     }
-    // window.addEventListener("DOMContentLoaded", function (event) {
 
     //     function OTPInput() {
     //         const inputs = document.querySelectorAll('#otp > *[id]');
@@ -75,15 +74,6 @@ const Otp = () => {
                                 <span>Enter the OTP you received at</span>
                                 <span className="font-bold">+91 ******876</span>
                             </div>
-{/* 
-                            <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
-                                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="first" maxlength="1" />
-                                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="second" maxlength="1" />
-                                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="third" maxlength="1" />
-                                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="fourth" maxlength="1" />
-                                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="fifth" maxlength="1" />
-                                <input className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
-                            </div> */}
                             <input
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
@@ -96,7 +86,7 @@ const Otp = () => {
                                 <a className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"><span className="font-bold">Resend OTP</span><i className='bx bx-caret-right ml-1'></i></a>
                             </div>
 
-                            <button onClick={handleClick}>
+                            <button onClick={handleClick} className="inline-block mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
                                 submit otp
                              </button>
                         </div>
