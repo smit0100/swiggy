@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import FacebookLogin from 'react-facebook-login';
+// import FacebookLogin from 'react-facebook-login';
 import { userData} from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 
@@ -66,14 +66,14 @@ export default function Login() {
     }
   }
   //facebook login
-  const responseFacebook = (response) => {
-    if (response != null) {
-      dispatch(userData(response))
-      navigate('/');
-    } else {
-      console.log("error",response);
-      }
-  }
+  // const responseFacebook = (response) => {
+  //   if (response != null) {
+  //     dispatch(userData(response))
+  //     navigate('/');
+  //   } else {
+  //     console.log("error",response);
+  //     }
+  // }
   const handleSubmit = async  () => {
     console.log('hey');
     console.log(email, pass);
@@ -142,7 +142,7 @@ export default function Login() {
                     />
                     Google
                   </button>
-                    <FacebookLogin
+                    {/* <FacebookLogin
                       textButton="facebook"
                       appId="878193710074579"
                       autoLoad={false}
@@ -154,7 +154,7 @@ export default function Login() {
                         className="w-5 mr-1"
                         src="./svg/google.svg"
                       />}
-                    />
+                    /> */}
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>

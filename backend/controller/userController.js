@@ -7,9 +7,9 @@ require('dotenv').config()
 
 
 const createUser = async (req, res, next) => {
-    const { name, email, number,password } = req.body;
-    
-    
+    const { name, email, number, password } = req.body;
+
+
     // const userExist = await User.findOne({ email });
 
     // if (userExist) return res.status(409).json({ message: 'email id already exist' });
@@ -29,9 +29,9 @@ const createUser = async (req, res, next) => {
 
     const url = otpNumber;
     console.log('this is url', url);
-    await sendEmail(user.email,"Verify Email",String(url))
+    await sendEmail(user.email, "Verify Email", String(url))
 
-    res.status(200).json({ message: "otp sent" ,user});
+    res.status(200).json({ message: "otp sent", user });
 
 
     // const cryptedPass = await bcrypt.hash(pass, 10, async (err, hash) => {
@@ -46,15 +46,15 @@ const createUser = async (req, res, next) => {
     // const response = await user.save();
     // console.log(response);
 
-   
 
-    
+
+
     // });
-   
 
 
 
-   
+
+
 
 }
 
@@ -66,19 +66,19 @@ const verifyUser = async (req, res, next) => {
 
         const token = await Token.findOne({
             userID: req.body.id,
-            token:req.body.otp
+            token: req.body.otp
         })
-        
+
         if (!token) return res.status(401).json({ message: "wrong otp" });
 
-        await User.updateOne({ _id: user._id },{ verified: true });
+        await User.updateOne({ _id: user._id }, { verified: true });
         await token.remove();
 
-        res.status(200).json({ message: "user verifed",user });
+        res.status(200).json({ message: "user verifed", user });
     } catch (e) {
         console.log(e);
         res.status(500).send({
-            message:"internal server error"
+            message: "internal server error"
         })
     }
 }
@@ -95,7 +95,7 @@ const loginUser = async (req, res, next) => {
 
 
     //userr not verified
-        if (!user.verified) return res.status(401).json({ message: 'please verify you user account' });
+    if (!user.verified) return res.status(401).json({ message: 'please verify you user account' });
 
     const pass = await bcrypt.compareSync(password, user.password);
 
@@ -114,32 +114,32 @@ const addAdddress = async (req, res, next) => {
         const { userId, area, city, state, pincode } = req.body;
 
         const response = await User.findByIdAndUpdate(userId, { $push: { address: { area, city, state, pincode } } }, {
-            new:true
+            new: true
         });
         console.log(response);
-        res.status(200).json({message:"address added",response})
+        res.status(200).json({ message: "address added", response })
     } catch (e) {
         res.status(500).json({ message: 'something went wrong' });
     }
-    
+
 }
 
 const fetchAllAddress = async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const response = await User.findById(id,{address:1,password:-1})
+        const response = await User.findById(id, { address: 1, password: -1 })
     } catch (e) {
-        res.status(500).json({message:'something went wrong'})
+        res.status(500).json({ message: 'something went wrong' })
     }
-    
+
 }
 
 const deleteUserAddress = async (req, res, next) => {
     try {
         const { userId, itemId } = req.query;
         const response = await User.findByIdAndUpdate(userId, { $pull: { address: { _id: itemId } } }, {
-            new:true
+            new: true
         })
 
         if (response) {
@@ -149,17 +149,66 @@ const deleteUserAddress = async (req, res, next) => {
             })
         } else {
             return res.status(400).json({
-                message:'messing details    '
+                message: 'messing details    '
             })
         }
-            
-        
+
+
     } catch (e) {
         res.status(500).json({
-            message:'something went wrong'
+            message: 'something went wrong'
         })
     }
-    
+
+}
+
+const updateAddress = async (req, res, next) => {
+    const { userId, name, number, email } = req.body;
+
+    let user = await User.findById(userId);
+    if (user.email === email) {
+        user = await user.updateOne({ name, number });
+        return res.status(200).json({message:'updated',user})
+    } else {
+        const emailExist = await User.find({ email });
+        console.log(emailExist);
+        if (emailExist.length != 0) return res.status(409).json({ message: 'email id already exist' });
+
+        else {
+            const otpNumber = Math.floor(100000 + Math.random() * 900000)
+            const token = await new Token({
+                userID:userId,
+                token: otpNumber,
+            }).save();
+
+            const url = otpNumber;
+            console.log('this is url', url);
+            await sendEmail(email, "Verify Email", String(url))
+
+            res.status(200).json({ message: "otp sent", user,newDetails:{name,number,email} });
+
+        }
+    }
+}
+
+const changePassword = async (req, res, next) => {
+    const { userId, oldPass, newPass } = req.body;
+
+    let user = await User.findById(userId);
+    const pass = await bcrypt.compareSync(user.password, oldPass);
+
+    if (!pass) {
+        return res.status(401).json({
+            message:"your password in incorrect"
+        })
+    }
+
+    else {
+        const encryptedPass = await bcrypt.hash(newPass, 10);
+        user = await user.updateOne({ password: encryptedPass });
+        return res.status(200).json({messag:"user password updated"})
+    }
+
 }
 
 module.exports = {
@@ -168,5 +217,7 @@ module.exports = {
     loginUser,
     addAdddress,
     fetchAllAddress,
-    deleteUserAddress
+    deleteUserAddress,
+    updateAddress,
+    changePassword
 }

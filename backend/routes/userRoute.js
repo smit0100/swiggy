@@ -7,7 +7,9 @@ router.post('/verify', userController.verifyUser)
 router.post('/login', userController.loginUser)
 router.post('/addAddress', userController.addAdddress);
 router.get('/fetchAllAddress', userController.fetchAllAddress);
-router.get("/delteAddress",userController.deleteUserAddress)
+router.get("/delteAddress", userController.deleteUserAddress)
+router.post('/update', userController.updateAddress);
+router.post('/changePass', userController.changePassword);
 
 
 module.exports = router
