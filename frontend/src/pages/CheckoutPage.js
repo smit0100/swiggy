@@ -41,7 +41,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <div className="containerr mt-28 mb-10 h-fit shadow-black shadow-md backdrop-blur-md   rounded-md">
+      <div className="containerr mt-28 mb-10 h-fit shadow-black shadow-md backdrop-blur-md rounded-md">
         <div className="grid grid-cols-1 grid-rows-3 gap-5">
 
           <div className="w-full h-full  px-14 flex flex-col justify-center shadow-lg space-y-3">
@@ -109,7 +109,7 @@ const CheckoutPage = () => {
                     </button>
                     {showModal ? (
                       <>
-                        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="justify-center items-center flex  fixed inset-0 z-50 outline-none focus:outline-none">
                           <div className="relative w-auto my-6 mx-auto max-w-3xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
@@ -170,7 +170,7 @@ const CheckoutPage = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                        <div className="opacity-25 inset-0 z-40 bg-black"></div>
                       </>
                     ) : null}
                   </div>
