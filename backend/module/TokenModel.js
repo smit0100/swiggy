@@ -7,7 +7,7 @@ const Token = new Schema({
         type: mongoose.Types.ObjectId,
         require: true,
         ref: "User",
-        unique:true
+         
     },
     token: {
         type: Number,

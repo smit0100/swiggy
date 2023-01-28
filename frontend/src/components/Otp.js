@@ -63,6 +63,7 @@ const Otp = () => {
     //         }
     //     } OTPInput();
     // });
+    
     return (
         <div className="h-screen bg-blue-500 py-20 px-3 ">
             <div className="container mx-auto mt-36">

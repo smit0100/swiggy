@@ -1,17 +1,28 @@
 const { Schema, default: mongoose } = require("mongoose");
 
 const Order = new Schema({
-    product: {
-        type: mongoose.Types.ObjectId,
-        ref:'Product'
-    },
+    products: [
+        {
+            product: {
+              type: Schema.Types.ObjectId,
+              ref: "Product",
+            },
+            quantity: {
+              type: Number,
+                default: 1,
+                  min:[1,'something wrong']
+            },
+          },
+    ],
     customer: {
         type: mongoose.Types.ObjectId,
         ref:'User'
     },
     payment: {
-        type: mongoose.Types.ObjectId,
-        ref:'Payment'
+        type: String,
+    },
+    total: {
+        type:Number,
     },
     resturant: {
         type: mongoose.Types.ObjectId,
@@ -24,7 +35,22 @@ const Order = new Schema({
     deliveryBoy: {
         type: mongoose.Types.ObjectId,
         ref:'DeliverBoy'
-    }
+    },
+    address: 
+        {    area: {
+                type: String,
+            },
+            city: {
+                type:String
+            },
+            state: {
+                type:String
+            },
+            pincode: {
+                type:Number
+            }
+        },
+    
 })
 
 module.exports = mongoose.model('Order', Order);

@@ -13,6 +13,7 @@ const cartRoute = require('./routes/cartRoutes');
 const paymentRoute = require('./routes/paymentRoute');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
+const orderRoute = require('./routes/orderRoutes');
 
 app.use(
     cookieSession({
@@ -45,6 +46,7 @@ app.use('/category', categoryRoute);
 app.use('/product', productRoute);
 app.use("/cart", cartRoute)
 app.use('/payment', paymentRoute);
+app.use('/order',orderRoute)
 
 app.get('/login/success', (req, res) => {
     if (req.user) {

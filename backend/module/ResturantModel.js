@@ -45,10 +45,10 @@ const Resturant = new Schema({
     image: {
         type:String
     },
-    order: {
+    order: [{
         type: mongoose.Types.ObjectId,
         ref:'Order'
-    },
+    }],
     isApproved: {
         type: Boolean,
         default:false

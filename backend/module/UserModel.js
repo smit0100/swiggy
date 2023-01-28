@@ -26,7 +26,8 @@ const User = new Schema({
             pincode: {
                 type:Number
             }
-        }
+        },
+        
     ],
     order: [
         {

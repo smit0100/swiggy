@@ -3,6 +3,7 @@ const Token = require('../module/TokenModel');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const { log } = require('console');
 require('dotenv').config()
 
 
@@ -61,7 +62,7 @@ const createUser = async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
     try {
-        const user = await User.findOne({ _id: req.body.id });
+        let user = await User.findOne({ _id: req.body.id });
         if (!user) return res.status(404).send({ message: 'user not found' });
 
         const token = await Token.findOne({
@@ -72,6 +73,18 @@ const verifyUser = async (req, res, next) => {
         if (!token) return res.status(401).json({ message: "wrong otp" });
 
         await User.updateOne({ _id: user._id }, { verified: true });
+        console.log('hello hello');
+        console.log(req.body);
+        if (req.body.newAddress) {
+          
+            const { name, email, number } = req.body.newAddress;
+            console.log(name, email, number);
+            user = await User.findByIdAndUpdate(user._id, { name, email, number }, {
+                 new:true
+            })
+            console.log(user);
+            
+        }
         await token.remove();
 
         res.status(200).json({ message: "user verifed", user });
@@ -82,6 +95,8 @@ const verifyUser = async (req, res, next) => {
         })
     }
 }
+
+
 
 const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
@@ -167,7 +182,10 @@ const updateAddress = async (req, res, next) => {
 
     let user = await User.findById(userId);
     if (user.email === email) {
-        user = await user.updateOne({ name, number });
+        user = await User.findByIdAndUpdate(userId, { name, number }, {
+            new:true
+       })
+        
         return res.status(200).json({message:'updated',user})
     } else {
         const emailExist = await User.find({ email });
@@ -185,7 +203,7 @@ const updateAddress = async (req, res, next) => {
             console.log('this is url', url);
             await sendEmail(email, "Verify Email", String(url))
 
-            res.status(200).json({ message: "otp sent", user,newDetails:{name,number,email} });
+            res.status(201).json({ message: "otp sent", user,newDetails:{name,number,email} });
 
         }
     }
@@ -193,10 +211,12 @@ const updateAddress = async (req, res, next) => {
 
 const changePassword = async (req, res, next) => {
     const { userId, oldPass, newPass } = req.body;
-
+    console.log(userId);
     let user = await User.findById(userId);
-    const pass = await bcrypt.compareSync(user.password, oldPass);
-
+    console.log(user);
+    console.log(oldPass);
+    const pass = await bcrypt.compareSync(oldPass,user.password);
+    console.log(pass);
     if (!pass) {
         return res.status(401).json({
             message:"your password in incorrect"
@@ -205,7 +225,7 @@ const changePassword = async (req, res, next) => {
 
     else {
         const encryptedPass = await bcrypt.hash(newPass, 10);
-        user = await user.updateOne({ password: encryptedPass });
+         await user.updateOne({ password: encryptedPass });
         return res.status(200).json({messag:"user password updated"})
     }
 
