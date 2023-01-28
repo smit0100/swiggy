@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 
 
 const UserProfile = () => {
-  
+
   const dispatch = useDispatch()
 
   // for popup state 
@@ -15,13 +15,15 @@ const UserProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [openTab, setOpenTab] = useState(1);
   const [otpTab, setotpTab] = useState(true)
-  const [cnpass,setCnpass] = useState('')
-  // const [profileModule, setProfileModule] = useState(true)
-  // const [orderModule, setOrderModule] = useState(false)
+  const [cnpass, setCnpass] = useState('')
+
 
   const [name, setName] = useState('')
+  const [nameError, setNameError] = useState('');
   const [number, setNumber] = useState('')
+  const [numberError, setNumberError] = useState('')
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [address, setaddress] = useState('')
@@ -29,8 +31,10 @@ const UserProfile = () => {
   const [state, setState] = useState("")
   const [pincode, setPincode] = useState('')
   const [newAddress, setNewAddress] = useState({})
-  const [otp,setOtp] = useState('')
-  
+  const [otp, setOtp] = useState('')
+  const [disabled, setDisabled] = useState(true)
+
+
   const user = useSelector(state => state.userData.user)
 
 
@@ -38,11 +42,77 @@ const UserProfile = () => {
     setName(user.name);
     setEmail(user.email);
     setNumber(user.number)
-  },[]) 
+  }, [])
 
-  const changeProfileDetails =async  (e) => {
+  function SubmitButton() {
+    if (name && email && number && nameError.length === 0 && emailError.length === 0 && numberError.length === 0) {
+      return (
+        <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+          onClick={(e) => {
+            setupdateProfile(false)
+            changeProfileDetails(e);
+          }}>
+          Save Update
+        </button>
+      )
+    } else {
+      return (
+        <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+          onClick={(e) => {
+            setupdateProfile(false)
+            changeProfileDetails(e);
+          }} disabled>
+          Save Update
+        </button>
+      )
+    }
+  }
+  const handledisable = () => {
+    if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0) {
+      console.log('hheydfljdskflsfd');
+      setDisabled(!disabled)
+      console.log(disabled)
+    }
+  }
+
+  const handleName = (e) => {
+    setName(e.target.value)
+    var regex = /^[\sA-Za-z]+$/;
+
+    if (!regex.test(e.target.value)) {
+      setNameError("please enter valid name")
+    } else {
+      setNameError("")
+    }
+    handledisable()
+  }
+
+  const handleEmail = (e) => {
+    console.log("hello from email");
+    setEmail(e.target.value)
+    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    if (!regex.test(e.target.value)) {
+      setEmailError("Please enter valid email address")
+    } else {
+      setEmailError("")
+    }
+    handledisable()
+  }
+
+  const handleNumber = (e) => {
+    setNumber(e.target.value)
+    const regx = /^[789]\d{9}$/
+    if (!regx.test(e.target.value)) {
+      setNumberError("please enter valid number")
+    } else {
+      setNumberError("");
+    }
+    handledisable()
+  }
+
+  const changeProfileDetails = async (e) => {
     e.preventDefault()
-    console.log(email,number,name);
+    console.log(email, number, name);
     const response = await axios.post("http://localhost:4000/user/update", {
       userId: user._id,
       email,
@@ -58,7 +128,7 @@ const UserProfile = () => {
     if (response.status === 201) {
       setotpTab(true);
       setNewAddress(response.data.newDetails)
-      
+
     } else {
       // add redux 
       dispatch(userData(response.data.user))
@@ -80,13 +150,13 @@ const UserProfile = () => {
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
-    console.log(oldPassword,newPassword);
+    console.log(oldPassword, newPassword);
     const response = await axios.post('http://localhost:4000/user/changePass', {
-      userId:user._id,
-      oldPass:oldPassword,
-      newPass:newPassword
+      userId: user._id,
+      oldPass: oldPassword,
+      newPass: newPassword
     })
-     
+
 
     console.log(response);
   }
@@ -115,8 +185,15 @@ const UserProfile = () => {
         <h1 className='text-3xl font-semibold'>My Profile </h1>
         {/* profile image  */}
         <div>
-          <div className='flex justify-center'>
+          <div className='flex justify-center relative'>
             <img className='rounded-full w-40 h-40 sm:w-52 sm:h-52 object-cover' alt='user pic' src='https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80' />
+
+            <button className='absolute bottom-5 right-[140px] sm:bottom-5 sm:right-[200px] md:bottom-5 md:right-[260px] lg:bottom-8 lg:right-[505px] bg-white rounded-full p-2 hover:ring-2 hover:ring-offset-2 hover:ring-slate-300'>
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+              </svg>
+            </button>
+
           </div>
           <div className='flex justify-center gap-44 relative -top-5'>
             <button className='inline-block bg-white hover:text-white hover:bg-green-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500'>Add New</button>
@@ -150,6 +227,7 @@ const UserProfile = () => {
                   <li className=' text-lg font-normal'>{user.number}</li>
                   <li className='py-3 text-lg font-normal'>{user.email}</li>
                   <li className='py-3 text-lg font-normal'>
+                    <button type="button" onClick={() => setChangePassword(true)} id="password" value="Change Password" className="inline-block bg-white hover:text-white hover:bg-blue-400 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400" ><i className="fas fa-repeat"></i> Change Password</button>
                     <button onClick={() => setupdateProfile(true)} className="inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">Update Profile </button>
                   </li>
                 </ul>
@@ -269,7 +347,7 @@ const UserProfile = () => {
           </div>
           {/* order module  */}
           <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
-          <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
+            <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
           </div>
         </div>
 
@@ -295,27 +373,26 @@ const UserProfile = () => {
                         <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-user"></i>
                         </span>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} id='name' placeholder="Enter Your Name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
-
+                        <input type="text" value={name} onBlur={handleName} onChange={handleName} id='name' placeholder="Enter Your Name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className="text-sm text-red-500">{nameError}</span>
                       <label htmlFor='number'>Number</label>
                       <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-phone"></i>
                         </span>
-                        <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} id='number' placeholder="Enter Your Number" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={number} onBlur={handleNumber} onChange={handleNumber} id='number' placeholder="Enter Your Number" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className="text-sm text-red-500">{numberError}</span>
                       <label htmlFor='email'>Email</label>
                       <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-envelope"></i>
                         </span>
-                        <input type="email" id='email' placeholder="Enter Your Email" value={email} onChange={(e) => setEmail(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="email" id='email' placeholder="Enter Your Email" value={email} onBlur={handleEmail} onChange={handleEmail} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
-                      <label htmlFor='password'>Change Your Password</label>
-                      <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
-                        <button type="button" onClick={() => setChangePassword(true)} id="password" value="Change Password" className="bg-blue-400 hover:bg-blue-600 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" ><i className="fas fa-repeat"></i> Change Password</button>
-                      </div>
+                      <span className="text-sm text-red-500">{emailError}</span>
+
                     </form>
                   </div>
                   {/*footer*/}
@@ -324,13 +401,7 @@ const UserProfile = () => {
                       onClick={() => setupdateProfile(false)}>
                       Close
                     </button>
-                    <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                      onClick={(e) => {
-                        setupdateProfile(false)
-                        changeProfileDetails(e);
-                      }}>
-                      Save Update
-                    </button>
+                    {SubmitButton()}
                   </div>
                 </div>
               </div>
@@ -401,8 +472,8 @@ const UserProfile = () => {
         ) : null}
 
 
-{/* otp component  */}
-{otpTab ? (
+        {/* otp component  */}
+        {otpTab ? (
           <>
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -426,7 +497,7 @@ const UserProfile = () => {
                         <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} id='otp' placeholder="Enter Your OTP" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
 
                       </div>
-                     
+
                     </form>
                   </div>
                   {/*footer*/}
