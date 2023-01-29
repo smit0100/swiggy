@@ -65,7 +65,11 @@ const User = new Schema({
             type: Number,
               default: 0,
               min:[0,'something wrong']
-          },
+        },
+        resturant: {
+            type: mongoose.Types.ObjectId,
+            ref:'Resturant'
+        }
     }
 })
 

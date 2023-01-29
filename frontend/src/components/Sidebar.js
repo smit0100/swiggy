@@ -15,7 +15,7 @@ const Sidebar = ({direction}) => {
 
         <>
 
-            <div className={`fixed h-screen ${toggleSidebar} z-30 transition-all duration-500`}>
+            <div className={`fixed top-0 left-0 h-screen ${toggleSidebar} z-[40] transition-all duration-500`}>
                 <div className="h-full w-full bg-yellow-300">
                     <div className="relative h-2/5 flex flex-col items-center justify-center" >
                         <i className="fa-solid fa-xmark text-3xl cursor-pointer " onClick={() => dispatch(sidebarToggle())}></i>

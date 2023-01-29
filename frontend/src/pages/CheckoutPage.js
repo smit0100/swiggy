@@ -56,8 +56,8 @@ const CheckoutPage = () => {
 
   const addressDelete = async (id) => {
     const response = await axios.get(`http://localhost:4000/user/delteAddress?userId=${user._id}&itemId=${id}`)
-        
-  dispatch(userData(response.data.response))
+
+    dispatch(userData(response.data.response))
   }
 
   return (
@@ -84,13 +84,13 @@ const CheckoutPage = () => {
             <div className="flex flex-wrap">
 
               {user !== null && user.address.length !== 0 ?
-                user.address.map((address,i) =>
+                user.address.map((address, i) =>
                   <div className="p-3 w-full sm:w-6/12 flex ">
                     <div className="shadow-black hover:shadow-xl anim bg-white p-3">
                       <div>
                         <img src="./svg/github.svg" alt="temp" className="w-10 h-10" />
                       </div><div className="py-2">
-                        <p className="font-semibold text-xl">Address {i+1}</p>
+                        <p className="font-semibold text-xl">Address {i + 1}</p>
                         <p className="w-10/12 font-[350] text-slate-500">{address.area + " " + address.city + " " + address.state + "-" + address.pincode}</p>
                         <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
                         <button
@@ -101,8 +101,8 @@ const CheckoutPage = () => {
                           deliver here
                         </button>
                         <button
-                          className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"  onClick={() => {addressDelete(address._id)}}>
-                         
+                          className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" onClick={() => { addressDelete(address._id) }}>
+
                           Delete
                         </button>
                       </div>
@@ -128,72 +128,7 @@ const CheckoutPage = () => {
                     >
                       add new
                     </button>
-                    {showModal ? (
-                      <>
-                        <div className="justify-center items-center flex  fixed inset-0 z-50 outline-none focus:outline-none">
-                          <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                              <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                <h3 className="text-xl font-semibold">Add New Address</h3>
-                                <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                  onClick={() => setShowModal(false)}>
-                                  <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                    X
-                                  </span>
-                                </button>
-                              </div>
-                              <div className="relative p-6 flex-auto space-x-4">
-                                <form className='flex flex-col'>
-                                  <label htmlFor='address'>Address</label>
-                                  <div className="relative flex w-full flex-wrap items-stretch mb-3">
-                                    <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                                      <i className="fas fa-location"></i>
-                                    </span>
-                                    <textarea type="text" id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
-                                  </div>
-                                  <label htmlFor='city'>City</label>
-                                  <div className="relative flex w-full flex-wrap items-stretch mb-3">
-                                    <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                                      <i className="fas fa-map"></i>
-                                    </span>
-                                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
-                                  </div>
-                                  <label htmlFor='state'>state</label>
-                                  <div className="relative flex w-full flex-wrap items-stretch mb-3">
-                                    <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                                      <i className="fas fa-map"></i>
-                                    </span>
-                                    <input type="text" id='state' placeholder="Your state name" onChange={(e) => setState(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
-                                  </div>
-                                  <label htmlFor='pincode'>Pincode</label>
-                                  <div className="relative flex w-full flex-wrap items-stretch mb-3">
-                                    <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                                      <i className="fas fa-location"></i>
-                                    </span>
-                                    <input type="number" value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
-                                  </div>
-                                </form>
-                              </div>
-                              {/*footer*/}
-                              <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                  onClick={() => setShowModal(false)}>
-                                  Close
-                                </button>
-                                <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                  onClick={(e) => {
-                                    setShowModal(false)
-                                    handleSubmit(e);
-                                  }}>
-                                  Save Address
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="opacity-25 inset-0 z-40 bg-black"></div>
-                      </>
-                    ) : null}
+
                   </div>
                 </div>
               </div>
@@ -202,6 +137,72 @@ const CheckoutPage = () => {
           <div className="w-full h-full shadow-md px-14">Choose payment method </div>
         </div>
       </div>
+      {showModal ? (
+        <>
+          <div className="justify-center items-center flex  fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-xl font-semibold">Add New Address</h3>
+                  <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}>
+                    <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      X
+                    </span>
+                  </button>
+                </div>
+                <div className="relative p-6 flex-auto space-x-4">
+                  <form className='flex flex-col'>
+                    <label htmlFor='address'>Address</label>
+                    <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                      <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <i className="fas fa-location"></i>
+                      </span>
+                      <textarea type="text" id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                    </div>
+                    <label htmlFor='city'>City</label>
+                    <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                      <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <i className="fas fa-map"></i>
+                      </span>
+                      <input type="text" value={city} onChange={(e) => setCity(e.target.value)} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                    </div>
+                    <label htmlFor='state'>state</label>
+                    <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                      <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <i className="fas fa-map"></i>
+                      </span>
+                      <input type="text" id='state' placeholder="Your state name" onChange={(e) => setState(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                    </div>
+                    <label htmlFor='pincode'>Pincode</label>
+                    <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                      <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <i className="fas fa-location"></i>
+                      </span>
+                      <input type="number" value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                    </div>
+                  </form>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                    onClick={() => setShowModal(false)}>
+                    Close
+                  </button>
+                  <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                    onClick={(e) => {
+                      setShowModal(false)
+                      handleSubmit(e);
+                    }}>
+                    Save Address
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
     </>
   )
 }

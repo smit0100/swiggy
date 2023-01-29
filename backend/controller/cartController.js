@@ -2,7 +2,7 @@ const User = require('../module/UserModel');
 const Product = require('../module/ProductModel')
 
 const addProduct = async (req, res, next) => {
-  const { userId, productId } = req.body;
+  const { userId, productId,resturantId} = req.body;
 
   const product = await Product.findById(productId);
   const price = product.price;
@@ -34,6 +34,7 @@ const addProduct = async (req, res, next) => {
 
       userData = await User.findByIdAndUpdate(userId, {
         $inc: { "cart.total": price },
+        resturant:resturantId
       });
       userData = await User.findById(userId);
 
