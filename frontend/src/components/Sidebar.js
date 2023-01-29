@@ -36,7 +36,7 @@ const Sidebar = ({direction}) => {
                 </div>
             </div>
 
-            <div className={`fixed h-screen w-screen right-0  bg-slate-300 opacity-25 ${ishide} z-20`} onClick={() => dispatch(sidebarToggle())}>
+            <div className={`fixed h-screen w-screen top-0 right-0  bg-slate-300 opacity-25 ${ishide} z-20`} onClick={() => dispatch(sidebarToggle())}>
       </div>
 
         </>

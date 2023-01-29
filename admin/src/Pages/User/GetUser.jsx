@@ -2,6 +2,38 @@ import React from 'react'
 import avatar from "../../Assets/avatar.jpg";
 
 export default function GetUser() {
+    const data=[
+        {
+            name:"dixit patel",
+            email:"dixit652@gmail.com",
+            position:"cheff",
+            status:"Online"
+        },
+        {
+            name:"dixit patel",
+            email:"dixit652@gmail.com",
+            position:"cheff",
+            status:"Online"
+        },
+        {
+            name:"dixit patel",
+            email:"dixit652@gmail.com",
+            position:"cheff",
+            status:"Online"
+        },
+        {
+            name:"dixit patel",
+            email:"dixit652@gmail.com",
+            position:"cheff",
+            status:"Online"
+        },
+        {
+            name:"dixit patel",
+            email:"dixit652@gmail.com",
+            position:"cheff",
+            status:"Online"
+        },
+    ]
   return (
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-5 p-3">
@@ -62,7 +94,11 @@ export default function GetUser() {
             </tr>
         </thead>
         <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            
+            {
+                data.map((item)=>{
+                    return(
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                     <div class="flex items-center">
                         <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
@@ -72,16 +108,16 @@ export default function GetUser() {
                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                     <img class="w-10 h-10 rounded-full" src={avatar} alt="Jese image"/>
                     <div class="pl-3">
-                        <div class="text-base font-semibold">Neil Sims</div>
-                        <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
+                        <div class="text-base font-semibold">{item.name}</div>
+                        <div class="font-normal text-gray-500">{item.email}</div>
                     </div>  
                 </th>
                 <td class="px-6 py-4">
-                    React Developer
+                    {item.position}
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
+                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {item.status}
                     </div>
                 </td>
                 <td class="px-6 py-4">
@@ -89,60 +125,9 @@ export default function GetUser() {
                     <a href="#" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
                 </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-2" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                        <label for="checkbox-table-search-2" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src={avatar} alt="Jese image"/>
-                    <div class="pl-3">
-                        <div class="text-base font-semibold">Bonnie Green</div>
-                        <div class="font-normal text-gray-500">bonnie@flowbite.com</div>
-                    </div>
-                </th>
-                <td class="px-6 py-4">
-                    Designer
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
-                    </div>
-                </td>
-                <td class="px-6 py-4">
-                    {/* <!-- Modal toggle --> */}
-                    <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="w-4 p-4">
-                    <div class="flex items-center">
-                        <input id="checkbox-table-search-2" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                        <label for="checkbox-table-search-2" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src={avatar} alt="Jese image"/>
-                    <div class="pl-3">
-                        <div class="text-base font-semibold">Jese Leos</div>
-                        <div class="font-normal text-gray-500">jese@flowbite.com</div>
-                    </div>
-                </th>
-                <td class="px-6 py-4">
-                    Vue JS Developer
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
-                    </div>
-                </td>
-                <td class="px-6 py-4">
-                    {/* <!-- Modal toggle --> */}
-                    <a href="#" type="button" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
-                </td>
-            </tr>
+                    )
+                })
+            }
         </tbody>
     </table>
     {/* <!-- Edit user modal --> */}
@@ -160,7 +145,7 @@ export default function GetUser() {
                     </button>
                 </div>
                 {/* <!-- Modal body --> */}
-                <div class="p-6 space-y-6">
+                {/* <div class="p-6 space-y-6">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
                             <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
@@ -195,10 +180,10 @@ export default function GetUser() {
                             <input type="password" name="new-password" id="new-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required=""/>
                         </div>
                     </div>
-                </div>
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                </div> */}
+                {/* <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
-                </div>
+                </div> */}
             </form>
         </div>
     </div>

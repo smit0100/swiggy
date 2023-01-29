@@ -142,6 +142,7 @@ export const RestroCategoryCard = ({ item }) => {
   const navigate = useNavigate();
 
   const addtoCart = async (e) => {
+    console.log("hello");
     e.preventDefault();
     if (!isUser) {
       navigate('/login')
@@ -167,7 +168,7 @@ export const RestroCategoryCard = ({ item }) => {
         <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
 
-          <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+          <button onClick={()=>{console.log("hello");}} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
           >
             Add
           </button>

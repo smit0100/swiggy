@@ -133,12 +133,6 @@ export default function Register() {
   }
 
   
-  
-
-
-
-
-
 
   const user = useSelector(state => state.userData.user);
   const dispatch = useDispatch();
@@ -167,7 +161,8 @@ export default function Register() {
     navigate({
       pathname: '/otp',
       search: createSearchParams({
-        id: response.data.user._id
+        id: response.data.user._id,
+        email:response.data.user.email
       }).toString()
     })
 
