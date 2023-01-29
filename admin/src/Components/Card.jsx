@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 
 export default function Card(props) {
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Link to={"/request/detail"}>
-        <img className="rounded-t-lg" src={props.path} alt="" />
-      </Link>
+    <div className="max-w-sm bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
+      <div className="relative overflow-hidden bg-no-repeat bg-cover">
+        <Link to={"/request/detail"}>
+        <img class="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out" src={props.path} alt="" />
+        </Link>
+      </div>
       <div className="p-5">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {props.name}
