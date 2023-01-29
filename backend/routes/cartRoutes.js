@@ -11,7 +11,10 @@ router.patch('/addQuantity', cartController.addCartItemquantity)
 router.patch('/subtractQuantity', cartController.subtractCartItemquantity,cartController.removeItem)
 
 
-router.patch("/remove",cartController.removeItemCart)
+router.patch("/remove", cartController.removeItemCart)
+router.get('/clear', (req,res) => {
+    res.send('hello')
+});
 
 
 module.exports = router

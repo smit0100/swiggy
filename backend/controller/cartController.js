@@ -2,8 +2,9 @@ const User = require('../module/UserModel');
 const Product = require('../module/ProductModel')
 
 const addProduct = async (req, res, next) => {
-  const { userId, productId,resturantId} = req.body;
-
+  const { userId, productId, resturantId } = req.body;
+  console.log(resturantId);
+  console.log(resturantId);
   const product = await Product.findById(productId);
   const price = product.price;
 
@@ -34,8 +35,17 @@ const addProduct = async (req, res, next) => {
 
       userData = await User.findByIdAndUpdate(userId, {
         $inc: { "cart.total": price },
-        resturant:resturantId
+         
+      }, {
+        new:true
       });
+
+      userData = await User.findByIdAndUpdate(userId, {
+        "cart.resturant":resturantId
+      })
+      console.log("this is log");
+      console.log(userData);
+      // userData = await 
       userData = await User.findById(userId);
 
       console.log(userData);
@@ -279,6 +289,30 @@ const removeItemCart = async (req, res, next) => {
   }
 };
 
+const clearCart = async (req, res, next) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    res.send('hello')
+    // const response = await User.findByIdAndUpdate(userId, {
+    //   "cart.products": [],
+    //   "cart.total": 0,
+    //   $unset:{"cart.resturant":""}
+    // })
+    
+    // console.log(response);
+
+    // res.status(200).json({ message: 'cart clear', clearCart });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({message:'something went wrong'})
+  }
+ 
+
+
+}
+
+
 //   const addCartItem = async (req, res, next) => {
 //     let { productId, userId, price } = req.body;
 //     console.log("please check this");
@@ -355,5 +389,6 @@ module.exports = {
   subtractCartItemquantity,
   addCartItemquantity,
   removeItemCart,
-  removeItem
+  removeItem,
+  clearCart
 }

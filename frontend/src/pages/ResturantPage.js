@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { cartData } from "../redux/cart/cartSlice";
 
-
-const Profile1 = () => {
+const ResturantPage = () => {
   const [openTab, setOpenTab] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
@@ -187,7 +187,7 @@ const Profile1 = () => {
   );
 }
 
-export default Profile1
+export default ResturantPage
 
 export const UserReviewCard = () => {
 
@@ -225,17 +225,28 @@ export const UserReviewCard = () => {
 export const RestroCategoryCard = ({ item }) => {
   const id = item._id;
   const isUser = useSelector(state => state.userData.user);
+  const cartData= useSelector(state => state.cartData.cart);
+
   const navigate = useNavigate();
+  const { restaurantId } = useParams();
+  const dispatch=useDispatch()
 
   const addtoCart = async (e) => {
+    console.log(restaurantId);
     e.preventDefault();
     if (!isUser) {
       navigate('/login')
     } else {
       const response = await axios.post('http://localhost:4000/cart/add', {
         productId: id,
-        userId: isUser._id
+        userId: isUser._id,
+        resturantId:restaurantId
       })
+console.log(cartData);
+      if (cartData.products.length==0) {
+        console.log(response.data.data.cart);
+        // dispatch(cartData(response.data.data.cart))
+      }
 
     }
 
