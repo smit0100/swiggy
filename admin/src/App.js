@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./contexts/ContextProvider";
 import { Navbar, Sidebar } from "./Components";
-import { Dashboard, NotFound, Request,GetUser } from "./Pages";
+import { Dashboard, NotFound, Request,GetUser, RestaurantDetail } from "./Pages";
 
 function App() {
   const {
@@ -51,6 +51,7 @@ function App() {
                 <Route path="/" element={<Dashboard />} />  
                 <Route path="/dashboard" element={<Dashboard />} />  
                 <Route path="/request" element={<Request />} />  
+                <Route path="/request/detail" element={<RestaurantDetail />} />  
                 <Route path="/customers" element={<GetUser />} />  
                 <Route path="*" element={<NotFound />} />
             </Routes>

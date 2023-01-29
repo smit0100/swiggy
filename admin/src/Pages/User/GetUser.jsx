@@ -1,9 +1,10 @@
 import React from 'react'
+import avatar from "../../Assets/avatar.jpg";
 
 export default function GetUser() {
   return (
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg m-5 p-3">
     <div class="flex items-center justify-between py-4 bg-white dark:bg-gray-800">
         <div>
             <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
@@ -69,7 +70,7 @@ export default function GetUser() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src={avatar} alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Neil Sims</div>
                         <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
@@ -96,7 +97,7 @@ export default function GetUser() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src={avatar} alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Bonnie Green</div>
                         <div class="font-normal text-gray-500">bonnie@flowbite.com</div>
@@ -123,7 +124,7 @@ export default function GetUser() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-2.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src={avatar} alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Jese Leos</div>
                         <div class="font-normal text-gray-500">jese@flowbite.com</div>

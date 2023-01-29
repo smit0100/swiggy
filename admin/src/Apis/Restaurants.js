@@ -10,6 +10,15 @@ function GetRequests() {
     },
   });
 }
+function handleRequests() {
+  return Api({
+    url: "/fetchAll",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 
 export default {
     GetRequests
