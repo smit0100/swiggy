@@ -15,6 +15,27 @@ const CheckoutPage = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(state => state.userData.user)
+  const product = useSelector(state => state.cartData.cart.products)
+
+  const handleDelivery = async (address) => {
+    // e.preventDefault();
+    console.log(product);
+    let pr = product.map(item => {
+      // console.log("this is print");
+      // console.log(item.quantity);
+ 
+      return {
+        product:item.product._id,
+        quantity: item.quantity,
+      }
+      
+    })
+   
+    console.log(address);
+    // const response = await axios.post('http://localhost:4000/order/create', {
+      
+    // })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +96,7 @@ const CheckoutPage = () => {
                         <button
                           className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                           to="ewfsdf"
-                          
+                          onClick={() => handleDelivery(address)}
                         >
                           deliver here
                         </button>
