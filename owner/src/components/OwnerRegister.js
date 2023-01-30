@@ -227,7 +227,7 @@ const OwnerRegister = () => {
     }
   }
 
-  function handleUpload(e) {
+  async function handleUpload(e) {
     e.preventDefault()
 
     const formData = new FormData();
@@ -240,14 +240,31 @@ const OwnerRegister = () => {
     //   pancardPhoto,
     //   pancardPhoto.name
     // )
+
+    const address = {
+      street:restaurantAddress,
+      area:area,
+      state:state,
+      city:city,
+      pincode:pincode
+    }
     formData.append("bank", bankDetailsPhoto)
     formData.append("pancard", pancardPhoto)
+<<<<<<< HEAD
+=======
+    formData.append("address", address)    
+    formData.append("email", restaurant.email)
+    formData.append("number", restaurant.number);
+    formData.append("category", selectCuisinesType)
+    formData.append("outLetType",selectOutletType)
+>>>>>>> c843d5f719b7dddfed56f650157ee88ff9bb8840
 
     // console.log(formData);
     // console.log(formData.getAll("bankPassbook"));
     // console.log(bankDetailsPhoto);
 
     // axios.post("api/uploadfile", formData);
+<<<<<<< HEAD
     axios.post("http://localhost:4000/resturant/add", formData, {
       address: {
         street: restaurantAddress,
@@ -264,6 +281,52 @@ const OwnerRegister = () => {
         closeAt: closetime
       }
     })
+=======
+    // axios.post("http://localhost:4000/resturant/add", {
+    //   formData,
+    //   address:{
+    //     street:restaurantAddress,
+    //     area:area,
+    //     state:state,
+    //     city:city,
+    //     pincode:pincode
+    //   },
+    //   category:selectCuisinesType,
+    //   outLetType:selectOutletType,
+    //   resturantType:restaurantType,
+    //   timing:{
+    //     openAt:opentime,
+    //     closeAt:closetime
+    //   }
+    // })
+
+    // const form=await JSON.stringify({ address:{
+    //   street:restaurantAddress,
+    //   area:area,
+    //   state:state,
+    //   city:city,
+    //   pincode:pincode
+    // },
+    // name:restaurantName,
+    // ownerName:ownerName,
+    // email:email,
+    // number:number,
+    // category:selectCuisinesType,
+    // outLetType:selectOutletType,
+    // resturantType:restaurantType,
+    // timing:{
+    //   openAt:opentime,
+    //   closeAt:closetime
+    //   }
+    // })
+
+  
+    
+
+    
+
+    await axios.post("http://localhost:4000/resturant/add",formData)  
+>>>>>>> c843d5f719b7dddfed56f650157ee88ff9bb8840
   }
 
   // by smit 

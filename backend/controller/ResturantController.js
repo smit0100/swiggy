@@ -11,14 +11,20 @@ const createResturnat = async (req, res, next) => {
     // const {name,address,number,emailId}
     // console.log(req.files);
     // console.log(req.body);
+    // console.log(req.files);
+    const { address, email, number, outLetType } = req.body;
 
-    const { address, category, timing, resturantType, outLetType } = req.body;
-
-
+    // console.log(req.files.pancard);
+    // console.log(req.files.bank);
+    // console.log(req.body);
+    // console.log(req.files);
+    // console.log(address,email,number,category,outLetType);
     let bankImage = req.files.bank;
-    console.log(bankImage);
+    // console.log(bankImage);
     let panImage = req.files.pancard;
-     
+    // console.log(bankImage);
+    // console.log(panImage);
+    console.log(req.files.bank);
     try {
        const result = await cloudinary.uploader.upload(bankImage.tempFilePath, {
             folder:'ownerDetails'   
@@ -29,11 +35,11 @@ const createResturnat = async (req, res, next) => {
         console.log(result.url);
         console.log(panUrl.url);
 
-        const response = await new Resturant({ address, category, timing, resturantType, outLetType, pancardURL: panUrl.url, bankURL: result.url }).save();
+        const response = await new Resturant({ address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url }).save();
 
         console.log(response);
 
-        return res.status(200).json({ message: 'resturant created', response });
+        return res.status(200).json({ message: 'resturant created' });
 
     } catch (e) {
         console.log(e);

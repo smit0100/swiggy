@@ -41,32 +41,32 @@ export default function RestaurantDetail() {
     }
   };
   return (
-    <section>
+    <section className="px-5">
       <div className="container mx-auto min-h-[800px] mb-14 px-2">
         <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-white">{load == false && data.length != 0 ? data.name.toUpperCase() : ""} </h2>
-            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 ? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
+            <h2 className="text-3xl font-bold text-white">{load == false &&data.length != 0 ?data.name : ""} </h2>
+            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 &&data.address? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
             <p className="text-lg mb-4 text-slate-400">Owner email : {load == false && data.length != 0 ? data.email:""}</p>
           </div>
           <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
             <div className="bg-green-500 text-white px-3 rounded-full">
               {item.type}
             </div>
-            <div className="bg-violet-500 text-white px-3 rounded-full">
+            <div className="text-white px-3 rounded-full" style={{backgroundColor:currentColor}}>
               <div> {item.Area} </div>
             </div>
           </div>
-          <div className="text-3xl font-semibold text-violet-800">
+          <div className="text-3xl font-semibold" style={{color : currentColor}}>
             {rupee}{item.price}{" "}
           </div>
         </div>
         <div className="flex flex-col items-start gap-8 lg:flex-row">
           <div className="max-w-[768px]">
             <div className="mb-8">
-              <img src={item.imageLg} alt="" />
+              <img src={item.imageLg} className="rounded-2xl" alt="restaurant image" />
             </div>
-            <div className="flex gap-x-6 text-violet-800 mb-6">
+            <div className={`flex gap-x-6 mb-6`} style={{color:currentColor}}>
               <div className="flex gap-x-2 items-center">
                 <MdOutlineSupportAgent className="text-2xl" />
                 <div> 24*7 </div>
@@ -92,27 +92,27 @@ export default function RestaurantDetail() {
                 <img src={item?.agent?.image} alt="" className="rounded-full" />
               </div>
               <div>
-                <div className="font-bold text-lg"> {item?.agent?.name} </div>
+                <div className="font-bold text-lg dark:text-white"> {item?.agent?.name} </div>
                 <Link to="/" className="text-violet-700 text-sm">
                   View More
                 </Link>
               </div>
             </div> */}
             <div className="flex">
-              <button
-                onClick={() => { }}
-                className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-white border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700"
-              >
-                Approve
-              </button>
-              <span className="w-10" />
-              <button
-                onClick={() => { }}
-                className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-white border-red-500 dark:bg-red-600 dark:hover:bg-red-500"
-              >
-                Reject
-              </button>
-            </div>
+          <button
+            onClick={()=>{}}
+            className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 "
+          >
+            Approve
+          </button>
+          <span className="w-10" />
+          <button
+            onClick={()=>{}}
+            className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-red-600 border-red-500 "
+          >
+            Reject
+          </button>
+        </div>
           </div>
         </div>
       </div>
