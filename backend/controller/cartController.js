@@ -233,7 +233,9 @@ const removeItem = async (req, res, next) => {
 
   try {
     let response = await User.findOneAndUpdate({ _id: userId, "cart.products._id": itemId }, {
-      $inc: { "cart.products.$.quantity": -price }
+      $inc: { "cart.products.$.quantity": -price },
+      $unset:{"cart.resturant":""}
+
     }, { new: true })
     response = await User.findByIdAndUpdate(userId, {
       $pull: { "cart.products": { _id: itemId } },
@@ -276,6 +278,8 @@ const removeItemCart = async (req, res, next) => {
         },
       ],
     });
+    console.log('pull');
+    console.log(data);
     // const data = User.findById(userId,{$pull:{"cart.products.$":{_id:itemId}}},{
     //   new:true
     // })
