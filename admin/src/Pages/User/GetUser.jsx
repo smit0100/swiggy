@@ -140,7 +140,7 @@ export default function GetUser() {
         </tbody>
     </table>
     {/* <!-- Edit user modal --> */}
-    <div id="editUserModal" tabIndex="-1" aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
+    <div id="editUserModal" tabIndex="-1" ariaHidden="true" className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
         <div className="relative w-full h-full max-w-2xl md:h-auto">
             {/* <!-- Modal content --> */}
             <form action="#" className="relative bg-white rounded-lg shadow dark:bg-gray-700">

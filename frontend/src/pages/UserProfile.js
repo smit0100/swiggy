@@ -3,19 +3,19 @@ import axios from 'axios'
 import { userData } from "../redux/user/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 const UserProfile = () => {
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate();
   // for popup state 
   const [updateProfile, setupdateProfile] = useState(false)
   const [changePassword, setChangePassword] = useState(false)
   const [showModal, setShowModal] = useState(false);
   const [openTab, setOpenTab] = useState(1);
-  const [otpTab, setotpTab] = useState(true)
-  const [cnpass, setCnpass] = useState('')
+  const [otpTab, setotpTab] = useState(false)
 
 
   const [name, setName] = useState('')
@@ -25,11 +25,21 @@ const UserProfile = () => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [oldPassword, setOldPassword] = useState('')
+  const [oldPasswordError, setOldPasswordError] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [newPasswordError, setNewPasswordError] = useState('')
+  const [cnpass, setCnpass] = useState('')
+  const [cnPassError, setCnPassError] = useState('')
+
   const [address, setaddress] = useState('')
+  const [addressError, setAddressError] = useState('')
   const [city, setCity] = useState("")
+  const [cityError, setCityError] = useState('')
   const [state, setState] = useState("")
+  const [stateError, setStateError] = useState('')
   const [pincode, setPincode] = useState('')
+  const [pincodeError, setPincodeError] = useState('')
+
   const [newAddress, setNewAddress] = useState({})
   const [otp, setOtp] = useState('')
   const [disabled, setDisabled] = useState(true)
@@ -67,6 +77,7 @@ const UserProfile = () => {
       )
     }
   }
+
   const handledisable = () => {
     if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0) {
       console.log('hheydfljdskflsfd');
@@ -108,6 +119,76 @@ const UserProfile = () => {
       setNumberError("");
     }
     handledisable()
+  }
+
+  const handleOldPassword = (e) => {
+    setOldPassword(e.target.value)
+    if (oldPassword === null || oldPassword === "") {
+      setOldPasswordError("You not leave it empty")
+    } else {
+      setOldPasswordError("")
+    }
+  }
+
+  const handleCpass = (e) => {
+    setCnpass(e.target.value)
+    if (newPassword === e.target.value) {
+      setCnPassError('')
+    } else {
+      setCnPassError('please enter same password');
+    }
+    handledisable()
+  }
+
+  const handlePassword = (e) => {
+    setNewPassword(e.target.value);
+    if (e.target.value.length < 8) {
+      setNewPasswordError('password must be 8 character');
+    } else {
+      setNewPasswordError('')
+    }
+    if (e.target.value == cnpass) {
+      setCnPassError('')
+    } else {
+      setCnPassError('please enter same password');
+    }
+    handledisable()
+  }
+
+  const handleAddress = (e) => {
+    setaddress(e.target.value)
+    if (address === null || address === "") {
+      setAddressError("Please enter address")
+    } else {
+      setAddressError("")
+    }
+  }
+
+  const handleCity = e => {
+    setCity(e.target.value)
+    if (city === null || city === "")
+      setCityError("Please Enter city name")
+    else
+      setCityError("")
+  }
+
+  const handleState = e => {
+    setState(e.target.value)
+    if (state === null || state === "")
+      setStateError("Please enter state name")
+    else
+      setStateError("")
+  }
+
+  const handlePincode = e => {
+    setPincode(e.target.value)
+    const regex = /^\d{6}$/
+    if (!regex.test(e.target.value))
+      setPincodeError("Enter correct pincode")
+    else if (pincode === null || pincode === "")
+      setPincodeError("You not leave it empty")
+    else
+      setPincodeError("")
   }
 
   const changeProfileDetails = async (e) => {
@@ -172,6 +253,10 @@ const UserProfile = () => {
     })
     console.log(response.data.response);
     dispatch(userData(response.data.response))
+    setaddress("")
+    setCity("")
+    setState("")
+    setPincode("")
   }
 
   const addressDelete = async (id) => {
@@ -179,6 +264,7 @@ const UserProfile = () => {
 
     dispatch(userData(response.data.response))
   }
+  
   return (
     <>
       <div className='containerr rounded-md '>
@@ -189,7 +275,7 @@ const UserProfile = () => {
             <img className='rounded-full w-40 h-40 sm:w-52 sm:h-52 object-cover' alt='user pic' src='https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80' />
 
             <button className='absolute bottom-5 right-[140px] sm:bottom-5 sm:right-[200px] md:bottom-5 md:right-[260px] lg:bottom-8 lg:right-[505px] bg-white rounded-full p-2 hover:ring-2 hover:ring-offset-2 hover:ring-slate-300'>
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
               </svg>
             </button>
@@ -206,7 +292,7 @@ const UserProfile = () => {
           <div className='w-full sm:w-1/5 p-5'>
             <ul className='space-y-3'>
               <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(1)}>Profile</li>
-              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Order Detail</li>
+              <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li>
             </ul>
           </div>
 
@@ -294,29 +380,33 @@ const UserProfile = () => {
                                     <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <textarea type="text" id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                                    <textarea type="text" id="address" value={address} onBlur={handleAddress} onChange={handleAddress} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
                                   </div>
+                                  <span className='text-red-500 text-sm'>{addressError}</span>
                                   <label htmlFor='city'>City</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-map"></i>
                                     </span>
-                                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="text" value={city} onBlur={handleCity} onChange={handleCity} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
+                                  <span className='text-red-500 text-sm'>{cityError}</span>
                                   <label htmlFor='state'>state</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-map"></i>
                                     </span>
-                                    <input type="text" id='state' placeholder="Your state name" onChange={(e) => setState(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="text" id='state' placeholder="Your state name" onBlur={handleState} onChange={handleState} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
+                                  <span className='text-red-500 text-sm'>{stateError}</span>
                                   <label htmlFor='pincode'>Pincode</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <input type="number" value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="number" value={pincode} onBlur={handlePincode} onChange={handlePincode} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
+                                  <span className='text-red-500 text-sm'>{pincodeError}</span>
                                 </form>
                               </div>
                               {/*footer*/}
@@ -432,22 +522,27 @@ const UserProfile = () => {
                         <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-lock-open"></i>
                         </span>
-                        <input type="text" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} id='password' placeholder="Enter Old Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={oldPassword} onBlur={handleOldPassword} onChange={handleOldPassword} id='password' placeholder="Enter Old Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className='text-red-500 text-sm'>{oldPasswordError}</span>
                       <label htmlFor='newpassword'>New Password</label>
                       <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-unlock"></i>
                         </span>
-                        <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} id='newpassword' placeholder="Enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={newPassword} onBlur={handlePassword} onChange={handlePassword} id='newpassword' placeholder="Enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className='text-red-500 text-sm'>{newPasswordError}</span>
+
                       <label htmlFor='rnewpassword'>Confirm New Password</label>
                       <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-lock"></i>
                         </span>
-                        <input type="text" value={cnpass} onChange={(e) => setCnpass(e.target.value)} id='rnewpassword' placeholder="Re-enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={cnpass} onBlur={handleCpass} onChange={handleCpass} id='rnewpassword' placeholder="Re-enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className='text-red-500 text-sm'>{cnPassError}</span>
+
                     </form>
                   </div>
                   {/*footer*/}
@@ -529,37 +624,37 @@ export default UserProfile
 
 // eslint-disable-next-line no-lone-blocks
 {/* <form>
-<div class="relative z-0 w-full mb-6 group">
-    <input type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-    <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
+<div className="relative z-0 w-full mb-6 group">
+    <input type="email" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+    <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
 </div>
-<div class="relative z-0 w-full mb-6 group">
-    <input type="password" name="floating_password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-    <label for="floating_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+<div className="relative z-0 w-full mb-6 group">
+    <input type="password" name="floating_password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+    <label for="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
 </div>
-<div class="relative z-0 w-full mb-6 group">
-    <input type="password" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-    <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
+<div className="relative z-0 w-full mb-6 group">
+    <input type="password" name="repeat_password" id="floating_repeat_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+    <label for="floating_repeat_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
 </div>
-<div class="grid md:grid-cols-2 md:gap-6">
-    <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-        <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+<div className="grid md:grid-cols-2 md:gap-6">
+    <div className="relative z-0 w-full mb-6 group">
+        <input type="text" name="floating_first_name" id="floating_first_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+        <label for="floating_first_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
     </div>
-    <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-        <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
-    </div>
-</div>
-<div class="grid md:grid-cols-2 md:gap-6">
-    <div class="relative z-0 w-full mb-6 group">
-        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-        <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (123-456-7890)</label>
-    </div>
-    <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-        <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
+    <div className="relative z-0 w-full mb-6 group">
+        <input type="text" name="floating_last_name" id="floating_last_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+        <label for="floating_last_name" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
     </div>
 </div>
-<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+<div className="grid md:grid-cols-2 md:gap-6">
+    <div className="relative z-0 w-full mb-6 group">
+        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+        <label for="floating_phone" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (123-456-7890)</label>
+    </div>
+    <div className="relative z-0 w-full mb-6 group">
+        <input type="text" name="floating_company" id="floating_company" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+        <label for="floating_company" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
+    </div>
+</div>
+<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
 </form> */}

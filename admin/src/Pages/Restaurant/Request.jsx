@@ -8,20 +8,18 @@ import axios from "axios";
 
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
-  const data = [
-    {
-      name: "resto",
-      path: resto,
-    },
-    {
-      name: "resto",
-      path: resto,
-    },
-    {
-      name: "resto",
-      path: resto,
-    },
-  ];
+  const [load, setLoad] = useState(false)
+  const [data, setData] = useState('')
+  useEffect(() => {
+    (async () => {
+      setLoad(true)
+
+      const response = await axios.get(`http://localhost:4000/resturant/fetchAll`)
+      setData(response.data.response)
+      setLoad(false)
+    })()
+  }, [])
+
 const handleReject =async (type) => {
     swal({
       title: "Are you sure?",
@@ -62,11 +60,10 @@ const handleReject =async (type) => {
     <div className="container my-12 mx-auto px-4 md:px-12">
       <Toaster />
       <div className="flex flex-wrap -mx-1 lg:-mx-4 gap-3 justify-start">
-        {data.map((item, index) => {
+        {load==false && data!='' && data.map((item, index) => {
           return (
             <Card
               key={index}
-              path={item.path}
               onClick={() => {
                 handleReject("APPROVE");
               }}
@@ -74,6 +71,7 @@ const handleReject =async (type) => {
                 handleReject();
               }}
               name={item.name}
+              restaurantId={item._id}
             />
           );
         })}

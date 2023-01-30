@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BiBed } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import axios from "axios"
 import resto from "../../Assets/resto.jpg";
 import avatar from "../../Assets/avatar.jpg";
 import { BsWifi } from "react-icons/bs";
 import { GrRestaurant } from "react-icons/gr";
 import { MdDeliveryDining, MdOutlineSupportAgent } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { useState } from "react";
+import { useParams } from "react-router-dom"
 
 export default function RestaurantDetail() {
-  const {rupee,currentColor} = useStateContext();
+  const { rupee } = useStateContext();
+  const { restaurantId } = useParams()
+  const [data, setData] = useState([]);
+  const [load, setLoad] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setLoad(true)
+      const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
+      setData(response.data.resturant)
+      console.log(response.data);
+      setLoad(false)
+    })()
+  }, [])
+
 
   const item = {
     name: "Ganesha chiness",
@@ -18,18 +35,19 @@ export default function RestaurantDetail() {
     Area: "varachha",
     price: 1011,
     imageLg: resto,
-    agent:{
-        image:avatar,
-        name:"smit dakhra"
+    agent: {
+      image: avatar,
+      name: "smit dakhra"
     }
   };
   return (
     <section className="px-5">
       <div className="container mx-auto min-h-[800px] mb-14 px-2">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:mx-5">
-          <div className="dark:text-white">
-            <h2 className="text-2x1 font-bold">{item.name} </h2>
-            <h3 className="text-1g mb-4 dark:text-gray-400"> {item.address}</h3>
+        <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
+          <div>
+            <h2 className="text-3xl font-bold text-white">{load == false &&data.length != 0 ?data.name : ""} </h2>
+            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 &&data.address? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
+            <p className="text-lg mb-4 text-slate-400">Owner email : {load == false && data.length != 0 ? data.email:""}</p>
           </div>
           <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
             <div className="bg-green-500 text-white px-3 rounded-full">
@@ -62,14 +80,14 @@ export default function RestaurantDetail() {
                 <div>Free</div>
               </div>
             </div>
-            <div className="dark:text-white">
+            {/* <div>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et vel
               laudantium qui consequuntur magnam in molestias quaerat eos odit
               molestiae.
-            </div>
+            </div> */}
           </div>
-          <div className="flex-1 bg-white dark:bg-slate-800 rounded-lg lg:mr-5 w-full mb-8 border border-gray-300 rounded-19 px-6 py-8">
-            <div className="flex items-center gap-x-4 mb-8">
+          <div className="flex-1 bg-white w-full mb-8 border border-gray-300 rounded-19 px-6 py-8">
+            {/* <div className="flex items-center gap-x-4 mb-8">
               <div className="w-20 h-20 p-1 border border-gray-300 rounded-full">
                 <img src={item?.agent?.image} alt="" className="rounded-full" />
               </div>
@@ -79,7 +97,7 @@ export default function RestaurantDetail() {
                   View More
                 </Link>
               </div>
-            </div>
+            </div> */}
             <div className="flex">
           <button
             onClick={()=>{}}

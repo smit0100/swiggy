@@ -67,13 +67,13 @@ function App() {
             </div>
             {themeSettings && <ThemeSettings />}
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/request" element={<Request />} />
-              <Route path="/request/detail" element={<RestaurantDetail />} />
-              <Route path="/customers" element={<GetUser />} />
-              <Route path="/category" element={<AddCategory />} />
-              <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<Dashboard />} />  
+                <Route path="/dashboard" element={<Dashboard />} />  
+                <Route path="/request" element={<Request />} />  
+                <Route path="/request/:restaurantId" element={<RestaurantDetail />} />  
+                <Route path="/customers" element={<GetUser />} />
+                <Route path="/category" element={<AddCategory />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </div>

@@ -15,11 +15,14 @@ const createOrder = async (req, res, next) => {
         });
 
         //add in resturant
-        const rest = Resturant.findByIdAndUpdate(resturant, {
-            $push:{product:order._id}
+        const rest =  await Resturant.findByIdAndUpdate(resturant, {
+            $push:{order:order._id}
         },{new:true})
-
-        console.log(userUpdate);
+        const response = await User.findByIdAndUpdate(customer, {
+            "cart.products": [],
+            "cart.total": 0,
+            $unset:{"cart.resturant":""}
+          })
          res.status(200).json({ message: "order created", order });
     } catch (e) {
         console.log(e);
@@ -43,7 +46,42 @@ const fetchAllOrder = async (req, res, next) => {
     }
 }
 
+const fetchUserOrder = async (req, res, next) => {
+    try {
+        const { userId } = req.query;
+        const response = await User.findById(userId).populate({
+            path: "order",
+            model:"Order"
+             
+        }).populate({
+            path: 'order',
+            populate: [
+                {
+                    path: 'products.product',
+                    model:'Product'
+                }
+            ]
+        })
+        
+
+
+
+        
+        
+        console.log(response);
+
+        res.status(200).json({ message: "feched all order", response });
+
+    } catch (e) {
+        console.log(e);
+        res.status(501).json({ message: 'something went wrong' });
+    }
+    
+
+}
+
 module.exports = {
     createOrder,
-    fetchAllOrder
+    fetchAllOrder,
+    fetchUserOrder
 }

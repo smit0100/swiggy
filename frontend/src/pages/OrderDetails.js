@@ -6,18 +6,19 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getOrderItem } from "../../redux/slices/orderSlice";
+// import { getOrderItem } from "../../redux/slices/orderSlice";
+import {orderData} from "../redux/orders/orderSlice"
 import { useDispatch } from "react-redux";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
-  const { userId } = useSelector((state) => state.userData.user._id);
+  const userId = useSelector((state) => state.userData.user._id);
   const navigate = useNavigate();
   const [model, setModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [orderData, setOrderData] = useState({});
-  const customerName = useSelector((state) => state.userData.name);
-  const email = useSelector((state) => state.user.email);
+  const customerName = useSelector((state) => state.userData.user.name);
+  const email = useSelector((state) => state.userData.user.email);
   console.log("this is orderData");
   console.log(orderData);
   const location = useLocation();
@@ -26,14 +27,18 @@ const OrderDetails = () => {
   console.log("check this created date");
   console.log(typeof(new Date(createdDate)));
   console.log(createdDate);
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
-      getData = await getData.json();
-      console.log(getData);
-      setOrderData(getData.data);
-      setIsLoading(false);
+      console.log("this is id");
+      console.log(userId);
+      // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
+      let getData = await axios.get(`http://localhost:4000/order/user?userId=${userId}`)
+      // getData = await getData.json();
+      console.log(getData.data.response.order); 
+      // setOrderData(getData.data.or);
+      // setIsLoading(false);
     })();
   }, []);
 
@@ -42,7 +47,7 @@ const OrderDetails = () => {
 
     const data = await axios.delete(`http://localhost:5000/order/${id}`);
     console.log(data);
-    dispatch(getOrderItem(userId));
+    // dispatch(getOrderItem(userId));
     setModel(false);
     navigate("/order");
   };
@@ -53,19 +58,19 @@ const OrderDetails = () => {
           <div
             id="popup-modal"
             tabindex="-1"
-            class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full"
+            className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full"
           >
-            <div class="relative mx-auto my-auto  p-4 w-full max-w-md h-full md:h-auto">
-              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="relative mx-auto my-auto  p-4 w-full max-w-md h-full md:h-auto">
+              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <button
                   type="button"
-                  class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                  className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
                   data-modal-toggle="popup-modal"
                   onClick={() => setModel((state) => !state)}
                 >
                   <svg
                     aria-hidden="true"
-                    class="w-5 h-5"
+                    className="w-5 h-5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -76,12 +81,12 @@ const OrderDetails = () => {
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="sr-only">Close modal</span>
+                  <span className="sr-only">Close modal</span>
                 </button>
-                <div class="p-6 text-center">
+                <div className="p-6 text-center">
                   <svg
                     aria-hidden="true"
-                    class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200"
+                    className="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -94,14 +99,14 @@ const OrderDetails = () => {
                       d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                     Are you sure you want to delete this order?
                   </h3>
 
                   <button
                     data-modal-toggle="popup-modal"
                     type="button"
-                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+                    className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                     onClick={() => handleDelete(orderData._id)}
                   >
                     Yes, I'm sure
@@ -111,7 +116,7 @@ const OrderDetails = () => {
                     onClick={() => setModel((state) => !state)}
                     data-modal-toggle="popup-modal"
                     type="button"
-                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                    className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                   >
                     No, cancel
                   </button>
@@ -270,9 +275,9 @@ const OrderDetails = () => {
                 </h3>
                 <div className="flex justify-between items-start w-full">
                   <div className="flex justify-center items-center space-x-4">
-                    <div class="w-8 h-8">
+                    <div className="w-8 h-8">
                       <img
-                        class="w-full h-full"
+                        className="w-full h-full"
                         alt="logo"
                         src="https://i.ibb.co/L8KSdNQ/image-3.png"
                       />
@@ -296,7 +301,7 @@ const OrderDetails = () => {
                 </h3>
                 <div className="flex justify-between items-start w-full">
                   <div className="flex justify-center items-center space-x-4">
-                    <div class="w-8 h-8">
+                    <div className="w-8 h-8">
                       <svg
                         width="28"
                         height="28"
@@ -304,7 +309,7 @@ const OrderDetails = () => {
                         fill="greenBase"
                         xmlns="http://www.w3.org/2000/svg"
                         iconsize="24"
-                        class="Icon-sc-1iwi4w1-0 hZwKwm"
+                        className="Icon-sc-1iwi4w1-0 hZwKwm"
                       >
                         <path
                           fill-rule="evenodd"
@@ -427,7 +432,7 @@ const OrderDetails = () => {
                    <div className="flex w-full  justify-center items-center md:justify-start md:items-start">
                       <div className="w-full">
                         <button
-                          class="mt-6 md:mt-0 py-5 px-4 text-xl w-full bg-red-600 text-red-100 hover:bg-red-700 duration-300"
+                          className="mt-6 md:mt-0 py-5 px-4 text-xl w-full bg-red-600 text-red-100 hover:bg-red-700 duration-300"
                           type="button"
                           onClick={() => setModel((state) => !state)}
                           data-modal-toggle="popup-modal"

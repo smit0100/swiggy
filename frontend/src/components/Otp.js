@@ -11,7 +11,9 @@ const Otp = () => {
     const [loading, setLoading] = useState(false);
     const [error,setError] = useState('')
     const id = (searchParams.get('id'));
+    const email= (searchParams.get('email'));
 
+  console.log(email);
     const dispatch = useDispatch()
     
     const navigate = useNavigate();
@@ -38,6 +40,14 @@ const Otp = () => {
         dispatch(userData(response.data.user))
         navigate('/')
     }
+
+    function hideEmail(email) {
+        var index = email.indexOf("@");
+        var hidden = email.substr(5,index).replace(/./g,"*");
+        return email.substr(0,5)+hidden + email.substring(index);
+      }
+
+
 
     //     function OTPInput() {
     //         const inputs = document.querySelectorAll('#otp > *[id]');
@@ -73,7 +83,7 @@ const Otp = () => {
                             <h1 className="text-2xl font-bold">OTP Verification</h1>
                             <div className="flex flex-col mt-4">
                                 <span>Enter the OTP you received at</span>
-                                <span className="font-bold">+91 ******876</span>
+                                <span className="font-bold">{hideEmail(email)}</span>
                             </div>
                             <input
                                 value={otp}

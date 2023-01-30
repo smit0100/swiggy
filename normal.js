@@ -27,7 +27,7 @@ const TableOfContents = () => {
         {items.map((item) => (
           <li key={item.id}>
             <Link
-              activeClass="active"
+              activeclassName="active"
               to={item.id}
               spy={true}
               smooth={true}

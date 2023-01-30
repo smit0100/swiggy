@@ -2,8 +2,9 @@ const User = require('../module/UserModel');
 const Product = require('../module/ProductModel')
 
 const addProduct = async (req, res, next) => {
-  const { userId, productId } = req.body;
-
+  const { userId, productId, resturantId } = req.body;
+  console.log(resturantId);
+  console.log(resturantId);
   const product = await Product.findById(productId);
   const price = product.price;
 
@@ -34,7 +35,17 @@ const addProduct = async (req, res, next) => {
 
       userData = await User.findByIdAndUpdate(userId, {
         $inc: { "cart.total": price },
+         
+      }, {
+        new:true
       });
+
+      userData = await User.findByIdAndUpdate(userId, {
+        "cart.resturant":resturantId
+      })
+      console.log("this is log");
+      console.log(userData);
+      // userData = await 
       userData = await User.findById(userId);
 
       console.log(userData);
@@ -222,7 +233,9 @@ const removeItem = async (req, res, next) => {
 
   try {
     let response = await User.findOneAndUpdate({ _id: userId, "cart.products._id": itemId }, {
-      $inc: { "cart.products.$.quantity": -price }
+      $inc: { "cart.products.$.quantity": -price },
+      $unset:{"cart.resturant":""}
+
     }, { new: true })
     response = await User.findByIdAndUpdate(userId, {
       $pull: { "cart.products": { _id: itemId } },
@@ -230,6 +243,12 @@ const removeItem = async (req, res, next) => {
    
     console.log('check');
     console.log(JSON.stringify(response));
+    if (response.cart.products.length == 0) {
+      response = await User.findOneAndUpdate({ _id: userId}, {
+       $unset:{"cart.resturant":""}
+ 
+     }, { new: true })
+   }
     console.log('hello how arre');
     console.log(response);
     res.status(200).json({
@@ -254,7 +273,7 @@ const removeItemCart = async (req, res, next) => {
       $pull: { "cart.products": { _id: itemId } },
     });
     data = await User.findByIdAndUpdate(userId, {
-      $inc: { "cart.total": -totalPrice },
+      $inc: { "cart.total": -totalPrice }
     });
     data = await User.findById(userId, { cart: 1 }).populate({
       path: "cart",
@@ -265,6 +284,15 @@ const removeItemCart = async (req, res, next) => {
         },
       ],
     });
+    console.log(data);
+    if (data.cart.products.length == 0) {
+      data = await User.findOneAndUpdate({ _id: userId}, {
+       $unset:{"cart.resturant":""}
+ 
+     }, { new: true })
+   }
+    console.log('pull');
+    console.log(data);
     // const data = User.findById(userId,{$pull:{"cart.products.$":{_id:itemId}}},{
     //   new:true
     // })
@@ -277,6 +305,30 @@ const removeItemCart = async (req, res, next) => {
     res.status(500).json({ message: e });
   }
 };
+
+const clearCart = async (req, res, next) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    
+    const response = await User.findByIdAndUpdate(userId, {
+      "cart.products": [],
+      "cart.total": 0,
+      $unset:{"cart.resturant":""}
+    })
+    
+    console.log(response);
+
+    res.status(200).json({ message: 'cart clear', response });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({message:'something went wrong'})
+  }
+ 
+
+
+}
+
 
 //   const addCartItem = async (req, res, next) => {
 //     let { productId, userId, price } = req.body;
@@ -354,5 +406,6 @@ module.exports = {
   subtractCartItemquantity,
   addCartItemquantity,
   removeItemCart,
-  removeItem
+  removeItem,
+  clearCart
 }

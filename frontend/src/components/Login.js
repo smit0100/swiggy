@@ -148,7 +148,7 @@ export default function Login() {
                       autoLoad={false}
                       fields="name,email,picture"
                       callback={responseFacebook}
-                      cssClass="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                      cssclassName="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                       icon={<img
                         alt="google"
                         className="w-5 mr-1"

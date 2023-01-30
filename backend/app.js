@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
 const cookieSession = require('cookie-session')
+const fileUpload = require('express-fileupload')
+const multer = require('multer')
 
 const userRoute = require('./routes/userRoute');
 const resturantRoute = require('./routes/resturantRoute');
@@ -14,7 +16,24 @@ const paymentRoute = require('./routes/paymentRoute');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
 const orderRoute = require('./routes/orderRoutes');
+const cloudinary = require('cloudinary')
 
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+cloudinary.config({
+    cloud_name: "drwhuxvlk",
+    api_key: "998582476886638",
+    api_secret: "DCWAJXWe_Pu3QfASXHI2Uy80Z5w",
+    secure:true
+});
+
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir:"/temp/"
+}))
 app.use(
     cookieSession({
         name: "session",
