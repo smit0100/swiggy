@@ -12,6 +12,7 @@ router.patch('/subtractQuantity', cartController.subtractCartItemquantity,cartCo
 
 
 router.patch("/remove", cartController.removeItemCart)
+
 router.get('/clear', (req,res) => {
     res.send('hello')
 });

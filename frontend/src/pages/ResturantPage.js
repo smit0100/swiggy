@@ -225,7 +225,7 @@ export const UserReviewCard = () => {
 export const RestroCategoryCard = ({ item }) => {
   const id = item._id;
   const isUser = useSelector(state => state.userData.user);
-  const cartData= useSelector(state => state.cartData.cart);
+  const cartItemData= useSelector(state => state.cartData.cart);
 
   const navigate = useNavigate();
   const { restaurantId } = useParams();
@@ -242,10 +242,19 @@ export const RestroCategoryCard = ({ item }) => {
         userId: isUser._id,
         resturantId:restaurantId
       })
-console.log(cartData);
-      if (cartData.products.length==0) {
+// console.log(response);
+      if (cartItemData==null) {
         console.log(response.data.data.cart);
-        // dispatch(cartData(response.data.data.cart))
+        dispatch(cartData(response.data.data.cart))
+      }
+      else{
+        if(cartItemData.products.length!=0 && cartItemData.resturant!=restaurantId)
+        {
+          alert("clean cart")
+        }
+        else{
+          dispatch(cartData(response.data.data.cart))
+        }
       }
 
     }
