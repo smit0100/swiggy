@@ -6,18 +6,18 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getOrderItem } from "../../redux/slices/orderSlice";
+// import { getOrderItem } from "../../redux/slices/orderSlice";
 import { useDispatch } from "react-redux";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
-  const { userId } = useSelector((state) => state.userData.user._id);
+  const userId = useSelector((state) => state.userData.user._id);
   const navigate = useNavigate();
   const [model, setModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [orderData, setOrderData] = useState({});
-  const customerName = useSelector((state) => state.userData.name);
-  const email = useSelector((state) => state.user.email);
+  const customerName = useSelector((state) => state.userData.user.name);
+  const email = useSelector((state) => state.userData.user.email);
   console.log("this is orderData");
   console.log(orderData);
   const location = useLocation();
@@ -29,11 +29,14 @@ const OrderDetails = () => {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
-      getData = await getData.json();
-      console.log(getData);
-      setOrderData(getData.data);
-      setIsLoading(false);
+      console.log("this is id");
+      console.log(userId);
+      // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
+      let getData = await axios.get(`http://localhost:4000/order/user?userId=${userId}`)
+      // getData = await getData.json();
+      console.log(getData.data.response.order); 
+      // setOrderData(getData.data.or);
+      // setIsLoading(false);
     })();
   }, []);
 

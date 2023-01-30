@@ -233,7 +233,9 @@ const removeItem = async (req, res, next) => {
 
   try {
     let response = await User.findOneAndUpdate({ _id: userId, "cart.products._id": itemId }, {
-      $inc: { "cart.products.$.quantity": -price }
+      $inc: { "cart.products.$.quantity": -price },
+      $unset:{"cart.resturant":""}
+
     }, { new: true })
     response = await User.findByIdAndUpdate(userId, {
       $pull: { "cart.products": { _id: itemId } },
@@ -276,6 +278,8 @@ const removeItemCart = async (req, res, next) => {
         },
       ],
     });
+    console.log('pull');
+    console.log(data);
     // const data = User.findById(userId,{$pull:{"cart.products.$":{_id:itemId}}},{
     //   new:true
     // })
@@ -293,16 +297,16 @@ const clearCart = async (req, res, next) => {
   try {
     const { userId } = req.query;
     console.log(userId);
-    res.send('hello')
-    // const response = await User.findByIdAndUpdate(userId, {
-    //   "cart.products": [],
-    //   "cart.total": 0,
-    //   $unset:{"cart.resturant":""}
-    // })
     
-    // console.log(response);
+    const response = await User.findByIdAndUpdate(userId, {
+      "cart.products": [],
+      "cart.total": 0,
+      $unset:{"cart.resturant":""}
+    })
+    
+    console.log(response);
 
-    // res.status(200).json({ message: 'cart clear', clearCart });
+    res.status(200).json({ message: 'cart clear', clearCart });
   } catch (e) {
     console.log(e);
     res.status(500).json({message:'something went wrong'})

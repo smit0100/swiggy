@@ -19,36 +19,34 @@ const CheckoutPage = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(state => state.userData.user)
-  const cartItemData = useSelector(state => state.cartData.cart)
+  const product = useSelector(state => state.cartData.cart.products)
+  const resturant = useSelector(state => state.cartData.cart.resturant);
+  const total = useSelector(state => state.cartData.cart.total);
+
 
   const handleDelivery = async (address) => {
     // e.preventDefault();
-    // console.log(product);
-    // let pr = product.map(item => {
-    //   // console.log("this is print");
-    //   // console.log(item.quantity);
- 
-    //   return {
-    //     product:item.product._id,
-    //     quantity: item.quantity,
-    //   }
-      
-    // })
-   
-    console.log(address);
-    const response = await axios.post('http://localhost:4000/order/create', {
-      products:cartItemData.products,
-      customer:user._id,
-      total:cartItemData.total,
-      address:address,
-      resturant:cartItemData.resturant
-    })
-    console.log(response);
 
-//     const emptyCart=await axios.patch('https://localhost:4000/cart/remove',{
-// userId:user._id,
-// price:cartItemData.total
-//     })
+    let pr = product.map(item => {
+      return {
+        product: item.product._id,
+        quantity: item.quantity,
+      }
+    })
+
+    // console.log(pr);
+    // console.log(address);
+    // console.log(user._id);
+    // console.log(resturant);
+    const response = await axios.post('http://localhost:4000/order/create', {
+      products: pr,
+      customer: user._id,
+      total,
+      resturant,
+      address
+    })
+
+    console.log(response);
   }
 
 

@@ -17,6 +17,7 @@ import Payment from './components/StripeComponent';
 import StripeComponent from './components/StripeComponent';
 import ResturantPage from './pages/ResturantPage';
 import UserProfile from './pages/UserProfile';
+import OrderDetails from './pages/OrderDetails';
 
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
         <Route path='profile' element={<UserProfile/>} />
         <Route path='checkout' element={<CheckoutPage />} />
         <Route path='payment' element={<StripeComponent />} />
-        <Route path="userprofile" element={<UserProfile/>}/>
+        <Route path="userprofile" element={<UserProfile />} />
+        <Route path="orderDetails" element={<OrderDetails/>}/>
         {/* <Route path="profile1" element={<Profile1/>}/> */}
       </Route>
     )
