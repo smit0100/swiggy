@@ -2,6 +2,35 @@ import React, { useState } from 'react'
 
 const OwnerRegister = () => {
   const [tabOpen, setTabOpen] = useState(1)
+  const [selectOutletType, setSelectOutletType] = useState([]);
+  const [selectCuisinesType, setSelectCuisinesType] = useState([]);
+  const [selectDay, setSelectDay] = useState([]);
+  const outletType = ['Bakery', 'Bar', 'Beverage Shop', 'Bhojanalya', 'Butcher Shop', 'Cafe', 'Casual Dining', 'Club', 'Cocktail Bar', 'Confectionery', 'Desser Parlour', 'Dhaba', 'Fine Dining', 'Food Court', 'Food Truck', 'Irani Cafe', 'Kiosk', 'Lounge', 'Mess', 'Microbrewery', 'Paan Shop', 'Pub', 'Quick Bites', 'Shack', 'Sweet Shop']
+  const cuisinesType = ['South Indian', 'Indian', 'Chinese', 'Mexican', 'Italian', 'Korean']
+  const dayList = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+
+  function handleOutletType(e) {
+    if (e.target.checked) {
+      setSelectOutletType([...selectOutletType, e.target.value]);
+    } else {
+      setSelectOutletType(selectOutletType.filter(option => option !== e.target.value));
+    }
+  }
+  function handleDayList(e) {
+    if (e.target.checked) {
+      setSelectDay([...selectDay, e.target.value]);
+    } else {
+      setSelectDay(selectDay.filter(option => option !== e.target.value));
+    }
+  }
+  function handleCuisinesType(e) {
+    if (e.target.checked) {
+      setSelectCuisinesType([...selectCuisinesType, e.target.value]);
+    } else {
+      setSelectCuisinesType(selectCuisinesType.filter(option => option !== e.target.value));
+    }
+  }
+  console.log(selectOutletType);
   return (
     <div className='mx-10 sm:mx-20 md:mx-28 lg:mx-40 xl:mx-72 flex flex-wrap'>
       <div className='w-full sm:w-1/4 p-5 shadow-lg rounded'>
@@ -97,8 +126,110 @@ const OwnerRegister = () => {
 
             <form>
               <div className='shadow-md p-5'>
-              <h2 className='text-2xl font-semibold'>Establishment type</h2>
+                <h2 className='text-2xl font-medium'>Establishment type</h2>
                 <h3 className='text-slate-500'>Select most relevant category for your restaurant type</h3>
+                {/* radio button  */}
+                <div className='space-y-4 pt-3'>
+                  <div>
+                    <input type="radio" name="establishment" value="deliveryANDdine-in" id="option1" className="peer hidden" />
+                    <label htmlFor="option1" className="flex cursor-pointer items-center flex-col rounded-lg border border-gray-100 p-4  font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500">
+                      <p className="text-gray-700 text-md">Both, delivery and dine-in available</p>
+                      <p className="text-gray-400 text-xs">Select this option when you have a place for customers to dine-in and also want to activate online ordering for your restaurant</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input type="radio" name="establishment" value="dine-in" id="option2" className="peer hidden" />
+                    <label htmlFor="option2" className="flex cursor-pointer items-center flex-col rounded-lg border border-gray-100 p-4  font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500">
+                      <p className="text-gray-700 text-md">Dine-in only</p>
+                      <p className="text-gray-400 text-xs">Select when you don't want to register for online ordering</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input type="radio" name="establishment" value="delivery" id="option3" className="peer hidden" />
+                    <label htmlFor="option3" className="flex cursor-pointer items-center flex-col rounded-lg border border-gray-100 p-4  font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500">
+                      <p className="text-gray-700 text-md">Delivery only</p>
+                      <p className="text-gray-400 text-xs">Select when you don't have a facility for customers to dine-in (like delivery kitchens)</p>
+                    </label>
+                  </div>
+                </div>
+
+                <div className='pt-8'>
+                  <h1 className='text-md font-normal text-slate-600'>Select options which best describe your outlet</h1>
+                  <div className='grid grid-cols-1 sm:grid-cols-3 pt-4'>
+                    {outletType.map((opt, index) => (
+                      <label key={index} className="p-1">
+                        <input
+                          type="checkbox"
+                          value={opt}
+                          checked={selectOutletType.includes(opt)}
+                          onChange={handleOutletType}
+                          className=""
+                        />
+                        &nbsp;{opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className='shadow-md p-5 mt-3'>
+                <h2 className='text-2xl font-medium'>Type of cuisines</h2>
+                <h3 className='text-slate-500'>Select options which best describe food your serve</h3>
+                <div className='grid grid-cols-1 sm:grid-cols-3 pt-4'>
+                  {cuisinesType.map((opt, index) => (
+                    <label key={index} className="p-1">
+                      <input
+                        type="checkbox"
+                        value={opt}
+                        checked={selectCuisinesType.includes(opt)}
+                        onChange={handleCuisinesType}
+                        className=""
+                      />
+                      &nbsp;{opt}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className='shadow-md p-5 mt-3'>
+                <h2 className='text-2xl font-medium'>Restaurant operational hours</h2>
+                <h3 className='text-slate-500'>Mark restaurant opening and closing hours</h3>
+                <div className='flex pt-8'>
+
+                  <div className="timepicker relative form-floating mb-3 xl:w-96" data-mdb-with-icon="false" id="input-toggle-timepicker">
+                    <label for="floatingInput" className="text-gray-700">Open at</label>
+                    <input type="time"
+                      className="form-control block w-1/2 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      placeholder="Select a date" data-mdb-toggle="input-toggle-timepicker" />
+                  </div>
+                  <div className="timepicker relative form-floating mb-3 xl:w-96" data-mdb-with-icon="false" id="input-toggle-timepicker">
+                    <label for="floatingInput" className="text-gray-700">Close at</label>
+                    <input type="time"
+                      className="form-control block w-1/2 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      placeholder="Select a date" data-mdb-toggle="input-toggle-timepicker" />
+                  </div>
+                </div>
+                <div className='pt-5 pb-3'>
+                  <p className='text-lg font-medium'>Mark open days</p>
+                  <p className='text-slate-500'>Don't forget ot uncheck your off-day</p>
+                </div>
+                <div className='grid grid-cols-1 sm:grid-cols-3 pt-4'>
+                  {dayList.map((opt, index) => (
+                    <label key={index} className="p-1">
+                      <input
+                        type="checkbox"
+                        value={opt}
+                        checked={selectDay.includes(opt)}
+                        onChange={handleDayList}
+                        className=""
+                      />
+                      &nbsp;{opt}
+                    </label>
+                  ))}
+                </div>
+              <div className='flex justify-end pt-12'>
+                  <button className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
+                </div>
               </div>
             </form>
           </div>

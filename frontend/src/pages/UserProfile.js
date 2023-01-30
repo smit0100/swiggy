@@ -14,8 +14,7 @@ const UserProfile = () => {
   const [changePassword, setChangePassword] = useState(false)
   const [showModal, setShowModal] = useState(false);
   const [openTab, setOpenTab] = useState(1);
-  const [otpTab, setotpTab] = useState(true)
-  const [cnpass, setCnpass] = useState('')
+  const [otpTab, setotpTab] = useState(false)
 
 
   const [name, setName] = useState('')
@@ -25,11 +24,21 @@ const UserProfile = () => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [oldPassword, setOldPassword] = useState('')
+  const [oldPasswordError, setOldPasswordError] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [newPasswordError, setNewPasswordError] = useState('')
+  const [cnpass, setCnpass] = useState('')
+  const [cnPassError, setCnPassError] = useState('')
+
   const [address, setaddress] = useState('')
+  const [addressError, setAddressError] = useState('')
   const [city, setCity] = useState("")
+  const [cityError, setCityError] = useState('')
   const [state, setState] = useState("")
+  const [stateError, setStateError] = useState('')
   const [pincode, setPincode] = useState('')
+  const [pincodeError, setPincodeError] = useState('')
+
   const [newAddress, setNewAddress] = useState({})
   const [otp, setOtp] = useState('')
   const [disabled, setDisabled] = useState(true)
@@ -67,6 +76,7 @@ const UserProfile = () => {
       )
     }
   }
+
   const handledisable = () => {
     if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0) {
       console.log('hheydfljdskflsfd');
@@ -108,6 +118,76 @@ const UserProfile = () => {
       setNumberError("");
     }
     handledisable()
+  }
+
+  const handleOldPassword = (e) => {
+    setOldPassword(e.target.value)
+    if (oldPassword === null || oldPassword === "") {
+      setOldPasswordError("You not leave it empty")
+    } else {
+      setOldPasswordError("")
+    }
+  }
+
+  const handleCpass = (e) => {
+    setCnpass(e.target.value)
+    if (newPassword === e.target.value) {
+      setCnPassError('')
+    } else {
+      setCnPassError('please enter same password');
+    }
+    handledisable()
+  }
+
+  const handlePassword = (e) => {
+    setNewPassword(e.target.value);
+    if (e.target.value.length < 8) {
+      setNewPasswordError('password must be 8 character');
+    } else {
+      setNewPasswordError('')
+    }
+    if (e.target.value == cnpass) {
+      setCnPassError('')
+    } else {
+      setCnPassError('please enter same password');
+    }
+    handledisable()
+  }
+
+  const handleAddress = (e) => {
+    setaddress(e.target.value)
+    if (address === null || address === "") {
+      setAddressError("Please enter address")
+    } else {
+      setAddressError("")
+    }
+  }
+
+  const handleCity = e => {
+    setCity(e.target.value)
+    if (city === null || city === "")
+      setCityError("Please Enter city name")
+    else
+      setCityError("")
+  }
+
+  const handleState = e => {
+    setState(e.target.value)
+    if (state === null || state === "")
+      setStateError("Please enter state name")
+    else
+      setStateError("")
+  }
+
+  const handlePincode = e => {
+    setPincode(e.target.value)
+    const regex = /^\d{6}$/
+    if (!regex.test(e.target.value))
+      setPincodeError("Enter correct pincode")
+    else if (pincode === null || pincode === "")
+      setPincodeError("You not leave it empty")
+    else
+      setPincodeError("")
   }
 
   const changeProfileDetails = async (e) => {
@@ -172,6 +252,10 @@ const UserProfile = () => {
     })
     console.log(response.data.response);
     dispatch(userData(response.data.response))
+    setaddress("")
+    setCity("")
+    setState("")
+    setPincode("")
   }
 
   const addressDelete = async (id) => {
@@ -179,6 +263,7 @@ const UserProfile = () => {
 
     dispatch(userData(response.data.response))
   }
+  
   return (
     <>
       <div className='containerr rounded-md '>
@@ -294,29 +379,33 @@ const UserProfile = () => {
                                     <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <textarea type="text" id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                                    <textarea type="text" id="address" value={address} onBlur={handleAddress} onChange={handleAddress} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
                                   </div>
+                                  <span className='text-red-500 text-sm'>{addressError}</span>
                                   <label htmlFor='city'>City</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-map"></i>
                                     </span>
-                                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="text" value={city} onBlur={handleCity} onChange={handleCity} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
+                                  <span className='text-red-500 text-sm'>{cityError}</span>
                                   <label htmlFor='state'>state</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-map"></i>
                                     </span>
-                                    <input type="text" id='state' placeholder="Your state name" onChange={(e) => setState(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="text" id='state' placeholder="Your state name" onBlur={handleState} onChange={handleState} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
+                                  <span className='text-red-500 text-sm'>{stateError}</span>
                                   <label htmlFor='pincode'>Pincode</label>
                                   <div className="relative flex w-full flex-wrap items-stretch mb-3">
                                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                                       <i className="fas fa-location"></i>
                                     </span>
-                                    <input type="number" value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                                    <input type="number" value={pincode} onBlur={handlePincode} onChange={handlePincode} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                                   </div>
+                                  <span className='text-red-500 text-sm'>{pincodeError}</span>
                                 </form>
                               </div>
                               {/*footer*/}
@@ -432,22 +521,27 @@ const UserProfile = () => {
                         <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-lock-open"></i>
                         </span>
-                        <input type="text" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} id='password' placeholder="Enter Old Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={oldPassword} onBlur={handleOldPassword} onChange={handleOldPassword} id='password' placeholder="Enter Old Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className='text-red-500 text-sm'>{oldPasswordError}</span>
                       <label htmlFor='newpassword'>New Password</label>
                       <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-unlock"></i>
                         </span>
-                        <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} id='newpassword' placeholder="Enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={newPassword} onBlur={handlePassword} onChange={handlePassword} id='newpassword' placeholder="Enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className='text-red-500 text-sm'>{newPasswordError}</span>
+
                       <label htmlFor='rnewpassword'>Confirm New Password</label>
                       <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                         <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                           <i className="fas fa-lock"></i>
                         </span>
-                        <input type="text" value={cnpass} onChange={(e) => setCnpass(e.target.value)} id='rnewpassword' placeholder="Re-enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                        <input type="text" value={cnpass} onBlur={handleCpass} onChange={handleCpass} id='rnewpassword' placeholder="Re-enter New Password" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                       </div>
+                      <span className='text-red-500 text-sm'>{cnPassError}</span>
+
                     </form>
                   </div>
                   {/*footer*/}

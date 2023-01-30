@@ -8,9 +8,13 @@ const CheckoutPage = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [address, setaddress] = useState('')
+  const [addressError, setAddressError] = useState('')
   const [city, setCity] = useState("")
+  const [cityError, setCityError] = useState('')
   const [state, setState] = useState("")
+  const [stateError, setStateError] = useState('')
   const [pincode, setPincode] = useState('')
+  const [pincodeError, setPincodeError] = useState('')
 
   const dispatch = useDispatch()
 
@@ -45,6 +49,43 @@ const CheckoutPage = () => {
 // userId:user._id,
 // price:cartItemData.total
 //     })
+  }
+
+
+  const handleAddress = (e) => {
+    setaddress(e.target.value)
+    if (address === null || address === "") {
+      setAddressError("Please enter address")
+    } else {
+      setAddressError("")
+    }
+  }
+
+  const handleCity = e => {
+    setCity(e.target.value)
+    if (city === null || city === "")
+      setCityError("Please Enter city name")
+    else
+      setCityError("")
+  }
+
+  const handleState = e => {
+    setState(e.target.value)
+    if (state === null || state === "")
+      setStateError("Please enter state name")
+    else
+      setStateError("")
+  }
+
+  const handlePincode = e => {
+    setPincode(e.target.value)
+    const regex = /^\d{6}$/
+    if (!regex.test(e.target.value))
+      setPincodeError("Enter correct pincode")
+    else if (pincode === null || pincode === "")
+      setPincodeError("You not leave it empty")
+    else
+      setPincodeError("")
   }
 
   const handleSubmit = async (e) => {
@@ -168,29 +209,33 @@ const CheckoutPage = () => {
                       <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                         <i className="fas fa-location"></i>
                       </span>
-                      <textarea type="text" id="address" value={address} onChange={(e) => setaddress(e.target.value)} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                      <textarea type="text" id="address" value={address} onBlur={handleAddress} onChange={handleAddress} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
                     </div>
+                    <span className='text-red-500 text-sm'>{addressError}</span>
                     <label htmlFor='city'>City</label>
                     <div className="relative flex w-full flex-wrap items-stretch mb-3">
                       <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                         <i className="fas fa-map"></i>
                       </span>
-                      <input type="text" value={city} onChange={(e) => setCity(e.target.value)} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                      <input type="text" value={city} onBlur={handleCity} onChange={handleCity} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                     </div>
+                    <span className='text-red-500 text-sm'>{cityError}</span>
                     <label htmlFor='state'>state</label>
                     <div className="relative flex w-full flex-wrap items-stretch mb-3">
                       <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                         <i className="fas fa-map"></i>
                       </span>
-                      <input type="text" id='state' placeholder="Your state name" onChange={(e) => setState(e.target.value)} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                      <input type="text" id='state' placeholder="Your state name" onBlur={handleState} onChange={handleState} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                     </div>
+                    <span className='text-red-500 text-sm'>{stateError}</span>
                     <label htmlFor='pincode'>Pincode</label>
                     <div className="relative flex w-full flex-wrap items-stretch mb-3">
                       <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                         <i className="fas fa-location"></i>
                       </span>
-                      <input type="number" value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                      <input type="number" value={pincode} onBlur={handlePincode} onChange={handlePincode} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
                     </div>
+                    <span className='text-red-500 text-sm'>{pincodeError}</span>
                   </form>
                 </div>
                 {/*footer*/}
