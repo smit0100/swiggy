@@ -1,7 +1,7 @@
 const Resturant = require('../module/ResturantModel');
 const Product = require('../module/ProductModel')
 const createResturnat = async (req, res, next) => {
-    const { name, email,address, location } = req.body;
+    const { name, address,count } = req.body;
 
     const resturant = await new Resturant({ name, email,address,location }).save();
 
