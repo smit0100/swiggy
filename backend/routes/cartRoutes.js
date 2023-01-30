@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cartController = require('../controller/cartController')
 
+router.get('/clear',cartController.clearCart);
 router.get('/:userId', cartController.fetchCartItem);
 router.post("/add",
     cartController.addProduct,
@@ -12,9 +13,7 @@ router.patch('/subtractQuantity', cartController.subtractCartItemquantity,cartCo
 
 
 router.patch("/remove", cartController.removeItemCart)
-router.get('/clear', (req,res) => {
-    res.send('hello')
-});
+
 
 
 module.exports = router

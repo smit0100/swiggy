@@ -293,16 +293,16 @@ const clearCart = async (req, res, next) => {
   try {
     const { userId } = req.query;
     console.log(userId);
-    res.send('hello')
-    // const response = await User.findByIdAndUpdate(userId, {
-    //   "cart.products": [],
-    //   "cart.total": 0,
-    //   $unset:{"cart.resturant":""}
-    // })
     
-    // console.log(response);
+    const response = await User.findByIdAndUpdate(userId, {
+      "cart.products": [],
+      "cart.total": 0,
+      $unset:{"cart.resturant":""}
+    })
+    
+    console.log(response);
 
-    // res.status(200).json({ message: 'cart clear', clearCart });
+    res.status(200).json({ message: 'cart clear', clearCart });
   } catch (e) {
     console.log(e);
     res.status(500).json({message:'something went wrong'})

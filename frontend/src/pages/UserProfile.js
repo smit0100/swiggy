@@ -3,12 +3,13 @@ import axios from 'axios'
 import { userData } from "../redux/user/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 const UserProfile = () => {
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate();
   // for popup state 
   const [updateProfile, setupdateProfile] = useState(false)
   const [changePassword, setChangePassword] = useState(false)
@@ -291,7 +292,7 @@ const UserProfile = () => {
           <div className='w-full sm:w-1/5 p-5'>
             <ul className='space-y-3'>
               <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(1)}>Profile</li>
-              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Order Detail</li>
+              <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li>
             </ul>
           </div>
 
