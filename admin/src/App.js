@@ -2,8 +2,16 @@ import { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./contexts/ContextProvider";
-import { Navbar, Sidebar } from "./Components";
-import { Dashboard, NotFound, Request,GetUser, RestaurantDetail, AddCategory } from "./Pages";
+import { Navbar, Sidebar, ThemeSettings } from "./Components";
+import {
+  Dashboard,
+  NotFound,
+  Request,
+  GetUser,
+  RestaurantDetail,
+  AddCategory,
+} from "./Pages";
+import { FiSettings } from "react-icons/fi";
 
 function App() {
   const {
@@ -28,6 +36,16 @@ function App() {
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
+          <div className="fixed right-4 bottom-4  " style={{ zIndex: "1000" }}>
+            <button
+              type="button"
+              onClick={() => setThemeSettings(true)}
+              style={{ background: currentColor, borderRadius: "50%" }}
+              className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray sm:border-0 dark:border-0"
+            >
+              <FiSettings />
+            </button>
+          </div>
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               <Sidebar />
@@ -37,7 +55,7 @@ function App() {
               <Sidebar />
             </div>
           )}
-        <div
+          <div
             className={
               activeMenu
                 ? "dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  "
@@ -47,18 +65,18 @@ function App() {
             <div className="sticky top-0 z-30 backdrop-blur-xl dark:bg-main-dark-bg navbar w-full ">
               <Navbar />
             </div>
+            {themeSettings && <ThemeSettings />}
             <Routes>
-                <Route path="/" element={<Dashboard />} />  
-                <Route path="/dashboard" element={<Dashboard />} />  
-                <Route path="/request" element={<Request />} />  
-                <Route path="/request/detail" element={<RestaurantDetail />} />  
-                <Route path="/customers" element={<GetUser />} />
-                <Route path="/category" element={<AddCategory />} />
-                <Route path="*" element={<NotFound />} />
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/request" element={<Request />} />
+              <Route path="/request/detail" element={<RestaurantDetail />} />
+              <Route path="/customers" element={<GetUser />} />
+              <Route path="/category" element={<AddCategory />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
-          </div>
-
+        </div>
       </BrowserRouter>
     </div>
   );

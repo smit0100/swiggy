@@ -10,7 +10,7 @@ export default function AddCategory() {
 
   return (
     <>
-      <form className="lg:p-16 p-5">
+      <form className="lg:p-16 p-5 bg-white shadow-lg lg:mx-20 rounded-2xl my-5">
         <div className="flex flex-wrap mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
@@ -20,7 +20,7 @@ export default function AddCategory() {
               Category Name
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               id="grid-first-name"
               type="text"
               placeholder="Category Name"
@@ -37,7 +37,7 @@ export default function AddCategory() {
               Price
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               id="grid-last-name"
               type="text"
               placeholder="0"
@@ -48,13 +48,11 @@ export default function AddCategory() {
           <div className="w-full px-3">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-password"
             >
               Desription
             </label>
             <textarea
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-              id="grid-password"
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               type="text"
               placeholder="Discription"
             />
@@ -67,13 +65,11 @@ export default function AddCategory() {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-city"
             >
               Type
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-              id="grid-city"
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               type="text"
               placeholder="Type of category"
             />
@@ -81,14 +77,12 @@ export default function AddCategory() {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-state"
             >
               Status
             </label>
             <div className="relative">
               <select
-                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                id="grid-state"
+                className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               >
                 <option>New</option>
                 <option>Upcomming</option>
@@ -110,13 +104,13 @@ export default function AddCategory() {
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-zip"
             >
-              Qauntity
+              Discount
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               id="grid-zip"
               type="text"
-              placeholder="10"
+              placeholder="5 %"
             />
           </div>
           <div className="w-full md:w-1/3 px-3 mb-6 mt-4 md:mb-0">
@@ -138,8 +132,7 @@ export default function AddCategory() {
             </div>
           </div>
         </div>
-      </form>
-      <div className="text-center mt-3 mb-5">
+        <div className="text-center">
         <Button
           disabled={isDisabled}
           color="white"
@@ -147,8 +140,9 @@ export default function AddCategory() {
           text={edit ? "Update" : "Submit"}
           borderRadius="10px"
           width={"52"}
-        />
-      </div>
+          />
+          </div>
+      </form>
     </>
   );
 }
