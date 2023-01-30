@@ -5,6 +5,7 @@ require('dotenv').config();
 const cors = require('cors');
 const cookieSession = require('cookie-session')
 const fileUpload = require('express-fileupload')
+const multer = require('multer')
 
 const userRoute = require('./routes/userRoute');
 const resturantRoute = require('./routes/resturantRoute');
@@ -17,10 +18,16 @@ const passportSetup = require('./utils/passport')
 const orderRoute = require('./routes/orderRoutes');
 const cloudinary = require('cloudinary')
 
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
 cloudinary.config({
-    cloud_name: "dvhmpngol",
-    api_key: "813247467149162",
-    api_secret: "hOjqIE5aRuOOQRSqRLss99GM_PE"
+    cloud_name: "drwhuxvlk",
+    api_key: "998582476886638",
+    api_secret: "DCWAJXWe_Pu3QfASXHI2Uy80Z5w",
+    secure:true
 });
 
 app.use(fileUpload({
