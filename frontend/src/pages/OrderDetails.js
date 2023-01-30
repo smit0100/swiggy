@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import { getOrderItem } from "../../redux/slices/orderSlice";
+import {orderData} from "../redux/orders/orderSlice"
 import { useDispatch } from "react-redux";
 
 const OrderDetails = () => {
@@ -26,6 +27,7 @@ const OrderDetails = () => {
   console.log("check this created date");
   console.log(typeof(new Date(createdDate)));
   console.log(createdDate);
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -45,7 +47,7 @@ const OrderDetails = () => {
 
     const data = await axios.delete(`http://localhost:5000/order/${id}`);
     console.log(data);
-    dispatch(getOrderItem(userId));
+    // dispatch(getOrderItem(userId));
     setModel(false);
     navigate("/order");
   };

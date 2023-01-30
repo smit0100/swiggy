@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { cartData } from "../redux/cart/cartSlice";
+import swal from "sweetalert"
 
 const ResturantPage = () => {
+
   const [openTab, setOpenTab] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
@@ -13,6 +15,8 @@ const ResturantPage = () => {
 
   const { restaurantId } = useParams();
 
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.userData.user);
   useEffect(() => {
     (async () => {
       setLoad(true)
@@ -20,6 +24,14 @@ const ResturantPage = () => {
       const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
       setData(response.data)
       setLoad(false)
+    })()
+  }, [])
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(`http://localhost:4000/cart/${user._id}`);
+      console.log(response.data.data);
+      dispatch(cartData(response.data.data.cart))
     })()
   }, [])
 
@@ -250,11 +262,11 @@ export const UserReviewCard = () => {
 export const RestroCategoryCard = ({ item }) => {
   const id = item._id;
   const isUser = useSelector(state => state.userData.user);
-  const cartItemData= useSelector(state => state.cartData.cart);
+  const cartItemData = useSelector(state => state.cartData.cart);
 
   const navigate = useNavigate();
   const { restaurantId } = useParams();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
   const addtoCart = async (e) => {
     console.log(restaurantId);
@@ -262,22 +274,52 @@ export const RestroCategoryCard = ({ item }) => {
     if (!isUser) {
       navigate('/login')
     } else {
-      const response = await axios.post('http://localhost:4000/cart/add', {
-        productId: id,
-        userId: isUser._id,
-        resturantId:restaurantId
-      })
-// console.log(response);
-      if (cartItemData==null) {
+      if (cartItemData.products.length == 0) {
+        const response = await axios.post('http://localhost:4000/cart/add', {
+          productId: id,
+          userId: isUser._id,
+          resturantId: restaurantId
+        })
         console.log(response.data.data.cart);
         dispatch(cartData(response.data.data.cart))
       }
-      else{
-        if(cartItemData.products.length!=0 && cartItemData.resturant!=restaurantId)
-        {
-          alert("clean cart")
+      else {
+        if (cartItemData.resturant != restaurantId) {
+          console.log("hello jii");
+          swal({
+            title: "Items already in cart",
+            text: "Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?",
+            icon: "warning",
+            buttons: ["NO", "YES,START REFRESH"],
+            cancelButtonColor: "#DD6B55",
+            confirmButtonColor: "#DD6B55",
+            dangerMode: true,
+          })
+            .then(async (willDelete) => {
+              if (willDelete) {
+                const cart = await axios.get(`http://localhost:4000/cart/clear?userId=${isUser._id}`)
+
+                const response = await axios.post('http://localhost:4000/cart/add', {
+                  productId: id,
+                  userId: isUser._id,
+                  resturantId: restaurantId
+                })
+                dispatch(cartData(response.data.data.cart))
+
+                swal("your previous restuarant Item removed and add this restaurant item", {
+                  icon: "success",
+                });
+              } else {
+                swal("Your cart still remainning");
+              }
+            });
         }
-        else{
+        else {
+          const response = await axios.post('http://localhost:4000/cart/add', {
+            productId: id,
+            userId: isUser._id,
+            resturantId: restaurantId
+          })
           dispatch(cartData(response.data.data.cart))
         }
       }
@@ -290,7 +332,7 @@ export const RestroCategoryCard = ({ item }) => {
   return (
     <>
       <div className="flex flex-wrap-reverse anim py-3 gap-5">
-      <div className="relative ">
+        <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
 
           <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
@@ -305,7 +347,7 @@ export const RestroCategoryCard = ({ item }) => {
           <p className="text-sm">&#8377; {item.price}</p>
           <p className='text-md text-slate-500 capitalize'>Onions|Tomatoes|Capsicum|Sweet Corns</p>
         </div>
-        
+
       </div>
     </>
   )
