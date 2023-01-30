@@ -9,17 +9,18 @@ import axios from "axios";
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [load, setLoad] = useState(false)
-  const [data, setData] = useState('')
+  const [data, setData] = useState([])
   useEffect(() => {
-    (async () => {
-      setLoad(true)
-
-      const response = await axios.get(`http://localhost:4000/resturant/fetchAll`)
-      setData(response.data.response)
-      setLoad(false)
-    })()
+    GetRequests()
   }, [])
-
+const GetRequests =()=>{
+  Restaurants.GetRequests().then((res)=>{
+    if (res?.response) {
+      setData(res?.response)
+      setLoad(false)
+    }
+  }).catch((e)=>{  console.log(e)})
+}
 const handleReject =async (type) => {
     swal({
       title: "Are you sure?",
@@ -72,6 +73,7 @@ const handleReject =async (type) => {
               }}
               name={item.name}
               restaurantId={item._id}
+              items={item}
             />
           );
         })}

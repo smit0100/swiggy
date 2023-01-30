@@ -3,7 +3,7 @@ import Url from "./Url";
 
 function GetRequests() {
   return Api({
-    url: "/fetchAll",
+    url: "/resturant/fetchAll",
     method: "GET",
     headers: {
       "Content-Type": "application/json",

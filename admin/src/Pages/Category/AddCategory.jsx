@@ -10,7 +10,7 @@ export default function AddCategory() {
 
   return (
     <>
-      <form className="lg:p-16 p-5 bg-white shadow-lg lg:mx-20 rounded-2xl my-5">
+      <form className="lg:p-16 p-5 bg-slate-200 shadow-lg lg:mx-10 rounded-2xl my-5">
         <div className="flex flex-wrap mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
