@@ -4,6 +4,9 @@ const Resturant = new Schema({
     name: {
         type: String,
     },
+    ownerName: {
+        type:String
+    },
     email: {
         type:String,
     },
@@ -44,9 +47,7 @@ const Resturant = new Schema({
         state:{
             type:String
         },
-        country:{
-            type:String
-        },
+         
         city: {
             type:String
         },

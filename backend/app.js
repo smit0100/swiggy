@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
 const cookieSession = require('cookie-session')
+const fileUpload = require('express-fileupload')
 
 const userRoute = require('./routes/userRoute');
 const resturantRoute = require('./routes/resturantRoute');
@@ -14,7 +15,18 @@ const paymentRoute = require('./routes/paymentRoute');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
 const orderRoute = require('./routes/orderRoutes');
+const cloudinary = require('cloudinary')
 
+cloudinary.config({
+    cloud_name: "dvhmpngol",
+    api_key: "813247467149162",
+    api_secret: "hOjqIE5aRuOOQRSqRLss99GM_PE"
+});
+
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir:"/temp/"
+}))
 app.use(
     cookieSession({
         name: "session",
