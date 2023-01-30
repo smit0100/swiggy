@@ -15,10 +15,11 @@ const createProduct = async (req, res, next) => {
     
 
     //added in resturant
+    console.log(resturnat);
     const addProductInResturnat = await Resturant.findByIdAndUpdate(resturnat, {$push:{ product: product.id }});
+    console.log(addProductInResturnat);
 
-
- 
+    
 
     
     return res.status(200).json({ message: 'product created',product });

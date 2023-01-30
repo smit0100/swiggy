@@ -5,9 +5,11 @@ const OwnerRegister = () => {
   const [selectOutletType, setSelectOutletType] = useState([]);
   const [selectCuisinesType, setSelectCuisinesType] = useState([]);
   const [selectDay, setSelectDay] = useState([]);
+  const [pancardPhoto, setPanCardPhoto] = useState(null);
+  const [bankDetailsPhoto, setBankDetailsPhoto] = useState(null);
   const outletType = ['Bakery', 'Bar', 'Beverage Shop', 'Bhojanalya', 'Butcher Shop', 'Cafe', 'Casual Dining', 'Club', 'Cocktail Bar', 'Confectionery', 'Desser Parlour', 'Dhaba', 'Fine Dining', 'Food Court', 'Food Truck', 'Irani Cafe', 'Kiosk', 'Lounge', 'Mess', 'Microbrewery', 'Paan Shop', 'Pub', 'Quick Bites', 'Shack', 'Sweet Shop']
   const cuisinesType = ['South Indian', 'Indian', 'Chinese', 'Mexican', 'Italian', 'Korean']
-  const dayList = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+  const dayList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
   function handleOutletType(e) {
     if (e.target.checked) {
@@ -58,7 +60,7 @@ const OwnerRegister = () => {
                     placeholder="Restaurant name" />
                   <input type="text"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Restaurant complete address" />
+                    placeholder="Restaurant address" />
                 </div>
                 <div className='pt-10 '>
                   <h1 className='text-xl'>Restaurant address details</h1>
@@ -227,7 +229,7 @@ const OwnerRegister = () => {
                     </label>
                   ))}
                 </div>
-              <div className='flex justify-end pt-12'>
+                <div className='flex justify-end pt-12'>
                   <button className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
                 </div>
               </div>
@@ -239,9 +241,98 @@ const OwnerRegister = () => {
       {/* Upload images  */}
       {
         tabOpen === 3 ?
-          <div className='w-full sm:w-3/4'>
-            Restaurant food images
+          <div className='w-full sm:w-3/4 p-5'>
+            <form>
+
+              <div className='shadow-md p-5'>
+                <h2 className='text-2xl font-medium'>Bank details</h2>
+                <h3 className='text-slate-500'>Let us know where to diposit your money</h3>
+                <div className='space-y-5 pt-5'>
+                  <div className='gap-5 flex'>
+                    <input type="text"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
+                      placeholder="Bank account number" />
+                    <input type="text"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
+                      placeholder="Re-enter account number" />
+                  </div>
+                  <div className='gap-5 flex'>
+                    <select className="w-1/2 p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+                      <option value=''>Select account type</option>
+                      <option value='saving'>Saving account</option>
+                      <option value='current'>Current account</option>
+                    </select>
+                    <input type="text"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
+                      placeholder="Bank IFSC code" />
+                  </div>
+                  <div class="flex justify-center">
+                    <div class="mb-3 w-96">
+                      <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Upload passbook photo</label>
+                      <input class="form-control
+    block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" onChange={e => setBankDetailsPhoto(e.target.files[0])} id="formFile" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='shadow-md p-5'>
+                <h2 className='text-2xl font-medium'>PAN detail</h2>
+                <h3 className='text-slate-500'>Let us know where to diposit your money</h3>
+                <div className='space-y-5 pt-5'>
+                  <div className='gap-5 flex'>
+                    <input type="text"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
+                      placeholder="PAN Number" />
+                    <input type="text"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
+                      placeholder="PAN holder name" />
+                  </div>
+                  <div class="flex justify-center">
+                    <div class="mb-3 w-96">
+                      <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Upload PAN card image</label>
+                      <input class="form-control
+    block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" onChange={e => setPanCardPhoto(e.target.files[0])} type="file" id="formFile" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                onClick={(e) => {
+            
+            // setupdateProfile(false)
+            // changeProfileDetails(e);
+          }}>
+          Save Update
+        </button>
+            </form>
           </div> : <></>
+        
       }
 
     </div>
