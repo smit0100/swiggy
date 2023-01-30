@@ -20,7 +20,6 @@ const ResturantPage = () => {
     useEffect(() => {
       (async () => {
         setLoad(true)
-
         const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
         setData(response.data)
         setLoad(false)
@@ -29,13 +28,15 @@ const ResturantPage = () => {
 
   useEffect(() => {
     (async () => {
+      if(user!=null){
       const response = await axios.get(`http://localhost:4000/cart/${user._id}`);
       console.log(response.data.data);
       dispatch(cartData(response.data.data.cart))
+      }
     })()
   }, [])
 
-  // load==false?console.log(data):console.log("poojan");
+  load==false?console.log(data):console.log("poojan");
 
   const images = [
     'https://picsum.photos/id/27/200/300',
@@ -81,7 +82,7 @@ const ResturantPage = () => {
               <div className='sticky  top-0 z-30 bg-white'>
                 <div className='text-3xl uppercase'>{data.resturant ? data.resturant.name : ''}</div>
                 <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
-                <div className='text-md text-slate-500 capitalize'>{data.resturant ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
+                <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
                 <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
                 <ul className="flex space-x-2 relative">
                   <li>
