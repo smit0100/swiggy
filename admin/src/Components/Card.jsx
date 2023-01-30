@@ -5,8 +5,8 @@ export default function Card(props) {
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
       <div className="relative overflow-hidden bg-no-repeat bg-cover">
-        <Link to={"/request/detail"}>
-        <img class="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out" src={props.path} alt="" />
+        <Link to={`/request/${props.restaurantId}`}>
+        <img className="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out" src={"https://i.ibb.co/2hdPfQf/1.png"} alt="" />
         </Link>
       </div>
       <div className="p-5">
@@ -20,14 +20,14 @@ export default function Card(props) {
         <div className="flex">
           <button
             onClick={props.onClick}
-            className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700"
+            className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-white border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700"
           >
             Approve
           </button>
           <span className="w-10" />
           <button
             onClick={props.onClickReject}
-            className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-red-600 border-red-500 dark:bg-red-600 dark:hover:bg-red-500"
+            className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-white border-red-500 dark:bg-red-600 dark:hover:bg-red-500"
           >
             Reject
           </button>

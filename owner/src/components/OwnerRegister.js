@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import axios from 'axios'
+
 const OwnerRegister = () => {
   const [tabOpen, setTabOpen] = useState(1)
   const [selectOutletType, setSelectOutletType] = useState([]);
@@ -31,6 +33,26 @@ const OwnerRegister = () => {
     } else {
       setSelectCuisinesType(selectCuisinesType.filter(option => option !== e.target.value));
     }
+  }
+
+  function handleUpload(e) {
+    e.preventDefault()
+    const formData = new FormData();
+    formData.append(
+      "bankPassbook",
+      bankDetailsPhoto,
+      bankDetailsPhoto.name
+    );
+    formData.append("pancard",
+      pancardPhoto,
+      pancardPhoto.name
+    )
+
+    // console.log(formData);
+    console.log(formData.getAll("bankPassbook"));
+    console.log(bankDetailsPhoto);
+
+    axios.post("api/uploadfile", formData);
   }
   console.log(selectOutletType);
   return (
@@ -266,10 +288,10 @@ const OwnerRegister = () => {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
                       placeholder="Bank IFSC code" />
                   </div>
-                  <div class="flex justify-center">
-                    <div class="mb-3 w-96">
-                      <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Upload passbook photo</label>
-                      <input class="form-control
+                  <div className="flex justify-center">
+                    <div className="mb-3 w-96">
+                      <label for="formFile" className="form-label inline-block mb-2 text-gray-700">Upload passbook photo</label>
+                      <input className="form-control
     block
     w-full
     px-3
@@ -283,7 +305,7 @@ const OwnerRegister = () => {
     transition
     ease-in-out
     m-0
-    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" onChange={e => setBankDetailsPhoto(e.target.files[0])} id="formFile" />
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name='bank'  type="file" onChange={e => setBankDetailsPhoto(e.target.files[0])} id="formFile" />
                     </div>
                   </div>
                 </div>
@@ -300,10 +322,10 @@ const OwnerRegister = () => {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-1/2 ease-linear transition-all duration-150"
                       placeholder="PAN holder name" />
                   </div>
-                  <div class="flex justify-center">
-                    <div class="mb-3 w-96">
-                      <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Upload PAN card image</label>
-                      <input class="form-control
+                  <div className="flex justify-center">
+                    <div className="mb-3 w-96">
+                      <label for="formFile" className="form-label inline-block mb-2 text-gray-700">Upload PAN card image</label>
+                      <input className="form-control
     block
     w-full
     px-3
@@ -317,22 +339,18 @@ const OwnerRegister = () => {
     transition
     ease-in-out
     m-0
-    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" onChange={e => setPanCardPhoto(e.target.files[0])} type="file" id="formFile" />
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name='pancard'  onChange={e => setPanCardPhoto(e.target.files[0])} type="file" id="formFile" />
                     </div>
                   </div>
                 </div>
               </div>
               <button className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                onClick={(e) => {
-            
-            // setupdateProfile(false)
-            // changeProfileDetails(e);
-          }}>
-          Save Update
-        </button>
+                onClick={handleUpload}>
+                Save Update
+              </button>
             </form>
           </div> : <></>
-        
+
       }
 
     </div>

@@ -17,15 +17,15 @@ const ResturantPage = () => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.userData.user);
-  useEffect(() => {
-    (async () => {
-      setLoad(true)
+    useEffect(() => {
+      (async () => {
+        setLoad(true)
 
-      const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
-      setData(response.data)
-      setLoad(false)
-    })()
-  }, [])
+        const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
+        setData(response.data)
+        setLoad(false)
+      })()
+    }, [])
 
   useEffect(() => {
     (async () => {

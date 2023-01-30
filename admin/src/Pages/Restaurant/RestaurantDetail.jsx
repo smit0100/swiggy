@@ -1,16 +1,21 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { BiBed } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import axios from "axios"
 import resto from "../../Assets/resto.jpg";
 import avatar from "../../Assets/avatar.jpg";
 import { BsWifi } from "react-icons/bs";
 import { GrRestaurant } from "react-icons/gr";
 import { MdDeliveryDining, MdOutlineSupportAgent } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { useState } from "react";
+import {useParams} from "react-router-dom"
 
 export default function RestaurantDetail() {
   const {rupee} = useStateContext();
 
+  const {restaurantId}=useParams()
+  
   const item = {
     name: "Ganesha chiness",
     address: "18,ring road, surat.",
