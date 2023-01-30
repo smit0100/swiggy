@@ -45,8 +45,8 @@ export default function RestaurantDetail() {
       <div className="container mx-auto min-h-[800px] mb-14 px-2">
         <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-white">{load == false && data.length != 0 ? data.name.toUpperCase() : ""} </h2>
-            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 ? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
+            <h2 className="text-3xl font-bold text-white">{load == false &&data.length != 0 ?data.name : ""} </h2>
+            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 &&data.address? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
             <p className="text-lg mb-4 text-slate-400">Owner email : {load == false && data.length != 0 ? data.email:""}</p>
           </div>
           <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
@@ -101,14 +101,14 @@ export default function RestaurantDetail() {
             <div className="flex">
               <button
                 onClick={() => { }}
-                className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-white border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700"
+                className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-500 border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700"
               >
                 Approve
               </button>
               <span className="w-10" />
               <button
                 onClick={() => { }}
-                className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-white border-red-500 dark:bg-red-600 dark:hover:bg-red-500"
+                className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-red-500 border-red-500 dark:bg-red-600 dark:hover:bg-red-500"
               >
                 Reject
               </button>
