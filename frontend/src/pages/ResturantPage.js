@@ -79,7 +79,7 @@ const ResturantPage = () => {
           <div className="">
             <div className=" w-full">
               <div className='sticky  top-0 z-30 bg-white'>
-                <div className='text-3xl'>{data.resturant ? data.resturant.name.toUpperCase() : ''}</div>
+                <div className='text-3xl uppercase'>{data.resturant ? data.resturant.name : ''}</div>
                 <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
                 <div className='text-md text-slate-500 capitalize'>{data.resturant ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
                 <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
