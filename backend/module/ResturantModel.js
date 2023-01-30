@@ -7,6 +7,29 @@ const Resturant = new Schema({
     email: {
         type:String,
     },
+    number:{
+        type:Number,
+    },
+    resturantType:{
+        type:String,
+      
+    },
+    timing:{
+        openAt:{
+            type:String
+        },
+        closeAt:{
+            type:String
+        }
+    },
+    days:[
+        {type:String}
+    ],
+    outLetType:[
+        {
+            type:String
+        }
+    ],
     location: {
         lat: String,
         long:String
@@ -16,6 +39,12 @@ const Resturant = new Schema({
             type:String,
         },
         area: {
+            type:String
+        },
+        state:{
+            type:String
+        },
+        country:{
             type:String
         },
         city: {
@@ -39,12 +68,27 @@ const Resturant = new Schema({
         }
     ],
     bankDetails: {
-        type: mongoose.Types.ObjectId,
-        ref:'BankDetails'
+        // type: mongoose.Types.ObjectId,
+        // ref:'BankDetails'
+        ACnumber:{
+            type:Number
+        },
+        IFSC:{
+            type:String
+        },
+        bankName:{
+            type:String
+        }
     },
-    image: {
+    panCard:{
         type:String
     },
+    passBook:{
+        type:String
+    },
+    image: [
+        {type:String}
+    ],
     order: [{
         type: mongoose.Types.ObjectId,
         ref:'Order'

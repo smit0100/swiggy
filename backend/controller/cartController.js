@@ -243,6 +243,12 @@ const removeItem = async (req, res, next) => {
    
     console.log('check');
     console.log(JSON.stringify(response));
+    if (response.cart.products.length == 0) {
+      response = await User.findOneAndUpdate({ _id: userId}, {
+       $unset:{"cart.resturant":""}
+ 
+     }, { new: true })
+   }
     console.log('hello how arre');
     console.log(response);
     res.status(200).json({
@@ -267,8 +273,7 @@ const removeItemCart = async (req, res, next) => {
       $pull: { "cart.products": { _id: itemId } },
     });
     data = await User.findByIdAndUpdate(userId, {
-      $inc: { "cart.total": -totalPrice },
-      $unset:{"cart.resturant":""}
+      $inc: { "cart.total": -totalPrice }
     });
     data = await User.findById(userId, { cart: 1 }).populate({
       path: "cart",
@@ -279,6 +284,13 @@ const removeItemCart = async (req, res, next) => {
         },
       ],
     });
+    console.log(data);
+    if (data.cart.products.length == 0) {
+      data = await User.findOneAndUpdate({ _id: userId}, {
+       $unset:{"cart.resturant":""}
+ 
+     }, { new: true })
+   }
     console.log('pull');
     console.log(data);
     // const data = User.findById(userId,{$pull:{"cart.products.$":{_id:itemId}}},{
