@@ -97,6 +97,12 @@ const Resturant = new Schema({
     isApproved: {
         type: Boolean,
         default:false
+    },
+    pancardURL: {
+        type:String
+    },
+    bankURL: {
+        type:String
     }
 })
 

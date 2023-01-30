@@ -71,22 +71,24 @@ const [closetime,setClosetime]=useState("")
     e.preventDefault()
 
     const formData = new FormData();
-    formData.append(
-      "bankPassbook",
-      bankDetailsPhoto,
-      bankDetailsPhoto.name
-    );
-    formData.append("pancard",
-      pancardPhoto,
-      pancardPhoto.name
-    )
+    // formData.append(
+    //   "bankPassbook",
+    //   bankDetailsPhoto,
+    //   bankDetailsPhoto.name
+    //   );
+    // formData.append("pancard",
+    //   pancardPhoto,
+    //   pancardPhoto.name
+    // )
+    formData.append("bank", bankDetailsPhoto)
+    formData.append("pancard",pancardPhoto)
 
     // console.log(formData);
-    console.log(formData.getAll("bankPassbook"));
-    console.log(bankDetailsPhoto);
+    // console.log(formData.getAll("bankPassbook"));
+    // console.log(bankDetailsPhoto);
 
     // axios.post("api/uploadfile", formData);
-    axios.post("http://localhost:4000/resturant/add",{
+    axios.post("http://localhost:4000/resturant/add",formData,{
       address:{
         street:restaurantAddress,
         area:area,
@@ -100,8 +102,7 @@ const [closetime,setClosetime]=useState("")
       timing:{
         openAt:opentime,
         closeAt:closetime
-      },
-      formData
+      }
     })
   }
   console.log(selectOutletType);
