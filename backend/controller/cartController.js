@@ -268,6 +268,7 @@ const removeItemCart = async (req, res, next) => {
     });
     data = await User.findByIdAndUpdate(userId, {
       $inc: { "cart.total": -totalPrice },
+      $unset:{"cart.resturant":""}
     });
     data = await User.findById(userId, { cart: 1 }).populate({
       path: "cart",
