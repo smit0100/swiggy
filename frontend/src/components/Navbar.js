@@ -86,10 +86,21 @@ const Navbar = () => {
                       <i className="fa-regular fa-user pr-3"></i>{isUser!=null?isUser.name:"profile"}
                     </Link>
                   </li>
+                  {/* <li>
+                    <Link to="/cart" className="block py-2 pl-3 pr-4 rounded text-gray-600 text-lg"><i className="fa-sharp fa-solid fa-bag-shopping pr-3 text-2xl relative"><span className='text-xs text-white absolute right-4 top-3'>12</span></i>cart
+                    </Link>
+                  </li> */}
                   <li>
-                    <Link to="/cart" className="block py-2 pl-3 pr-4 rounded text-gray-600 text-lg">                 <i className="fa-sharp fa-solid fa-bag-shopping pr-3"></i>cart
+                    <Link to="/cart" className=" w-16 rounded text-gray-600 text-lg flex justify-evenly hover:text-blue-800">
+                      <div className='flex justify-center items-end relative w-7 h-7'>
+                      <img alt="veg" className="w-full h-full absolute" src="./svg/bag.svg" />
+                      <span className='text-xs text-gray-700 font-extrabold mb-0.5'>12</span>
+                      </div>
+                      cart
                     </Link>
                   </li>
+          
+
                 </> :
                   <li className="text-gray-600 hover:text-blue-600">
                     <Link to="/login"><i className="fa-regular fa-user pr-3"></i>Login</Link>

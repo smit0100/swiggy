@@ -19,10 +19,11 @@ const ResturantPage = () => {
 
       const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
       setData(response.data)
-
       setLoad(false)
     })()
   }, [])
+
+  // load==false?console.log(data):console.log("poojan");
 
   const images = [
     'https://picsum.photos/id/27/200/300',
@@ -66,7 +67,7 @@ const ResturantPage = () => {
           <div className="">
             <div className=" w-full">
               <div className='sticky  top-0 z-30 bg-white'>
-                <div className='text-3xl'>{data.resturant ? data.resturant.name : ''}</div>
+                <div className='text-3xl'>{data.resturant ? data.resturant.name.toUpperCase() : ''}</div>
                 <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
                 <div className='text-md text-slate-500 capitalize'>{data.resturant ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
                 <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
@@ -95,8 +96,7 @@ const ResturantPage = () => {
               <div className="p-3 mt-6 bg-white border">
                 <div className={openTab === 1 ? "block" : "hidden"}>
                   <div className='row overflow-auto'>
-                    <div className=' w-full sm:w-2/6 p-4 sticky top-10 left-0 overflow-hidden '>
-
+                    <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-slate-400 left-0 overflow-hidden'>
                       <ul>
                         <li>category 1</li>
                         <li>category 1</li>
@@ -109,6 +109,31 @@ const ResturantPage = () => {
                     </div>
                     <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
                       {
+                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
+                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
+                          <div className="flex justify-center items-center h-screen">
+                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+                            </div>
+                          </div>
+                      }
+                      {
+                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
+                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
+                          <div className="flex justify-center items-center h-screen">
+                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+                            </div>
+                          </div>
+                      }{
+                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
+                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
+                          <div className="flex justify-center items-center h-screen">
+                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+                            </div>
+                          </div>
+                      }{
                         // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
                         data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
                           <div className="flex justify-center items-center h-screen">
@@ -275,9 +300,10 @@ export const RestroCategoryCard = ({ item }) => {
 
         </div>
         <div className="sm:pt-5 lg:pt-0">
-          <img alt="github" className="w-5 mr-1" src="./svg/github.svg" />
+          <img alt="veg" className="w-5 mr-1" src="../svg/veg.svg" />
           <p className="font-bold capitalize">{item.name} </p>
-          <p className="text-sm">{item.price}</p>
+          <p className="text-sm">&#8377; {item.price}</p>
+          <p className='text-md text-slate-500 capitalize'>Onions|Tomatoes|Capsicum|Sweet Corns</p>
         </div>
         
       </div>
