@@ -1,14 +1,39 @@
 const Resturant = require('../module/ResturantModel');
 const Product = require('../module/ProductModel')
+const cloudinary = require("cloudinary").v2;
+
+
+cloudinary.config({
+    cloud_name: "dvhmpngol",
+    api_key: "813247467149162",
+    api_secret: "hOjqIE5aRuOOQRSqRLss99GM_PE"
+});
+  
+
+
 const createResturnat = async (req, res, next) => {
-    const { name, address,count } = req.body;
+    // const {name,address,number,emailId}
+    console.log(req.body);
+    console.log(req.files);
+    
+    let bankImage = req.files.bank;
+    let panImage = req.files.pan;
 
-    const resturant = await new Resturant({ name, email,address,location }).save();
-
-    return res.status(200).json({
-        message: "resturant created",
-        resturant
+    result = await cloudinary.uploader.upload(bankImage.tempFilePath, {
+        folder:'ownerDetails'   
     })
+
+    console.log(result);
+
+    res.status(200).json({ message: "uploader",result });
+    // const { name, address,count } = req.body;
+
+    // const resturant = await new Resturant({ name, email,address,location }).save();
+
+    // return res.status(200).json({
+    //     message: "resturant created",
+    //     resturant
+    // })
 }
 
 const fetchResturant = async (req, res, next) => {
