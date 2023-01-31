@@ -96,6 +96,48 @@ const verifyUser = async (req, res, next) => {
     }
 }
 
+const fetchAllUser = async (req, res, next) => {
+    try {
+        const data = await User.find();
+        res.status(200).json({messag:"user fectehd",data})
+    } catch (e) {
+        res.status(500).json({ message: "something went wrong" });
+    }
+}
+
+const updateUserType = async (req, res, next) => {
+    try {
+        const { userId, userType } = req.body;
+        const data = await User.findByIdAndUpdate(userId, {
+            type:userType
+        }, {
+            new:true
+        })
+    } catch (e) {
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
+
+const fetchOnlyOneUser = async (req, res, next) => {
+    try {
+        const { userId } = req.query;
+
+        const data = await User.findById(userId, {
+            password: -1,
+            name: 1,
+            email: 1,
+            number: 1,
+            order: 1,
+            type: 1
+        });
+        if (!data) return res.status(400).json({ messag: "user not founded" });
+
+        res.status(200).json({messag:"user founded",data})
+    } catch (e) {
+        res.status(500).json({ messag: 'something went wrong' });
+    }
+}
+
 
 
 const loginUser = async (req, res, next) => {
@@ -231,6 +273,20 @@ const changePassword = async (req, res, next) => {
 
 }
 
+const deleteUser = async (req, res, next) => {
+    try {
+        const { userId } = req.query;
+
+        const data = await User.findByIdAndDelete(userId)
+
+        if (!data) return res.status(400).json({ messag: "user not founded" });
+
+        res.status(200).json({messag:'user deleted'})
+    } catch (e) {
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
+
 module.exports = {
     createUser,
     verifyUser,
@@ -239,5 +295,9 @@ module.exports = {
     fetchAllAddress,
     deleteUserAddress,
     updateAddress,
-    changePassword
+    changePassword,
+    fetchAllUser,
+    updateUserType,
+    fetchOnlyOneUser,
+    deleteUser
 }

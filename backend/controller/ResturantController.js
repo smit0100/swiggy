@@ -12,7 +12,7 @@ const createResturnat = async (req, res, next) => {
     // console.log(req.files);
     // console.log(req.body);
     // console.log(req.files);
-    const { address, email, number, outLetType } = req.body;
+    const { address, email, name,ownerName,number, outLetType } = req.body;
 
     // console.log(req.files.pancard);
     // console.log(req.files.bank);
@@ -35,7 +35,7 @@ const createResturnat = async (req, res, next) => {
         console.log(result.url);
         console.log(panUrl.url);
 
-        const response = await new Resturant({ address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url }).save();
+        const response = await new Resturant({ name,ownerName,address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url }).save();
 
         console.log(response);
 
@@ -68,9 +68,15 @@ const fetchResturant = async (req, res, next) => {
     return res.status(200).json({message:"resturant founded",response})
 }
 
-const activeResturant = async (req, res, next) => {
+const approveResturant = async (req, res, next) => {
     const { id } = req.params;
     const response = await Resturant.findByIdAndUpdate(id, { isApproved: true });
+
+    return res.status(200).json({ message: 'resturant is active' });
+}
+const rejectResturant = async (req, res, next) => {
+    const { id } = req.params;
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: false });
 
     return res.status(200).json({ message: 'resturant is active' });
 }
@@ -98,14 +104,25 @@ const fetchResturantAllProduct = async (req, res, next) => {
     
 }
 
+const fetchAllApprovedResturant = async (req, res, next) => {
+    try {
+        const data = await Resturant.find({ isApproved: true });
+        res.status(200).json({ message: "fetched all active resturant", data });
+    } catch (e) {
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
+
  
 
 module.exports = {
     createResturnat,
     fetchResturant,
-    activeResturant,
+    approveResturant,
+    rejectResturant,
     fetchAllResturants,
-    fetchResturantAllProduct
+    fetchResturantAllProduct,
+    fetchAllApprovedResturant
 }
 
 

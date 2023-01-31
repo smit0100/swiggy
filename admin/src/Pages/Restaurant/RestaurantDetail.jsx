@@ -9,7 +9,8 @@ import { GrRestaurant } from "react-icons/gr";
 import { MdDeliveryDining, MdOutlineSupportAgent } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
+import swal from "sweetalert";
 
 export default function RestaurantDetail() {
   const { rupee, currentColor } = useStateContext();
@@ -18,15 +19,21 @@ export default function RestaurantDetail() {
   const [load, setLoad] = useState(false);
   useEffect(() => {
     (async () => {
-      setLoad(true);
-      const response = await axios.get(
-        `http://localhost:4000/resturant/products?id=${restaurantId}`
-      );
-      setData(response.data.resturant);
-      setLoad(false);
-    })();
-  }, []);
+      setLoad(true)
+      const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
+      setData(response.data.resturant)
+      console.log(response.data);
+      setLoad(false)
+    })()
+  }, [])
 
+
+  const handelReject = async (type) => {
+    const reject = axios.get(`http://localhost:4000/resturant/reject/${restaurantId}`)
+    if(reject){
+      swal("Rejected!", "!", "warning");
+    }
+  };
   const item = {
     name: "Ganesha chiness",
     address: "18,ring road, surat.",
@@ -199,6 +206,17 @@ export default function RestaurantDetail() {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="bottom-8 w-full h-96 flex justify-evenly">
+        <div className="w-2/5 h-full relative">
+              <img src={`${load == false && data.length != 0 ? data.bankURL:""}`} alt="img" className="absolute w-full h-full object-contain" />
+              <p className="text-white">Bank Passbook</p>
+        </div>
+        <div className="w-2/5 h-full relative ">
+        <img src={`${load == false && data.length != 0 ? data.pancardURL:""}`} alt="img" className="absolute w-full h-full object-contain" />
+        <p className="text-white">Pancard</p>
+
         </div>
       </div>
     </section>

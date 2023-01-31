@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Card from "../../Components/Card";
 import resto from "../../Assets/resto.jpg";
 import Restaurants from "../../Apis/Restaurants";
-import swal from "sweetalert";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
@@ -65,12 +64,6 @@ const handleReject =async (type) => {
           return (
             <Card
               key={index}
-              onClick={() => {
-                handleReject("APPROVE");
-              }}
-              onClickReject={() => {
-                handleReject();
-              }}
               name={item.name}
               restaurantId={item._id}
               items={item}
