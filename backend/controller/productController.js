@@ -10,6 +10,7 @@ const createProduct = async (req, res, next) => {
     if (!categoryExist) return res.status(400).json({ message: 'choose valid category' });
     const product = await new Product({ name, price, category,resturnat }).save();
     
+    console.log(product._id);
     //added in category
     const addProductInCategory = await Category.findByIdAndUpdate(category, { $push: { product: product.id } })
     

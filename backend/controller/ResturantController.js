@@ -12,7 +12,7 @@ const createResturnat = async (req, res, next) => {
     // console.log(req.files);
     // console.log(req.body);
     // console.log(req.files);
-    const { address, email, number, outLetType } = req.body;
+    const { address, email, name,ownerName,number, outLetType } = req.body;
 
     // console.log(req.files.pancard);
     // console.log(req.files.bank);
@@ -35,7 +35,7 @@ const createResturnat = async (req, res, next) => {
         console.log(result.url);
         console.log(panUrl.url);
 
-        const response = await new Resturant({ address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url }).save();
+        const response = await new Resturant({ name,ownerName,address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url }).save();
 
         console.log(response);
 

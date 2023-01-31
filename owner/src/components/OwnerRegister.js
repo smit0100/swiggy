@@ -255,7 +255,9 @@ const OwnerRegister = () => {
     formData.append("number", restaurant.number);
     formData.append("category", selectCuisinesType)
     formData.append("outLetType",selectOutletType)
-
+    formData.append("name", restaurantName);
+    formData.append("ownerName", ownerName);
+    
     // console.log(formData);
     // console.log(formData.getAll("bankPassbook"));
     // console.log(bankDetailsPhoto);
@@ -616,7 +618,7 @@ const OwnerRegister = () => {
                   </div>
                 </div>
                 <div className='flex justify-end pt-12'>
-                  <button className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
+                  <button onClick={() => setTabOpen(3)} className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
                 </div>
               </div>
             </form>
