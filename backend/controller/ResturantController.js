@@ -104,6 +104,15 @@ const fetchResturantAllProduct = async (req, res, next) => {
     
 }
 
+const fetchAllApprovedResturant = async (req, res, next) => {
+    try {
+        const data = await Resturant.find({ isApproved: true });
+        res.status(200).json({ message: "fetched all active resturant", data });
+    } catch (e) {
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
+
  
 
 module.exports = {
@@ -112,7 +121,8 @@ module.exports = {
     approveResturant,
     rejectResturant,
     fetchAllResturants,
-    fetchResturantAllProduct
+    fetchResturantAllProduct,
+    fetchAllApprovedResturant
 }
 
 

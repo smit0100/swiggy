@@ -10,6 +10,10 @@ router.get('/fetchAllAddress', userController.fetchAllAddress);
 router.get("/delteAddress", userController.deleteUserAddress)
 router.post('/update', userController.updateAddress);
 router.post('/changePass', userController.changePassword);
+router.delete('/delete',userController.deleteUser);
+router.get("/userforadmin",userController.fetchOnlyOneUser);
+router.post("/updateType",userController.updateUserType);
+router.get("/fetchAll",userController.fetchAllUser)
 
 
 module.exports = router
