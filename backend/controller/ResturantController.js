@@ -68,9 +68,15 @@ const fetchResturant = async (req, res, next) => {
     return res.status(200).json({message:"resturant founded",response})
 }
 
-const activeResturant = async (req, res, next) => {
+const approveResturant = async (req, res, next) => {
     const { id } = req.params;
     const response = await Resturant.findByIdAndUpdate(id, { isApproved: true });
+
+    return res.status(200).json({ message: 'resturant is active' });
+}
+const rejectResturant = async (req, res, next) => {
+    const { id } = req.params;
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: false });
 
     return res.status(200).json({ message: 'resturant is active' });
 }
@@ -103,7 +109,8 @@ const fetchResturantAllProduct = async (req, res, next) => {
 module.exports = {
     createResturnat,
     fetchResturant,
-    activeResturant,
+    approveResturant,
+    rejectResturant,
     fetchAllResturants,
     fetchResturantAllProduct
 }
