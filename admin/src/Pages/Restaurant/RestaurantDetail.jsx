@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom"
 
 export default function RestaurantDetail() {
   const { rupee } = useStateContext();
+  const {  currentColor} = useStateContext();
   const { restaurantId } = useParams()
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
