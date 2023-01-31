@@ -10,10 +10,11 @@ import { MdDeliveryDining, MdOutlineSupportAgent } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useState } from "react";
 import { useParams } from "react-router-dom"
+import swal from "sweetalert";
 
 export default function RestaurantDetail() {
   const { rupee } = useStateContext();
-  const {  currentColor} = useStateContext();
+  const { currentColor } = useStateContext();
   const { restaurantId } = useParams()
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
@@ -28,7 +29,19 @@ export default function RestaurantDetail() {
     })()
   }, [])
 
+  const handelApprove = async (type) => {
+    const approve = axios.get(`http://localhost:4000/resturant/approve/${restaurantId}`)
+    if(approve){
+      swal("Approved!", "Get Add products!", "success");
+    }
+  };
 
+  const handelReject = async (type) => {
+    const reject = axios.get(`http://localhost:4000/resturant/reject/${restaurantId}`)
+    if(reject){
+      swal("Rejected!", "!", "warning");
+    }
+  };
   const item = {
     name: "Ganesha chiness",
     address: "18,ring road, surat.",
@@ -46,19 +59,19 @@ export default function RestaurantDetail() {
       <div className="container mx-auto min-h-[800px] mb-14 px-2">
         <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-white">{load == false &&data.length != 0 ?data.name : ""} </h2>
-            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 &&data.address? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
-            <p className="text-lg mb-4 text-slate-400">Owner email : {load == false && data.length != 0 ? data.email:""}</p>
+            <h2 className="text-3xl font-bold text-white">{load == false && data.length != 0 ? data.name : ""} </h2>
+            <h3 className="text-lg mb-4 text-slate-400"> {load == false && data.length != 0 && data.address ? data.address.street + " " + data.address.area + " " + data.address.city + '-' + data.address.pincode : ""}</h3>
+            <p className="text-lg mb-4 text-slate-400">Owner email : {load == false && data.length != 0 ? data.email : ""}</p>
           </div>
           <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
             <div className="bg-green-500 text-white px-3 rounded-full">
               {item.type}
             </div>
-            <div className="text-white px-3 rounded-full" style={{backgroundColor:currentColor}}>
+            <div className="text-white px-3 rounded-full" style={{ backgroundColor: currentColor }}>
               <div> {item.Area} </div>
             </div>
           </div>
-          <div className="text-3xl font-semibold" style={{color : currentColor}}>
+          <div className="text-3xl font-semibold" style={{ color: currentColor }}>
             {rupee}{item.price}{" "}
           </div>
         </div>
@@ -67,7 +80,7 @@ export default function RestaurantDetail() {
             <div className="mb-8">
               <img src={item.imageLg} className="rounded-2xl" alt="restaurant image" />
             </div>
-            <div className={`flex gap-x-6 mb-6`} style={{color:currentColor}}>
+            <div className={`flex gap-x-6 mb-6`} style={{ color: currentColor }}>
               <div className="flex gap-x-2 items-center">
                 <MdOutlineSupportAgent className="text-2xl" />
                 <div> 24*7 </div>
@@ -100,21 +113,32 @@ export default function RestaurantDetail() {
               </div>
             </div> */}
             <div className="flex">
-          <button
-            onClick={()=>{}}
-            className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 "
-          >
-            Approve
-          </button>
-          <span className="w-10" />
-          <button
-            onClick={()=>{}}
-            className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-red-600 border-red-500 "
-          >
-            Reject
-          </button>
-        </div>
+              <button
+                onClick={handelApprove}
+                className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 "
+              >
+                Approve
+              </button>
+              <span className="w-10" />
+              <button
+                onClick={handelReject}
+                className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-red-600 border-red-500 "
+              >
+                Reject
+              </button>
+            </div>
           </div>
+        </div>
+      </div>
+      <div className="bottom-8 w-full h-96 flex justify-evenly">
+        <div className="w-2/5 h-full relative">
+              <img src={`${load == false && data.length != 0 ? data.bankURL:""}`} alt="img" className="absolute w-full h-full object-contain" />
+              <p className="text-white">Bank Passbook</p>
+        </div>
+        <div className="w-2/5 h-full relative ">
+        <img src={`${load == false && data.length != 0 ? data.pancardURL:""}`} alt="img" className="absolute w-full h-full object-contain" />
+        <p className="text-white">Pancard</p>
+
         </div>
       </div>
     </section>
