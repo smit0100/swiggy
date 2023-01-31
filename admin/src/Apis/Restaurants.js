@@ -1,5 +1,4 @@
 import Api from "./Api";
-import Url from "./Url";
 
 function GetRequests() {
   return Api({
@@ -10,9 +9,18 @@ function GetRequests() {
     },
   });
 }
-function handleRequests() {
+function getOneProduct(id) {
   return Api({
-    url: "/fetchAll",
+    url: `/resturant/products?id=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+function handleApprove(id) {
+  return Api({
+    url: `/resturant/approve/${id}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -21,5 +29,5 @@ function handleRequests() {
 }
 
 export default {
-    GetRequests
+    GetRequests,getOneProduct,handleApprove
 }

@@ -4,6 +4,7 @@ import resto from "../../Assets/resto.jpg";
 import Restaurants from "../../Apis/Restaurants";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import swal from "sweetalert";
 
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
