@@ -18,10 +18,10 @@ function getOneProduct(id) {
     },
   });
 }
-function handleApprove(id) {
+function handleRequest(id,req) {
   return Api({
-    url: `/resturant/approve/${id}`,
-    method: "GET",
+    url: `/resturant/${req}/${id}`,
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
@@ -29,5 +29,5 @@ function handleApprove(id) {
 }
 
 export default {
-    GetRequests,getOneProduct,handleApprove
+    GetRequests,getOneProduct,handleRequest
 }

@@ -18,39 +18,64 @@ export default function RestaurantDetail() {
   const { restaurantId } = useParams();
   const [data, setData] = useState([]);
   useEffect(() => {
-    (async () => {
-      Restaurants.getOneProduct(restaurantId).then((res) => {
+    GetRestaurant();
+  }, []);
+  const GetRestaurant = () => {
+    Restaurants.getOneProduct(restaurantId)
+      .then((res) => {
         console.log("response", res?.resturant);
         setData(res?.resturant);
+      })
+      .catch((e) => {
+        console.log("=====e", e);
       });
-    })();
-  }, []);
-
-  const handelReject = async (type) => {
-    const reject = axios.get(
-      `http://localhost:4000/resturant/reject/${restaurantId}`
-    );
-    if (reject) {
-      swal("Rejected!", "!", "warning");
-    }
   };
-  // const handleSubmit=()=>{
-  //   console.log("======callled");
-  //   Restaurants.handleApprove(restaurantId).then((res)=>{
-  //     console.log("=======",res);
-  //   }).catch((e)=>{
-  //     swal({
-  //       title: "Failed!",
-  //       text: "Something went wrong, please try again",
-  //       icon: "error",
-  //     });
-  //   })
-  // }
-  const handleSubmit = async (type) => {
-    const approve =await axios.get(`http://localhost:4000/resturant/approve/${restaurantId}`)
-    console.log("====loggg0",approve);
-    if(approve){
-      swal("Approved!", "Get Add products!", "success");
+  const handleApicall = (req) => {
+    Restaurants.handleRequest(restaurantId, req)
+      .then((res) => {
+        console.log("=======", res);
+        if (res?.data?.message != "") {
+          swal({
+            title: "Success!",
+            text: `Request ${
+              req == "approve" ? "approved" : "rejected"
+            } successfully.`,
+            icon: "success",
+            buttons: req == "approve" ? true : false,
+            timer: req == "approve" ? null : 1500,
+          });
+          GetRestaurant();
+        } else {
+          swal({
+            title: "Failed!",
+            text: "Something went wrong, please try again",
+            icon: "error",
+          });
+        }
+      })
+      .catch((e) => {
+        swal({
+          title: "Failed!",
+          text: "Something went wrong, please try again",
+          icon: "error",
+        });
+      });
+  };
+  const handleSubmit = (req) => {
+    if (req == "reject") {
+      swal({
+        title: "Are you sure?",
+        text: "Are you sure! you want to reject this restaurant?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((e) => {
+        if (e) {
+          handleApicall(req);
+        }
+      });
+    } else {
+      handleApicall(req);
     }
   };
   const item = {
@@ -68,201 +93,230 @@ export default function RestaurantDetail() {
   console.log("=====data", data);
   return (
     <section className="px-5">
-      <div className="container mx-auto min-h-[800px] mb-14 px-2">
-        <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
-          <div>
-            <h2 className="text-3xl font-bold dark:text-white">
-              {data.length != 0 ? data?.name : ""}{" "}
-            </h2>
-            <h3 className="text-lg mb-4 text-slate-400"></h3>
-          </div>
-          <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
-            <div className="bg-green-500 text-white px-3 rounded-full">
-              {item.type}
-            </div>
-            {data?.address?.area && (
-              <div
-                className="text-white px-3 rounded-full"
-                style={{ backgroundColor: currentColor }}
-              >
-                <div> {data?.address?.area} </div>
-              </div>
-            )}
-          </div>
-          <div
-            className="text-3xl font-semibold"
-            style={{ color: currentColor }}
-          >
-            {rupee}
-            {item.price}{" "}
-          </div>
+      {data?.length == 0 ? (
+        <div>
+          <h1>No restaurant found</h1>
         </div>
-        <div className="flex flex-col items-start gap-8 lg:flex-row">
-          <div className="max-w-[768px]">
-            <div className="mb-8">
-              <img
-                src={item.imageLg}
-                className="rounded-2xl"
-                alt="restaurant image"
-              />
-            </div>
-            <div
-              className={`flex gap-x-6 mb-6`}
-              style={{ color: currentColor }}
-            >
-              <div className="flex gap-x-2 items-center">
-                <MdOutlineSupportAgent className="text-2xl" />
-                <div> 24*7 </div>
-              </div>
-              <div className="flex gap-x-2 items-center">
-                <MdDeliveryDining className="text-2xl" />
-                <div> Mon - Fri </div>
-              </div>
-              <div className="flex gap-x-2 items-center">
-                <BsWifi className="text-2xl" />
-                <div>Free</div>
-              </div>
-            </div>
-            <div className="dark:text-gray-500">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et vel
-              laudantium qui consequuntur magnam in molestias quaerat eos odit
-              molestiae.
-            </div>
-          </div>
-          <div className="flex-1 bg-white rounded-md dark:bg-slate-300 w-full mb-8 border border-gray-300 rounded-19 px-6 py-8">
-            <div className="flex items-center gap-x-4 mb-4">
-              <div className="w-20 h-20 p-1 border border-gray-300 rounded-full">
-                <img src={item?.agent?.image} alt="" className="rounded-full" />
-              </div>
+      ) : (
+        <>
+          <div className="container mx-auto min-h-[800px] mb-14 px-2">
+            <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
               <div>
-                <div className="font-bold text-lg dark:text-white">
-                  {" "}
-                  {item?.agent?.name}{" "}
+                <h2 className="text-3xl font-bold dark:text-white">
+                  {data.length != 0 ? data?.name : ""}{" "}
+                </h2>
+                <h3 className="text-lg mb-4 text-slate-400"></h3>
+              </div>
+              <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
+                <div className="bg-green-500 text-white px-3 rounded-full">
+                  {item.type}
                 </div>
-                <div className="text-gray-700 text-sm">{data.email}</div>
+                {data?.address?.area && (
+                  <div
+                    className="text-white px-3 rounded-full"
+                    style={{ backgroundColor: currentColor }}
+                  >
+                    <div> {data?.address?.area} </div>
+                  </div>
+                )}
+              </div>
+              <div
+                className="text-3xl font-semibold"
+                style={{ color: currentColor }}
+              >
+                {rupee}
+                {item.price}{" "}
               </div>
             </div>
-            <div className="w-full rounded-md   px-3">
-              {data?.address?.city && (
+            <div className="flex flex-col items-start gap-8 lg:flex-row">
+              <div className="max-w-[768px]">
+                <div className="mb-8">
+                  <img
+                    src={item.imageLg}
+                    className="rounded-2xl"
+                    alt="restaurant image"
+                  />
+                </div>
                 <div
-                  style={{ flexDirection: "row", display: "flex" }}
-                  className="mb-1"
+                  className={`flex gap-x-6 mb-6`}
+                  style={{ color: currentColor }}
                 >
-                  <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
-                    {"City"}
-                  </h3>
-                  <p className="text-gray-600 font-semibold">
-                    {data?.address?.city}
-                  </p>
+                  <div className="flex gap-x-2 items-center">
+                    <MdOutlineSupportAgent className="text-2xl" />
+                    <div> 24*7 </div>
+                  </div>
+                  <div className="flex gap-x-2 items-center">
+                    <MdDeliveryDining className="text-2xl" />
+                    <div> Mon - Fri </div>
+                  </div>
+                  <div className="flex gap-x-2 items-center">
+                    <BsWifi className="text-2xl" />
+                    <div>Free</div>
+                  </div>
                 </div>
-              )}
-              {
-                data?.address?.street && (
-
-              <div
-                style={{ flexDirection: "row", display: "flex" }}
-                className="mb-1"
-              >
-                <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
-                  {"Landmark"}
-                </h3>
-                <p className="text-gray-600 font-semibold">
-                  {data?.address?.street}
-                </p>
+                <div className="dark:text-gray-500">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et
+                  vel laudantium qui consequuntur magnam in molestias quaerat
+                  eos odit molestiae.
+                </div>
               </div>
-                )
-              }
-              {
-                data?.address?.area && (
-
-              <div
-                style={{ flexDirection: "row", display: "flex" }}
-                className="mb-1"
-              >
-                <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
-                  {"Area"}
-                </h3>
-                <p className="text-gray-600 font-semibold">
-                  {data?.address?.area}
-                </p>
+              <div className="flex-1 bg-white rounded-md dark:bg-slate-300 w-full mb-8 border border-gray-300 rounded-19 px-6 py-8">
+                <div className="flex items-center gap-x-4 mb-4">
+                  <div className="w-20 h-20 p-1 border border-gray-300 rounded-full">
+                    <img
+                      src={item?.agent?.image}
+                      alt=""
+                      className="rounded-full"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg dark:text-white">
+                      {" "}
+                      {item?.agent?.name}{" "}
+                    </div>
+                    <div className="text-gray-700 text-sm">{data.email}</div>
+                  </div>
+                </div>
+                <div className="w-full rounded-md   px-3">
+                  {data?.address?.city && (
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"City"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.address?.city}
+                      </p>
+                    </div>
+                  )}
+                  {data?.address?.street && (
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"Landmark"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.address?.street}
+                      </p>
+                    </div>
+                  )}
+                  {data?.address?.area && (
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"Area"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.address?.area}
+                      </p>
+                    </div>
+                  )}
+                  {data?.address?.pincode && (
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"Pincode"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.address?.pincode}
+                      </p>
+                    </div>
+                  )}
+                  <div
+                    style={{ flexDirection: "row", display: "flex" }}
+                    className="mb-1"
+                  >
+                    <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
+                      {"Products"}
+                    </h3>
+                    <p className="text-gray-600 font-semibold">
+                      {data?.product?.length}
+                    </p>
+                  </div>
+                  <div
+                    style={{ flexDirection: "row", display: "flex" }}
+                    className="mb-5"
+                  >
+                    <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
+                      {"Orders"}
+                    </h3>
+                    <p className="text-gray-600 font-semibold">
+                      {data?.order?.length}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex">
+                  <button
+                    disabled={data?.isApproved}
+                    onClick={() => {
+                      handleSubmit("approve");
+                    }}
+                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500  ${
+                      data?.isApproved == false
+                        ? "hover:bg-blue-500 hover:border-white hover:text-white text-blue-600 border-blue-500"
+                        : "text-gray-600 border-gray-500"
+                    } `}
+                  >
+                    {data?.isApproved ? "Approved" : "Approve"}
+                  </button>
+                  <span className="w-10" />
+                  <button
+                    disabled={!data?.isApproved}
+                    onClick={() => {
+                      handleSubmit("reject");
+                    }}
+                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-red-600 border-red-500  ${
+                      data?.isApproved
+                        ? "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
+                        : "text-gray-600 border-gray-500"
+                    } `}
+                  >
+                    {data?.isApproved ? "Reject" : "Rejected"}
+                  </button>
+                </div>
               </div>
-                )
-              }
-              {
-                data?.address?.pincode && (
-
-              <div
-                style={{ flexDirection: "row", display: "flex" }}
-                className="mb-1"
-              >
-                <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
-                  {"Pincode"}
-                </h3>
-                <p className="text-gray-600 font-semibold">
-                  {data?.address?.pincode}
-                </p>
-              </div>
-                )
-              }
-              <div
-                style={{ flexDirection: "row", display: "flex" }}
-                className="mb-1"
-              >
-                <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
-                  {"Products"}
-                </h3>
-                <p className="text-gray-600 font-semibold">
-                  {data?.product?.length}
-                </p>
-              </div>
-              <div
-                style={{ flexDirection: "row", display: "flex" }}
-                className="mb-5"
-              >
-                <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
-                  {"Orders"}
-                </h3>
-                <p className="text-gray-600 font-semibold">
-                  {data?.order?.length}
-                </p>
-              </div>
-            </div>
-            <div className="flex">
-              <button
-                onClick={() => {handleSubmit()}}
-                className="flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500 hover:border-white hover:text-white hover:bg-blue-500 "
-              >
-                Approve
-              </button>
-              <span className="w-10" />
-              <button
-                onClick={() => {handelReject()}}
-                className="flex-1 px-3 py-2 text-sm font-medium text-center hover:text-white hover:border-white hover:bg-red-700 rounded-lg  border-2 text-red-600 border-red-500 "
-              >
-                Reject
-              </button>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="bottom-8 w-full h-96 flex justify-evenly">
-        <div className="w-2/5 h-full relative">
-          <img
-            src={`${ data.bankURL ? data?.bankURL : ""}`}
-            alt="bank passbook image"
-            className="absolute w-full h-full object-contain"
-          />
-          <p className="text-white">Bank Passbook</p>
-        </div>
-        <div className="w-2/5 h-full relative ">
-          <img
-            src={`${ data.pancardURL ? data?.pancardURL : ""}`}
-            alt="pancard image"
-            className="absolute w-full h-full object-contain"
-          />
-          <p className="text-white">Pancard</p>
-        </div>
-      </div>
+          <div className="bottom-8 w-full h-96 flex justify-evenly">
+            <div className="w-2/5 h-full relative">
+              <img
+                src={`${data.bankURL ? data?.bankURL : ""}`}
+                alt="bank passbook image"
+                className="absolute w-full h-full object-contain"
+              />
+              <p className="text-white">Bank Passbook</p>
+            </div>
+            <div className="w-2/5 h-full relative ">
+              <img
+                src={`${data.pancardURL ? data?.pancardURL : ""}`}
+                alt="pancard image"
+                className="absolute w-full h-full object-contain"
+              />
+              <p className="text-white">Pancard</p>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }

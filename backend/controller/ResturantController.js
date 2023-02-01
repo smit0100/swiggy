@@ -78,7 +78,7 @@ const rejectResturant = async (req, res, next) => {
     const { id } = req.params;
     const response = await Resturant.findByIdAndUpdate(id, { isApproved: false });
 
-    return res.status(200).json({ message: 'resturant is active' });
+    return res.status(200).json({ message: 'resturant is rejected' });
 }
 const fetchAllResturants = async (req, res, next) => {
     const response = await Resturant.find({});
