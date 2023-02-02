@@ -267,31 +267,31 @@ export default function RestaurantDetail() {
                 </div>
                 <div className="flex">
                   <button
-                    disabled={data?.isApproved}
+                    disabled={data?.isApproved != "Accepted" ? false : true}
                     onClick={() => {
                       handleSubmit("approve");
                     }}
                     className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500  ${
-                      data?.isApproved == false
+                      data?.isApproved != "Accepted"
                         ? "hover:bg-blue-500 hover:border-white hover:text-white text-blue-600 border-blue-500"
                         : "text-gray-600 border-gray-500"
                     } `}
                   >
-                    {data?.isApproved ? "Approved" : "Approve"}
+                    {data?.isApproved != "Accepted" ? "Approve" : "Approved"}
                   </button>
                   <span className="w-10" />
                   <button
-                    disabled={!data?.isApproved}
+                    disabled={data?.isApproved != "Rejected" ? false : true}
                     onClick={() => {
                       handleSubmit("reject");
                     }}
                     className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-red-600 border-red-500  ${
-                      data?.isApproved
+                      data?.isApproved != "Rejected"
                         ? "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
                         : "text-gray-600 border-gray-500"
                     } `}
                   >
-                    {data?.isApproved ? "Reject" : "Rejected"}
+                    {data?.isApproved != "Rejected" ? "Reject" : "Rejected"}
                   </button>
                 </div>
               </div>

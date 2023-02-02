@@ -70,13 +70,13 @@ const fetchResturant = async (req, res, next) => {
 
 const approveResturant = async (req, res, next) => {
     const { id } = req.params;
-    const response = await Resturant.findByIdAndUpdate(id, { isApproved: true });
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Accepted" });
 
     return res.status(200).json({ message: 'resturant is active' });
 }
 const rejectResturant = async (req, res, next) => {
     const { id } = req.params;
-    const response = await Resturant.findByIdAndUpdate(id, { isApproved: false });
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Rejected" });
 
     return res.status(200).json({ message: 'resturant is rejected' });
 }

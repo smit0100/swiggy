@@ -19,6 +19,7 @@ function getOneProduct(id) {
   });
 }
 function handleRequest(id,req) {
+  console.log("==id,req",id,req);
   return Api({
     url: `/resturant/${req}/${id}`,
     method: "POST",

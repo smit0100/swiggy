@@ -95,8 +95,8 @@ const Resturant = new Schema({
         ref:'Order'
     }],
     isApproved: {
-        type: Boolean,
-        default:false
+        type: String,
+        default:"Pending"
     },
     pancardURL: {
         type:String
