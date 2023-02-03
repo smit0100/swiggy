@@ -6,26 +6,24 @@ import { useParams } from "react-router-dom";
 
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
-  const [load, setLoad] = useState(false)
   const [data, setData] = useState([])
   useEffect(() => {
     GetRequests()
   }, [])
-  const { restaurantId } = useParams();
 const GetRequests =()=>{
   Restaurants.GetRequests().then((res)=>{
+    console.log("===res",res);
     if (res?.response) {
       setData(res?.response)
-      setLoad(false)
     }
   }).catch((e)=>{  console.log(e)})
 }
 console.log("====data0",data);
-const handleApicall = (req) => {
-  Restaurants.handleRequest(restaurantId,req)
+const handleApicall = (req,id) => {
+  Restaurants.handleRequest(id,req)
     .then((res) => {
       console.log("=======", res);
-      if (res?.data?.message != "" && res.data.message != undefined && res.data.message != null) {
+      if (res?.message != "" && res?.message != undefined && res?.message != null) {
         swal({
           title: "Success!",
           text: `Request ${
@@ -56,7 +54,7 @@ const handleApicall = (req) => {
       });
     });
 };
-const handleSubmit = (req) => {
+const handleSubmit = (req,id) => {
   if (req == "reject") {
     swal({
       title: "Are you sure?",
@@ -66,24 +64,25 @@ const handleSubmit = (req) => {
       dangerMode: true,
     }).then((e) => {
       if (e) {
-        handleApicall(req);
+        handleApicall(req,id);
       }
     });
   } else {
-    handleApicall(req);
+    handleApicall(req,id);
   }
 };
   return (
     <div className="container my-12 mx-auto px-4 md:px-12">
       <div className="flex flex-wrap -mx-1 lg:-mx-4 gap-3 justify-start">
-        {load==false && data!='' && data.map((item, index) => {
+        {data !=[] && data.map((item, index) => {
           return (
             <Card
               key={index}
               name={item.name}
               restaurantId={item._id}
               items={item}
-              handleSubmit={(e)=>handleSubmit(e)}
+              isApproved={item?.isApproved}
+              handleSubmit={(e)=>handleSubmit(e,item._id)}
             />
           );
         })}

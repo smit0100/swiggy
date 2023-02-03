@@ -297,22 +297,23 @@ export default function RestaurantDetail() {
               </div>
             </div>
           </div>
-          <div className="bottom-8 w-full h-96 flex justify-evenly">
-            <div className="w-2/5 h-full relative">
+          <div className="flex flex-col sm:flex-row mb-10">
+            <div className="flex-1 sm:w-1/2 p-4 border-2 rounded-lg shadow-lg">
+              <h3 className="text-xl font-medium mb-4">Bank Passbook</h3>
               <img
                 src={`${data.bankURL ? data?.bankURL : ""}`}
-                alt="bank passbook image"
-                className="absolute w-full h-full object-contain"
+                alt="Bank Passbook"
+                className="w-full h-64 object-cover rounded-2xl"
               />
-              <p className="text-white">Bank Passbook</p>
             </div>
-            <div className="w-2/5 h-full relative ">
+            <div className="w-10 h-10"/>
+            <div className="flex-1 sm:w-1/2 p-4 border-2 rounded-lg shadow-lg">
+              <h3 className="text-xl font-medium mb-4">PAN Card</h3>
               <img
                 src={`${data.pancardURL ? data?.pancardURL : ""}`}
-                alt="pancard image"
-                className="absolute w-full h-full object-contain"
+                alt="PAN Card"
+                className="w-full h-64 object-cover rounded-2xl"
               />
-              <p className="text-white">Pancard</p>
             </div>
           </div>
         </>

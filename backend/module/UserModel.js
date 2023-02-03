@@ -47,6 +47,7 @@ const User = new Schema({
         type: Boolean,
         default:false
     },
+    createdAt: { type: Date, default: Date.now },
     cart: {
         products: [
             {

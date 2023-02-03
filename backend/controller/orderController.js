@@ -37,6 +37,7 @@ const createOrder = async (req, res, next) => {
 const fetchAllOrder = async (req, res, next) => {
     try {
         const response = await Order.find();
+        console.log("==response===>>>",response);
         return res.status(200).json({
             message: 'order founded',
             response

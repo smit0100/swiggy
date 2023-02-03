@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import User from "../../Apis/User";
 import avatar from "../../Assets/avatar.jpg";
 
@@ -23,28 +24,31 @@ export default function GetUser() {
     setselectedFilter(e);
     setAction(false);
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 5;
+  
+  const totalPages = Math.ceil(datas.length / rowsPerPage);
+  
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const rows = datas.slice(startIndex, endIndex);
   const handleSearch = (value) => {
     setsearch(value);
-    const temp = [...datas];
+    const temp = [...rows];
     const data = temp.filter((item) => item?.name == value);
     if (data.length > 0) {
       setfilterDatas(data);
     }
+    if (search == "") {
+      setfilterDatas([])
+    }
   };
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
-
-  const totalPages = Math.ceil(datas.length / rowsPerPage);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const rows = datas.slice(startIndex, endIndex);
   const dataTable = (data) =>
-  rows.map((item, index) => {
+  data.map((item, index) => {
       return (
         <tr
           key={index}
@@ -64,11 +68,13 @@ export default function GetUser() {
             scope="row"
             className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
           >
+          <Link to={'/customers/user'} className="w-10 h-10 rounded-full">
             <img
               className="w-10 h-10 rounded-full"
               src={avatar}
               alt="Jese image"
             />
+            </Link>
             <div className="pl-3">
               <div className="text-base font-semibold">{item.name}</div>
               <div className="font-normal text-gray-500">{item.email}</div>
@@ -221,7 +227,7 @@ export default function GetUser() {
           </tr>
         </thead>
         <tbody>
-          {search.length > 0 ? dataTable(filterDatas) : dataTable(datas)}
+          {search.length > 0 ? dataTable(filterDatas) : dataTable(rows)}
         </tbody>
       </table>
       <div className="mt-4">
