@@ -11,14 +11,14 @@ const createUser = async (req, res, next) => {
     const { name, email, number, password } = req.body;
 
 
-    // const userExist = await User.findOne({ email });
+    const userExist = await User.findOne({ email });
 
-    // if (userExist) return res.status(409).json({ message: 'email id already exist' });
-    // const saltGen = await bcrypt.genSalt(10);
-    // console.log(saltGen);
+    if (userExist) return res.status(409).json({ message: 'email id already exist' });
+    const saltGen = await bcrypt.genSalt(10);
+    console.log(saltGen);
     // res.send(saltGen)
-    // const encryptedPass = await bcrypt.hash(pass,salt)
-    const encryptedPass = await bcrypt.hash(password, 10);
+    const encryptedPass = await bcrypt.hash(password,saltGen)
+    // const encryptedPass = await bcrypt.hash(password, 10);
     console.log('this is encrypted');
     console.log(encryptedPass);
     const user = await new User({ name, email, number, password: encryptedPass }).save();

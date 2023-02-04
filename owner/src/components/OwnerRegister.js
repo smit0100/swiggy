@@ -17,7 +17,7 @@ const OwnerRegister = () => {
 
   const [bankNpan, setBankNpan] = useState({
     accountno: "",
-    confirmAccountno : "",
+    confirmAccountno: "",
     ifsc: "",
     panno: "",
     panholdername: ""
@@ -25,7 +25,7 @@ const OwnerRegister = () => {
 
   const [banknpanError, setBanknpanError] = useState({
     accountno: "",
-    confirmAccountno : "",
+    confirmAccountno: "",
     ifsc: "",
     panno: "",
     panholdername: ""
@@ -49,6 +49,9 @@ const OwnerRegister = () => {
   const [restaurantType, setRestaurantType] = useState("")
   const [pancardPhoto, setPanCardPhoto] = useState(null);
   const [bankDetailsPhoto, setBankDetailsPhoto] = useState(null);
+  const [bg1, setBg1] = useState(null)
+  const [bg2, setBg2] = useState(null)
+  const [bg3, setBg3] = useState(null)
   const outletType = ['Bakery', 'Bar', 'Beverage Shop', 'Bhojanalya', 'Butcher Shop', 'Cafe', 'Casual Dining', 'Club', 'Cocktail Bar', 'Confectionery', 'Desser Parlour', 'Dhaba', 'Fine Dining', 'Food Court', 'Food Truck', 'Irani Cafe', 'Kiosk', 'Lounge', 'Mess', 'Microbrewery', 'Paan Shop', 'Pub', 'Quick Bites', 'Shack', 'Sweet Shop']
   const cuisinesType = ['South Indian', 'Indian', 'Chinese', 'Mexican', 'Italian', 'Korean']
 
@@ -242,22 +245,27 @@ const OwnerRegister = () => {
     // )
 
     const address = {
-      street:restaurantAddress,
-      area:area,
-      state:state,
-      city:city,
-      pincode:pincode
+      street: restaurantAddress,
+      area: area,
+      state: state,
+      city: city,
+      pincode: pincode
     }
     formData.append("bank", bankDetailsPhoto)
     formData.append("pancard", pancardPhoto)
-    formData.append("address", address)    
+    formData.append("address", address)
     formData.append("email", restaurant.email)
     formData.append("number", restaurant.number);
     formData.append("category", selectCuisinesType)
-    formData.append("outLetType",selectOutletType)
+    formData.append("outLetType", selectOutletType)
     formData.append("name", restaurantName);
     formData.append("ownerName", ownerName);
-    
+
+    formData.append("bg1",bg1)
+    formData.append("bg2",bg2)
+    formData.append("bg3",bg3)
+
+
     // console.log(formData);
     // console.log(formData.getAll("bankPassbook"));
     // console.log(bankDetailsPhoto);
@@ -301,12 +309,12 @@ const OwnerRegister = () => {
     //   }
     // })
 
-  
-    
 
-    
 
-    await axios.post("http://localhost:4000/resturant/add",formData)  
+
+
+
+    await axios.post("http://localhost:4000/resturant/add", formData)
   }
 
   // by smit 
@@ -717,6 +725,27 @@ const OwnerRegister = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className='shadow-md p-5'>
+              <h2 className='text-2xl font-medium'>Restaurant Images</h2>
+                <h3 className='text-slate-500 pb-7'>Let us know how your restaurant looks like</h3>
+                <div className="flex items-center justify-center w-full">
+                  {/* <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    </div>
+                    <input id="dropzone-file" type="file" className="hidden" />
+                  </label> */}
+                </div>
+                  <input className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    name='bg1'  type="file" id="formFile" onChange={e => setBg1(e.target.files[0])} /><br/>
+                  <input className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    name='bg2'  type="file" id="formFile" onChange={e => setBg2(e.target.files[0])}  /><br/>
+                  <input className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    name='bg3'  type="file" id="formFile"onChange={e => setBg3(e.target.files[0])}  />
+
               </div>
               <button className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                 onClick={handleUpload}>

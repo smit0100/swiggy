@@ -103,7 +103,12 @@ const Resturant = new Schema({
     },
     bankURL: {
         type:String
-    }
+    },
+    bgImageUrl: [
+        {
+            type:String
+        }
+    ]
 })
 
 module.exports = mongoose.model('Resturant', Resturant);

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux';
-import { userData } from '../redux/user/userSlice'
+import { useSelector } from 'react-redux';
+
+import swal from 'sweetalert';
 
 export default function Register() {
 
@@ -21,12 +22,12 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState("")
   const [disabled, setDisabled] = useState(true)
-  
+
 
   const navigate = useNavigate();
 
   const handledisable = () => {
-    if ( nameError.length == 0 && numberError.length == 0 && emailError.length == 0 && passError.length == 0 && cpass.length == 0) {
+    if (nameError.length == 0 && numberError.length == 0 && emailError.length == 0 && passError.length == 0 && cpass.length == 0) {
       console.log('hheydfljdskflsfd');
       setDisabled(!disabled)
       console.log(disabled)
@@ -45,7 +46,7 @@ export default function Register() {
       emailError.length === 0 &&
       numberError.length === 0 &&
       passError.length === 0 &&
-      cpassError.length === 0 
+      cpassError.length === 0
     ) {
       return (
         <button
@@ -70,7 +71,7 @@ export default function Register() {
   }
 
   const googleAuth = () => {
-    window.open('http://localhost:4000/auth/google/callback',"self")
+    window.open('http://localhost:4000/auth/google/callback', "self")
   }
 
   const handleName = (e) => {
@@ -132,44 +133,51 @@ export default function Register() {
     handledisable()
   }
 
-  
+
 
   const user = useSelector(state => state.userData.user);
-  const dispatch = useDispatch();
-
   const handleSubmit = async () => {
     setLoading(true)
     console.log('hey');
-
     console.log(name, email, number, pass);
-    const response = await axios.post('http://localhost:4000/user/create', {
-      name,
-      email,
-      number,
-      password: pass
-    })
+    try {
+      const response = await axios.post('http://localhost:4000/user/create', {
+        name,
+        email,
+        number,
+        password: pass
+      })
+      setLoading(false);
+      console.log(response.data);
 
-    setLoading(false);
-    if (response.status == 409) {
-      setError(response.message)
-      alert("this is error")
-    };
-
-
-
-    console.log(response.data.user._id);
-    navigate({
-      pathname: '/otp',
-      search: createSearchParams({
-        id: response.data.user._id,
-        email:response.data.user.email
-      }).toString()
-    })
-
-
+      navigate({
+        pathname: '/otp',
+        search: createSearchParams({
+          id: response.data.user._id,
+          email: response.data.user.email
+        }).toString()
+      })
+    }
+    catch ({ response }) {
+      console.log(response);
+      if (response.status === 409) {
+        swal(`${response.data.message}`, "", "error");
+        return
+      }
+    }
   }
   return (
     <>
+      {
+        loading &&
+        <div className="absolute w-screen h-screen bg-black/20 z-50">
+          <div className="flex justify-center items-center h-screen">
+            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
+            </div>
+          </div>
+        </div>
+      }
       <div className="relative h-screen w-screen ">
         <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
         <div className="flex content-center items-center justify-center h-full w-screen ">
@@ -327,9 +335,9 @@ export default function Register() {
                       </span>
 
                     </label>
-                   
+
                   </div>
-                  { SubmitButton()}
+                  {SubmitButton()}
                   {/* <div className="text-center mt-6">
 
                     <button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="submit" value="Create Account" disabled={true} onClick={handleSubmit}> create account</button>
@@ -349,6 +357,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+
     </>
   );
 }

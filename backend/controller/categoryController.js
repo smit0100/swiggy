@@ -1,3 +1,4 @@
+const CategoryModel = require('../module/CategoryModel');
 const Category = require('../module/CategoryModel');
 
 
@@ -36,10 +37,20 @@ const disactive = async (req, res, next) => {
     return res.status(200).json({ messae: 'category updated' }, category);
     
 }
+const fetchAllCategory = async (req, res, next) => {
+    try {
+        const response = await Category.find({ isActive: true });
+        res.status(200).json({ messae: "category founded", response });
+    } catch (e) {
+        res.status(500).json({ messae: "something went wrong" });
+    }
+
+}
 
 module.exports = {
     addCategory,
     fetchCategory,
     active,
-    disactive
+    disactive,
+    fetchAllCategory
 }

@@ -15,7 +15,7 @@ viewBox="0 0 3387 3387"
  </defs>
  <g id="Layer_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <rect class="fil0 str0" x="338" y="320" width="2739" height="2773"/>
-  <circle class="fil1 str0" cx="1707" cy="1733" r="789"/>
+  <rect className="fil0 str0" x="338" y="320" width="2739" height="2773"/>
+  <circle className="fil1 str0" cx="1707" cy="1733" r="789"/>
  </g>
 </svg>

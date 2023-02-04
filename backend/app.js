@@ -16,6 +16,7 @@ const paymentRoute = require('./routes/paymentRoute');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
 const orderRoute = require('./routes/orderRoutes');
+const outletRoute = require('./routes/outletRoutes');
 const cloudinary = require('cloudinary')
 
 
@@ -65,7 +66,8 @@ app.use('/category', categoryRoute);
 app.use('/product', productRoute);
 app.use("/cart", cartRoute)
 app.use('/payment', paymentRoute);
-app.use('/order',orderRoute)
+app.use('/order', orderRoute)
+app.use('/outlet', outletRoute);
 
 app.get('/login/success', (req, res) => {
     if (req.user) {
