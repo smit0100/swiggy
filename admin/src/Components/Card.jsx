@@ -9,10 +9,7 @@ export default function Card(props) {
     <div className="max-w-sm bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
       <div className="relative overflow-hidden bg-no-repeat bg-cover">
         <Link
-          to={{
-            pathname: `/request/${props.restaurantId}`,
-            state: props.items,
-          }}
+          to={`/request/${props.restaurantId}`}
         >
           <img
             className="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out"
@@ -35,7 +32,7 @@ export default function Card(props) {
             onClick={() => {
               props.handleSubmit("approve");
             }}
-            className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500  ${
+            className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 ${
               props?.isApproved != "Accepted"
                 ? "hover:bg-blue-500 hover:border-white hover:text-white text-blue-600 border-blue-500"
                 : "text-gray-600 border-gray-500"
@@ -49,7 +46,7 @@ export default function Card(props) {
             onClick={() => {
               props.handleSubmit("reject");
             }}
-            className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-red-600 border-red-500  ${
+            className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 ${
               props?.isApproved != "Rejected"
                 ? "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
                 : "text-gray-600 border-gray-500"

@@ -86,11 +86,8 @@ const Resturant = new Schema({
             type:String
         },
         number: {
-            type:String
+            type:Number
         }
-    },
-    passBook:{
-        type:String
     },
     image: [
         {type:String}

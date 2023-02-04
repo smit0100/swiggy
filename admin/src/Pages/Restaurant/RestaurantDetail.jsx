@@ -16,6 +16,7 @@ import Restaurants from "../../Apis/Restaurants";
 export default function RestaurantDetail() {
   const { rupee, currentColor } = useStateContext();
   const { restaurantId } = useParams();
+  console.log("userIDuserIDuserIDuserID",restaurantId);
   const [data, setData] = useState([]);
   useEffect(() => {
     GetRestaurant();
@@ -23,7 +24,7 @@ export default function RestaurantDetail() {
   const GetRestaurant = () => {
     Restaurants.getOneProduct(restaurantId)
       .then((res) => {
-        console.log("response", res?.resturant);
+        console.log("resresresresres", res);
         setData(res?.resturant);
       })
       .catch((e) => {
@@ -271,7 +272,7 @@ export default function RestaurantDetail() {
                     onClick={() => {
                       handleSubmit("approve");
                     }}
-                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-blue-600 border-blue-500  ${
+                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 ${
                       data?.isApproved != "Accepted"
                         ? "hover:bg-blue-500 hover:border-white hover:text-white text-blue-600 border-blue-500"
                         : "text-gray-600 border-gray-500"
@@ -285,10 +286,10 @@ export default function RestaurantDetail() {
                     onClick={() => {
                       handleSubmit("reject");
                     }}
-                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2 text-red-600 border-red-500  ${
-                      data?.isApproved != "Rejected"
-                        ? "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
-                        : "text-gray-600 border-gray-500"
+                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2  ${
+                      data?.isApproved == "Rejected"
+                      ? "text-gray-600 border-gray-500"
+                      : "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
                     } `}
                   >
                     {data?.isApproved != "Rejected" ? "Reject" : "Rejected"}

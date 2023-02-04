@@ -14,6 +14,6 @@ router.delete('/delete',userController.deleteUser);
 router.get("/userforadmin",userController.fetchOnlyOneUser);
 router.post("/updateType",userController.updateUserType);
 router.get("/fetchAll",userController.fetchAllUser)
-
+router.put('/editAddress', userController.editAddress);
 
 module.exports = router

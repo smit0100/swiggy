@@ -121,14 +121,14 @@ const updateUserType = async (req, res, next) => {
 const fetchOnlyOneUser = async (req, res, next) => {
     try {
         const { userId } = req.query;
-
         const data = await User.findById(userId, {
             password: -1,
             name: 1,
             email: 1,
             number: 1,
             order: 1,
-            type: 1
+            type: 1,
+            address:1
         });
         if (!data) return res.status(400).json({ messag: "user not founded" });
 
@@ -287,6 +287,29 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const editAddress = async (req, res, next) => {
+    try {
+        const { userId, itemId, area, city, state, pincode } = req.body;
+        // const response = await User.findOneAndUpdate({_id:userId,address:{$in:{_id:itemId}}}, {
+        //     new:true
+        // });
+        const response = await User.findByIdAndUpdate({
+            _id: userId,
+            address:{$in:{_id:itemId}}
+        }, {
+            area,
+            city,
+            state,
+            pincode
+        })
+        console.log(response);
+        res.status(201).json({ messag: 'edited address', response });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
+
 module.exports = {
     createUser,
     verifyUser,
@@ -299,5 +322,6 @@ module.exports = {
     fetchAllUser,
     updateUserType,
     fetchOnlyOneUser,
-    deleteUser
+    deleteUser,
+    editAddress
 }
