@@ -2,16 +2,13 @@ const Resturant = require('../module/ResturantModel');
 const Product = require('../module/ProductModel')
 const cloudinary = require("cloudinary").v2;
 
-
- 
-  
-
-
 const createResturnat = async (req, res, next) => {
    
-    const { address, email, name,ownerName,number, outLetType } = req.body;
+    let { address, email, name,ownerName,number,panCard,bankDetails, outLetType } = req.body;
+   address = JSON.parse(address);
+   panCard = JSON.parse(panCard)
+   bankDetails = JSON.parse(bankDetails)
 
-     
     let bankImage = req.files.bank;
     let panImage = req.files.pancard;
     let {bg1,bg2,bg3} = req.files
@@ -57,9 +54,10 @@ const createResturnat = async (req, res, next) => {
         console.log(bgimageUrl);
         
 
-        const response = await new Resturant({ name,ownerName,address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl }).save();
+        const response = await new Resturant({ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl }).save();
 
-        console.log(response);
+        console.log(response.panCard);
+        console.log(response.bankDetails);
 
         return res.status(200).json({ message: 'resturant created' });
 

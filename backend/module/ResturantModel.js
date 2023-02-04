@@ -72,17 +72,22 @@ const Resturant = new Schema({
         // type: mongoose.Types.ObjectId,
         // ref:'BankDetails'
         ACnumber:{
-            type:Number
+            type:String
         },
         IFSC:{
             type:String
         },
-        bankName:{
+        actype:{
             type:String
         }
     },
-    panCard:{
-        type:String
+    panCard: {
+        holderName: {
+            type:String
+        },
+        number: {
+            type:String
+        }
     },
     passBook:{
         type:String

@@ -12,6 +12,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   // for popup state 
   const [updateProfile, setupdateProfile] = useState(false)
+  const [updateAddress, setUpdateAddress] = useState(false)
   const [changePassword, setChangePassword] = useState(false)
   const [showModal, setShowModal] = useState(false);
   const [openTab, setOpenTab] = useState(1);
@@ -43,6 +44,8 @@ const UserProfile = () => {
   const [newAddress, setNewAddress] = useState({})
   const [otp, setOtp] = useState('')
   const [disabled, setDisabled] = useState(true)
+
+  const [changeAddress,setChangeAddress]=useState("")
 
 
   const user = useSelector(state => state.userData.user)
@@ -245,6 +248,7 @@ const UserProfile = () => {
   const handleSubmitForAddress = async (e) => {
     e.preventDefault();
     const response = await axios.post("http://localhost:4000/user/addAddress", {
+      "itemId":changeAddress,
       "userId": user._id,
       "area": address,
       "city": city,
@@ -264,7 +268,7 @@ const UserProfile = () => {
 
     dispatch(userData(response.data.response))
   }
-  
+
   return (
     <>
       <div className='containerr rounded-md '>
@@ -334,10 +338,13 @@ const UserProfile = () => {
                         <p className="font-semibold text-xl">Address {i + 1}</p>
                         <p className="w-10/12 font-[350] text-slate-500">{address.area + " " + address.city + " " + address.state + "-" + address.pincode}</p>
                         <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
-                        <button className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
+                        <button className="inline-block mb-3 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
                           deliver here
-                        </button>
-                        <button className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" onClick={() => { addressDelete(address._id) }}>
+                        </button><br />
+                        <button onClick={() => {setUpdateAddress(true); setChangeAddress(address._id)}} className="inline-block mb-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
+                          Update Address
+                        </button><br />
+                        <button className=" inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" onClick={() => { addressDelete(address._id) }}>
                           Delete
                         </button>
                       </div>
@@ -566,6 +573,78 @@ const UserProfile = () => {
           </>
         ) : null}
 
+        {/* update your Address  */}
+        {updateAddress ? (
+          <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                    <h3 className="text-xl font-semibold">Update Address</h3>
+                    <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                      onClick={() => setUpdateAddress(false)}>
+                      <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        X
+                      </span>
+                    </button>
+                  </div>
+                  <div className="relative p-6 flex-auto space-x-4">
+                    <form className='flex flex-col'>
+                      <label htmlFor='address'>Address</label>
+                      <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                        <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                          <i className="fas fa-location"></i>
+                        </span>
+                        <textarea type="text" id="address" value={address} onBlur={handleAddress} onChange={handleAddress} placeholder="Enter your address" className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" ></textarea>
+                      </div>
+                      <span className='text-red-500 text-sm'>{addressError}</span>
+                      <label htmlFor='city'>City</label>
+                      <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                        <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                          <i className="fas fa-map"></i>
+                        </span>
+                        <input type="text" value={city} onBlur={handleCity} onChange={handleCity} id='city' placeholder="Your city name" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                      </div>
+                      <span className='text-red-500 text-sm'>{cityError}</span>
+                      <label htmlFor='state'>state</label>
+                      <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                        <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                          <i className="fas fa-map"></i>
+                        </span>
+                        <input type="text" id='state' placeholder="Your state name" onBlur={handleState} onChange={handleState} className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                      </div>
+                      <span className='text-red-500 text-sm'>{stateError}</span>
+                      <label htmlFor='pincode'>Pincode</label>
+                      <div className="relative flex w-full flex-wrap items-stretch mb-3">
+                        <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                          <i className="fas fa-location"></i>
+                        </span>
+                        <input type="number" value={pincode} onBlur={handlePincode} onChange={handlePincode} placeholder="Enter picode" id="pincode" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white  rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+                      </div>
+                      <span className='text-red-500 text-sm'>{pincodeError}</span>
+                    </form>
+                  </div>
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                      onClick={() => setUpdateAddress(false)}>
+                      Close
+                    </button>
+                    <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                      onClick={(e) => {
+                        setUpdateAddress(false)
+                        handleSubmitForAddress(e);
+              
+                      }}>
+                      Save Address
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
 
         {/* otp component  */}
         {otpTab ? (

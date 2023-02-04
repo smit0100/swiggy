@@ -10,6 +10,7 @@ const ResturantPage = () => {
   const [openTab, setOpenTab] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [category,setCategory]=useState(null)
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
 
@@ -23,6 +24,14 @@ const ResturantPage = () => {
         const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
         setData(response.data)
         setLoad(false)
+      })()
+    }, [])
+
+    useEffect(() => {
+      (async () => {
+        const response = await axios.get(`http://localhost:4000/category/all`)
+        console.log(response);
+        setCategory(response.data.response)
       })()
     }, [])
 
@@ -111,13 +120,9 @@ const ResturantPage = () => {
                   <div className='row overflow-auto'>
                     <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-slate-400 left-0 overflow-hidden'>
                       <ul>
-                        <li>category 1</li>
-                        <li>category 1</li>
-                        <li>category 1</li>
-                        <li>category 1</li>
-                        <li>category 1</li>
-                        <li>category 1</li>
-                        <li>category 1</li>
+                        {
+                          category!=null && category.map(item=><li>{item.name}</li>)
+                        }
                       </ul>
                     </div>
                     <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
