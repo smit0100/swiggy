@@ -16,7 +16,7 @@ import Restaurants from "../../Apis/Restaurants";
 export default function RestaurantDetail() {
   const { rupee, currentColor } = useStateContext();
   const { restaurantId } = useParams();
-  console.log("userIDuserIDuserIDuserID",restaurantId);
+  console.log("userIDuserIDuserIDuserID", restaurantId);
   const [data, setData] = useState([]);
   useEffect(() => {
     GetRestaurant();
@@ -100,7 +100,7 @@ export default function RestaurantDetail() {
         </div>
       ) : (
         <>
-          <div className="container mx-auto min-h-[800px] mb-14 px-2">
+          <div className="container mx-auto min-h-[800px] px-2">
             <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
               <div>
                 <h2 className="text-3xl font-bold dark:text-white">
@@ -155,15 +155,23 @@ export default function RestaurantDetail() {
                     <div>Free</div>
                   </div>
                 </div>
-                <div className="dark:text-gray-500">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et
-                  vel laudantium qui consequuntur magnam in molestias quaerat
-                  eos odit molestiae.
-                </div>
+                {data?.outLetType.length > 0 && (
+                  <div className="dark:text-gray-500">
+                    <h1 className="font-semibold dark:text-white">Outlets :</h1>
+                    {data?.outLetType?.map((item, index) => {
+                      return (
+                        <div className="flex items-center justify-strt">
+                          <div className="h-2 w-2 mx-2 rounded-full bg-gray-700" />
+                          <h3>{item}</h3>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
               <div className="flex-1 bg-white rounded-md dark:bg-slate-300 w-full mb-8 border border-gray-300 rounded-19 px-6 py-8">
                 <div className="flex items-center gap-x-4 mb-4">
-                  <div className="w-20 h-20 p-1 border border-gray-300 rounded-full">
+                  <div className="w-20 h-20 p-1 border border-gray-300 dark:border-2 dark:border-gray-500 rounded-full">
                     <img
                       src={item?.agent?.image}
                       alt=""
@@ -172,8 +180,7 @@ export default function RestaurantDetail() {
                   </div>
                   <div>
                     <div className="font-bold text-lg dark:text-white">
-                      {" "}
-                      {item?.agent?.name}{" "}
+                      {data?.ownerName}
                     </div>
                     <div className="text-gray-700 text-sm">{data.email}</div>
                   </div>
@@ -202,12 +209,28 @@ export default function RestaurantDetail() {
                     >
                       <h3
                         style={{ flex: 1 }}
-                        className="text-lg font-semibold "
+                        className="text-lg font-semibold mr-2"
                       >
                         {"Landmark"}
                       </h3>
-                      <p className="text-gray-600 font-semibold">
+                      <p className="text-gray-600 font-semibold text-right">
                         {data?.address?.street}
+                      </p>
+                    </div>
+                  )}
+                  {data?.address?.state && (
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold mr-2"
+                      >
+                        {"State"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold text-right">
+                        {data?.address?.state}
                       </p>
                     </div>
                   )}
@@ -288,8 +311,8 @@ export default function RestaurantDetail() {
                     }}
                     className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg  border-2  ${
                       data?.isApproved == "Rejected"
-                      ? "text-gray-600 border-gray-500"
-                      : "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
+                        ? "text-gray-600 border-gray-500"
+                        : "hover:bg-red-500 hover:border-white hover:text-white text-red-600 border-red-500"
                     } `}
                   >
                     {data?.isApproved != "Rejected" ? "Reject" : "Rejected"}
@@ -299,23 +322,109 @@ export default function RestaurantDetail() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row mb-10">
-            <div className="flex-1 sm:w-1/2 p-4 border-2 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium mb-4">Bank Passbook</h3>
-              <img
-                src={`${data.bankURL ? data?.bankURL : ""}`}
-                alt="Bank Passbook"
-                className="w-full h-64 object-cover rounded-2xl"
-              />
-            </div>
-            <div className="w-10 h-10"/>
-            <div className="flex-1 sm:w-1/2 p-4 border-2 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium mb-4">PAN Card</h3>
-              <img
-                src={`${data.pancardURL ? data?.pancardURL : ""}`}
-                alt="PAN Card"
-                className="w-full h-64 object-cover rounded-2xl"
-              />
-            </div>
+            {data?.bankDetails &&
+              data?.bankDetails?.ACnumber != "" &&
+              data?.bankDetails?.IFSC != "" &&
+              data?.bankDetails?.actype != "" && (
+                <div className="flex-1 sm:w-1/2 p-4 border-2 dark:border-gray-700 dark:hover:shadow-gray-500 dark:hover:shadow-sm rounded-lg shadow-lg">
+                  <h3 className="text-xl font-bold mb-4 dark:text-white">
+                    Bank Details
+                  </h3>
+                  <div className="rounded-xl p-5 mb-4 bg-slate-200 dark:bg-slate-300 hover:shadow-md">
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"Account Number :"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.bankDetails?.ACnumber}
+                      </p>
+                    </div>
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"IFSC Code :"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.bankDetails?.IFSC}
+                      </p>
+                    </div>
+                    <div
+                      style={{ flexDirection: "row", display: "flex" }}
+                      className="mb-1"
+                    >
+                      <h3
+                        style={{ flex: 1 }}
+                        className="text-lg font-semibold "
+                      >
+                        {"Account Type :"}
+                      </h3>
+                      <p className="text-gray-600 font-semibold">
+                        {data?.bankDetails?.actype}
+                      </p>
+                    </div>
+                  </div>
+                  <h1 className="mt-3 mb-2 font-semibold dark:text-white">
+                    Bank PassBook :
+                  </h1>
+                  <img
+                    src={`${data.bankURL ? data?.bankURL : ""}`}
+                    alt="Bank Passbook"
+                    className="w-full h-64 object-cover rounded-2xl hover:shadow-md"
+                  />
+                </div>
+              )}
+            <div className="w-10 h-10" />
+            {data?.panCard?.holderName && data?.panCard && (
+              <div className="flex-1 sm:w-1/2 p-4 border-2 rounded-lg shadow-lg dark:hover:shadow-gray-500 dark:hover:shadow-sm dark:border-gray-700">
+                <h3 className="text-xl font-bold mb-4 dark:text-white">
+                  Pan Card Details
+                </h3>
+                <div className="rounded-xl p-5 mb-4 bg-slate-200 dark:bg-slate-300 hover:shadow-md">
+                  <div
+                    style={{ flexDirection: "row", display: "flex" }}
+                    className="mb-1"
+                  >
+                    <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
+                      {"Holder Name :"}
+                    </h3>
+                    <p className="text-gray-600 font-semibold">
+                      {data?.panCard?.holderName}
+                    </p>
+                  </div>
+                  <div
+                    style={{ flexDirection: "row", display: "flex" }}
+                    className="mb-1"
+                  >
+                    <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
+                      {"Mobile Number :"}
+                    </h3>
+                    <p className="text-gray-600 font-semibold">
+                      {data?.number}
+                    </p>
+                  </div>
+                </div>
+                <h1 className="mt-3 mb-2 font-semibold dark:text-white">
+                  Pan Card :
+                </h1>
+
+                <img
+                  src={`${data.pancardURL ? data?.pancardURL : ""}`}
+                  alt="PAN Card"
+                  className="w-full h-64 object-cover rounded-2xl hover:shadow-md"
+                />
+              </div>
+            )}
           </div>
         </>
       )}
