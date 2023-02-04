@@ -1,16 +1,11 @@
-import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import swal from "sweetalert";
-import Restaurants from "../Apis/Restaurants";
 
 export default function Card(props) {
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
       <div className="relative overflow-hidden bg-no-repeat bg-cover">
-        <Link
-          to={`/request/${props.restaurantId}`}
-        >
+        <Link to={`/request/${props.restaurantId}`}>
           <img
             className="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out"
             src={"https://i.ibb.co/2hdPfQf/1.png"}

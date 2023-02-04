@@ -5,11 +5,11 @@ import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft
 import { BiColorFill,BiRestaurant } from 'react-icons/bi';
 import { IoMdContacts ,IoIosAddCircleOutline} from 'react-icons/io';
 import { RiContactsLine, RiStockLine } from 'react-icons/ri';
-import { MdOutlineSupervisorAccount,MdFoodBank } from 'react-icons/md';
+import { MdOutlineSupervisorAccount,MdOutlineFastfood } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
 import { GiLouvrePyramid } from 'react-icons/gi';
-import { GrLocation } from 'react-icons/gr';
+import { GrLocation, GrRestaurant } from 'react-icons/gr';
 import avatar from '../Assets/avatar.jpg';
 import avatar2 from '../Assets/avatar2.jpg';
 import avatar3 from '../Assets/avatar3.png';
@@ -502,6 +502,10 @@ export const links = [
       {
         name: 'request',
         icon: <BiRestaurant />,
+      },
+      {
+        name: 'restaurants',
+        icon: <MdOutlineFastfood />,
       },
     ],
   },

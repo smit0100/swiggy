@@ -12,6 +12,7 @@ import {
   AddCategory,
   UserDetail,
   GetOrder,
+  Restaurants,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 
@@ -77,6 +78,7 @@ function App() {
                 <Route path="/category" element={<AddCategory />} />
                 <Route path="/customers/:id" element={<UserDetail />} />
                 <Route path="/orders" element={<GetOrder />} />
+                <Route path="/restaurants" element={<Restaurants />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

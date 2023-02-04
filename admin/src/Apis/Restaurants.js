@@ -9,6 +9,16 @@ function GetRequests() {
     },
   });
 }
+
+function GetApprovedRestaurant() {
+  return Api({
+    url: "/resturant/fetchAllActive",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function getOneProduct(id) {
   return Api({
     url: `/resturant/products?id=${id}`,
@@ -30,5 +40,5 @@ function handleRequest(id,req) {
 }
 
 export default {
-    GetRequests,getOneProduct,handleRequest
+    GetRequests,getOneProduct,handleRequest,GetApprovedRestaurant
 }
