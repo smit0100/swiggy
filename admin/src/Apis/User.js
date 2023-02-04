@@ -8,7 +8,16 @@ function GetAllUsers() {
       },
     });
   }
+function GetOneUser(id) {
+    return Api({
+      url: `/user/userforadmin?userId=${id}`,
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+  }
 
 export default {
-    GetAllUsers
+    GetAllUsers,GetOneUser
 }

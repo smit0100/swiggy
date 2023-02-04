@@ -98,13 +98,13 @@ const fetchResturant = async (req, res, next) => {
 
 const approveResturant = async (req, res, next) => {
     const { id } = req.params;
-    const response = await Resturant.findByIdAndUpdate(id, { isApproved: true });
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Accepted" });
 
     return res.status(200).json({ message: 'resturant is active' });
 }
 const rejectResturant = async (req, res, next) => {
     const { id } = req.params;
-    const response = await Resturant.findByIdAndUpdate(id, { isApproved: false });
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Rejected" });
 
     return res.status(200).json({ message: 'resturant is rejected' });
 }
@@ -116,18 +116,8 @@ const fetchAllResturants = async (req, res, next) => {
     return res.status(200).json({message:"resturants founded",response})
 }
 
-const fetchAllActiveResturant = async (req, res, next) => {
-    try {
-        const response = await Resturant.find({ isApproved: true });
-        res.status(200).json({ messag: "all active resturant", response });
-    } catch (e) {
-        res.status(500).json({ messag: "something went wrong" });
-    }
-}
-
 const fetchResturantAllProduct = async (req, res, next) => {
     const { id } = req.query;
-    console.log(id);
     const resturant = await Resturant.findById(id);
 
     if (!resturant) return res.status(404).json({ message: "resturant not exist" });

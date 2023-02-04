@@ -9,6 +9,16 @@ function GetOrders() {
     },
   });
 }
+function GetUserOrders(id) {
+  return Api({
+    url: "order/user",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body:{id}
+  });
+}
 export default {
-    GetOrders
+    GetOrders,GetUserOrders
 }

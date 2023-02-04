@@ -121,14 +121,14 @@ const updateUserType = async (req, res, next) => {
 const fetchOnlyOneUser = async (req, res, next) => {
     try {
         const { userId } = req.query;
-
         const data = await User.findById(userId, {
             password: -1,
             name: 1,
             email: 1,
             number: 1,
             order: 1,
-            type: 1
+            type: 1,
+            address:1
         });
         if (!data) return res.status(400).json({ messag: "user not founded" });
 

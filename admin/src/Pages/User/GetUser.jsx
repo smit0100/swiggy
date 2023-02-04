@@ -68,11 +68,11 @@ export default function GetUser() {
             scope="row"
             className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
           >
-          <Link to={'/customers/user'} className="w-10 h-10 rounded-full">
+          <Link to={`/customers/${item._id}`} className="w-10 h-10 rounded-full">
             <img
               className="w-10 h-10 rounded-full"
               src={avatar}
-              alt="Jese image"
+              alt="user image"
             />
             </Link>
             <div className="pl-3">
