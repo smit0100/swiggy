@@ -16,6 +16,7 @@ import Restaurants from "../../Apis/Restaurants";
 export default function RestaurantDetail() {
   const { rupee, currentColor } = useStateContext();
   const { restaurantId } = useParams();
+  console.log("userIDuserIDuserIDuserID",restaurantId);
   const [data, setData] = useState([]);
   useEffect(() => {
     GetRestaurant();
@@ -23,7 +24,7 @@ export default function RestaurantDetail() {
   const GetRestaurant = () => {
     Restaurants.getOneProduct(restaurantId)
       .then((res) => {
-        console.log("response", res?.resturant);
+        console.log("resresresresres", res);
         setData(res?.resturant);
       })
       .catch((e) => {

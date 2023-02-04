@@ -90,7 +90,6 @@ const fetchAllResturants = async (req, res, next) => {
 
 const fetchResturantAllProduct = async (req, res, next) => {
     const { id } = req.query;
-    console.log(id);
     const resturant = await Resturant.findById(id);
 
     if (!resturant) return res.status(404).json({ message: "resturant not exist" });

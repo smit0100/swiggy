@@ -10,7 +10,7 @@ import {
   GetUser,
   RestaurantDetail,
   AddCategory,
-  User,
+  UserDetail,
   GetOrder,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
@@ -75,7 +75,7 @@ function App() {
                 <Route path="/request/:restaurantId" element={<RestaurantDetail />} />  
                 <Route path="/customers" element={<GetUser />} />
                 <Route path="/category" element={<AddCategory />} />
-                <Route path="/customers/user" element={<User />} />
+                <Route path="/customers/:id" element={<UserDetail />} />
                 <Route path="/orders" element={<GetOrder />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

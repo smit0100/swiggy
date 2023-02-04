@@ -9,10 +9,7 @@ export default function Card(props) {
     <div className="max-w-sm bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
       <div className="relative overflow-hidden bg-no-repeat bg-cover">
         <Link
-          to={{
-            pathname: `/request/${props.restaurantId}`,
-            state: props.items,
-          }}
+          to={`/request/${props.restaurantId}`}
         >
           <img
             className="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out"
