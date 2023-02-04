@@ -18,10 +18,16 @@ const createResturnat = async (req, res, next) => {
     console.log(req.files.bank);
     try {
        const result = await cloudinary.uploader.upload(bankImage.tempFilePath, {
-            folder:'ownerDetails'   
+           folder: 'ownerDetails',
+           crop: 'fill',
+            width: 250,
+            height:250
         })    
         panUrl = await cloudinary.uploader.upload(panImage.tempFilePath,{
-            folder:"ownerDetails"
+            folder: "ownerDetails",
+            crop: 'fill',
+            width: 250,
+            height:250
         })
         
         

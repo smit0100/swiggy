@@ -81,11 +81,13 @@ const Resturant = new Schema({
             type:String
         }
     },
-    panCard:{
-        type:String
-    },
-    passBook:{
-        type:String
+    panCard: {
+        holderName: {
+            type:String
+        },
+        number: {
+            type:Number
+        }
     },
     image: [
         {type:String}
