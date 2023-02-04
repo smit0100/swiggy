@@ -35,7 +35,7 @@ const createResturnat = async (req, res, next) => {
         })
 
         bgimageUrl.push(url);
-        const {url:url2} = await cloudinary.uploader.upload(bg1.tempFilePath, {
+        const {url:url2} = await cloudinary.uploader.upload(bg2.tempFilePath, {
             folder: "Resturant",
             crop: 'fill',
             width: 250,
@@ -44,7 +44,7 @@ const createResturnat = async (req, res, next) => {
          })
         bgimageUrl.push(url2);
 
-        let {url:url3} = await cloudinary.uploader.upload(bg1.tempFilePath, {
+        let {url:url3} = await cloudinary.uploader.upload(bg3.tempFilePath, {
             folder: "Resturant",
             crop: 'fill',
             width: 250,
@@ -53,10 +53,11 @@ const createResturnat = async (req, res, next) => {
         })
         bgimageUrl.push(url3);
 
-
+        console.log("this is ");
+        console.log(bgimageUrl);
         
 
-        const response = await new Resturant({ name,ownerName,address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgimageUrl }).save();
+        const response = await new Resturant({ name,ownerName,address, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl }).save();
 
         console.log(response);
 
