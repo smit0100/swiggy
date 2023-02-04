@@ -17,6 +17,8 @@ const Directory = () => {
     })()
   }, [])
 
+  
+
   // useEffect(() => {
   //   console.log(data);
   // },[data])

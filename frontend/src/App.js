@@ -18,26 +18,32 @@ import StripeComponent from './components/StripeComponent';
 import ResturantPage from './pages/ResturantPage';
 import UserProfile from './pages/UserProfile';
 import OrderDetails from './pages/OrderDetails';
+import { useSelector } from 'react-redux';
 
 
 function App() {
+  const user=useSelector(state=>state.userData.user)
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Home />} >
         <Route index element={<Directory />} />
         <Route path="restaurant/:restaurantId" element={<ResturantPage/>} />
+        <Route path="search" element={<SearchPage />} />
+
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
-        <Route path="forgotpassword" element={<ForgotPassword />} />
-        <Route path="search" element={<SearchPage />} />
-        <Route path="cart" element={<CartPage />} />
         <Route path="otp" element={<Otp />} />
+        <Route path="forgotpassword" element={<ForgotPassword />} />
+        
+        {/* {user!=null ?<> */}
+        <Route path="cart" element={<CartPage />} />
         <Route path='profile' element={<UserProfile/>} />
         <Route path='checkout' element={<CheckoutPage />} />
         <Route path='payment' element={<StripeComponent />} />
         <Route path="userprofile" element={<UserProfile />} />
         <Route path="orderDetails" element={<OrderDetails/>}/>
-        {/* <Route path="profile1" element={<Profile1/>}/> */}
+        {/* </>:<></>} */}
+       <Route path='/*' element={<PageNotFound/>}/>
       </Route>
     )
   )

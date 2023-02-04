@@ -3,21 +3,22 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import FacebookLogin from 'react-facebook-login';
-import { userData} from '../redux/user/userSlice';
+import { userData } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
+import swal from 'sweetalert';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [emailError, setEmailError] = useState('')
   const [passError, setPassError] = useState('')
-  const [error,setError] = useState('');
-  const [info,setInfo] = useState('');
+  const [error, setError] = useState('');
+  const [info, setInfo] = useState('');
 
   const navigate = useNavigate()
 
-  const dispatch=useDispatch()
-  
+  const dispatch = useDispatch()
+
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -39,7 +40,6 @@ export default function Login() {
   function SubmitButton() {
     if (
       email &&
-      
       pass &&
       emailError.length === 0 &&
       passError.length === 0
@@ -74,36 +74,24 @@ export default function Login() {
   //     console.log("error",response);
   //     }
   // }
-  const handleSubmit = async  () => {
+  const handleSubmit = async () => {
     console.log('hey');
     console.log(email, pass);
-    const response = await axios.post('http://localhost:4000/user/login', {
-      email,password:pass
-    })
-    console.log(response);
-    // user not exist
-    if (response.status === 400) {
-      setError(response.message);
-      return
+    try {
+      const response = await axios.post('http://localhost:4000/user/login', {
+        email, password: pass
+      })
+      dispatch(userData(response.data.user))
+      swal("SuccessFully Login", "", "success");
+      navigate('/');
+      
+    } catch ({ response }) {
+      console.log(response);
+      if (response.status === 400 || response.status === 401 || response.status === 402) {
+        swal(`${response.data.message}`, "", "error");
+        return
+      }
     }
-
-  
-
-    //userr not verified
-    if (response.status === 401) {
-      setError(response.message);
-      return;
-    }
-
-    //password wrong 
-    if (response.status === 402) {
-      setError(response.message);
-      return;
-    }
-    dispatch(userData(response.data.user))
-
-    navigate('/');
-
 
   }
   return (
@@ -142,7 +130,7 @@ export default function Login() {
                     />
                     Google
                   </button>
-                    {/* <FacebookLogin
+                  {/* <FacebookLogin
                       textButton="facebook"
                       appId="878193710074579"
                       autoLoad={false}
@@ -220,7 +208,7 @@ export default function Login() {
                     >
                       Sign In
                     </button> */}
-                    { SubmitButton()}
+                    {SubmitButton()}
                   </div>
                 </form>
               </div>
@@ -234,7 +222,7 @@ export default function Login() {
                   className="text-blueGray-200"
                 >
                   <Link to='/forgotpassword'>
-                  <small className="text-white">Forgot password?</small>
+                    <small className="text-white">Forgot password?</small>
                   </Link>
                 </a>
               </div>
