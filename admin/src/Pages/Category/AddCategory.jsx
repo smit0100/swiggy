@@ -15,7 +15,6 @@ export default function AddCategory() {
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name"
             >
               Category Name
             </label>
@@ -32,7 +31,6 @@ export default function AddCategory() {
           <div className="w-full md:w-1/2 px-3">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-last-name"
             >
               Price
             </label>
@@ -102,7 +100,6 @@ export default function AddCategory() {
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-zip"
             >
               Discount
             </label>
@@ -116,7 +113,6 @@ export default function AddCategory() {
           <div className="w-full md:w-1/3 px-3 mb-6 mt-4 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-city"
             >
               Add Image
             </label>

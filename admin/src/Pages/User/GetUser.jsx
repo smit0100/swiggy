@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import User from "../../Apis/User";
 import avatar from "../../Assets/avatar.jpg";
+import { Button } from "../../Components";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function GetUser() {
   const [action, setAction] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [datas, setDatas] = useState([]);
   const [filterDatas, setfilterDatas] = useState([]);
   const [search, setsearch] = useState("");
+  const [editUser, setEditUser] = useState({});
   const [selectedFilter, setselectedFilter] = useState("Filter");
+  const { currentColor } = useStateContext();
   useEffect(() => {
     (async () => {
       User.GetAllUsers()
@@ -26,13 +31,13 @@ export default function GetUser() {
   };
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
-  
+
   const totalPages = Math.ceil(datas.length / rowsPerPage);
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  
+
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const rows = datas.slice(startIndex, endIndex);
@@ -44,11 +49,19 @@ export default function GetUser() {
       setfilterDatas(data);
     }
     if (search == "") {
-      setfilterDatas([])
+      setfilterDatas([]);
     }
   };
+  const handleModal =(id)=>{
+    let data = [...datas];
+    let item = data.find((item)=>item?._id == id);
+    if (item) {
+      setEditUser(item)
+      setIsVisible(true)
+    }
+  }
   const dataTable = (data) =>
-  data.map((item, index) => {
+    data.map((item, index) => {
       return (
         <tr
           key={index}
@@ -68,20 +81,23 @@ export default function GetUser() {
             scope="row"
             className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
           >
-          <Link to={`/customers/${item._id}`} className="w-10 h-10 rounded-full">
-            <img
+            <Link
+              to={`/customers/${item._id}`}
               className="w-10 h-10 rounded-full"
-              src={avatar}
-              alt="user image"
-            />
+            >
+              <img
+                className="w-10 h-10 rounded-full"
+                src={avatar}
+                alt="user image"
+              />
             </Link>
             <div className="pl-3">
               <div className="text-base font-semibold">{item.name}</div>
               <div className="font-normal text-gray-500">{item.email}</div>
             </div>
           </th>
-          <td className="px-6 py-4">{item.order.length}</td>
-          <td className="px-6 py-4">
+          <td className="pl-10 py-4">{item.order.length}</td>
+          <td className="py-4">
             {/* <div className="flex items-center">
                     <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {item.type}
                 </div> */}
@@ -92,11 +108,9 @@ export default function GetUser() {
           <td className="px-6 py-4">
             {/* <!-- Modal toggle --> */}
             <a
-              href="#"
+              onClick={() => handleModal(item?._id)}
               type="button"
-              data-modal-target="editUserModal"
-              data-modal-show="editUserModal"
-              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+              className="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >
               Edit user
             </a>
@@ -152,7 +166,7 @@ export default function GetUser() {
                     }}
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    Position
+                    Orders
                   </a>
                 </li>
                 <li>
@@ -162,7 +176,7 @@ export default function GetUser() {
                     }}
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    status
+                    Email
                   </a>
                 </li>
               </ul>
@@ -232,102 +246,187 @@ export default function GetUser() {
       </table>
       <div className="mt-4">
         <button
-        disabled={currentPage > 1 ? false : true}
+          disabled={currentPage > 1 ? false : true}
           onClick={() => handlePageChange(currentPage - 1)}
-          className={`inline-flex items-center px-4 py-2 ${currentPage > 1 ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100" : ""}  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+          className={`inline-flex items-center px-4 py-2 ${
+            currentPage > 1
+              ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+              : ""
+          }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
         >
           Previous
         </button>
 
         <button
-        disabled={currentPage < totalPages ? false : true}
+          disabled={currentPage < totalPages ? false : true}
           onClick={() => handlePageChange(currentPage + 1)}
-          className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${currentPage < totalPages ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100" : "bg-white"}`}
+          className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
+            currentPage < totalPages
+              ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+              : "bg-white"
+          }`}
         >
           Next
         </button>
       </div>
       {/* <!-- Edit user modal --> */}
-      <div
-        id="editUserModal"
-        tabIndex="-1"
-        aria-hidden="true"
-        className="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
-      >
-        <div className="relative w-full h-full max-w-2xl md:h-auto">
-          {/* <!-- Modal content --> */}
-          <form
-            action="#"
-            className="relative bg-white rounded-lg shadow dark:bg-gray-700"
-          >
-            {/* <!-- Modal header --> */}
-            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Edit user
-              </h3>
-              <button
-                type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="editUserModal"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+      {isVisible && (
+        <div
+          tabIndex="-1"
+          aria-hidden="true"
+          className="fixed top-0 left-0 right-0 bg-black bg-opacity-70 z-50 items-center justify-center  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full flex"
+        >
+          <div className="relative w-full h-full max-w-2xl md:h-auto">
+            {/* <!-- Modal content --> */}
+            <form className=" bg-white rounded-lg shadow dark:bg-gray-700">
+              {/* <!-- Modal header --> */}
+              <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Edit user
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setIsVisible(false)}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            {/* <!-- Modal body --> */}
-            {/* <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-6 gap-6">
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="first-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                            <input type="text" name="first-name" id="first-name" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Bonnie" required=""/>
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="last-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                            <input type="text" name="last-name" id="last-name" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Green" required=""/>
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input type="email" name="email" id="email" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@company.com" required=""/>
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="phone-number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                            <input type="number" name="phone-number" id="phone-number" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="e.g. +(12)3456 789" required=""/>
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="department" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              {/* <!-- Modal body --> */}
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-6 gap-6">
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="first-name"
+                      id="first-name"
+                      value={editUser?.name}
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Bonnie"
+                      required=""
+                    />
+                  </div>
+                  {/* <div className="col-span-6 sm:col-span-3">
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="last-name"
+                      id="last-name"
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Green"
+                      required=""
+                    />
+                  </div> */}
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      value={editUser?.email}
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="example@company.com"
+                      required=""
+                    />
+                  </div>
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      name="phone-number"
+                      id="phone-number"
+                      value={editUser?.number}
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="e.g. +(12)3456 789"
+                      required=""
+                    />
+                  </div>
+                  {/* <div className="col-span-6 sm:col-span-3">
+                            <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                             <input type="text" name="department" id="department" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required=""/>
-                        </div>
+                        </div> */}
                         <div className="col-span-6 sm:col-span-3">
-                            <label for="company" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                            <input type="number" name="company" id="company" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123456" required=""/>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                            <input type="text" name="company" id="company" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="address" required=""/>
                         </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="current-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Password</label>
-                            <input type="password" name="current-password" id="current-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required=""/>
-                        </div>
-                        <div className="col-span-6 sm:col-span-3">
-                            <label for="new-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
-                            <input type="password" name="new-password" id="new-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required=""/>
-                        </div>
-                    </div>
-                </div> */}
-            {/* <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      name="current-password"
+                      id="current-password"
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="••••••••"
+                      required=""
+                    />
+                  </div>
+                  <div className="col-span-6 sm:col-span-3">
+                    <label
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      name="new-password"
+                      id="new-password"
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="••••••••"
+                      required=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex py-2 items-center justify-center">
+                <Button
+                  // disabled={isDisabled}
+                  color="white"
+                  bgColor={currentColor}
+                  text={"Save"}
+                  borderRadius="10px"
+                  width={"64"}
+                  onClick={()=>setIsVisible(false)}
+                />
+              </div>
+              {/* <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save all</button>
                 </div> */}
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
