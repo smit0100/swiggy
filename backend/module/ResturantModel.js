@@ -10,6 +10,9 @@ const Resturant = new Schema({
     email: {
         type:String,
     },
+    password: {
+        type:String
+    },
     number:{
         type:Number,
     },
