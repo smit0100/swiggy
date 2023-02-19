@@ -10,14 +10,14 @@ const ResturantPage = () => {
   const [openTab, setOpenTab] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
-  const [category,setCategory]=useState(null)
+  const [category, setCategory] = useState(null)
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const handleCategoryChange = (event) => {
     const category = event.target.value;
-    
+
     if (event.target.checked) {
       setCategories([...categories, category]);
     } else {
@@ -31,42 +31,42 @@ const ResturantPage = () => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.userData.user);
-    useEffect(() => {
-      (async () => {
-        setLoad(true)
-        console.log(categories);
-        const ct = categories.map(id => id.toString()).join(',');
-        console.log("this is ct log");
-        console.log(typeof(ct));
-        const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
+  useEffect(() => {
+    (async () => {
+      setLoad(true)
+      console.log(categories);
+      const ct = categories.map(id => id.toString()).join(',');
+      console.log("this is ct log");
+      console.log(typeof (ct));
+      const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
 
-        // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
+      // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
 
 
-        setData(response.data)
-        setLoad(false)
-      })()
-    }, [categories])
-
-    useEffect(() => {
-      (async () => {
-        const response = await axios.get(`http://localhost:4000/category/all`)
-        console.log(response);
-        setCategory(response.data.response)
-      })()
-    }, [])
+      setData(response.data)
+      setLoad(false)
+    })()
+  }, [categories])
 
   useEffect(() => {
     (async () => {
-      if(user!=null){
-      const response = await axios.get(`http://localhost:4000/cart/${user._id}`);
-      console.log(response.data.data);
-      dispatch(cartData(response.data.data.cart))
+      const response = await axios.get(`http://localhost:4000/category/all`)
+      console.log(response);
+      setCategory(response.data.response)
+    })()
+  }, [])
+
+  useEffect(() => {
+    (async () => {
+      if (user != null) {
+        const response = await axios.get(`http://localhost:4000/cart/${user._id}`);
+        console.log(response.data.data);
+        dispatch(cartData(response.data.data.cart))
       }
     })()
   }, [])
 
-  load==false?console.log(data):console.log("poojan");
+  load == false ? console.log(data) : console.log("poojan");
 
   const images = [
     'https://picsum.photos/id/27/200/300',
@@ -112,7 +112,7 @@ const ResturantPage = () => {
               <div className='sticky  top-0 z-30 bg-white'>
                 <div className='text-3xl uppercase'>{data.resturant ? data.resturant.name : ''}</div>
                 <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
-                <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
+                <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
                 <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
                 <ul className="flex space-x-2 relative">
                   <li>
@@ -139,14 +139,22 @@ const ResturantPage = () => {
               <div className="p-3 mt-6 bg-white border">
                 <div className={openTab === 1 ? "block" : "hidden"}>
                   <div className='row overflow-auto'>
-                    <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-slate-400 left-0 overflow-hidden'>
-                      <ul>
+                    <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-black/10 left-0 overflow-hidden'>
+                      <ul className="space-y-2">
                         {
-                          category != null && category.map(item => <li>   
-                            <label htmlFor={item._id}>{ item.name} </label>
-                            <input type="checkbox" id={item._id} value={item._id}  onChange={handleCategoryChange}/>
+                          category != null && category.map(item => <li>
+                            <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
+                            <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                              <div className="block">
+                                <div className="w-full text-lg font-semibold">{item.name}</div>
+                              </div>
+                            </label>
+
                           </li>)
                         }
+                        <li>
+
+                        </li>
                       </ul>
                     </div>
                     <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
@@ -159,31 +167,6 @@ const ResturantPage = () => {
                             </div>
                           </div>
                       }
-                      {/* {
-                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
-                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
-                          <div className="flex justify-center items-center h-screen">
-                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-                            </div>
-                          </div>
-                      }{
-                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
-                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
-                          <div className="flex justify-center items-center h-screen">
-                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-                            </div>
-                          </div>
-                      }{
-                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
-                        data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
-                          <div className="flex justify-center items-center h-screen">
-                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-                            </div>
-                          </div>
-                      } */}
                     </div>
                   </div>
                 </div>

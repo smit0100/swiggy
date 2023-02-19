@@ -35,7 +35,7 @@ const SearchPage = () => {
     }
 
     return (
-        <div className='w-screen h-screen flex justify-center'>
+        <div className='w-full h-full flex justify-center pb-5'>
             <div className='w-4/5 h-full bg-slate-400 mt-32 flex flex-col items-center'>
 
                 <div className='flex justify-center items-center w-full'>
