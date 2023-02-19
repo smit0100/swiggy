@@ -11,33 +11,33 @@ const CartPage = () => {
   // const navigate = useNavigate();
 
   const dispatch = useDispatch()
-  
+
   const isUser = useSelector(state => state.userData.user);
-  const cart=useSelector(state=>state.cartData.cart)
+  const cart = useSelector(state => state.cartData.cart)
 
   useEffect(() => {
-    
-  (async () => {
-    const response = await axios.get(`http://localhost:4000/cart/${isUser._id}`);
-    // console.log(response.data.data.cart);
-    console.log(response.data.data);
-    dispatch(cartData(response.data.data.cart))
+
+    (async () => {
+      const response = await axios.get(`http://localhost:4000/cart/${isUser._id}`);
+      // console.log(response.data.data.cart);
+      console.log(response.data.data);
+      dispatch(cartData(response.data.data.cart))
     })()
   }, [])
-  
+
   return (
     <div>
-  <div className="h-screen bg-gray-100 pt-20">
-    <h1 className="mb-10 text-center text-2xl font-bold"> {cart != null ? cart.products.length === 0 ? "no product in cart" : "cart items " : ''}</h1>
-    <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+      <div className="h-screen bg-gray-100 pt-20">
+        <h1 className="mb-10 text-center text-2xl font-bold"> {cart != null ? cart.products.length === 0 ? "no product in cart" : "cart items " : ''}</h1>
+        <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
             {
-              cart != null ? cart.products.length === 0 ? <> <img src="https://cdni.iconscout.com/illustration/premium/thumb/after-login-no-product-in-cart-4006355-3309941.png"/>    </>: '' : ''
+              cart != null ? cart.products.length === 0 ? <> <img src="https://cdni.iconscout.com/illustration/premium/thumb/after-login-no-product-in-cart-4006355-3309941.png" />    </> : '' : ''
             }
             {
-              cart!=null ? cart.products.map(item => <CartPageItem item={item} />) : ""
+              cart != null ? cart.products.map(item => <CartPageItem item={item} />) : ""
             }
-        {/* <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+            {/* <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
           <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="product-image" className="w-full rounded-lg sm:w-40" />
           <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
             <div className="mt-5 sm:mt-0">
@@ -59,7 +59,7 @@ const CartPage = () => {
             </div>
           </div>
         </div> */}
-        {/* <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+            {/* <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
           <img src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1131&q=80" alt="product-image" className="w-full rounded-lg sm:w-40" />
           <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
             <div className="mt-5 sm:mt-0">
@@ -81,32 +81,32 @@ const CartPage = () => {
             </div>
           </div>
         </div> */}
-      </div>
-      
-      <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
-        <div className="mb-2 flex justify-between">
-          <p className="text-gray-700">Subtotal</p>
-              <p className="text-gray-700">{ cart!=null ? cart.total: ''}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-gray-700">Shipping</p>
-          <p className="text-gray-700">$4.99</p>
-        </div>
-        <hr className="my-4" />
-        <div className="flex justify-between">
-          <p className="text-lg font-bold">Total</p>
-          <div className="">
-            <p className="mb-1 text-lg font-bold">{ cart!=null ? cart.total: ''}</p>
-            <p className="text-sm text-gray-700">including VAT</p>
           </div>
+
+          <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Subtotal</p>
+              <p className="text-gray-700">{cart != null ? cart.total : ''}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-700">Shipping</p>
+              <p className="text-gray-700">$4.99</p>
+            </div>
+            <hr className="my-4" />
+            <div className="flex justify-between">
+              <p className="text-lg font-bold">Total</p>
+              <div className="">
+                <p className="mb-1 text-lg font-bold">{cart != null ? cart.total : ''}</p>
+                <p className="text-sm text-gray-700">including VAT</p>
+              </div>
             </div>
             <Link to="/checkout">
               <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Check out</button>
-              </Link>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
     // <>
     //   <div className="w-full pb-10 relative mt-14 mx-auto z-10 right-0 h-full overflow-x-hidden transform translate-x-0 transition ease-in-out duration-700" id="checkout">
     //     <div className="flex md:flex-row flex-col justify-center" id="cart">

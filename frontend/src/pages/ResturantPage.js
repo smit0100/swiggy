@@ -287,7 +287,7 @@ export const RestroCategoryCard = ({ item }) => {
     if (!isUser) {
       navigate('/login')
     } else {
-      if (cartItemData.products.length == 0) {
+      if (cartItemData!=null && cartItemData.products.length == 0) {
         const response = await axios.post('http://localhost:4000/cart/add', {
           productId: id,
           userId: isUser._id,
