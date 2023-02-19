@@ -6,6 +6,7 @@ const cors = require('cors');
 const cookieSession = require('cookie-session')
 const fileUpload = require('express-fileupload')
 const multer = require('multer')
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const userRoute = require('./routes/userRoute');
 const resturantRoute = require('./routes/resturantRoute');
@@ -15,6 +16,7 @@ const cartRoute = require('./routes/cartRoutes');
 const paymentRoute = require('./routes/paymentRoute');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
+const facebookSetup = require('./utils/facebook')
 const orderRoute = require('./routes/orderRoutes');
 const outletRoute = require('./routes/outletRoutes');
 const cloudinary = require('cloudinary')
@@ -43,12 +45,22 @@ app.use(
     })
 )
 
-
-app.use(passport.initialize());
+app.use(passport.initialize())
 app.use(passport.session())
+
 app.use(cors({
+    origin: 'http://localhost:3000',    
     credentials:true
 }));
+
+
+ 
+  
+ 
+
+// app.use(passport.initialize());
+// app.use(passport.session())
+
 mongoose.connect(process.env.MONGOOSE_URL, () => {
     console.log('connected');
 })
@@ -69,13 +81,28 @@ app.use('/payment', paymentRoute);
 app.use('/order', orderRoute)
 app.use('/outlet', outletRoute);
 
-app.get('/login/success', (req, res) => {
+
+
+app.get('/google', passport.authenticate("google", ["profile", "email"]))
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {successReturnToOrRedirect: '/',
+  failureRedirect:"/login"})
+);
+
+
+app.get('/auth/login/success', (req, res) => {
+    console.log("this is data");
+    console.log(req.user);
+    
     if (req.user) {
         res.status(200).json({
-            error: false,
-            message: "successfully loged in",
-            user:req.user
-        })
+            success: true,
+            message: 'successfully',
+            user: req.user
+            // cookies:req.cookies
+       })
             
     } else {
         res.status(403).json({error:true,message:'not authorized'})
@@ -84,14 +111,14 @@ app.get('/login/success', (req, res) => {
 
 app.get('/google/callback',
     passport.authenticate("google", {
-        successReturnToOrRedirect: 'http://localhost:3000',
+        successReturnToOrRedirect: '/auth/login/success',
         failureRedirect:"/login/failed"
     })
 )
 
 app.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('http://localhost:3000/')
+    res.redirect('login/')
 })
 
 app.get('/login/failed', (req, res) => {
@@ -101,7 +128,9 @@ app.get('/login/failed', (req, res) => {
 })
 app.get('/auth/google/callback', passport.authenticate("google", {
     successRedirect: 'http://localhost:3000/',
-    failureRedirect:"/login/failed"
+    failureRedirect: "/login/failed"
+    
+   
 }))
 
 app.listen(process.env.PORT, () => {

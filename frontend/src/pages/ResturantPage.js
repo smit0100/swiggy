@@ -13,6 +13,19 @@ const ResturantPage = () => {
   const [category,setCategory]=useState(null)
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  const handleCategoryChange = (event) => {
+    const category = event.target.value;
+    
+    if (event.target.checked) {
+      setCategories([...categories, category]);
+    } else {
+      setCategories(categories.filter(c => c !== category));
+    }
+  };
+
+
 
   const { restaurantId } = useParams();
 
@@ -21,11 +34,19 @@ const ResturantPage = () => {
     useEffect(() => {
       (async () => {
         setLoad(true)
-        const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}`)
+        console.log(categories);
+        const ct = categories.map(id => id.toString()).join(',');
+        console.log("this is ct log");
+        console.log(typeof(ct));
+        const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
+
+        // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
+
+
         setData(response.data)
         setLoad(false)
       })()
-    }, [])
+    }, [categories])
 
     useEffect(() => {
       (async () => {
@@ -121,7 +142,10 @@ const ResturantPage = () => {
                     <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-slate-400 left-0 overflow-hidden'>
                       <ul>
                         {
-                          category!=null && category.map(item=><li>{item.name}</li>)
+                          category != null && category.map(item => <li>   
+                            <label htmlFor={item._id}>{ item.name} </label>
+                            <input type="checkbox" id={item._id} value={item._id}  onChange={handleCategoryChange}/>
+                          </li>)
                         }
                       </ul>
                     </div>
@@ -135,7 +159,7 @@ const ResturantPage = () => {
                             </div>
                           </div>
                       }
-                      {
+                      {/* {
                         // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
                         data.product ? data.product.map(item => <RestroCategoryCard item={item}></RestroCategoryCard>) :
                           <div className="flex justify-center items-center h-screen">
@@ -159,7 +183,7 @@ const ResturantPage = () => {
                               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
                             </div>
                           </div>
-                      }
+                      } */}
                     </div>
                   </div>
                 </div>

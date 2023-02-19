@@ -1,6 +1,7 @@
 const Resturant = require('../module/ResturantModel');
 const Product = require('../module/ProductModel')
 const cloudinary = require("cloudinary").v2;
+const mongoose = require('mongoose')
 
 const createResturnat = async (req, res, next) => {
    
@@ -107,21 +108,61 @@ const rejectResturant = async (req, res, next) => {
     return res.status(200).json({ message: 'resturant is rejected' });
 }
 const fetchAllResturants = async (req, res, next) => {
-    const response = await Resturant.find({});
-  console.log(response);
-    if (!response) return res.status(400).json({ message: 'resturant not founded' });
 
-    return res.status(200).json({message:"resturants founded",response})
+    const pageNumber = parseInt(req.query.pageNumber) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10 ;
+
+
+    try {
+        
+        const totalCount = await Resturant.countDocuments();
+        // calculate the number of pages
+        
+        const totalPages = Math.ceil(totalCount / pageSize);
+    
+        // retrieve the blog posts based on the page number and page size
+        const blogPosts = await Resturant.find()
+          .skip((pageNumber - 1) * pageSize)
+          .limit(pageSize);
+    
+        // return the paginated results
+        res.status(200).json({
+          page: pageNumber,
+          totalPages: totalPages,
+          pageSize: pageSize,
+          totalCount: totalCount,
+          results: blogPosts
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+      }
+
+    
 }
 
 const fetchResturantAllProduct = async (req, res, next) => {
     const { id } = req.query;
+    const ObjectID = require('mongodb').ObjectID;
+    let categories = req.query.categories || [];
+     
+     
+ 
+    
     const resturant = await Resturant.findById(id);
 
     if (!resturant) return res.status(404).json({ message: "resturant not exist" });
+    
+    let product
+    if (categories.length === 0) {
+        product = await Product.find({ resturnat: id })
+    } else {
+        
+         categories = categories.split(',').map(id => mongoose.Types.ObjectId(id.trim()));
 
-     const product = await Product.find({resturnat:id})
-
+        product = await Product.find({resturnat:id,category:{$in:categories}})
+    }
+    ``
  
     
     res.status(200).json({message:'product finded',product,resturant})

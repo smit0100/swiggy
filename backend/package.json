@@ -25,6 +25,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.0",
     "passport": "^0.5.3",
+    "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "razorpay": "^2.8.4",
     "sib-api-v3-sdk": "^8.5.0",

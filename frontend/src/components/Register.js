@@ -74,6 +74,10 @@ export default function Register() {
     window.open('http://localhost:4000/auth/google/callback', "self")
   }
 
+  const facebookAuth = () => {
+    window.open('http://localhost:4000/auth/facebook/callback', "self")
+   }
+
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;
@@ -193,6 +197,7 @@ export default function Register() {
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={facebookAuth}
                   >
                     <img
                       alt="github logo"

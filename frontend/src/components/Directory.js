@@ -7,17 +7,35 @@ import Restaurant from './Restaurant'
 const Directory = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
 
   useEffect(() => {
     (async () => {
       setLoad(true)
-      const response = await axios.get('http://localhost:4000/resturant/fetchAll');
-      setData(response.data.response)
+      const response = await axios.get(`http://localhost:4000/resturant/fetchAll?pageNumber=${pageNumber}&pageSize=${10}`);
+      setData(response.data.results)
+      setTotalPages(response.data.totalPages)
       setLoad(false)
     })()
-  }, [])
+  }, [pageNumber])
 
-  
+
+  function handlePrevPage(e) {
+    e.preventDefault()
+    if (pageNumber > 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  }
+
+  function handleNextPage(e) {
+    
+    e.preventDefault()
+    if (pageNumber < totalPages) {
+      setPageNumber(pageNumber + 1);
+    }
+  }
+
 
   // useEffect(() => {
   //   console.log(data);
@@ -42,15 +60,38 @@ const Directory = () => {
                 </div>
               </div>) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
           }
+          <div class="flex w-full justify-center">
+            <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+              &laquo;
+            </a>
+            <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
+              Pre
+            </a>
+            <span href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
+              {pageNumber}
+              
+            </span>
+            <button href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
+              Next
+            </button>
+
+            <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+              &raquo;
+            </a>
+          </div>
+
         </div>
       </div>
 
       <div className='containerr'>
         <div className='row'>
           <div className='column'><FoodCard /></div>
-          <div className='column'><FoodCard /></div>
-          <div className='column'><FoodCard /></div>
-          <div className='column'><FoodCard /></div>
+
+        </div>
+
+        <div>
+          {/* {blogPosts.map(blogPost => <BlogPost key={blogPost._id} {...blogPost} />)} */}
+
         </div>
 
       </div>

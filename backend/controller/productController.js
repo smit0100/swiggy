@@ -41,10 +41,24 @@ const findProduct = async (req, res, next) => {
 }
 
 const fetchAllProduct = async (req, res, next) => {
+    const searchQuery = req.query.q;
+    const regex = new RegExp(searchQuery, 'i');
+
+    const pageNumber = parseInt(req.query.pageNumber) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
     
+
     try {
-        const response = await Product.find();
-        return res.status(200).json({ message: 'product founded', response });    
+        
+
+        const totalCount = await Product.find({ name: regex }).countDocuments();
+        const totalPages = Math.ceil(totalCount / pageSize);        
+
+        const response = await Product.find({ name: regex }).skip((pageNumber - 1) * pageSize).limit(pageSize);
+
+        return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
+        pageSize: pageSize,
+        totalCount: totalCount});    
     } catch (e) {
         res.status(400).json({ message: 'something went wrong' });
     }

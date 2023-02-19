@@ -72,7 +72,13 @@ const User = new Schema({
             ref: 'Resturant'
             
         }
-    }
+    },
+    googleId: String,
+    googleAccessToken: String,
+    googleRefreshToken: String,
+    facebookId: String,
+    facebookAccessToken: String,
+    facebookRefreshToken: String
 })
 
 module.exports = mongoose.model('User', User);

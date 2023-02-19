@@ -30,6 +30,8 @@ const Navbar = () => {
 
   // }
 
+ 
+
   return (
     <>
       <nav className="w-full relative h-1/6 z-20 bg-white shadow">
