@@ -22,12 +22,12 @@ const Otp = () => {
         e.preventDefault();
         console.log(id, otp);
         try {
-            const response = await axios.post('http://localhost:4000/user/verify', {
+            const response = await axios.post('http://localhost:4000/resturant/verify', {
                 id,
                 otp
             })
-            console.log(response.data.user);
-            dispatch(userData(response.data.user))
+            console.log(response.data);
+            dispatch(userData(response.data.rest))
             swal("SuccessFully register", "", "success");
             navigate('/')
         } catch ({ response }) {
