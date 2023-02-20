@@ -8,23 +8,24 @@ const User = new Schema({
         type: String,
     },
     email: {
-        type:String
+        type: String
     },
     number: {
-        type:String,
+        type: String,
     },
     address: [
-        {    area: {
+        {
+            area: {
                 type: String,
             },
             city: {
-                type:String
+                type: String
             },
             state: {
-                type:String
+                type: String
             },
             pincode: {
-                type:Number
+                type: Number
             }
         },
         
@@ -32,21 +33,22 @@ const User = new Schema({
     order: [
         {
             type: mongoose.Types.ObjectId,
-            ref:'Order'
+            ref: 'Order'
         }
     ],
     type: {
         type: String,
-        default:'customer'
+        default: 'customer'
     },
     bankDetails: {
         type: mongoose.Types.ObjectId,
-        ref:'BankDetails'
+        ref: 'BankDetails'
     },
     verified: {
         type: Boolean,
-        default:false
+        default: false
     },
+ 
     createdAt: { type: Date, default: Date.now },
     cart: {
         products: [

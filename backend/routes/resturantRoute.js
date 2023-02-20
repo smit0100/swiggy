@@ -3,6 +3,12 @@ const router = express.Router();
 const resturantController = require('../controller/ResturantController');
 
 
+
+router.post("/register", resturantController.register);
+router.post("/verify", resturantController.verfiyResturant)
+router.post('/login', resturantController.loginResturant);
+
+
 router.get("/fetchAll", resturantController.fetchAllResturants)
 router.get("/fetch/:id",resturantController.fetchResturant)
 router.get('/products',resturantController.fetchResturantAllProduct)

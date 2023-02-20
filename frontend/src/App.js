@@ -6,6 +6,8 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Navbar from './components/Navbar'
 import Directory from './components/Directory';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 import PageNotFound from './components/PageNotFound';
 import ForgotPassword from './components/ForgotPassword';
@@ -19,8 +21,9 @@ import ResturantPage from './pages/ResturantPage';
 import UserProfile from './pages/UserProfile';
 import OrderDetails from './pages/OrderDetails';
 import { useSelector } from 'react-redux';
+import StripeCheckout from 'react-stripe-checkout';
 
-
+const stripePromise = loadStripe('pk_test_51MTNlMSCDtK5iouBSvzN781pJDRfpPgm1nv9yDY4YgX2WcxSFPlz3cBJNN7ywPw1nBikAckdFmNAoc1r0q1ezjNq00rlfYIMca');
 function App() {
   const user=useSelector(state=>state.userData.user)
   const router = createBrowserRouter(
@@ -29,7 +32,7 @@ function App() {
         <Route index element={<Directory />} />
         <Route path="restaurant/:restaurantId" element={<ResturantPage/>} />
         <Route path="search" element={<SearchPage />} />
-
+        
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="otp" element={<Otp />} />
@@ -43,7 +46,8 @@ function App() {
         <Route path="userprofile" element={<UserProfile />} />
         <Route path="orderDetails" element={<OrderDetails/>}/>
         {/* </>:<></>} */}
-       <Route path='/*' element={<PageNotFound/>}/>
+        <Route path='/*' element={<PageNotFound />} />
+        
       </Route>
     )
   )

@@ -2,6 +2,11 @@ const Resturant = require('../module/ResturantModel');
 const Product = require('../module/ProductModel')
 const cloudinary = require("cloudinary").v2;
 const mongoose = require('mongoose')
+const Order = require('../module/OrderModel');
+const bcrypt = require('bcrypt');
+const Token = require('../module/TokenModel');
+const sendEmail = require('../utils/sendEmail');
+
 
 const createResturnat = async (req, res, next) => {
    
@@ -86,6 +91,89 @@ const createResturnat = async (req, res, next) => {
     // })
 }
 
+
+
+const register = async (req, res, next) => {
+    try {
+        const { name, email, password, number } = req.body;
+
+        const emailExist = await Resturant.find({ email });
+        
+        console.log(emailExist);
+        if (emailExist.length !== 0) return res.status(400).json({ messag: 'email already exist' });
+        const saltGen = await bcrypt.genSalt(10);
+        const encryptedPass = await bcrypt.hash(password,saltGen)
+
+        
+        const restuarnt = await new Resturant({
+            name,
+            email,
+            number,
+            password: encryptedPass
+        }).save();
+
+        const otpNumber = Math.floor(100000 + Math.random() * 900000)
+        const token = await new Token({
+            userID: restuarnt._id,
+            token: otpNumber,
+        }).save();
+
+        await sendEmail(restuarnt.email, "Verify Email", String(otpNumber))
+        res.status(200).json({ messag: 'otp sent', restuarnt });
+    } catch (e) {
+        console.log(e);
+        res.status(400).json({ messag: 'something went wrng' });
+    }
+}
+
+const verfiyResturant = async (req, res, next) => {
+    try {
+        let rest = await Resturant.findOne({ _id: req.body.id });
+
+        if (!rest) return res.status(404).send({ message: 'user not found' });
+        
+        const token = await Token.findOne({
+            userID: req.body.id,
+            token: req.body.otp
+        })
+    
+        if (!token) return res.status(401).json({ message: "wrong otp" });
+    
+        await Resturant.updateOne({ _id: rest._id }, { registerVerfied: true });
+        await token.remove();
+    
+        res.status(200).json({messag:'resturant verfied',rest})
+    } catch (e) {
+        console.log(e);
+        res.status(404).json({ messag: "something went wrog" });
+    }
+   
+
+}
+
+const loginResturant = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const rest = await Resturant.findOne({ email });
+    
+        if (!rest) return res.status(400).json({ messag: 'resturant not registered' })
+        
+        if (!rest.registerVerfied) return res.status(401).json({ messag: 'please verify you user account' })
+        
+        const pass = await bcrypt.compareSync(password, rest.password)
+        
+        if (pass) {
+            return res.status(200).json({ message: "restuarnt founded", rest });
+        } else {
+            return res.status(402).json({ message: 'please check your email and password' });
+        }
+    } catch (e) {
+        res.status(404).json({ messag: "something wnet wrong" });
+    }
+   
+
+}
+
 const fetchResturant = async (req, res, next) => {
     const { id } = req.params;
     const response = await Resturant.findById(id);
@@ -162,12 +250,8 @@ const fetchResturantAllProduct = async (req, res, next) => {
 
         product = await Product.find({resturnat:id,category:{$in:categories}})
     }
-    ``
- 
-    
-    res.status(200).json({message:'product finded',product,resturant})
-    
-    
+ res.status(200).json({message:'product finded',product,resturant})
+   
 }
 
 const fetchAllApprovedResturant = async (req, res, next) => {
@@ -180,6 +264,35 @@ const fetchAllApprovedResturant = async (req, res, next) => {
     }
 }
 
+
+const fetchAllResturantOrder = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const order = await Resturant.findById(id, { order: 1 });
+
+        if (!order) return res.status(400).json({ messag: "order fetched", order })
+        
+        res.status(200).json({messag:"order fetched",order})
+    } catch (e) {
+        res.status(404).json({ messag: "something went wrong" });
+    }
+}
+
+const acceptOrder = async (req, res, next) => {
+    try {
+        const { id, orderId } = req.query;
+
+        const response = await Order.findByIdAndUpdate(orderId, { status: 'accept' }, {
+            new:true
+        });
+
+        const order = await Resturant.findById(id);
+
+        res.status(200).json({messag:"order accepted",order})
+    } catch (e) {
+        res.status(400).json({ messag: 'something went wrong' });
+    }
+}
  
 
 module.exports = {
@@ -189,7 +302,12 @@ module.exports = {
     rejectResturant,
     fetchAllResturants,
     fetchResturantAllProduct,
-    fetchAllApprovedResturant
+    fetchAllApprovedResturant,
+  
+    acceptOrder,
+    loginResturant,
+    verfiyResturant,
+    register
 }
 
 

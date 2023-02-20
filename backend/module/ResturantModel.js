@@ -58,6 +58,10 @@ const Resturant = new Schema({
             type:String
         }
     },
+    registerVerfied: {
+        type: Boolean,
+        default:false
+    },
     category: [
         {
             type: mongoose.Types.ObjectId,

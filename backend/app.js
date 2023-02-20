@@ -77,7 +77,9 @@ app.use('/resturant', resturantRoute)
 app.use('/category', categoryRoute);
 app.use('/product', productRoute);
 app.use("/cart", cartRoute)
-app.use('/payment', paymentRoute);
+app.use('/payment', (req,res) => {
+    res.send('hello')
+});
 app.use('/order', orderRoute)
 app.use('/outlet', outletRoute);
 
