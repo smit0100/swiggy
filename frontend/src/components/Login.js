@@ -37,6 +37,10 @@ export default function Login() {
     }
   }
 
+  const googleAuth = () => {
+    window.open('http://localhost:4000/auth/google/callback', "self")
+  }
+
   function SubmitButton() {
     if (
       email &&
@@ -115,13 +119,14 @@ export default function Login() {
                     <img
                       alt="github"
                       className="w-5 mr-1"
-                      src="./svg/github.svg"
+                      src="./svg/facebook.svg"
                     />
-                    Github
+                    Facebook
                   </button>
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
+                    onClick={googleAuth}
                   >
                     <img
                       alt="google"

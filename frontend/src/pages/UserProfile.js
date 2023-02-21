@@ -45,7 +45,7 @@ const UserProfile = () => {
   const [otp, setOtp] = useState('')
   const [disabled, setDisabled] = useState(true)
 
-  const [changeAddress,setChangeAddress]=useState("")
+  const [changeAddress, setChangeAddress] = useState("")
 
 
   const user = useSelector(state => state.userData.user)
@@ -248,7 +248,7 @@ const UserProfile = () => {
   const handleSubmitForAddress = async (e) => {
     e.preventDefault();
     const response = await axios.post("http://localhost:4000/user/addAddress", {
-      "itemId":changeAddress,
+      "itemId": changeAddress,
       "userId": user._id,
       "area": address,
       "city": city,
@@ -277,13 +277,6 @@ const UserProfile = () => {
         <div>
           <div className='flex justify-center relative'>
             <img className='rounded-full w-40 h-40 sm:w-52 sm:h-52 object-cover' alt='user pic' src='https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80' />
-
-            <button className='absolute bottom-5 right-[140px] sm:bottom-5 sm:right-[200px] md:bottom-5 md:right-[260px] lg:bottom-8 lg:right-[505px] bg-white rounded-full p-2 hover:ring-2 hover:ring-offset-2 hover:ring-slate-300'>
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-              </svg>
-            </button>
-
           </div>
           <div className='flex justify-center gap-44 relative -top-5'>
             <button className='inline-block bg-white hover:text-white hover:bg-green-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500'>Add New</button>
@@ -317,7 +310,7 @@ const UserProfile = () => {
                   <li className=' text-lg font-normal'>{user.number}</li>
                   <li className='py-3 text-lg font-normal'>{user.email}</li>
                   <li className='py-3 text-lg font-normal'>
-                    <button type="button" onClick={() => setChangePassword(true)} id="password" value="Change Password" className="inline-block bg-white hover:text-white hover:bg-blue-400 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400" ><i className="fas fa-repeat"></i> Change Password</button>
+                    <button type="button" onClick={() => setChangePassword(true)} id="password" value="Change Password" className="inline-block mr-2 bg-white hover:text-white hover:bg-blue-400 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400" ><i className="fas fa-repeat"></i> Change Password</button>
                     <button onClick={() => setupdateProfile(true)} className="inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">Update Profile </button>
                   </li>
                 </ul>
@@ -334,19 +327,25 @@ const UserProfile = () => {
                     <div className="shadow-black hover:shadow-xl anim bg-white p-3">
                       <div>
                         <img src="./svg/github.svg" alt="temp" className="w-10 h-10" />
-                      </div><div className="py-2">
+                      </div>
+                      <div className="py-2">
                         <p className="font-semibold text-xl">Address {i + 1}</p>
                         <p className="w-10/12 font-[350] text-slate-500">{address.area + " " + address.city + " " + address.state + "-" + address.pincode}</p>
                         <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
-                        <button className="inline-block mb-3 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
-                          deliver here
-                        </button><br />
-                        <button onClick={() => {setUpdateAddress(true); setChangeAddress(address._id)}} className="inline-block mb-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
-                          Update Address
-                        </button><br />
-                        <button className=" inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" onClick={() => { addressDelete(address._id) }}>
-                          Delete
-                        </button>
+                        <div className='space-x-4 flex'>
+                          <button className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-4 py-[9px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
+                            <span className='fas fa-location'></span> deliver here
+                          </button>
+                          <button onClick={() => { setUpdateAddress(true); setChangeAddress(address._id) }} className="rounded-full inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  border border-current w-fit p-2 ml-1 text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
+                            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                            </svg>
+                          </button>
+                          <button className=" inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded-full border border-current w-fit p-2 ml-1 text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" onClick={() => { addressDelete(address._id) }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"> <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" /> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>)
@@ -634,7 +633,7 @@ const UserProfile = () => {
                       onClick={(e) => {
                         setUpdateAddress(false)
                         handleSubmitForAddress(e);
-              
+
                       }}>
                       Save Address
                     </button>
