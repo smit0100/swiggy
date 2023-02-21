@@ -14,6 +14,7 @@ const categoryRoute = require('./routes/categoryRoutes');
 const productRoute = require('./routes/productRoutes');
 const cartRoute = require('./routes/cartRoutes');
 const paymentRoute = require('./routes/paymentRoute');
+const subCategoryRoute = require('./routes/subCategoryRoutes');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
 const facebookSetup = require('./utils/facebook')
@@ -82,6 +83,7 @@ app.use('/payment', (req,res) => {
 });
 app.use('/order', orderRoute)
 app.use('/outlet', outletRoute);
+app.use('/subcategory', subCategoryRoute);
 
 
 

@@ -1,22 +1,20 @@
 const { Schema, default: mongoose } = require("mongoose")
 
-const Category = new Schema({
+const SubCategory = new Schema({
     name: {
         type:String
     },
     description:{
         type:String,
     },
+    mainCategory:{
+        type: mongoose.Types.ObjectId,
+        ref:"Category"
+    },
     isActive: {
         type: Boolean,
         default:true
     },
-    subCategory: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref:"SubCategory"
-        }
-    ],
     product: [{
         type: mongoose.Types.ObjectId,
         ref:'Product'
@@ -24,4 +22,4 @@ const Category = new Schema({
    
 })
 
-module.exports = mongoose.model('Category', Category);
+module.exports = mongoose.model('SubCategory', SubCategory);

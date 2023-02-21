@@ -1,18 +1,30 @@
 const Product = require('../module/ProductModel');
 const Category = require('../module/CategoryModel');
 const Resturant = require('../module/ResturantModel');
+const SubCategory = require('../module/SubCategory');
 
 const createProduct = async (req, res, next) => {
-    const { name, price, category,resturnat } = req.body;
+    try {
+        const { name, price, category,resturnat,subCategory } = req.body;
 
     const categoryExist = await Category.findById(category);
 
     if (!categoryExist) return res.status(400).json({ message: 'choose valid category' });
-    const product = await new Product({ name, price, category,resturnat }).save();
+
+    const subCategoryExist = await SubCategory.findById(subCategory);
+
+    if (!subCategoryExist) return res.status(400).json({ message: "choose valid sub category" });
+    const product = await new Product({ name, price, category,resturnat,subCategory }).save();
     
     console.log(product._id);
     //added in category
-    const addProductInCategory = await Category.findByIdAndUpdate(category, { $push: { product: product.id } })
+        const addProductInCategory = await Category.findByIdAndUpdate(category, { $push: { product: product.id } })
+        
+        await SubCategory.findByIdAndUpdate(subCategory, {
+            $push: {
+                product:product.id
+            }
+        })
     
 
     //added in resturant
@@ -24,6 +36,10 @@ const createProduct = async (req, res, next) => {
 
     
     return res.status(200).json({ message: 'product created',product });
+    } catch (e) {
+        res.status(404).json({ message: "something went wrong" });
+    }
+    
 }
 
 const fetchProduct = async (req, res, next) => {
