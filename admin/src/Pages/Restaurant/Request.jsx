@@ -6,22 +6,24 @@ import { Card } from "../../Components";
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
-    GetRequests();
-  }, []);
+    GetRequests(currentPage);
+  }, [currentPage]);
+
   const GetRequests = () => {
-    Restaurants.GetRequests()
+    Restaurants.GetRequests(currentPage)
       .then((res) => {
         console.log("===res", res);
-        if (res?.response) {
-          setData(res?.response);
+        if (res?.results) {
+          setData(res?.results);
         }
       })
       .catch((e) => {
         console.log(e);
       });
   };
-  console.log("====data0", data);
   const handleApicall = (req, id) => {
     Restaurants.handleRequest(id, req)
       .then((res) => {
@@ -40,7 +42,7 @@ export default function Request() {
             buttons: req == "approve" ? true : false,
             timer: req == "approve" ? null : 1500,
           });
-          GetRequests();
+          GetRequests(currentPage);
         } else {
           swal({
             title: "Failed!",
@@ -78,6 +80,9 @@ export default function Request() {
       handleApicall(req, id);
     }
   };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <div className="container my-12 mx-auto px-4 md:px-12">
       <div className="flex flex-wrap -mx-1 lg:-mx-4 gap-3 justify-start">
@@ -94,6 +99,31 @@ export default function Request() {
               />
             );
           })}
+      </div>
+      <div className="mt-4 justify-center items-center flex">
+        <button
+          disabled={currentPage > 1 ? false : true}
+          onClick={() => handlePageChange(currentPage - 1)}
+          className={`inline-flex items-center px-4 py-2 ${
+            currentPage > 1
+              ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+              : ""
+          }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+        >
+          Previous
+        </button>
+
+        <button
+          disabled={data?.length == 9 ? false : true}
+          onClick={() => handlePageChange(currentPage + 1)}
+          className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
+            data?.length == 9
+              ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+              : "bg-white"
+          }`}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ export default function UserDetail() {
       </div>
       {data?.address?.map((item, index) => {
         return (
-          <div className="bg-slate-200 max-w-lg shadow-lg my-4 p-4 rounded-lg">
+          <div key={index} className="bg-slate-200 max-w-lg shadow-lg my-4 p-4 rounded-lg">
             <h2 className=" font-extrabold text-2xl">
               Address {data?.address?.length > 1 && index + 1}
             </h2>

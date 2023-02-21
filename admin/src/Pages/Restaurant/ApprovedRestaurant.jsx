@@ -53,6 +53,7 @@ export default function ApprovedRestaurant() {
         {categorydata?.map((item, index) => {
           return (
             <Category
+              key={index}
               onClick={() => setCategory(item?.name)}
               name={item?.name}
               currentColor={currentColor}

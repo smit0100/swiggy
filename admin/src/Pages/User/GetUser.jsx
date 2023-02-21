@@ -108,7 +108,7 @@ export default function GetUser() {
           <td className="px-6 py-4">
             {/* <!-- Modal toggle --> */}
             <a
-              onClick={() => handleModal(item?._id)}
+              // onClick={() => handleModal(item?._id)}
               type="button"
               className="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >
@@ -241,7 +241,7 @@ export default function GetUser() {
           </tr>
         </thead>
         <tbody>
-          {search.length > 0 ? dataTable(filterDatas) : dataTable(rows)}
+          {search?.length > 0 ? dataTable(filterDatas) : dataTable(rows)}
         </tbody>
       </table>
       <div className="mt-4">

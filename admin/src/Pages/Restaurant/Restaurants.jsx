@@ -31,6 +31,7 @@ export default function Restaurants() {
             data?.map((item, index) => {
               return (
                 <RestroCard
+                  key={index}
                   image={resto}
                   title={item?.name}
                   restaurantId={item?._id}

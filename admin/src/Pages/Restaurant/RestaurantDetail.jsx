@@ -160,7 +160,7 @@ export default function RestaurantDetail() {
                     <h1 className="font-semibold dark:text-white">Outlets :</h1>
                     {data?.outLetType?.map((item, index) => {
                       return (
-                        <div className="flex items-center justify-strt">
+                        <div key={index} className="flex items-center justify-strt">
                           <div className="h-2 w-2 mx-2 rounded-full bg-gray-700" />
                           <h3>{item}</h3>
                         </div>

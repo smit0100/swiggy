@@ -1,8 +1,8 @@
 import Api from "./Api";
 
-function GetRequests() {
+function GetRequests(num) {
   return Api({
-    url: "/resturant/fetchAll",
+    url: `/resturant/fetchAll?pageNumber=${num}&pageSize=9`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
