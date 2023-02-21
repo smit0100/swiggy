@@ -295,6 +295,7 @@ export const RestroCategoryCard = ({ item }) => {
         })
         console.log(response.data.data.cart);
         dispatch(cartData(response.data.data.cart))
+        swal("Item added in cart", "", "success");
       }
       else {
         if (cartItemData.resturant != restaurantId) {
