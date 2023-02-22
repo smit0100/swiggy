@@ -21,6 +21,20 @@ const addCategory = async (req,res,next) => {
     }
 }
 
+const fetchAllSubCategory = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+
+        const response = await SubCategory.find({ mainCategory: id });
+
+        res.status(200).json({ message: 'category founded', response });
+    } catch (e) {
+        console.log(e);
+        res.status(400).json({ message: "something went wroong" });
+    }
+}
+
 module.exports = {
-    addCategory
+    addCategory,
+    fetchAllSubCategory
 }

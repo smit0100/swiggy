@@ -22,11 +22,11 @@ function App() {
           <Route path="/ownerRegister" element={<OwnerRegister />} />
           <Route path="/otp" element={<Otp />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
-          <Route path='/addcategory' element={<AddCategory />} />
-          <Route path='/orderdetail' element={<OrderDetail />} />
         </Route> :
         <Route path="/" element={<Home />} >
           <Route index element={<Directory />} />
+          <Route path='/addproduct' element={<AddCategory />} />
+          <Route path='/orderdetail' element={<OrderDetail />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
           <Route path='/resturantRegister' element={<RestaurantRegister />} />
         </Route>

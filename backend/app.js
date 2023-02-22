@@ -13,7 +13,7 @@ const resturantRoute = require('./routes/resturantRoute');
 const categoryRoute = require('./routes/categoryRoutes');
 const productRoute = require('./routes/productRoutes');
 const cartRoute = require('./routes/cartRoutes');
-const paymentRoute = require('./routes/paymentRoute');
+const paymentRoute = require('./routes/payment');
 const subCategoryRoute = require('./routes/subCategoryRoutes');
 const passport = require('passport')
 const passportSetup = require('./utils/passport')
@@ -50,7 +50,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(cors({
-    origin: 'http://localhost:3000',    
+    origin: ['http://localhost:3000','http://localhost:3001','http://localhost:3002'],    
     credentials:true
 }));
 
@@ -78,9 +78,7 @@ app.use('/resturant', resturantRoute)
 app.use('/category', categoryRoute);
 app.use('/product', productRoute);
 app.use("/cart", cartRoute)
-app.use('/payment', (req,res) => {
-    res.send('hello')
-});
+app.use('/payment', paymentRoute);
 app.use('/order', orderRoute)
 app.use('/outlet', outletRoute);
 app.use('/subcategory', subCategoryRoute);
