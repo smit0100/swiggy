@@ -4,13 +4,16 @@ import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { links } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveMenu } from '../../redux/shop/shopslice';
 
 const Sidebar = () => {
-  const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
-
+  const { currentColor,screenSize } = useStateContext();
+  const activeMenu = useSelector(state => state.setActiveMenu.activeMenu);
+  const dispatch = useDispatch()
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
-      setActiveMenu(false);
+      dispatch(setActiveMenu(false));
     }
   };
 
@@ -27,7 +30,7 @@ const Sidebar = () => {
             </Link>
               <button
                 type="button"
-                onClick={() => setActiveMenu(!activeMenu)}
+                onClick={() => dispatch(setActiveMenu(!activeMenu))}
                 style={{ color: currentColor }}
                 className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
               >

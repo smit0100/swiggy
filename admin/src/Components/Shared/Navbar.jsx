@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FiShoppingCart } from 'react-icons/fi';
 import { RiNotification3Line } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import avatar from '../../Assets/avatar.jpg';
 // import { Cart, Chat, Notification, UserProfile } from '.';
 import { useStateContext } from '../../contexts/ContextProvider';
+import { setActiveMenu } from '../../redux/shop/shopslice';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
     <button
@@ -23,8 +25,9 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 
 const Navbar = () => {
-  const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
-
+  const { currentColor, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
+  const activeMenu = useSelector(state => state.setActiveMenu.activeMenu);
+  const dispatch = useDispatch()
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -37,13 +40,13 @@ const Navbar = () => {
 
   useEffect(() => {
     if (screenSize <= 900) {
-      setActiveMenu(false);
+      dispatch(setActiveMenu(false));
     } else {
-      setActiveMenu(true);
+      dispatch(setActiveMenu(true));
     }
   }, [screenSize]);
 
-  const handleActiveMenu = () => setActiveMenu(!activeMenu);
+  const handleActiveMenu = () => dispatch(setActiveMenu(!activeMenu));
 
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
