@@ -1,33 +1,26 @@
 require('dotenv').config()
-const { Route } = require('express')
+const express = require('express')
 const stripe = require('stripe')(process.env.STRIP_SECRET_KEY);
-const router = Route();
-const uuid = require('uuid/v4')
+const router = express.Router();
+const { v4:uuidv4} = require('uuid');
 
 
 
 router.post('/', async (req, res) => {
-    const { product, token } = req.body;
-    console.log('PRODUCT', product);
-    console.log("token", token);
     
-    const idempontencyKey = uuid();
-
-    return stripe.customers.create({
-        email: token.email,
-        source:token.id
-    }).then(customer => {
-        stripe.charges.create({
-            amout: product.price * 100,
-            currency: 'inr',
-            customer: customer.id,
-            receipt_email: token.email,
-            description:'purchase product '
-        },{idempontencyKey})
-    }).then(result => res.status(200).json(result)).catch(e => console.log(e))
-
-
-  
+    
+    try {
+        const { amount, currency } = req.body;
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount,
+          currency,
+        });
+        res.send({ clientSecret: paymentIntent.client_secret });
+      
+    } catch (e) {
+        res.status(404).json({message:"something went wrong"})
+    }
+   
 })
 
 module.exports = router

@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { userData } from "../redux/user/userSlice"
+import StripeCheckout from 'react-stripe-checkout';
 
 const CheckoutPage = () => {
 
@@ -23,6 +24,29 @@ const CheckoutPage = () => {
   const resturant = useSelector(state => state.cartData.cart.resturant);
   const total = useSelector(state => state.cartData.cart.total);
 
+  const makePayment = async (token) => {
+    console.log("this is token");
+    console.log(token);
+   
+    
+    const header = {
+      "Content-Type":"application/json"
+    }
+  
+    const response =  axios.post(`http://localhost:4000/payment`, {
+      token,
+      product: {
+        name: 'first product',
+        price:1000
+      }
+    })
+  
+    console.log(response);
+  
+    console.log("response status",response.status);
+  
+  
+  }
 
   const handleDelivery = async (address) => {
     // e.preventDefault();
@@ -39,7 +63,7 @@ const CheckoutPage = () => {
     // console.log(user._id);
     // console.log(resturant);
     const response = await axios.post('http://localhost:4000/order/create', {
-      products: pr,
+    
       customer: user._id,
       total,
       resturant,
@@ -142,13 +166,22 @@ const CheckoutPage = () => {
                         <p className="font-semibold text-xl">Address {i + 1}</p>
                         <p className="w-10/12 font-[350] text-slate-500">{address.area + " " + address.city + " " + address.state + "-" + address.pincode}</p>
                         <p className="font-semibold text-sm uppercase py-5 ">16 mins</p>
-                        <button
+                        <StripeCheckout
+        stripeKey={process.env.REACT_APP_PUBLIC_KEY_PAYMENT}
+        token={makePayment}
+        namee="buy product"
+        amount={100000}
+      >
+        <button
                           className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                           to="ewfsdf"
                           onClick={() => handleDelivery(address)}
                         >
                           deliver here
                         </button>
+        </StripeCheckout>
+
+                        
                         <button
                           className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" onClick={() => { addressDelete(address._id) }}>
 

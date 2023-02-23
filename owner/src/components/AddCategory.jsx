@@ -1,29 +1,86 @@
+import axios from 'axios';
 import React from 'react'
+import { useState, useEffect } from 'react'
 
 
 const AddCategory = () => {
+  const [categoryArray, setCategoryArray] = useState([]);
+  const [category, setCategory] = useState("select your category");
+  const [subCategory, setSubCategory] = useState('');
+  const [subCategoryArray, setSubCategoryArray] = useState([]);
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
+  const [description, setDescription] = useState('');
+  const [productImage, setProductImage] = useState(null)
+
+
+
+  useEffect(() => {
+
+    (async () => {
+      const res = await axios.get("http://localhost:4000/category/all")
+      console.log(res.data.response);
+      setCategoryArray(res.data.response);
+    })();
+
+  }, [])
+
+  useEffect(() => {
+
+
+    (async () => {
+      const res = await axios.get(`http://localhost:4000/subcategory/all?id=${category}`);
+      console.log(res.data.response);
+      setSubCategoryArray(res.data.response);
+
+    })();
+
+  }, [category])
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append('price', price);
+    formData.append("description", description);
+    formData.append('productImage', productImage);
+
+
+
+  }
+
   return (
     <>
+      <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100'>
+
       <div className='mx-10'>
-        <div className='m-5 shadow-md'>
-          <h1 className='text-2xl font-semibold py-5 pl-2'>Add Product</h1><hr />
+        <div className='m-5 '>
+          <h1 className='text-2xl font-semibold py-5 pl-2'>Add Product</h1><hr className='text-black bg-black'/>
           <div className='flex flex-wrap py-3'>
-            <div className='w-2/5 px-2'>
+            <div className='w-full sm:w-2/5 px-2'>
               <h1 className='text-xl text-slate-800'>Select Category</h1>
-              <div class="flex justify-center">
-  <div class="mb-3 xl:w-96">
-    <select data-te-select-init>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-      <option value="4">Four</option>
-      <option value="5">Five</option>
-    </select>
-    <label data-te-select-label-ref>Example label</label>
-  </div>
-</div>
+              <div className="flex flex-wrap pt-5">
+                <div className="mb-3 xl:w-1/4">
+                  <select data-te-select-init onChange={e => setCategory(e.target.value)} className='block appearance-none w-full bg-white border-y border-l border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-tl rounded-bl shadow leading-tight focus:outline-none focus:shadow-outline'>
+                    {
+                      categoryArray ? categoryArray.map(item => <option value={item._id} key={item.name}>{item.name}</option>) : ''
+                    }
+
+                  </select>
+                </div>
+                <div className="mb-3 xl:w-3/5">
+                  <select data-te-select-init onChange={e => setSubCategory(e.target.value)} className="block appearance-none w-full bg-white border-y border-r border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-tr rounded-br shadow leading-tight focus:outline-none focus:shadow-outline">;
+                    {
+                      subCategoryArray ? subCategoryArray.map(item => <option value={item._id} key={item.name}>{item.name}</option>) : ''
+                    }
+                  </select>
+                </div>
+              </div>
+
             </div>
-            <div className='w-3/5 px-4 border-l-2'>
+
+            <div className='w-full sm:w-3/5 px-4 border-l-2'>
               <h1 className='text-xl text-slate-800 border-b-2'>Product Details</h1>
               <form className='pt-5'>
                 <div className="relative w-full mb-3">
@@ -34,7 +91,10 @@ const AddCategory = () => {
                     type="text"
                     id='productName'
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Enter Product name" />
+                    placeholder="Enter Product name"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                  />
                 </div>
                 <div>
                   <label className="block capitalize text-blueGray-600 text-md pb-1" htmlFor="price">
@@ -48,7 +108,11 @@ const AddCategory = () => {
                       type="number"
                       id="price"
                       className="block w-full px-4 py-2 pr-12 border-t border-b border-l border-gray-300 rounded focus:outline-none focus:ring ease-linear transition-all duration-150 pl-7 sm:text-sm"
-                      placeholder="Product price" />
+                      placeholder="Product price"
+                      value={price}
+                      onChange={e => setPrice(e.target.value)}
+                    />
+
                   </div>
                 </div>
                 <div className="relative w-full my-3">
@@ -59,9 +123,19 @@ const AddCategory = () => {
                     id="description"
                     rows="4"
                     className="resize-none block p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300  dark:placeholder-gray-400 focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Write Product description..."></textarea>
+                    placeholder="Write Product description..."
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                  ></textarea>
                 </div>
-                <button className="inline-block ml-2 mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
+
+                <div className="relative w-full my-3">
+                  <label className="block capitalize text-blueGray-600 text-md pb-1" htmlFor="pdImage">
+                    Upload prodouct image
+                  </label>
+                  <input type="file" name="productImage" id="pdImage" onCanPlay={(e) => setProductImage(e.target.files[0])} />
+                </div>
+                <button className="inline-block ml-2 mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500" onClick={handleSubmit}>
                   Add Product
                 </button>
 
@@ -69,6 +143,10 @@ const AddCategory = () => {
             </div>
           </div>
         </div>
+
+        </div>
+
+
       </div>
     </>
   )
