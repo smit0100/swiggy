@@ -8,8 +8,9 @@ import { useSelector } from 'react-redux';
 import LoginRegister from './components/LoginRegister';
 import Otp from './components/Otp';
 import PrivacyPolicy from './components/PrivacyPolicy';
-import AddCategory from './components/AddCategory';
 import OrderDetail from './components/OrderDetail';
+import AddProduct from './components/AddProduct';
+import OrderSummary from './components/OrderSummary';
 function App() {
 
   const owner = useSelector(state => state.userData.user)
@@ -22,11 +23,12 @@ function App() {
           <Route path="/ownerRegister" element={<OwnerRegister />} />
           <Route path="/otp" element={<Otp />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
+          <Route path='/orderdetails' element={<OrderDetail />} />
+          <Route path='/ordersummary/:orderId' element={<OrderSummary />} />
+          <Route path='/addproduct' element={<AddProduct />} />
         </Route> :
         <Route path="/" element={<Home />} >
           <Route index element={<Directory />} />
-          <Route path='/addproduct' element={<AddCategory />} />
-          <Route path='/orderdetail' element={<OrderDetail />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
           <Route path='/resturantRegister' element={<RestaurantRegister />} />
         </Route>

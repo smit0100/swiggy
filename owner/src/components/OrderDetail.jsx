@@ -1,24 +1,28 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const OrderDetail = () => {
-
+  const navigate = useNavigate()
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showOrderDetail, setShowOrderDetail] = useState(false)
 
   const orders = [
     { id: 123, customerName: "John Doe", totalPrice: 45.99, orderDate: "2023-02-21", status: "Delivered" },
-    { id: 124, customerName: "Jane Smith", totalPrice: 26.50, orderDate: "2023-02-20", status: "Preparing" },];
+    { id: 124, customerName: "Jane Smith", totalPrice: 26.50, orderDate: "2023-02-20", status: "Preparing" },
+    { id: 164, customerName: "Jani Mohan", totalPrice: 65.00, orderDate: "2023-05-05", status: "On the way" },];
 
-  const handleRowClick = (orderId) => {
-    setSelectedOrderId(orderId);
-
-    // Fetch the order details using the order ID
-    // Display the quick review details in a modal or tooltip
-  };
+  // const handleRowClick = (orderId) => {
+  //   setSelectedOrderId(orderId);
+  //   navigate(`/ordersummary/:${selectedOrderId}`)
+  //   // Fetch the order details using the order ID
+  //   // Display the quick review details in a modal or tooltip
+  // };
   return (
     <>
       <div className='mx-5'>
         <div className='p-5 shadow-md'>
+          <h1 class="text-3xl font-bold mb-4">Order Summary</h1>
           <div class="overflow-x-auto">
             <table class="table w-full whitespace-no-wrap">
               <thead>
@@ -30,18 +34,19 @@ const OrderDetail = () => {
                   <th class="py-3 px-6 text-left">Status</th>
                 </tr>
               </thead>
+              <button onClick={() => navigate('/')}>click me</button>
               <tbody className="text-gray-600 text-sm font-light">
                 {orders.map((order) => (
                   <tr
                     key={order.id}
                     className={`border-b border-gray-200 hover:bg-gray-100 ${selectedOrderId === order.id ? "bg-blue-100" : ""}`}
-                    onClick={() => { handleRowClick(order.id); setShowOrderDetail(true) }}>
+                    onClick={() => navigate(`ordersummary/:${order.id}`,{replace:true})}>
                     <td className="py-3 px-6 text-left">{order.id}</td>
                     <td className="py-3 px-6 text-left">{order.customerName}</td>
                     <td className="py-3 px-6 text-left">${order.totalPrice.toFixed(2)}</td>
                     <td className="py-3 px-6 text-left">{order.orderDate}</td>
                     <td className="py-3 px-6 text-left">
-                      <span className={`py-1 px-3 rounded-full text-xs ${order.status === "Delivered" ? "bg-green-200 text-green-600" : "bg-yellow-200 text-yellow-600"}`}>
+                      <span className={`py-1 px-3 rounded-full text-xs ${order.status === "Delivered" ? "bg-green-200 text-green-600" : order.status === "Preparing" ? "bg-yellow-200 text-yellow-600" : "bg-amber-200 text-amber-600"}`}>
                         {order.status}
                       </span>
                     </td>
@@ -53,7 +58,7 @@ const OrderDetail = () => {
 
 
 
-          {
+          {/* {
             showOrderDetail &&
             <div className='absolute bg-red-500 top-0 left-0 z-50'>
               <div className="fixed z-50 inset-0 overflow-y-auto">
@@ -133,7 +138,7 @@ const OrderDetail = () => {
                 </div>
               </div>
             </div>
-          }
+          } */}
         </div>
       </div>
     </>
