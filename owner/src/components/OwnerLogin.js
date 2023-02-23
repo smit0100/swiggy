@@ -19,6 +19,10 @@ export default function OwnerLogin() {
 
   const dispatch = useDispatch()
 
+  const googleAuth = () => {
+    window.open('http://localhost:4000/auth/google/callback', "self")
+  }
+console.log(googleAuth)
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -118,7 +122,7 @@ export default function OwnerLogin() {
                       className="w-5 mr-1"
                       src="./svg/facebook.svg"
                     />
-                    facebook
+                    Facebook
                   </button>
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
@@ -128,6 +132,7 @@ export default function OwnerLogin() {
                       alt="google"
                       className="w-5 mr-1"
                       src="./svg/google.svg"
+                      onClick={googleAuth}
                     />
                     Google
                   </button>

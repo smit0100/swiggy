@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartData } from "../redux/cart/cartSlice";
 import swal from 'sweetalert'
+import UserAddress from '../components/UserAddress';
 const SearchPage = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
@@ -176,6 +177,7 @@ const SearchPage = () => {
           <div className='flex justify-center items-center w-full'>
 
           </div>
+          {/* <UserAddress/> */}
 
         </div>
       </div>

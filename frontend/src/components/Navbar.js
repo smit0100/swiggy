@@ -95,6 +95,7 @@ const Navbar = () => {
 
                   <Link to="/search"><i className="fa-solid fa-magnifying-glass pr-3"></i>Search</Link>
                 </li>
+                
                 <li className="text-gray-600 hover:text-blue-600">
                   <Link to="/help"><i className="fa-sharp fa-solid fa-circle-info pr-3"></i>Help</Link>
                 </li>
