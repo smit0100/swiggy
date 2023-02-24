@@ -93,7 +93,7 @@ const Resturant = new Schema({
             type:String
         },
         number: {
-            type:Number
+            type:String
         }
     },
     image: [

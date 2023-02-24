@@ -5,7 +5,7 @@ const orderController = require('../controller/orderController');
 router.get('/user', orderController.fetchUserOrder);
 router.post('/create', orderController.createOrder);
 router.get('/allOrder', orderController.fetchAllOrder);
-
+router.get('/',orderController.fetchOneOrder)
 
 
 

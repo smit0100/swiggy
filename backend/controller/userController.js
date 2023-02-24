@@ -301,6 +301,8 @@ const editAddress = async (req, res, next) => {
             city,
             state,
             pincode
+        }, {
+            new:true
         })
         console.log(response);
         res.status(201).json({ messag: 'edited address', response });

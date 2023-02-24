@@ -33,6 +33,20 @@ const createOrder = async (req, res, next) => {
 
 }
 
+const fetchOneOrder = async (req, res, next) => {
+    try {
+        const { id } = req.query
+       
+        console.log(id);
+        const order = await Order.findById(id);
+        
+        if (!order) return res.status(404).json({ message: 'order not found' });
+
+        res.status(200).json({ message: 'order founded', order });
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
 
 const fetchAllOrder = async (req, res, next) => {
     try {
@@ -84,5 +98,6 @@ const fetchUserOrder = async (req, res, next) => {
 module.exports = {
     createOrder,
     fetchAllOrder,
-    fetchUserOrder
+    fetchUserOrder,
+    fetchOneOrder
 }

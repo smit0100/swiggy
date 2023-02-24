@@ -10,10 +10,13 @@ const sendEmail = require('../utils/sendEmail');
 
 const createResturnat = async (req, res, next) => {
    
-    let { address, email, name,ownerName,number,panCard,bankDetails, outLetType } = req.body;
+    let { address, email, name, ownerName, number, panCard, bankDetails, outLetType } = req.body;
+    
    address = JSON.parse(address);
-   panCard = JSON.parse(panCard)
-   bankDetails = JSON.parse(bankDetails)
+    panCard = JSON.parse(panCard);
+    bankDetails = JSON.parse(bankDetails)
+    
+    console.log( typeof(panCard));
 
     let bankImage = req.files.bank;
     let panImage = req.files.pancard;
@@ -66,10 +69,10 @@ const createResturnat = async (req, res, next) => {
         console.log(bgimageUrl);
         
 
-        const response = await new Resturant({ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl }).save();
+        const response = await new Resturant({ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard }).save();
 
-        console.log(response.panCard);
-        console.log(response.bankDetails);
+        console.log(response);
+        console.log(response);
 
         return res.status(200).json({ message: 'resturant created' });
 
@@ -185,15 +188,17 @@ const fetchResturant = async (req, res, next) => {
 
 const approveResturant = async (req, res, next) => {
     const { id } = req.params;
-    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Accepted" });
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Accepted" },{new:true});
 
-    return res.status(200).json({ message: 'resturant is active' });
+    return res.status(200).json({ message: 'resturant is active',response });
 }
 const rejectResturant = async (req, res, next) => {
     const { id } = req.params;
-    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Rejected" });
+    const response = await Resturant.findByIdAndUpdate(id, { isApproved: "Rejected" }, {
+        new:true    
+    });
 
-    return res.status(200).json({ message: 'resturant is rejected' });
+    return res.status(200).json({ message: 'resturant is rejected' ,response});
 }
 const fetchAllResturants = async (req, res, next) => {
 

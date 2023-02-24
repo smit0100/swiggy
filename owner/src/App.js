@@ -24,7 +24,7 @@ function App() {
           <Route path="/otp" element={<Otp />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
           <Route path='/orderdetails' element={<OrderDetail />} />
-          <Route path='/ordersummary/:orderId' element={<OrderSummary />} />
+          <Route path='/ordersummary' element={<OrderSummary />} />
           <Route path='/addproduct' element={<AddProduct />} />
         </Route> :
         <Route path="/" element={<Home />} >
