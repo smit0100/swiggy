@@ -1,8 +1,8 @@
 import Api from "./Api";
 
-function GetOrders() {
+function GetOrders(num) {
   return Api({
-    url: "order/allOrder",
+    url: `order/allOrder?pageNumber=${num}&pageSize=10`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",

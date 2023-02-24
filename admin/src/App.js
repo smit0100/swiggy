@@ -16,17 +16,18 @@ import {
   ApprovedRestaurant,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 function App() {
   const {
     setCurrentColor,
     setCurrentMode,
     currentMode,
-    activeMenu,
     currentColor,
     themeSettings,
     setThemeSettings,
   } = useStateContext();
+  const activeMenu = useSelector(state => state.setActiveMenu.activeMenu);
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
