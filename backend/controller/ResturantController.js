@@ -84,14 +84,6 @@ const createResturnat = async (req, res, next) => {
     
 
     res.status(200).json({ message: "uploader" });
-    // const { name, address,count } = req.body;
-    
-    // const resturant = await new Resturant({ name, email,address,location }).save();
-
-    // return res.status(200).json({
-    //     message: "resturant created",
-    //     resturant
-    // })
 }
 
 

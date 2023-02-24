@@ -293,17 +293,26 @@ const editAddress = async (req, res, next) => {
         // const response = await User.findOneAndUpdate({_id:userId,address:{$in:{_id:itemId}}}, {
         //     new:true
         // });
-        const response = await User.findByIdAndUpdate({
+       
+        const result = await User.findOne({
             _id: userId,
-            address:{$in:{_id:itemId}}
-        }, {
-            area,
-            city,
-            state,
-            pincode
-        }, {
+            address:{$elemMatch:{_id:itemId}}
+        })
+        console.log(result);
+        
+        const response = await User.findOneAndUpdate({
+            _id: userId,
+            address: {$elemMatch: { _id: itemId }}
+        }, 
+          { 'address.$':{ area:area,city:city,state:state,pincode:pincode} } 
+        , {
             new:true
         })
+
+       
+
+        
+        console.log("check this response");
         console.log(response);
         res.status(201).json({ messag: 'edited address', response });
     } catch (e) {
