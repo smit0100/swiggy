@@ -50,12 +50,13 @@ const SearchPage = () => {
     navigate(`/restaurant/${id}`)
   }
 
+
   const addtoCart = async (restaurantId, id) => {
     console.log(restaurantId);
     if (!isUser) {
       navigate('/login')
     } else {
-      if (cartItemData != null && cartItemData.products.length == 0) {
+      if (cartItemData!=null && cartItemData.products.length == 0) {
         const response = await axios.post('http://localhost:4000/cart/add', {
           productId: id,
           userId: isUser._id,
@@ -63,9 +64,10 @@ const SearchPage = () => {
         })
         console.log(response.data.data.cart);
         dispatch(cartData(response.data.data.cart))
+        swal("Item added in cart", "", "success");
       }
       else {
-        if (cartItemData != null && cartItemData.resturant != restaurantId) {
+        if (cartItemData.resturant != restaurantId) {
           console.log("hello jii");
           swal({
             title: "Items already in cart",
@@ -101,11 +103,15 @@ const SearchPage = () => {
             userId: isUser._id,
             resturantId: restaurantId
           })
+          console.log("ok");
           dispatch(cartData(response.data.data.cart))
+          swal("Item added in cart", "", "success");
         }
       }
 
     }
+
+
   }
 
   return (

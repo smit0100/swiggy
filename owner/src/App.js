@@ -17,7 +17,7 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      owner == null ?
+      owner !== null ?
         <Route path="/" element={<LoginRegister />}>
           <Route index element={<OwnerLogin />} />
           <Route path="/ownerRegister" element={<OwnerRegister />} />

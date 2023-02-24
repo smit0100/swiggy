@@ -49,13 +49,28 @@ const fetchOneOrder = async (req, res, next) => {
 }
 
 const fetchAllOrder = async (req, res, next) => {
+    const pageNumber = parseInt(req.query.pageNumber) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10 ;
     try {
-        const response = await Order.find();
+        const totalCount = await Order.countDocuments();
+        // calculate the number of pages
+        
+        const totalPages = Math.ceil(totalCount / pageSize);
+    
+        // retrieve the blog posts based on the page number and page size
+        const response = await Order.find()
+          .skip((pageNumber - 1) * pageSize)
+          .limit(pageSize);
         console.log("==response===>>>",response);
-        return res.status(200).json({
+        // return the paginated results
+        res.status(200).json({
             message: 'order founded',
-            response
-        })
+            page: pageNumber,
+            totalPages: totalPages,
+            pageSize: pageSize,
+            totalCount: totalCount,
+            results: response
+          });
     } catch (e) {
         res.status(500).json({message:"something went wrong"})
     }

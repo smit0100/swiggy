@@ -147,7 +147,7 @@ export default function GetUser() {
           </button>
           {/* <!-- Dropdown menu --> */}
           {action && (
-            <div className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 shadow-2xl">
+            <div className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg w-44 dark:bg-gray-700 dark:divide-gray-600 shadow-2xl">
               <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
                 <li>
                   <a

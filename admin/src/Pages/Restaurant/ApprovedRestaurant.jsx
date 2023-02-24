@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import resto from "../../Assets/resto.jpg";
+import pizza from "../../Assets/pizza.jpg";
 import { MdFastfood } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useState } from "react";
@@ -74,7 +74,7 @@ export default function ApprovedRestaurant() {
                   key={index}
                   name={item?.name}
                   price={item?.price}
-                  bgImage={resto}
+                  bgImage={pizza}
                 />
               );
             })}

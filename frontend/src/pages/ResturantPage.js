@@ -334,7 +334,9 @@ export const RestroCategoryCard = ({ item }) => {
             userId: isUser._id,
             resturantId: restaurantId
           })
+          console.log("ok");
           dispatch(cartData(response.data.data.cart))
+          swal("Item added in cart", "", "success");
         }
       }
 

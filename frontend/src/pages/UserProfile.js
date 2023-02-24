@@ -3,7 +3,7 @@ import axios from 'axios'
 import { userData } from "../redux/user/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const UserProfile = () => {
@@ -289,7 +289,9 @@ const UserProfile = () => {
           <div className='w-full sm:w-1/5 p-5'>
             <ul className='space-y-3'>
               <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(1)}>Profile</li>
-              <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li>
+              {/* <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li> */}
+              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Order Detail</li>
+
             </ul>
           </div>
 
@@ -444,6 +446,24 @@ const UserProfile = () => {
           {/* order module  */}
           <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
             <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
+            <div className='w-3/4 h-full '>
+              <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                        <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full'/>
+                        <h1 className='font-bold text-xl'>pizza the granted</h1>
+                        <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
+              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                        <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full'/>
+                        <h1 className='font-bold text-xl'>pizza the granted</h1>
+                        <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
+              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                        <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full'/>
+                        <h1 className='font-bold text-xl'>pizza the granted</h1>
+                        <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
+              
+            </div>
           </div>
         </div>
 
@@ -692,6 +712,7 @@ const UserProfile = () => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
         ) : null}
+        
       </div>
     </>
   )
