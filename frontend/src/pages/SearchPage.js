@@ -183,7 +183,7 @@ const SearchPage = () => {
           <div className='flex justify-center items-center w-full'>
 
           </div>
-          {/* <UserAddress/> */}
+          <UserAddress/>
 
         </div>
       </div>

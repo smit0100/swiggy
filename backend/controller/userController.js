@@ -290,6 +290,7 @@ const deleteUser = async (req, res, next) => {
 const editAddress = async (req, res, next) => {
     try {
         const { userId, itemId, area, city, state, pincode } = req.body;
+        console.log(req.body);
         // const response = await User.findOneAndUpdate({_id:userId,address:{$in:{_id:itemId}}}, {
         //     new:true
         // });

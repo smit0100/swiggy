@@ -17,18 +17,18 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      owner !== null ?
+      owner == null ?
         <Route path="/" element={<LoginRegister />}>
           <Route index element={<OwnerLogin />} />
           <Route path="/ownerRegister" element={<OwnerRegister />} />
           <Route path="/otp" element={<Otp />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
+        </Route> : 
+        <Route path="/" element={<Home />} >
+          <Route index element={<Directory />} />
           <Route path='/orderdetails' element={<OrderDetail />} />
           <Route path='/ordersummary' element={<OrderSummary />} />
           <Route path='/addproduct' element={<AddProduct />} />
-        </Route> :
-        <Route path="/" element={<Home />} >
-          <Route index element={<Directory />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
           <Route path='/resturantRegister' element={<RestaurantRegister />} />
         </Route>
