@@ -18,7 +18,7 @@ const Directory = () => {
                     </div>
                     <div className='flex flex-wrap'>
                         <div className='w-full sm:w-1/2 '>
-                            <ul className='pl-10 space-y-4'>
+                            <ul className='sm:pl-10 space-y-4'>
 
                                 <li className='flex gap-2'>{checkMark}PAN card copy</li>
                                 <li className='flex gap-2'>{checkMark}Your restaurant menu</li>

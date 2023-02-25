@@ -34,13 +34,13 @@ const OrderDetail = () => {
                   <th class="py-3 px-6 text-left">Status</th>
                 </tr>
               </thead>
-              <button onClick={() => navigate('/')}>click me</button>
+              
               <tbody className="text-gray-600 text-sm font-light">
                 {orders.map((order) => (
                   <tr
                     key={order.id}
                     className={`border-b border-gray-200 hover:bg-gray-100 ${selectedOrderId === order.id ? "bg-blue-100" : ""}`}
-                    onClick={() => navigate(`ordersummary/:${order.id}`,{replace:true})}>
+                    onClick={() =>{ navigate('/ordersummary'); setSelectedOrderId(order.id)}}>
                     <td className="py-3 px-6 text-left">{order.id}</td>
                     <td className="py-3 px-6 text-left">{order.customerName}</td>
                     <td className="py-3 px-6 text-left">${order.totalPrice.toFixed(2)}</td>
