@@ -122,7 +122,6 @@ const UserAddress = () => {
   }
   return (
     <div>
-        <h1 className='text-xl font-semibold pt-5 border-t-2 capitalize'>your Address</h1>
             {/* all address list  */}
             <div className='flex flex-wrap'>
 
@@ -141,7 +140,7 @@ const UserAddress = () => {
                           <button className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-4 py-[9px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
                             <span className='fas fa-location'></span> deliver here
                           </button>
-                          <button onClick={() => { setUpdateAddress(true); setChangeAddress(address._id); fillAddress(address.area + " " + address.city + " " + address.state + "-" + address.pincode,address.city,address.state,address.pincode)}} className="rounded-full inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  border border-current w-fit p-2 ml-1 text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
+                          <button onClick={() => { setUpdateAddress(true); setChangeAddress(address._id); fillAddress(address.area,address.city,address.state,address.pincode)}} className="rounded-full inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  border border-current w-fit p-2 ml-1 text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
                             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                               <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                             </svg>
