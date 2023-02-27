@@ -26,17 +26,19 @@ const Product = new Schema({
         type:String
     },
     rating: {
-        type:Number
+        type: Number,
+        default:0
     },
-    review: {
-        userId: {
+    noOfReview: {
+        type: Number,
+        default:0
+    },
+    review: [
+        {
             type: mongoose.Types.ObjectId,
-            ref:'User'
-        },
-        description: {
-            type:String
+            ref: 'Review'
         }
-    },
+    ],
     imageUrl: {
         type:String
     }
