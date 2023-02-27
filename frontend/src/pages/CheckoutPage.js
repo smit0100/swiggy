@@ -50,7 +50,7 @@ const CheckoutPage = () => {
 
   const handleDelivery = async (address) => {
     // e.preventDefault();
-
+    console.log('hello how are you');
     let pr = product.map(item => {
       return {
         product: item.product._id,
@@ -58,10 +58,7 @@ const CheckoutPage = () => {
       }
     })
 
-    // console.log(pr);
-    // console.log(address);
-    // console.log(user._id);
-    // console.log(resturant);
+   
     const response = await axios.post('http://localhost:4000/order/create', {
     
       customer: user._id,

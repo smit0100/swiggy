@@ -5,11 +5,15 @@ const User = require('../module/UserModel');
 
 const createOrder = async (req, res, next) => {
     try {
-        const { products, customer, total, address ,resturant} = req.body;
-        console.log(products,customer,total,address);
-        const order = await new Order({ products, customer, total ,address,resturant}).save();
+        const { customer, total, address, resturant } = req.body;
+        console.log(req.body);
+        // console.log(products,customer,total,address);
+        const user = await User.findById(customer);
+        
+        const order = await new Order({ products:user.cart.products, customer, total ,address,resturant}).save();
 
         //added in user
+        
         const userUpdate = await User.findByIdAndUpdate(customer, { $push: { order: order._id } }, {
             new:true
         });
