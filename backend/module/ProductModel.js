@@ -36,6 +36,9 @@ const Product = new Schema({
         description: {
             type:String
         }
+    },
+    imageUrl: {
+        type:String
     }
 })
 

@@ -23,6 +23,7 @@ function App() {
           <Route path="/ownerRegister" element={<OwnerRegister />} />
           <Route path="/otp" element={<Otp />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
+          <Route path='/addproduct' element={<AddProduct />} />
         </Route> : 
         <Route path="/" element={<Home />} >
           <Route index element={<Directory />} />
