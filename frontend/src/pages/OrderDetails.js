@@ -23,20 +23,23 @@ const OrderDetails = () => {
   console.log(orderData);
   const location = useLocation();
   const data = location.state;
+  console.log('check this data');
+  console.log(data);
   const createdDate = orderData.createdAt
   console.log("check this created date");
-  console.log(typeof(new Date(createdDate)));
+ 
   console.log(createdDate);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      console.log("this is id");
-      console.log(userId);
-      // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
-      let getData = await axios.get(`http://localhost:4000/order/user?userId=${userId}`)
+      // setIsLoading(true);
+ 
+      // console.log(userId);
+      // // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
+      // let getData = await axios.get(`http://localhost:4000/order/customer?userId=${userId}`)
+      // console.log(getData);
       // getData = await getData.json();
-      console.log(getData.data.response.order); 
+      // console.log(getData.data.response.order); 
       // setOrderData(getData.data.or);
       // setIsLoading(false);
     })();

@@ -49,7 +49,11 @@ const Order = new Schema({
             pincode: {
                 type:Number
             }
-        },
+    },
+    review: {
+        type: mongoose.Types.ObjectId,
+        ref:"Review"
+    }
     
 })
 

@@ -20,6 +20,7 @@ const passportSetup = require('./utils/passport')
 const facebookSetup = require('./utils/facebook')
 const orderRoute = require('./routes/orderRoutes');
 const outletRoute = require('./routes/outletRoutes');
+const ratingRoute = require('./routes/ratingRoutes');
 const cloudinary = require('cloudinary')
 
 
@@ -82,8 +83,7 @@ app.use('/payment', paymentRoute);
 app.use('/order', orderRoute)
 app.use('/outlet', outletRoute);
 app.use('/subcategory', subCategoryRoute);
-
-
+app.use('/rating',ratingRoute)
 
 app.get('/google', passport.authenticate("google", ["profile", "email"]))
 app.get('/auth/facebook', passport.authenticate('facebook'));
