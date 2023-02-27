@@ -2,7 +2,6 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 
 const OrderSummary = () => {
-  const { orderId } = useParams()
   return (
     <>
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 '>
