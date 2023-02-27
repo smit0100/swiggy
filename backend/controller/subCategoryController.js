@@ -14,7 +14,7 @@ const addCategory = async (req,res,next) => {
             name, description, mainCategory
         }).save();
 
-        res.status(200).json({ message: "sub category added successfully",subCategory })
+        res.status(200).json({ message: "Sub category added successfully",subCategory })
 
     } catch (e) {
         res.status(404).json({message:"something went wrong"})
