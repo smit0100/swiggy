@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartData } from "../redux/cart/cartSlice";
 import swal from 'sweetalert'
 import UserAddress from '../components/UserAddress';
+import Loader from '../components/Loader';
 const SearchPage = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
@@ -133,11 +134,8 @@ const SearchPage = () => {
             <div className=''>
               {
                 load === true ? (
-                  <div className="flex justify-center items-center h-screen w-screen " >
-                    <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-                    </div>
-                  </div>) : data.map(restaurant => <div className='cursor-pointer'>
+                  <Loader/>
+                  ) : data.map(restaurant => <div className='cursor-pointer'>
                     <div onClick={() => redirectRestaurent(restaurant.resturnat)} class="bg-white flex items-center border rounded-lg p-6 shadow-lg mt-4">
                       <img src="https://via.placeholder.com/150" alt="Food item" class="w-32 h-32 rounded-full mr-6" />
                       <div className=''>

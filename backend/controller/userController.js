@@ -261,7 +261,7 @@ const changePassword = async (req, res, next) => {
     console.log(pass);
     if (!pass) {
         return res.status(401).json({
-            message:"your password in incorrect"
+            message:"Your password is incorrect"
         })
     }
 

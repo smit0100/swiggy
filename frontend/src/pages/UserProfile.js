@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import UserAddress from '../components/UserAddress'
 import ChangePasswordPopup from '../components/ChangePasswordPopup'
 import UpdateProfileDetails from '../components/UpdateProfileDetails'
-
+import axios from 'axios'
+import Loader from '../components/Loader'
 
 const UserProfile = () => {
 
@@ -13,10 +14,16 @@ const UserProfile = () => {
   const [updateProfile, setupdateProfile] = useState(false)
   const [changePassword, setChangePassword] = useState(false)
   const [openTab, setOpenTab] = useState(1);
- 
+ const [orderData,setOrderData]=useState(null)
   const user = useSelector(state => state.userData.user)
 
-  
+  useEffect(() => {
+    (async () => {
+    let data = await axios.get(`http://localhost:4000/order/user?userId=${user._id}`)
+    // console.log(data);
+    setOrderData(data.data.response.order)
+    })()
+  }, [])
 
 
   return (
@@ -77,11 +84,14 @@ const UserProfile = () => {
           <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
             <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
             <div className='w-3/4 h-full '>
-              <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+            {/* {orderData==null?<Loader/>: 
+            <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
                 <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
                 <h1 className='font-bold text-xl'>pizza the granted</h1>
                 <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-              </Link>
+            </Link> } */}
+
+              
               <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
                 <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
                 <h1 className='font-bold text-xl'>pizza the granted</h1>
