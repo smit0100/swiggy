@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import FoodCard from './FoodCard'
 import Restaurant from './Restaurant'
+import Loader from './Loader'
 
 
 const Directory = () => {
@@ -54,11 +55,8 @@ const Directory = () => {
         <div className='row'>
           {
             load === true ? (
-              <div className="flex justify-center items-center h-screen w-screen ">
-                <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-                </div>
-              </div>) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
+             <Loader/>
+              ) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
           }
           <div class="flex w-full justify-center">
             <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">

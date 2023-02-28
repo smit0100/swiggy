@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { userData } from "../redux/user/userSlice"
 import { useSelector ,useDispatch} from 'react-redux'
-
+import swal from "sweetalert"
 
 
 const UserAddress = () => {
@@ -83,6 +83,8 @@ const UserAddress = () => {
 
   const handelChangeAddress=async (e)=>{
     e.preventDefault();
+    try{
+
     const response = await axios.put("http://localhost:4000/user/editAddress", {
       "itemId": changeAddress,
       "userId": user._id,
@@ -98,13 +100,32 @@ const UserAddress = () => {
     setState("")
     setPincode("")
     setChangeAddress("")
+    swal("Address changed successfully", "", "success");
+
+  }catch(err){
+    if(err.response.status==500)
+    {
+      swal(`${err.response.data.message}`, "", "error");
+
+    }
+  }
   }
 
 
   const addressDelete = async (id) => {
+    try{
     const response = await axios.get(`http://localhost:4000/user/delteAddress?userId=${user._id}&itemId=${id}`)
 
     dispatch(userData(response.data.response))
+    swal("Deleted successfully", "", "success");
+
+    }catch(err){
+      if(err)
+    {
+      swal("something went wrong", "", "error");
+
+    }
+    }
   }
 
   const fillAddress=(address,city,state,pincode)=>{

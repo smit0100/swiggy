@@ -1,11 +1,10 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import UserAddress from '../components/UserAddress'
 import ChangePasswordPopup from '../components/ChangePasswordPopup'
 import UpdateProfileDetails from '../components/UpdateProfileDetails'
 import axios from 'axios'
-
 
 const UserProfile = () => {
 
@@ -17,7 +16,7 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(null);
   const [order, setOrder] = useState([])
   const user = useSelector(state => state.userData.user)
-  
+
   console.log(user._id);
   useEffect(() => {
     (
@@ -93,15 +92,17 @@ const UserProfile = () => {
               {
                 order ? order.map(item => <Link to="/orderDetails" state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
                   <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
-                  <h1 className='font-bold text-xl'>{ item.product? item.product[0].name : ''}</h1>
-                  <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>  
+                  <h1 className='font-bold text-xl'>{item.product ? item.product[0].name : ''}</h1>
+                  <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
                 </Link>) : ''
               }
               <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
                 <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
                 <h1 className='font-bold text-xl'>pizza the granted</h1>
                 <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-              </Link>
+              </Link> 
+
+
               <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
                 <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
                 <h1 className='font-bold text-xl'>pizza the granted</h1>
@@ -119,12 +120,12 @@ const UserProfile = () => {
 
         {/* update profile component */}
         {updateProfile ? (
-          <UpdateProfileDetails setupdateProfile={setupdateProfile}/>
+          <UpdateProfileDetails setupdateProfile={setupdateProfile} />
         ) : null}
 
         {/* change password component  */}
         {changePassword ? (
-          <ChangePasswordPopup setChangePassword={setChangePassword}/>
+          <ChangePasswordPopup setChangePassword={setChangePassword} />
         ) : null}
 
       </div>

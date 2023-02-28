@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import swal from "sweetalert"
 
 const ChangePasswordPopup = ({setChangePassword}) => {
 
@@ -58,14 +59,21 @@ const ChangePasswordPopup = ({setChangePassword}) => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
     console.log(oldPassword, newPassword);
-    const response = await axios.post('http://localhost:4000/user/changePass', {
+    try{ const response = await axios.post('http://localhost:4000/user/changePass', {
       userId: user._id,
       oldPass: oldPassword,
       newPass: newPassword
     })
+    swal("Password changed successfully", "", "success");
+  }catch(err)
+  {
+    if(err.response.status==401)
+    {
+      swal(`${err.response.data.message}`, "", "error");
 
-
-    console.log(response);
+    }
+  }
+   
   }
 
   const handledisable = () => {

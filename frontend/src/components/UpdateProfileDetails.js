@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { userData } from "../redux/user/userSlice"
+import swal from "sweetalert"
 
 
 const UpdateProfileDetails = ({ setupdateProfile }) => {
@@ -100,38 +101,48 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     const changeProfileDetails = async (e) => {
         e.preventDefault()
         console.log(email, number, name);
-        const response = await axios.post("http://localhost:4000/user/update", {
-            userId: user._id,
-            email,
-            number,
-            name
-        })
+        try {
+            const response = await axios.post("http://localhost:4000/user/update", {
+                userId: user._id,
+                email,
+                number,
+                name
+            })
+            if (response.status === 201) {
+                console.log("ooo");
+                setotpTab(true);
+                setNewAddress(response.data.newDetails)
 
-        console.log(response);
-        // dispatch(userData(response.data.response))
-        
-        console.log("ha ha ha ha ");
-        if (response.status === 201) {
-            setotpTab(true);
-            setNewAddress(response.data.newDetails)
+            } else {
+                // add redux 
+                console.log("ooo");
+                dispatch(userData(response.data.user))
+                swal("Profile updated successfully", "", "success");
 
-        } else {
-            // add redux 
-            dispatch(userData(response.data.user))
+            }
+        }
+        catch (err) {
+            if (err.response.status == 409) {
+                swal(`${err.response.data.message}`, "", "error");
 
+            }
         }
     }
 
     const otpSubmit = async (e) => {
         e.preventDefault();
+        try{
         const response = await axios.post('http://localhost:4000/user/verify', {
             id: user._id,
             otp,
             newAddress
         })
         dispatch(userData(response.data.user))
-
         console.log(response);
+    }
+    catch(err){
+        console.log(err);
+    }
     }
 
     return (
@@ -192,7 +203,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
 
 
             {/* otp component  */}
-            {otpTab ? (
+            {otpTab && (
                 <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                         <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -238,7 +249,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     </div>
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                 </>
-            ) : null}
+            )}
         </>
     )
 }
