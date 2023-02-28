@@ -105,7 +105,7 @@ const Resturant = new Schema({
     }],
     isApproved: {
         type: String,
-        default:"Pending"
+        default:'Not Request'
     },
     pancardURL: {
         type:String

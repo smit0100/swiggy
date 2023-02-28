@@ -10,7 +10,7 @@ const sendEmail = require('../utils/sendEmail');
 
 const createResturnat = async (req, res, next) => {
    
-    let { address, email, name, ownerName, number, panCard, bankDetails, outLetType } = req.body;
+    let { address, email, name, ownerName, number, panCard, bankDetails,id } = req.body;
     
    address = JSON.parse(address);
     panCard = JSON.parse(panCard);
@@ -69,7 +69,7 @@ const createResturnat = async (req, res, next) => {
         console.log(bgimageUrl);
         
 
-        const response = await new Resturant({ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard }).save();
+        const response = await Resturant.findByIdAndUpdate(id,{ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard,isApproved:'pending' }).save();
 
         console.log(response);
         console.log(response);
@@ -226,6 +226,20 @@ const fetchAllResturants = async (req, res, next) => {
     
 }
 
+const resturantStatus = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        
+        const result = await Resturant.findById(id);
+        console.log(result);
+        if (result.isApproved === "isApproved") return res.status(200).json({ messag: 'resturant approved', result })
+        else return res.status(201).json({ messag: 'restuant not approved', result });    
+    } catch (e) {
+        res.status(500).json({ messag: 'something went wrong' });
+    }
+    
+}
+
 const fetchResturantAllProduct = async (req, res, next) => {
     const { id } = req.query;
     const ObjectID = require('mongodb').ObjectID;
@@ -265,7 +279,7 @@ const fetchAllApprovedResturant = async (req, res, next) => {
 const fetchAllResturantOrder = async (req, res, next) => {
     try {
         const { id } = req.query;
-        const order = await Resturant.findById(id, { order: 1 });
+        const order = await Resturant.findById(id, { order: 1 }).populate('order');
 
         if (!order) return res.status(400).json({ messag: "order fetched", order })
         
@@ -290,6 +304,17 @@ const acceptOrder = async (req, res, next) => {
         res.status(400).json({ messag: 'something went wrong' });
     }
 }
+
+const fetchAllProduct = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+        const result = await Resturant.findById(id).populate('product');
+        console.log(result);
+        return res.status(200).json({ message: 'product founded', result });
+    } catch (e) {
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
  
 
 module.exports = {
@@ -300,11 +325,13 @@ module.exports = {
     fetchAllResturants,
     fetchResturantAllProduct,
     fetchAllApprovedResturant,
-  
+    resturantStatus,
     acceptOrder,
     loginResturant,
     verfiyResturant,
-    register
+    register,
+    fetchAllProduct,
+    fetchAllResturantOrder
 }
 
 
