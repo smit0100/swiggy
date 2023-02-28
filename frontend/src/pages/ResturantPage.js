@@ -14,8 +14,8 @@ const ResturantPage = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
   const [categories, setCategories] = useState([]);
+  // const [showSubcat, setShowSubcat] = useState("hidden")
 
-  const [showSubcat, setShowSubcat] = useState("hidden")
 
   const handleCategoryChange = (event) => {
     const category = event.target.value;
@@ -143,162 +143,22 @@ const ResturantPage = () => {
                   <div className='row overflow-auto'>
                     <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-black/10 left-0 overflow-hidden'>
                       <ul className="space-y-2">
-                        {
+                        {/* {
                           category != null && category.map(item => <li>
                             <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
-                            <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
                               <div className="block">
                                 <div className="w-full text-lg font-semibold">{item.name}</div>
                               </div>
                             </label>
 
                           </li>)
-                        }
-
+                        } */}
+                        {menuItems.map((menu, index) => {
+                          return <MenuItems items={menu} key={index} event={handleCategoryChange}/>;
+                        })}
                       </ul>
-                      <div id="accordionExample">
-                        <div
-                          class="rounded-t-lg border border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
-                          <h2 class="mb-0" id="headingOne">
-                            <button
-                              class="group relative flex w-full items-center rounded-t-[15px] border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
-                              type="button"
-                              data-te-collapse-init
-                              data-te-target="#collapseOne"
-                              aria-expanded="true"
-                              aria-controls="collapseOne">
-                              Accordion Item #1
-                              <span
-                                class="ml-auto h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="h-6 w-6">
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                </svg>
-                              </span>
-                            </button>
-                          </h2>
-                          <div
-                            id="collapseOne"
-                            class="!visible"
-                            data-te-collapse-item
-                            data-te-collapse-show
-                            aria-labelledby="headingOne"
-                            data-te-parent="#accordionExample">
-                            <div class="py-4 px-5">
-                              <strong>This is the first item's accordion body.</strong> It is
-                              shown by default, until the collapse plugin adds the appropriate
-                              classes that we use to style each element. These classes control
-                              the overall appearance, as well as the showing and hiding via CSS
-                              transitions. You can modify any of this with custom CSS or
-                              overriding our default variables. It's also worth noting that just
-                              about any HTML can go within the <code>.accordion-body</code>,
-                              though the transition does limit overflow.
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="border border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
-                          <h2 class="mb-0" id="headingTwo">
-                            <button
-                              class="group relative flex w-full items-center rounded-none border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
-                              type="button"
-                              data-te-collapse-init
-                              data-te-collapse-collapsed
-                              data-te-target="#collapseTwo"
-                              aria-expanded="false"
-                              aria-controls="collapseTwo">
-                              Accordion Item #2
-                              <span
-                                class="ml-auto -mr-1 h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:mr-0 group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="h-6 w-6">
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                </svg>
-                              </span>
-                            </button>
-                          </h2>
-                          <div
-                            id="collapseTwo"
-                            class="!visible hidden"
-                            data-te-collapse-item
-                            aria-labelledby="headingTwo"
-                            data-te-parent="#accordionExample">
-                            <div class="py-4 px-5">
-                              <strong>This is the second item's accordion body.</strong> It is
-                              hidden by default, until the collapse plugin adds the appropriate
-                              classes that we use to style each element. These classes control
-                              the overall appearance, as well as the showing and hiding via CSS
-                              transitions. You can modify any of this with custom CSS or
-                              overriding our default variables. It's also worth noting that just
-                              about any HTML can go within the <code>.accordion-body</code>,
-                              though the transition does limit overflow.
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="rounded-b-lg border border-t-0 border-neutral-200 bg-white dark:border-neutral-600 dark:bg-neutral-800">
-                          <h2 class="accordion-header mb-0" id="headingThree">
-                            <button
-                              class="group relative flex w-full items-center border-0 bg-white py-4 px-5 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)] [&[data-te-collapse-collapsed]]:rounded-b-[15px] [&[data-te-collapse-collapsed]]:transition-none"
-                              type="button"
-                              data-te-collapse-init
-                              data-te-collapse-collapsed
-                              data-te-target="#collapseThree"
-                              aria-expanded="false"
-                              aria-controls="collapseThree">
-                              Accordion Item #3
-                              <span
-                                class="ml-auto -mr-1 h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:mr-0 group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="h-6 w-6">
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                </svg>
-                              </span>
-                            </button>
-                          </h2>
-                          <div
-                            id="collapseThree"
-                            class="!visible hidden"
-                            data-te-collapse-item
-                            aria-labelledby="headingThree"
-                            data-te-parent="#accordionExample">
-                            <div class="py-4 px-5">
-                              <strong>This is the third item's accordion body.</strong> It is
-                              hidden by default, until the collapse plugin adds the appropriate
-                              classes that we use to style each element. These classes control
-                              the overall appearance, as well as the showing and hiding via CSS
-                              transitions. You can modify any of this with custom CSS or
-                              overriding our default variables. It's also worth noting that just
-                              about any HTML can go within the <code>.accordion-body</code>,
-                              though the transition does limit overflow.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+
                     </div>
                     <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
                       {
@@ -381,6 +241,87 @@ const ResturantPage = () => {
 }
 
 export default ResturantPage
+
+
+const MenuItems = ({ items ,event}) => {
+  const [dropdown, setDropdown] = useState(false);
+  return (
+    <li>
+      {
+        items.submenu ? (
+          <>
+            <button type="button"
+              aria-haspopup="menu"
+              className="font-semibold rounded inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50"
+              aria-expanded={dropdown ? "true" : "false"}
+              onClick={() => setDropdown((prev) => !prev)}>
+              {items.title}{" "}
+            </button>
+            <Dropdown submenus={items.submenu} dropdown={dropdown} />
+          </>
+        ) : (
+          <div className="font-semibold rounded inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50">{items.title}</div>
+        )
+      }
+    </li>
+  )
+}
+
+const Dropdown = ({ submenus , dropdown}) => {
+  return (
+    <ul className={`${ !dropdown ? "hidden" : ""} mt-1 space-y-1 bg-white/60`}>
+      {submenus.map((submenu, index) => (
+        <li key={index} className="menu-items pl-5">
+          <div>{submenu.title}</div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export const menuItems = [
+  {
+    title: 'Home',
+    url: '/sdf',
+  },
+  {
+    title: 'Services',
+    url: '/sservices',
+    submenu: [
+      {
+        title: 'web design',
+        url: 'web-design',
+      },
+      {
+        title: 'web development',
+        url: 'web-dev',
+      },
+      {
+        title: 'SEO',
+        url: 'seo',
+      },
+    ],
+  },
+  {
+    title: 'About',
+    url: '/aabout',
+    submenu: [
+      {
+        title: 'web design',
+        url: 'web-design',
+      },
+      {
+        title: 'web development',
+        url: 'web-dev',
+      },
+      {
+        title: 'SEO',
+        url: 'seo',
+      },
+    ],
+  },
+];
+
 
 export const UserReviewCard = () => {
 
@@ -512,4 +453,6 @@ export const RestroCategoryCard = ({ item }) => {
     </>
   )
 }
+
+
 

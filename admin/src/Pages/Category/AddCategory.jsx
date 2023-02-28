@@ -1,21 +1,94 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiCloudUpload } from "react-icons/bi";
+import Category from "../../Apis/Category";
 import { Button } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
+import swal from "sweetalert";
+import axios, { Axios } from "axios";
 
 export default function AddCategory() {
   const { currentColor } = useStateContext();
   const [isDisabled, setIsDisabled] = useState(false);
+  const [description, setDescription] = useState("");
+  const [subDescription, setSubDescription] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
+  const [mainCategory, setMainCategory] = useState([]);
+  const [name, setName] = useState("");
+  const [subName, setSubName] = useState("");
   const [edit, setEdit] = useState(false);
-
+  useEffect(() => {
+    getCategory();
+  }, []);
+  const getCategory = () => {
+    Category.getAllCategory().then((result) => {
+      console.log("===getAllCategory", result);
+      if (result?.response) {
+        setMainCategory(result?.response);
+      }
+    });
+  };
+  const addMainCategory = () => {
+    if (name.trim() != "" && description.trim() != "") {
+      setIsDisabled(true);
+      let data = {
+        name: name,
+        description: description,
+      };
+      Category.AddMainCategory(JSON.stringify(data)).then((response) => {
+        console.log("==response", response);
+        if (response?.message) {
+          swal({
+            title: "Success!",
+            text: response?.message,
+            icon: "success",
+            buttons: false,
+            timer: 1500,
+          });
+          setDescription("");
+          setName("");
+          setIsDisabled(false);
+        }
+      });
+    }
+  };
+  const addSubCategory = () => {
+    console.log("===", subName.trim(), subDescription.trim(), selectedOption);
+    if (
+      subName.trim() != "" &&
+      subDescription.trim() != "" &&
+      selectedOption != ""
+    ) {
+      let data = {
+        name: subName,
+        description: subDescription,
+        mainCategory: selectedOption,
+      };
+      Category.AddSubCategory(data).then((response) => {
+        console.log("==response", response);
+        if (response?.message) {
+          swal({
+            title: "Success!",
+            text: response?.message,
+            icon: "success",
+            buttons: false,
+            timer: 1500,
+          });
+          setSubDescription("");
+          setSubName("");
+          setSelectedOption("");
+          setIsDisabled(false);
+        }
+      });
+    }
+  };
+  console.log("==selectedOption", selectedOption);
   return (
     <>
-      <form className="lg:p-16 p-5 bg-slate-200 shadow-lg lg:mx-10 rounded-2xl my-5">
+      <form className="lg:p-16 p-5 bg-slate-200 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
+        <h1 className="font-bold text-2xl mb-5">&bull; Add Main Category</h1>
         <div className="flex flex-wrap mb-6">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
               Category Name
             </label>
             <input
@@ -23,12 +96,14 @@ export default function AddCategory() {
               id="grid-first-name"
               type="text"
               placeholder="Category Name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
             />
             {/* <p className="text-red-500 text-xs italic">
               Please fill out this field.
             </p> */}
           </div>
-          <div className="w-full md:w-1/2 px-3">
+          {/* <div className="w-full md:w-1/2 px-3">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             >
@@ -40,26 +115,26 @@ export default function AddCategory() {
               type="text"
               placeholder="0"
             />
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-wrap mb-6">
           <div className="w-full px-3">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            >
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
               Desription
             </label>
             <textarea
               className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
               type="text"
               placeholder="Discription"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
             />
             <p className="text-gray-600 text-xs italic">
               Make it as long and as crazy as you'd like
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap mb-2">
+        {/* <div className="flex flex-wrap mb-2">
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -127,17 +202,110 @@ export default function AddCategory() {
               </label>
             </div>
           </div>
+        </div> */}
+        <div className="text-center">
+          <Button
+            disabled={isDisabled}
+            color="white"
+            bgColor={currentColor}
+            onClick={addMainCategory}
+            text={edit ? "Update" : "Submit"}
+            borderRadius="10px"
+            width={"52"}
+          />
+        </div>
+      </form>
+      <form className="lg:p-16 p-5 bg-slate-200 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
+        <h1 className="font-bold text-2xl mb-5">&bull; Add Sub Category</h1>
+        <div className="flex flex-wrap mb-6">
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Sub Category Name
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              id="grid-first-name"
+              type="text"
+              placeholder="Sub Category Name"
+              value={subName}
+              onChange={(event) => setSubName(event.target.value)}
+            />
+            {/* <p className="text-red-500 text-xs italic">
+              Please fill out this field.
+            </p> */}
+          </div>
+          {/* <div className="w-full md:w-1/2 px-3">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >
+              Price
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              id="grid-last-name"
+              type="text"
+              placeholder="0"
+            />
+          </div> */}
+        </div>
+        <div className="flex flex-wrap mb-6">
+          <div className="w-full px-3">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Desription
+            </label>
+            <textarea
+              className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              type="text"
+              placeholder="Discription"
+              value={subDescription}
+              onChange={(event) => setSubDescription(event.target.value)}
+            />
+            <p className="text-gray-600 text-xs italic">
+              Make it as long and as crazy as you'd like
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-wrap mb-2">
+          <div className="w-full lg:w-1/2 px-3 mb-6 md:mb-0">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              Main Category
+            </label>
+            <div className="relative">
+              <select
+                className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                onChange={(event) => {
+                  setSelectedOption(event.target.value);
+                }}
+              >
+                {mainCategory?.map((item, index) => (
+                  <option key={item?._id} value={item?._id}>
+                    {item?.name}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="text-center">
-        <Button
-          disabled={isDisabled}
-          color="white"
-          bgColor={currentColor}
-          text={edit ? "Update" : "Submit"}
-          borderRadius="10px"
-          width={"52"}
+          <Button
+            disabled={isDisabled}
+            color="white"
+            bgColor={currentColor}
+            onClick={addSubCategory}
+            text={"Submit"}
+            borderRadius="10px"
+            width={"52"}
           />
-          </div>
+        </div>
       </form>
     </>
   );

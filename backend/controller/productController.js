@@ -2,6 +2,7 @@ const Product = require('../module/ProductModel');
 const Category = require('../module/CategoryModel');
 const Resturant = require('../module/ResturantModel');
 const SubCategory = require('../module/SubCategory');
+const cloudinary = require("cloudinary").v2;
 
 const createProduct = async (req, res, next) => {
     try {
@@ -13,8 +14,32 @@ const createProduct = async (req, res, next) => {
 
     const subCategoryExist = await SubCategory.findById(subCategory);
 
-    if (!subCategoryExist) return res.status(400).json({ message: "choose valid sub category" });
-    const product = await new Product({ name, price, category,resturnat,subCategory }).save();
+        if (!subCategoryExist) return res.status(400).json({ message: "choose valid sub category" });
+        
+
+        console.log(resturnat);
+        const resturantExist = await Resturant.findById(resturnat);
+
+        console.log(resturantExist);
+
+        if (!resturantExist) return res.status(400).json({ message: "resturant not found" });
+
+        let { productImage } = req.files
+        let result
+        try {
+             result = await cloudinary.uploader.upload(productImage.tempFilePath, {
+                folder: 'productImage',
+                crop: 'fill',
+                width: 250,
+                height:250
+            })
+
+
+        } catch (e) {
+            res.status(500).json({ message: 'product uploading failed' });
+        }
+
+    const product = await new Product({ name, price, category,resturnat,subCategory,imageUrl:result.url }).save();
     
     console.log(product._id);
     //added in category
@@ -45,6 +70,22 @@ const createProduct = async (req, res, next) => {
 const fetchProduct = async (req, res, next) => {
     const product = await Product.find();
     return res.status(200).json({ message: 'product fetched', product });
+}
+
+const allResturantProduct = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+
+        const resturantExist = await Resturant.findById(id).populate('product');
+        if (!resturantExist) return res.status(400).json({ message: 'resturant not found' });
+
+        res.status(200).json({ message: 'resturant product founded', resturantExist });
+
+
+
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
 }
 
 
@@ -85,5 +126,6 @@ module.exports = {
     createProduct,
     findProduct,
     fetchProduct,
-    fetchAllProduct
+    fetchAllProduct,
+    allResturantProduct
 }

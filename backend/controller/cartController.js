@@ -166,38 +166,68 @@ const subtractCartItemquantity = async (req, res, next) => {
   const price = product.price;
   // const user = await User.find({_id:userId});
   try {
+    const product = await Product.findById(productId);
+  const price = product.price;
 
-    let user = await User.findById(userId);
-    user.cart.products.map(async (item) => {
+    let user = await User.findById(userId).populate({
+            path: "cart",
+            populate: [
+              {
+                path: "products.product",
+                model: "Product",
+              },
+            ],
+          });
+    // const cartItem = cart.items.find(item => item.productId.toString() === productId);
 
-      if (item.quantity <= 1) {
-        console.log('why i am calling');
-         next()
-      } else {
-        console.log('this is  completed');
+    const cartItem = user.cart.products.find(item => item._id.toString() === itemId);
 
-        user = await User.findOneAndUpdate(
-          { _id: userId, "cart.products._id": itemId },
-          {
-            $inc: { "cart.products.$.quantity": -1, "cart.total": -price },
-          }
-        );
-        console.log("this is user ");
-        console.log(user);
-        const check = await User.findById(userId).populate({
-          path: "cart",
-          populate: [
-            {
-              path: "products.product",
-              model: "Product",
-            },
-          ],
-        });
-        console.log(check);
+    if (!cartItem) return res.status(400).json({ message: "product not found" });
 
-        return res.status(200).json({ data: check });
-      }
-    })
+    if (cartItem.quantity > 1) {
+      cartItem.quantity -= 1;
+      user.cart.total -= price
+    } else {
+      user.cart.products = user.cart.products.filter(item => item._id.toString() !== itemId);
+      user.cart.total -= price;
+    }
+
+    await user.save();
+
+
+    console.log(user);
+    res.status(200).json({ data: user });
+
+    // user.cart.products.map(async (item) => {
+
+    //   if (item.quantity <= 1) {
+    //     console.log('why i am calling');
+    //      next()
+    //   } else {
+    //     console.log('this is  completed');
+
+    //     user = await User.findOneAndUpdate(
+    //       { _id: userId, "cart.products._id": itemId },
+    //       {
+    //         $inc: { "cart.products.$.quantity": -1, "cart.total": -price },
+    //       }
+    //     );
+    //     console.log("this is user ");
+    //     console.log(user);
+    //     const check = await User.findById(userId).populate({
+    //       path: "cart",
+    //       populate: [
+    //         {
+    //           path: "products.product",
+    //           model: "Product",
+    //         },
+    //       ],
+    //     });
+    //     console.log(check);
+
+    //      res.status(200).json({ data: check });
+    //   }
+    // })
 
   } catch (e) {
     return res.status(500).json({ message: "something went wrong" });
