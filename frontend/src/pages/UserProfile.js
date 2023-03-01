@@ -5,6 +5,8 @@ import UserAddress from '../components/UserAddress'
 import ChangePasswordPopup from '../components/ChangePasswordPopup'
 import UpdateProfileDetails from '../components/UpdateProfileDetails'
 import axios from 'axios'
+import { BsArrowRightCircle } from 'react-icons/bs'
+import CustomerOrderCard from '../components/CustomerOrderCard'
 
 const UserProfile = () => {
 
@@ -53,7 +55,7 @@ const UserProfile = () => {
             <ul className='space-y-3'>
               <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(1)}>Profile</li>
               {/* <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li> */}
-              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Order Detail</li>
+              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Your Orders</li>
 
             </ul>
           </div>
@@ -91,14 +93,29 @@ const UserProfile = () => {
             <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
             <div className='w-3/4 h-full '>
               {
-                order ? order.map(item =>
-                 <Link to={`/orderDetails/${item._id}`} state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
-                  <img src={item.resturant && item.resturant.image.length!=0 && item.resturant.image[0]} className=' h-28 w-28 rounded-full' />
-                  <h1 className='font-bold text-xl'>{item.resturant ? item.resturant.name: ''}</h1>
+                order ? order.map(item => <Link to="/orderDetails" state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                  <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                  <h1 className='font-bold text-xl'>{item.product ? item.product[0].name : ''}</h1>
                   <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
                 </Link>) : ''
               }
-             
+              <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                <h1 className='font-bold text-xl'>pizza the granted</h1>
+                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link> 
+
+
+              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                <h1 className='font-bold text-xl'>pizza the granted</h1>
+                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
+              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                <h1 className='font-bold text-xl'>pizza the granted</h1>
+                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
 
             </div>
           </div>
@@ -120,3 +137,34 @@ const UserProfile = () => {
 }
 
 export default UserProfile
+
+
+export const OrderDetailsCard = ({items}) => {
+  return (
+    <div className="grid h-full w-fit  place-items-start  text-gray-900 antialiased">
+      <div>
+        <div className='overflow-hidden w-full rounded-lg'>
+          <img src="https://source.unsplash.com/random/350x350" alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
+        </div>
+        <Link to='/orderDetails' >
+          <div className="relative group -mt-16 px-4 hover:skew-x-1 transition-all duration-500" >
+            <div className="rounded-lg bg-white p-5 shadow-lg">
+              <div className="flex items-baseline">
+                <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">28 &bull; 02 &bull; 2023</div>
+              </div>
+              <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">Restaurant Name</h4>
+              <div className="mt-1 font-medium">
+                ₹{items.total}<span className="text-sm text-gray-600"> /Total Amout</span>
+              </div>
+              <div className="mt-4 flex justify-between items-center">
+                <span className="text-md font-semibold text-teal-600">4/5 ratings </span>
+                <BsArrowRightCircle className='text-xl group-hover:translate-x-3 transition-all duration-500' />
+              </div>
+            </div>
+          </div>
+        </Link>
+        <div className='hidden'><CustomerOrderCard items={items}/></div>
+      </div>
+    </div>
+  )
+}
