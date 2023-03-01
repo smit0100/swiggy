@@ -6,6 +6,7 @@ import ChangePasswordPopup from '../components/ChangePasswordPopup'
 import UpdateProfileDetails from '../components/UpdateProfileDetails'
 import axios from 'axios'
 import { BsArrowRightCircle } from 'react-icons/bs'
+import CustomerOrderCard from '../components/CustomerOrderCard'
 
 const UserProfile = () => {
 
@@ -24,7 +25,7 @@ const UserProfile = () => {
       async () => {
         setIsLoading(true);
         const response = await axios(`http://localhost:4000/order/customer?userId=${user._id}`);
-        console.log(response.data.response.order[0].products);
+        console.log(response.data.response.order);
         setOrder(response.data.response.order)
         setIsLoading(false);
       }
@@ -53,7 +54,7 @@ const UserProfile = () => {
             <ul className='space-y-3'>
               <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(1)}>Profile</li>
               {/* <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li> */}
-              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Order Detail</li>
+              <li className='text-lg border-b-2 cursor-pointer' onClick={() => setOpenTab(2)}>Your Orders</li>
 
             </ul>
           </div>
@@ -88,12 +89,12 @@ const UserProfile = () => {
           </div>
           {/* order module  */}
           <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
-            <h1 className='text-3xl text-center font-semibold pb-5 uppercase'>Order Details</h1>
+            <h1 className='text-3xl text-center font-semibold pb-5 uppercase'>Your Orders</h1>
             <div className='w-full h-full '>
               <div className='flex flex-wrap justify-evenly gap-5'>
 
                 {
-                  order ? order.map(item => <OrderDetailsCard />) : ''
+                  order ? order.map(item => <OrderDetailsCard items={item}/>) : ''
                 }
                 {/* {
                   order ? order.map(item => <Link to="/orderDetails" state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
@@ -139,7 +140,7 @@ const UserProfile = () => {
 export default UserProfile
 
 
-export const OrderDetailsCard = () => {
+export const OrderDetailsCard = ({items}) => {
   return (
     <div className="grid h-full w-fit  place-items-start  text-gray-900 antialiased">
       <div>
@@ -154,7 +155,7 @@ export const OrderDetailsCard = () => {
               </div>
               <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">Restaurant Name</h4>
               <div className="mt-1 font-medium">
-                ₹1800<span className="text-sm text-gray-600"> /Total Amout</span>
+                ₹{items.total}<span className="text-sm text-gray-600"> /Total Amout</span>
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-md font-semibold text-teal-600">4/5 ratings </span>
@@ -163,7 +164,7 @@ export const OrderDetailsCard = () => {
             </div>
           </div>
         </Link>
-
+        <div className='hidden'><CustomerOrderCard items={items}/></div>
       </div>
     </div>
   )

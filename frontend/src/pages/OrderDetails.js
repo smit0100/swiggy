@@ -7,8 +7,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import { getOrderItem } from "../../redux/slices/orderSlice";
-import {orderData} from "../redux/orders/orderSlice"
+import { orderData } from "../redux/orders/orderSlice"
 import { useDispatch } from "react-redux";
+import CustomerOrderCard from "../components/CustomerOrderCard";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
@@ -27,13 +28,13 @@ const OrderDetails = () => {
   console.log(data);
   const createdDate = orderData.createdAt
   console.log("check this created date");
- 
+
   console.log(createdDate);
 
   useEffect(() => {
     (async () => {
       // setIsLoading(true);
- 
+
       // console.log(userId);
       // // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
       // let getData = await axios.get(`http://localhost:4000/order/customer?userId=${userId}`)
@@ -136,17 +137,13 @@ const OrderDetails = () => {
             Order {orderData._id}
           </h1>
           <p className="text-base font-medium leading-6 text-gray-600">
-              Order Date <span className="ml-4"> {orderData.createdAt}</span>
+            Order Date <span className="ml-4"> {orderData.createdAt}</span>
           </p>
           {
             orderData.orderStatus === "delivered" ? <p className="text-base font-medium leading-6 text-gray-600">
-            Delivered Date  <span className="ml-4"> {orderData.updatedAt}</span>
-        </p> : <></>
+              Delivered Date  <span className="ml-4"> {orderData.updatedAt}</span>
+            </p> : <></>
           }
-         
-          
-            
-          
         </div>
         <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
           <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
@@ -154,6 +151,7 @@ const OrderDetails = () => {
               <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
                 Customer’s Order
               </p>
+
               {/* { 
               orderData.products.map(item => (
                 <div className="mt-4 md:mt-6 flex  flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full ">
@@ -203,7 +201,11 @@ const OrderDetails = () => {
             </div>
               ))
             } */}
-            
+
+              <CustomerOrderCard />
+              <CustomerOrderCard />
+              <CustomerOrderCard />
+
               {Object.keys(orderData).length !== 0 &&
                 orderData.products.map((item) => (
                   <div className="mt-10 md:mt-4 flex justify-start flex-col md:flex-row  items-start md:items-center space-y-4  md:space-x-6 xl:space-x-8 w-full ">
@@ -213,7 +215,7 @@ const OrderDetails = () => {
                         src={item.product.imageUrl}
                         alt="dress"
                       />
-                      
+
                     </div>
                     <div className="  flex justify-between items-start w-full flex-col md:flex-row space-y-4 md:space-y-0  ">
                       <div className="w-full flex flex-col justify-start items-start space-y-8">
@@ -290,9 +292,9 @@ const OrderDetails = () => {
                         DPD Delivery
                         <br />
                         <span className="font-normal mt-4">
-                       
+
                           {/* {new Date(orderData.createdAt).setDate(orderData.createdAt.getDate() + 3)} */}
-                        
+
                         </span>
                       </p>
                     </div>
@@ -334,15 +336,16 @@ const OrderDetails = () => {
             </div>
           </div>
           <div className="bg-gray-50 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col ">
-            <h3 className="text-xl font-semibold leading-5 text-gray-800">
+            <h3 className="text-xl font-semibold leading-5 text-gray-800 text-center w-full">
               Customer
             </h3>
             <div className="flex  flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0 ">
               <div className="flex flex-col justify-start items-start flex-shrink-0">
-                <div className="flex justify-center  w-full  md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
+                <div className="flex justify-center flex-col gap-5  w-full items-center py-8 border-b border-gray-200">
                   <img
                     src="https://i.ibb.co/5TSg7f6/Rectangle-18.png"
                     alt="avatar"
+                    className='rounded-full grid place-items-center w-40 h-40'
                   />
                   <div className=" flex justify-start items-start flex-col space-y-2">
                     <p className="text-base font-semibold leading-4 text-left text-gray-800">
@@ -350,48 +353,33 @@ const OrderDetails = () => {
                         orderData.address.lname}{" "}
                       {Object.keys(orderData).length !== 0 &&
                         orderData.address.fname}
+                      Krishna
                     </p>
-                    <p className="text-sm leading-5 text-gray-600"></p>
                   </div>
                 </div>
 
-                <div className="flex justify-center  md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"
-                      stroke="#1F2937"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M3 7L12 13L21 7"
-                      stroke="#1F2937"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                <div className="flex justify-center items-center py-4 border-b border-gray-200 w-full">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z" stroke="#1F2937" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M3 7L12 13L21 7" stroke="#1F2937" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  <p className="cursor-pointer text-sm leading-5 text-gray-800">
+                  <p className="cursor-pointer font-medium pl-2 text-sm leading-5 text-gray-800">
                     {Object.keys(orderData).length !== 0 &&
                       orderData.address.email}
+                    krishna@earth.universe
                   </p>
                 </div>
               </div>
               <div className="flex justify-between xl:h-full  items-stretch w-full flex-col mt-6 md:mt-0">
                 <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row  items-center md:items-start ">
-                  {/* <div className="flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 xl:mt-8">
+                  <div className="flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 xl:mt-8">
                     <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
                       Shipping Address
                     </p>
                     <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                       180 North King Street, Northhampton MA 1060
                     </p>
-                  </div> */}
+                  </div>
                   <div className="mt-4 flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
                     <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
                       Billing
@@ -413,42 +401,42 @@ const OrderDetails = () => {
                 </div>
                 {Object.keys(orderData).length !== 0 && !orderData.isDelivered && (
                   <div className="flex flex-col gap-2 mt-4">
-                     {
-                        
-                        orderData.orderStatus !== "delivered" ? <>
-                        <div className="flex w-full  justify-center items-center md:justify-start md:items-start">
-                     {console.log("check this status" ,orderData.orderStatus)}
-                     <div className="w-full">
-                       <Link
-                         to="/address"
-                         state={{
-                           address: orderData.address,
-                           id: orderData._id,
-                         }}
-                       >
-                         <button className="mt-6 w-100 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium  2xl:w-full text-base leading-4 text-gray-800">
-                           Edit Details
-                         </button>
-                       </Link>
-                     </div>
-                   </div>
-                   <div className="flex w-full  justify-center items-center md:justify-start md:items-start">
-                      <div className="w-full">
-                        <button
-                          className="mt-6 md:mt-0 py-5 px-4 text-xl w-full bg-red-600 text-red-100 hover:bg-red-700 duration-300"
-                          type="button"
-                          onClick={() => setModel((state) => !state)}
-                          data-modal-toggle="popup-modal"
-                        >
-                          Cancel Order
-                        </button>
-                      </div>
-                    </div>
-                        </> : ""
-                      }
-                    
+                    {
 
-                   
+                      orderData.orderStatus !== "delivered" ? <>
+                        <div className="flex w-full  justify-center items-center md:justify-start md:items-start">
+                          {console.log("check this status", orderData.orderStatus)}
+                          <div className="w-full">
+                            <Link
+                              to="/address"
+                              state={{
+                                address: orderData.address,
+                                id: orderData._id,
+                              }}
+                            >
+                              <button className="mt-6 w-100 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium  2xl:w-full text-base leading-4 text-gray-800">
+                                Edit Details
+                              </button>
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="flex w-full  justify-center items-center md:justify-start md:items-start">
+                          <div className="w-full">
+                            <button
+                              className="mt-6 md:mt-0 py-5 px-4 text-xl w-full bg-red-600 text-red-100 hover:bg-red-700 duration-300"
+                              type="button"
+                              onClick={() => setModel((state) => !state)}
+                              data-modal-toggle="popup-modal"
+                            >
+                              Cancel Order
+                            </button>
+                          </div>
+                        </div>
+                      </> : ""
+                    }
+
+
+
                   </div>
                 )}
               </div>
@@ -461,3 +449,5 @@ const OrderDetails = () => {
 };
 
 export default OrderDetails;
+
+
