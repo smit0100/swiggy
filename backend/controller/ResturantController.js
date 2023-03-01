@@ -6,7 +6,7 @@ const Order = require('../module/OrderModel');
 const bcrypt = require('bcrypt');
 const Token = require('../module/TokenModel');
 const sendEmail = require('../utils/sendEmail');
-
+const User = require('../module/UserModel')
 
 const createResturnat = async (req, res, next) => {
    
@@ -74,7 +74,7 @@ const createResturnat = async (req, res, next) => {
         console.log(response);
         console.log(response);
 
-        return res.status(200).json({ message: 'resturant created' });
+        return res.status(200).json({ message: 'resturant created'});
 
     } catch (e) {
         console.log(e);
@@ -279,12 +279,25 @@ const fetchAllApprovedResturant = async (req, res, next) => {
 const fetchAllResturantOrder = async (req, res, next) => {
     try {
         const { id } = req.query;
-        const order = await Resturant.findById(id, { order: 1 }).populate('order');
+        // const order = await Resturant.findById(id, { order: 1 }).populate('order');
+         
+        const order = await Resturant.findById(id, { order: 1 }).populate([
+           { 
+                 path: 'order',
+                model: 'Order'
+            }
+        ]);
 
-        if (!order) return res.status(400).json({ messag: "order fetched", order })
+        const name = await User.findById(order.order[0].customer,{name:1}) 
         
-        res.status(200).json({messag:"order fetched",order})
+        console.log(name);
+
+
+        if (!order) return res.status(400).json({ messag: "order not found", order })
+        
+        res.status(200).json({messag:"order fetched",order,name})
     } catch (e) {
+        console.log(e);
         res.status(404).json({ messag: "something went wrong" });
     }
 }
