@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react'
-
+import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import{ useSelector,useDispatch} from 'react-redux'
+import { userData } from '../redux/user/userSlice';
+import swal from 'sweetalert'
 
 const RestaurantRegister = () => {
 
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
+  const owner = useSelector(state => state.userData.user);
   const [restaurant, setRestaurent] = useState({
     restaurantName: "",
     restaurantAddress: "",
@@ -283,12 +289,16 @@ const RestaurantRegister = () => {
     formData.append("bg3", bg3)
     formData.append("bankDetails", JSON.stringify(bankDetails));
     formData.append("panCard", JSON.stringify(pancardDetail))
+    formData.append("id",owner._id)
 
     try {
       setLoading(true)
       const res = await axios.post("http://localhost:4000/resturant/add", formData)
+      console.log(res);
       setLoading(false)
-      // swal("", "", "success");
+      navigate("/")
+     dispatch(userData(res.data.response))
+      swal("Registration successfully", "", "success");
 
     } catch (err) {
       console.log(err);

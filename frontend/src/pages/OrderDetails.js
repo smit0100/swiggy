@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,13 +12,17 @@ import { useDispatch } from "react-redux";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.userData.user._id);
+  const {orderId}=useParams()
   const navigate = useNavigate();
   const [model, setModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [orderData, setOrderData] = useState({});
+  const [orderData, setOrderData] = useState(null);
+
+  const [orderDetails,setOrderDetails]=useState(null)
   const customerName = useSelector((state) => state.userData.user.name);
   const email = useSelector((state) => state.userData.user.email);
+  const userId = useSelector((state) => state.userData.user._id);
+
   console.log("this is orderData");
   console.log(orderData);
   const location = useLocation();
@@ -45,6 +49,17 @@ const OrderDetails = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    (
+      async () => {
+        setIsLoading(true);
+        const response = await axios(`http://localhost:4000/order/fetchOneOrder/?id=${orderId}`);
+        console.log(response.data.order);
+        setOrderData(response.data.order)
+        setIsLoading(false);
+      }
+    )();
+  }, [])
   const handleDelete = async (id) => {
     console.log(id);
 

@@ -25,6 +25,7 @@ const UserProfile = () => {
         const response = await axios(`http://localhost:4000/order/customer?userId=${user._id}`);
         console.log(response.data.response.order);
         setOrder(response.data.response.order)
+
         setIsLoading(false);
       }
     )();
@@ -90,29 +91,14 @@ const UserProfile = () => {
             <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
             <div className='w-3/4 h-full '>
               {
-                order ? order.map(item => <Link to="/orderDetails" state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
-                  <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
-                  <h1 className='font-bold text-xl'>{item.product ? item.product[0].name : ''}</h1>
+                order ? order.map(item =>
+                 <Link to={`/orderDetails/${item._id}`} state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                  <img src={item.resturant && item.resturant.image.length!=0 && item.resturant.image[0]} className=' h-28 w-28 rounded-full' />
+                  <h1 className='font-bold text-xl'>{item.resturant ? item.resturant.name: ''}</h1>
                   <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
                 </Link>) : ''
               }
-              <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
-                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
-                <h1 className='font-bold text-xl'>pizza the granted</h1>
-                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-              </Link> 
-
-
-              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
-                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
-                <h1 className='font-bold text-xl'>pizza the granted</h1>
-                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-              </Link>
-              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
-                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
-                <h1 className='font-bold text-xl'>pizza the granted</h1>
-                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-              </Link>
+             
 
             </div>
           </div>

@@ -10,8 +10,9 @@ const sendEmail = require('../utils/sendEmail');
 
 const createResturnat = async (req, res, next) => {
    
-    let { address, email, name, ownerName, number, panCard, bankDetails,id } = req.body;
-    
+    let { address, email, name, ownerName, number, panCard,outLetType, bankDetails,id } = req.body;
+    console.log(req.body);
+    console.log(typeof(outLetType));
    address = JSON.parse(address);
     panCard = JSON.parse(panCard);
     bankDetails = JSON.parse(bankDetails)
@@ -68,13 +69,15 @@ const createResturnat = async (req, res, next) => {
         console.log("this is ");
         console.log(bgimageUrl);
         
-
-        const response = await Resturant.findByIdAndUpdate(id,{ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard,isApproved:'pending' }).save();
+        console.log(outLetType);
+        const response = await Resturant.findByIdAndUpdate(id,{ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard,isApproved:'pending' },{
+            new:true
+        });
 
         console.log(response);
         console.log(response);
 
-        return res.status(200).json({ message: 'resturant created' });
+        return res.status(200).json({ message: 'resturant created',response});
 
     } catch (e) {
         console.log(e);
