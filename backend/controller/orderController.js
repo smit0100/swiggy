@@ -42,23 +42,21 @@ const fetchOneOrder = async (req, res, next) => {
         const { id } = req.query
        
         console.log(id);
-        const order = await Order.findById(id).populate({
-            path: 'order',
-            populate: [
-                {
-                    path: 'products.product',
-                    model:'Product'
-                },{
-                    path:'resturant',
-                    model:'Resturant'
-                }
-            ]
-        });
+        const order = await Order.findById(id).populate([
+            {
+                path: 'products.product',
+                model:'Product'
+            }, {
+                path: "resturant",
+                model:"Resturant"
+            }
+        ])
         
         if (!order) return res.status(404).json({ message: 'order not found' });
 
         res.status(200).json({ message: 'order founded', order });
     } catch (e) {
+        console.log(e);
         res.status(500).json({ message: 'something went wrong' });
     }
 }
