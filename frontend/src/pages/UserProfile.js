@@ -6,7 +6,6 @@ import ChangePasswordPopup from '../components/ChangePasswordPopup'
 import UpdateProfileDetails from '../components/UpdateProfileDetails'
 import axios from 'axios'
 import { BsArrowRightCircle } from 'react-icons/bs'
-import CustomerOrderCard from '../components/CustomerOrderCard'
 
 const UserProfile = () => {
 
@@ -19,7 +18,6 @@ const UserProfile = () => {
   const [order, setOrder] = useState([])
   const user = useSelector(state => state.userData.user)
 
-  console.log(user._id);
   useEffect(() => {
     (
       async () => {
