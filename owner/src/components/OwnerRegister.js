@@ -353,8 +353,8 @@ export default function OwnerRegister() {
               <div className="w-1/2">
               </div>
               <div className="w-1/2 text-right">
-                <Link to="/login" className="text-blueGray-200">
-                  <div className="text-white text-md">Sign In...</div>
+                <Link to="/" className="text-blueGray-200">
+                  <div className="text-white">Sign In...</div>
                 </Link>
               </div>
             </div>

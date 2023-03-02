@@ -11,6 +11,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import OrderDetail from './components/OrderDetail';
 import AddProduct from './components/AddProduct';
 import OrderSummary from './components/OrderSummary';
+import ListOfProducts from './components/ListOfProducts';
 function App() {
 
   const owner = useSelector(state => state.userData.user)
@@ -23,13 +24,13 @@ function App() {
           <Route path="/ownerRegister" element={<OwnerRegister />} />
           <Route path="/otp" element={<Otp />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
-          <Route path='/addproduct' element={<AddProduct />} />
         </Route> : 
         <Route path="/" element={<Home />} >
           <Route index element={<Directory />} />
           <Route path='/orderdetails' element={<OrderDetail />} />
           <Route path='/ordersummary' element={<OrderSummary />} />
           <Route path='/addproduct' element={<AddProduct />} />
+          <Route path='/listofproducts' element={<ListOfProducts />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
           <Route path='/resturantRegister' element={<RestaurantRegister />} />
         </Route>
