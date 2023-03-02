@@ -44,7 +44,7 @@ function App() {
         <Route path='checkout' element={<CheckoutPage />} />
         <Route path='payment' element={<StripeComponent />} />
         <Route path="userprofile" element={<UserProfile />} />
-        <Route path="orderDetails" element={<OrderDetails/>}/>
+        <Route path="orderDetails/:orderId" element={<OrderDetails/>}/>
         {/* </>:<></>} */}
         <Route path='/*' element={<PageNotFound />} />
         

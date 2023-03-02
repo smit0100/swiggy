@@ -93,6 +93,9 @@ const fetchUserOrder = async (req, res, next) => {
                 {
                     path: 'products.product',
                     model:'Product'
+                },{
+                    path:'resturant',
+                    model:'Resturant'
                 }
             ]
         })

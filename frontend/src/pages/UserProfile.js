@@ -27,6 +27,7 @@ const UserProfile = () => {
         const response = await axios(`http://localhost:4000/order/customer?userId=${user._id}`);
         console.log(response.data.response.order);
         setOrder(response.data.response.order)
+
         setIsLoading(false);
       }
     )();
@@ -89,34 +90,32 @@ const UserProfile = () => {
           </div>
           {/* order module  */}
           <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
-            <h1 className='text-3xl text-center font-semibold pb-5 uppercase'>Your Orders</h1>
-            <div className='w-full h-full '>
-              <div className='flex flex-wrap justify-evenly gap-5'>
+            <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
+            <div className='w-3/4 h-full '>
+              {
+                order ? order.map(item => <Link to="/orderDetails" state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                  <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                  <h1 className='font-bold text-xl'>{item.product ? item.product[0].name : ''}</h1>
+                  <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+                </Link>) : ''
+              }
+              <Link to="/orderDetails" className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                <h1 className='font-bold text-xl'>pizza the granted</h1>
+                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link> 
 
-                {
-                  order ? order.map(item => <OrderDetailsCard items={item}/>) : ''
-                }
-                {/* {
-                  order ? order.map(item => <Link to="/orderDetails" state={item} className='flex justify-around items-center  border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
-                    <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
-                    <h1 className='font-bold text-xl'>{item.product ? item.product[0].name : ''}</h1>
-                    <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-                  </Link>) : ''
-                } */}
-              </div>
 
-              {/* <Link to="/orderDetails" state= className='flex justify-around py-4 items-center  border-b-2 border-black hover:bg-slate-200 transition-all '>
-                <div className='flex px-5 w-full'>
-                  <div className='overflow-hidden rounded-full'>
-                    <img src='https://picsum.photos/id/27/200/300' alt='wellDone' className=' h-40 w-40 rounded-full hover:scale-110 transition-all duration-300' />
-                  </div>
-                  <div className='pl-5'>
-                    <h1 className='font-bold text-xl'>delicious</h1>
-                    <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
-                  </div>
-                </div>
-              </Link> */}
-
+              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                <h1 className='font-bold text-xl'>pizza the granted</h1>
+                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
+              <Link to="/orderDetails" className='flex justify-around items-center border-b-2 p-8 border-black hover:bg-slate-200 transition-all '>
+                <img src='https://picsum.photos/id/27/200/300' className=' h-28 w-28 rounded-full' />
+                <h1 className='font-bold text-xl'>pizza the granted</h1>
+                <h1 className='text-zinc-600 font-bold tect-xl '>&gt;</h1>
+              </Link>
 
             </div>
           </div>

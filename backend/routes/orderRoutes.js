@@ -6,7 +6,7 @@ router.get('/user', orderController.fetchUserOrder);
 router.post('/create', orderController.createOrder);
 router.get('/allOrder', orderController.fetchAllOrder);
 router.get('/customer', orderController.fetchUserOrder);
-router.get('/', orderController.fetchOneOrder)
+router.get('/fetchOneOrder', orderController.fetchOneOrder)
 
 
 
