@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 // Icons 
 import { HiOutlineLocationMarker } from 'react-icons/hi'
@@ -9,12 +9,13 @@ import { GoSearch } from 'react-icons/go'
 import { TbHelp } from 'react-icons/tb'
 import { BsCardChecklist } from 'react-icons/bs'
 import { CgProfile } from 'react-icons/cg'
-import {IoAddCircleOutline} from "react-icons/io5"
+import { IoAddCircleOutline } from "react-icons/io5"
+import { IoFastFoodOutline } from 'react-icons/io5'
 
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
-  const owner=useSelector(state=>state.userData.user)
+  const owner = useSelector(state => state.userData.user)
 
 
   return (
@@ -87,20 +88,25 @@ const Navbar = () => {
                     <TbHelp />Help
                   </Link>
                 </li>
-               { owner!==null && owner.isApproved=="accepted"?  
-               <>
-               <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/help" className='flex items-center gap-1'>
-                    <IoAddCircleOutline/>Add Product
-                  </Link>
-                </li>
-                <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/orderdetails" className='flex items-center gap-1'>
-                    <BsCardChecklist />Order List
-                  </Link>
-                </li>
-                </>:
-                <></>
+                {owner !== null && owner.isApproved === "accepted" ?
+                  <>
+                    <li className="text-gray-600 hover:text-blue-600">
+                      <Link to="/help" className='flex items-center gap-1'>
+                        <IoAddCircleOutline />Add Product
+                      </Link>
+                    </li>
+                    <li className="text-gray-600 hover:text-blue-600">
+                      <Link to="/listofproducts" className='flex items-center gap-1'>
+                        <IoFastFoodOutline />Your Products
+                      </Link>
+                    </li>
+                    <li className="text-gray-600 hover:text-blue-600">
+                      <Link to="/orderdetails" className='flex items-center gap-1'>
+                        <BsCardChecklist />Order List
+                      </Link>
+                    </li>
+                  </> :
+                  <></>
                 }
                 <li className="text-gray-600 hover:text-blue-600">
                   <Link to="/profile" className='flex items-center gap-1'>
