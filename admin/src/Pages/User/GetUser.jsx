@@ -52,14 +52,14 @@ export default function GetUser() {
       setfilterDatas([]);
     }
   };
-  const handleModal =(id)=>{
+  const handleModal = (id) => {
     let data = [...datas];
-    let item = data.find((item)=>item?._id == id);
+    let item = data.find((item) => item?._id == id);
     if (item) {
-      setEditUser(item)
-      setIsVisible(true)
+      setEditUser(item);
+      setIsVisible(true);
     }
-  }
+  };
   const dataTable = (data) =>
     data.map((item, index) => {
       return (
@@ -308,9 +308,7 @@ export default function GetUser() {
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-6 gap-6">
                   <div className="col-span-6 sm:col-span-3">
-                    <label
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Name
                     </label>
                     <input
@@ -339,9 +337,7 @@ export default function GetUser() {
                     />
                   </div> */}
                   <div className="col-span-6 sm:col-span-3">
-                    <label
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Email
                     </label>
                     <input
@@ -355,9 +351,7 @@ export default function GetUser() {
                     />
                   </div>
                   <div className="col-span-6 sm:col-span-3">
-                    <label
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Phone Number
                     </label>
                     <input
@@ -373,14 +367,21 @@ export default function GetUser() {
                             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                             <input type="text" name="department" id="department" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required=""/>
                         </div> */}
-                        <div className="col-span-6 sm:col-span-3">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                            <input type="text" name="company" id="company" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="address" required=""/>
-                        </div>
                   <div className="col-span-6 sm:col-span-3">
-                    <label
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      name="company"
+                      id="company"
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="address"
+                      required=""
+                    />
+                  </div>
+                  <div className="col-span-6 sm:col-span-3">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Current Password
                     </label>
                     <input
@@ -393,9 +394,7 @@ export default function GetUser() {
                     />
                   </div>
                   <div className="col-span-6 sm:col-span-3">
-                    <label
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       New Password
                     </label>
                     <input
@@ -417,7 +416,7 @@ export default function GetUser() {
                   text={"Save"}
                   borderRadius="10px"
                   width={"64"}
-                  onClick={()=>setIsVisible(false)}
+                  onClick={() => setIsVisible(false)}
                 />
               </div>
               {/* <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
