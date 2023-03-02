@@ -17,6 +17,7 @@ import {
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
+import LogIn from "./Pages/LogIn/LogIn";
 
 function App() {
   const {
@@ -74,6 +75,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Dashboard />} />  
                 <Route path="/dashboard" element={<Dashboard />} />  
+                <Route path="/login" element={<LogIn />} />  
                 <Route path="/request" element={<Request />} />  
                 <Route path="/request/:restaurantId" element={<RestaurantDetail />} />  
                 <Route path="/customers" element={<GetUser />} />
