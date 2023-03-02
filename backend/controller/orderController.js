@@ -42,7 +42,18 @@ const fetchOneOrder = async (req, res, next) => {
         const { id } = req.query
        
         console.log(id);
-        const order = await Order.findById(id);
+        const order = await Order.findById(id).populate({
+            path: 'order',
+            populate: [
+                {
+                    path: 'products.product',
+                    model:'Product'
+                },{
+                    path:'resturant',
+                    model:'Resturant'
+                }
+            ]
+        });
         
         if (!order) return res.status(404).json({ message: 'order not found' });
 
