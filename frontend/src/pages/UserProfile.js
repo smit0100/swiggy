@@ -120,13 +120,14 @@ export default UserProfile
 
 
 export const OrderDetailsCard = ({items}) => {
+  console.log(items);
   return (
     <div className="grid h-full w-fit  place-items-start  text-gray-900 antialiased">
       <div>
         <div className='overflow-hidden w-full rounded-lg'>
           <img src="https://source.unsplash.com/random/350x350" alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
         </div>
-        <Link to='/orderDetails' >
+        <Link to={`/orderDetails/${items._id}`} >
           <div className="relative group -mt-16 px-4 hover:skew-x-1 transition-all duration-500" >
             <div className="rounded-lg bg-white p-5 shadow-lg">
               <div className="flex items-baseline">
@@ -143,7 +144,7 @@ export const OrderDetailsCard = ({items}) => {
             </div>
           </div>
         </Link>
-        {/* <div className='hidden'><CustomerOrderCard items={items}/></div> */}
+        {/* <div className='hidden'><CustomerOrderCard items={items}/></div>   */}
       </div>
     </div>
   )

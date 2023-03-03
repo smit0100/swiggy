@@ -49,6 +49,9 @@ const fetchOneOrder = async (req, res, next) => {
             }, {
                 path: "resturant",
                 model:"Resturant"
+            },{
+                path:"customer",
+                model:"User"
             }
         ])
         

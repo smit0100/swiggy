@@ -7,48 +7,48 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import { getOrderItem } from "../../redux/slices/orderSlice";
-import { orderData } from "../redux/orders/orderSlice"
+// import { orderData } from "../redux/orders/orderSlice"
 import { useDispatch } from "react-redux";
 import CustomerOrderCard from "../components/CustomerOrderCard";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
   const {orderId}=useParams()
+
   const navigate = useNavigate();
+
   const [model, setModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [orderData, setOrderData] = useState(null);
 
-  const [orderDetails,setOrderDetails]=useState(null)
-  const customerName = useSelector((state) => state.userData.user.name);
-  const email = useSelector((state) => state.userData.user.email);
-  const userId = useSelector((state) => state.userData.user._id);
+  // const [orderDetails,setOrderDetails]=useState(null)
+  const user = useSelector((state) => state.userData.user);
+  
 
-  console.log("this is orderData");
   console.log(orderData);
   const location = useLocation();
   const data = location.state;
   console.log('check this data');
   console.log(data);
-  const createdDate = orderData.createdAt
+  const createdDate = "ok"
   console.log("check this created date");
 
-  console.log(createdDate);
+  // console.log(createdDate);
 
-  useEffect(() => {
-    (async () => {
-      // setIsLoading(true);
+  // useEffect(() => {
+  //   (async () => {
+  //     // setIsLoading(true);
 
-      // console.log(userId);
-      // // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
-      // let getData = await axios.get(`http://localhost:4000/order/customer?userId=${userId}`)
-      // console.log(getData);
-      // getData = await getData.json();
-      // console.log(getData.data.response.order); 
-      // setOrderData(getData.data.or);
-      // setIsLoading(false);
-    })();
-  }, []);
+  //     // console.log(userId);
+  //     // // let getData = await fetch(`http://localhost:5000/order/one/${data.id}`);
+  //     // let getData = await axios.get(`http://localhost:4000/order/customer?userId=${userId}`)
+  //     // console.log(getData);
+  //     // getData = await getData.json();
+  //     // console.log(getData.data.response.order); 
+  //     // setOrderData(getData.data.or);
+  //     // setIsLoading(false);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (
@@ -57,10 +57,12 @@ const OrderDetails = () => {
         const response = await axios(`http://localhost:4000/order/fetchOneOrder/?id=${orderId}`);
         console.log(response.data.order);
         setOrderData(response.data.order)
+       
         setIsLoading(false);
       }
     )();
   }, [])
+
   const handleDelete = async (id) => {
     console.log(id);
 
@@ -72,7 +74,7 @@ const OrderDetails = () => {
   };
   return (
     <>
-      {model && (
+      {/* {model && (
         <div className="border-2">
           <div
             id="popup-modal"
@@ -144,114 +146,70 @@ const OrderDetails = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
-      <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+      {
+        orderData &&  <><div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
         <div className="flex justify-start item-start space-y-2 flex-col ">
           <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
-            Order {orderData._id}
+            Order {orderData && orderData._id}
+           
           </h1>
-          <p className="text-base font-medium leading-6 text-gray-600">
+          {/* <p className="text-base font-medium leading-6 text-gray-600">
             Order Date <span className="ml-4"> {orderData.createdAt}</span>
           </p>
           {
             orderData.orderStatus === "delivered" ? <p className="text-base font-medium leading-6 text-gray-600">
               Delivered Date  <span className="ml-4"> {orderData.updatedAt}</span>
             </p> : <></>
-          }
+          } */}
         </div>
         <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
           <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
             <div className="flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
               <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
-                Customer’s Order
+                Customer’s Order 
               </p>
+            <div>
+              {/* {
+                orderData &&  <CustomerOrderCard items={orderData.products[0]}/>
 
-              {/* { 
-              orderData.products.map(item => (
-                <div className="mt-4 md:mt-6 flex  flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full ">
-              <div className="pb-4 md:pb-8 w-full md:w-40">
-                <img
-                  className="w-full hidden md:block"
-                  src="https://i.ibb.co/84qQR4p/Rectangle-10.png"
-                  alt="dress"
-                />
-                <img
-                  className="w-full md:hidden"
-                  src="https://i.ibb.co/L039qbN/Rectangle-10.png"
-                  alt="dress"
-                />
-              </div>
-              <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full  pb-8 space-y-4 md:space-y-0">
-                <div className="w-full flex flex-col justify-start items-start space-y-8">
-                  <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
-                    Premium Quaility Dress
-                  </h3>
-                  <div className="flex justify-start items-start flex-col space-y-2">
-                    <p className="text-sm leading-none text-gray-800">
-                      <span className="text-gray-300">Style: </span> Italic
-                      Minimal Design
-                    </p>
-                    <p className="text-sm leading-none text-gray-800">
-                      <span className="text-gray-300">Size: </span> Small
-                    </p>
-                    <p className="text-sm leading-none text-gray-800">
-                      <span className="text-gray-300">Color: </span> Light Blue
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-between space-x-8 items-start w-full">
-                  <p className="text-base xl:text-lg leading-6">
-                    $36.00{" "}
-                    <span className="text-red-300 line-through"> $45.00</span>
-                  </p>
-                  <p className="text-base xl:text-lg leading-6 text-gray-800">
-                    01
-                  </p>
-                  <p className="text-base xl:text-lg font-semibold leading-6 text-gray-800">
-                    $36.00
-                  </p>
-                </div>
-              </div>
+              } */}
             </div>
-              ))
-            } */}
-
-              <CustomerOrderCard />
-              <CustomerOrderCard />
-              <CustomerOrderCard />
-
-              {Object.keys(orderData).length !== 0 &&
-                orderData.products.map((item) => (
-                  <div className="mt-10 md:mt-4 flex justify-start flex-col md:flex-row  items-start md:items-center space-y-4  md:space-x-6 xl:space-x-8 w-full ">
-                    <div className="w-full md:w-40">
-                      <img
-                        className="w-full hidden md:block"
-                        src={item.product.imageUrl}
-                        alt="dress"
-                      />
-
-                    </div>
-                    <div className="  flex justify-between items-start w-full flex-col md:flex-row space-y-4 md:space-y-0  ">
-                      <div className="w-full flex flex-col justify-start items-start space-y-8">
-                        <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
-                          {item.product.name}
-                        </h3>
-                      </div>
-                      <div className="flex justify-between space-x-8 items-start w-full">
-                        <p className="text-base xl:text-lg leading-6">
-                          {item.product.price}
-                        </p>
-                        <p className="text-base xl:text-lg leading-6 text-gray-800">
-                          {item.quantity}
-                        </p>
-                        <p className="text-base xl:text-lg font-semibold leading-6 text-gray-800">
-                          {item.product.price * item.quantity}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            
+              {
+                orderData ? orderData.products.map((item) => (
+                  // <div className="mt-10 md:mt-4 flex justify-start flex-col md:flex-row  items-start md:items-center space-y-4  md:space-x-6 xl:space-x-8 w-full ">
+                  //   <div className="w-full md:w-40">
+                  //     <img
+                  //       className="w-full hidden md:block"
+                  //       // src={item.product.imageUrl}
+                  //       src=""
+                  //       alt="dress"
+                  //     />
+          
+                  //   </div>
+                  //   <div className="  flex justify-between items-start w-full flex-col md:flex-row space-y-4 md:space-y-0  ">
+                  //     <div className="w-full flex flex-col justify-start items-start space-y-8">
+                  //       <h3 className="text-xl xl:text-2xl font-semibold leading-6 text-gray-800">
+                  //         {item.product.name}
+                  //       </h3>
+                  //     </div>
+                  //     <div className="flex justify-between space-x-8 items-start w-full">
+                  //       <p className="text-base xl:text-lg leading-6">
+                  //         {item.product.price}
+                  //       </p>
+                  //       <p className="text-base xl:text-lg leading-6 text-gray-800">
+                  //         {item.quantity}
+                  //       </p>
+                  //       <p className="text-base xl:text-lg font-semibold leading-6 text-gray-800">
+                  //         {item.product.price * item.quantity}
+                  //       </p>
+                  //     </div>
+                  //   </div>
+                  // </div>
+                  <CustomerOrderCard items={item}/>
+                )) : ''}
             </div>
             <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
               <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
@@ -264,7 +222,7 @@ const OrderDetails = () => {
                       Subtotal
                     </p>
                     <p className="text-base leading-4 text-gray-600">
-                      {orderData.total}
+                      { orderData ? orderData.total : ''}
                     </p>
                   </div>
                   <div className="flex justify-between items-center w-full">
@@ -285,7 +243,7 @@ const OrderDetails = () => {
                     Total
                   </p>
                   <p className="text-base font-semibold leading-4 text-gray-600">
-                    {orderData.total}
+                    {orderData && orderData.total}
                   </p>
                 </div>
               </div>
@@ -364,11 +322,12 @@ const OrderDetails = () => {
                   />
                   <div className=" flex justify-start items-start flex-col space-y-2">
                     <p className="text-base font-semibold leading-4 text-left text-gray-800">
-                      {Object.keys(orderData).length !== 0 &&
-                        orderData.address.lname}{" "}
-                      {Object.keys(orderData).length !== 0 &&
-                        orderData.address.fname}
-                      Krishna
+                      {
+                        orderData && <div>{orderData.customer.name}</div>
+
+                      }
+                  
+                      
                     </p>
                   </div>
                 </div>
@@ -379,9 +338,8 @@ const OrderDetails = () => {
                     <path d="M3 7L12 13L21 7" stroke="#1F2937" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   <p className="cursor-pointer font-medium pl-2 text-sm leading-5 text-gray-800">
-                    {Object.keys(orderData).length !== 0 &&
-                      orderData.address.email}
-                    krishna@earth.universe
+                    {orderData &&
+                      orderData.customer.email}
                   </p>
                 </div>
               </div>
@@ -392,7 +350,8 @@ const OrderDetails = () => {
                       Shipping Address
                     </p>
                     <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                      180 North King Street, Northhampton MA 1060
+                    {orderData &&
+                        orderData.address.area}{" "}
                     </p>
                   </div>
                   <div className="mt-4 flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
@@ -400,21 +359,27 @@ const OrderDetails = () => {
                       Billing
                     </p>
                     <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                      {Object.keys(orderData).length !== 0 &&
+                      {
+                        // orderData && orderData.resturant.address.street + ',' +
+                        orderData && orderData.resturant.address.area + ',' +
+                        orderData.resturant.address.city + ',' +
+                         orderData.resturant.address.pincode + ','
+                      }
+                      {/* {orderData &&
                         orderData.address.address}
                       ,{" "}
-                      {Object.keys(orderData).length !== 0 &&
+                      {orderData &&
                         orderData.address.city}
                       ,{" "}
-                      {Object.keys(orderData).length !== 0 &&
+                      {orderData &&
                         orderData.address.country}
                       ,{" "}
-                      {Object.keys(orderData).length !== 0 &&
-                        orderData.address.zipCode}
+                      {orderData &&
+                        orderData.address.zipCode} */}
                     </p>
                   </div>
                 </div>
-                {Object.keys(orderData).length !== 0 && !orderData.isDelivered && (
+                {/* {orderData && !orderData.isDelivered && (
                   <div className="flex flex-col gap-2 mt-4">
                     {
 
@@ -453,12 +418,15 @@ const OrderDetails = () => {
 
 
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div></> 
+      }
+
+      
     </>
   );
 };

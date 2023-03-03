@@ -32,7 +32,6 @@ function App() {
         <Route index element={<Directory />} />
         <Route path="restaurant/:restaurantId" element={<ResturantPage/>} />
         <Route path="search" element={<SearchPage />} />
-        
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="otp" element={<Otp />} />
