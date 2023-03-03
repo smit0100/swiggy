@@ -11,7 +11,7 @@ const ListOfProductCard = ({item}) => {
             <div className="absolute group top-52 px-4 w-full h-36 overflow-hidden transition-all duration-500 hover:top-0 hover:px-0 hover:bg-white/70 hover:h-full" >
                 <div className="relative rounded-lg bg-white group-hover:h-full group-hover:bg-white/50 p-5 shadow-lg overflow-hidden">
                     <div className="flex items-baseline">
-                        <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">&bull; Category name</div>
+                        <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">&bull; {item ? item.category.name:""}</div>
                     </div>
                     <h4 className="mt-1 truncate text-md font-semibold uppercase leading-tight">{item ? item.name:""}</h4>
                     <div className="mt-1 font-medium">
