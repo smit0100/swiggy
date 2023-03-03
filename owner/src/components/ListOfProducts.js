@@ -10,10 +10,15 @@ const ListOfProducts = () => {
   useEffect(() => {
     (async () => {
       setLoad(true)
+      try{
       const response = await axios.get(`http://localhost:4000/resturant/allProduct?id=${user._id}`);
-      setData(response.data.results)
-      console.log(response.data)
+      setData(response.data.result.product)
+      console.log(response.data.result.product)
       setLoad(false)
+      }
+      catch(err){
+        console.log(err);
+      }
     })()
   },[])
   
@@ -34,10 +39,9 @@ const ListOfProducts = () => {
         <div className='w-full sm:w-9/12 p-4'>
           <h1 className='text-3xl text-center border-b-2 border-black uppercase mb-5 pb-3'>List of Products</h1>
           <div className="flex flex-wrap gap-4 justify-evenly">
-            <ListOfProductCard />
-            <ListOfProductCard />
-            <ListOfProductCard />
-            <ListOfProductCard />
+            {
+              data!=null && data.map(item=><ListOfProductCard item={item}/>)
+            }
           </div>
         </div>
       </div>

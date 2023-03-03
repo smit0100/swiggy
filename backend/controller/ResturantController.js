@@ -358,6 +358,7 @@ const fetchAllProduct = async (req, res, next) => {
         console.log(result);
         return res.status(200).json({ message: 'product founded', result });
     } catch (e) {
+        console.log(e);
         res.status(500).json({ messag: "something went wrong" });
     }
 }
