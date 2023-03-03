@@ -18,6 +18,7 @@ import {
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import LogIn from "./Pages/LogIn/LogIn";
+import PrivateRoute from "./Pages/LogIn/PrivateRoute";
 
 function App() {
   const {
@@ -28,7 +29,7 @@ function App() {
     themeSettings,
     setThemeSettings,
   } = useStateContext();
-  const activeMenu = useSelector(state => state.setActiveMenu.activeMenu);
+  const activeMenu = useSelector((state) => state.setActiveMenu.activeMenu);
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
@@ -73,18 +74,28 @@ function App() {
             </div>
             {themeSettings && <ThemeSettings />}
             <Routes>
-                <Route path="/" element={<Dashboard />} />  
-                <Route path="/dashboard" element={<Dashboard />} />  
-                <Route path="/login" element={<LogIn />} />  
-                <Route path="/request" element={<Request />} />  
-                <Route path="/request/:restaurantId" element={<RestaurantDetail />} />  
-                <Route path="/customers" element={<GetUser />} />
-                <Route path="/category" element={<AddCategory />} />
-                <Route path="/customers/:id" element={<UserDetail />} />
-                <Route path="/orders" element={<GetOrder />} />
-                <Route path="/restaurants" element={<Restaurants />} />
-                <Route path="/restaurants/:id" element={<ApprovedRestaurant/>} />
-                <Route path="*" element={<NotFound />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/request" element={<Request />} />
+              <Route
+                path="/request/:restaurantId"
+                element={<RestaurantDetail />}
+              />
+              <Route path="/customers" element={<GetUser />} />
+              <Route path="/category" element={<AddCategory />} />
+              <Route path="/customers/:id" element={<UserDetail />} />
+              <Route path="/orders" element={<GetOrder />} />
+              <Route path="/restaurants" element={<Restaurants />} />
+              <Route path="/restaurants/:id" element={<ApprovedRestaurant />} />
+              <Route path="*" element={<NotFound />} />
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute redirectTo="/login">
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
           </div>
         </div>

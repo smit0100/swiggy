@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { BiCloudUpload } from "react-icons/bi";
 import Category from "../../Apis/Category";
 import { Button } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
 import swal from "sweetalert";
-import axios, { Axios } from "axios";
 
 export default function AddCategory() {
   const { currentColor } = useStateContext();

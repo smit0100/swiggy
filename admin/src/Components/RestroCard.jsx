@@ -2,16 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function RestroCard(props) {
-
   return (
     <div className="wrapper w-64 antialiased text-gray-900 h-96">
       <div>
-      <Link to={`/restaurants/${props.restaurantId}`} state={props?.item}>
-        <img
-          src={props.image}
-          alt="Restaurant"
-          className="w-64 h-72 hover:opacity-90 hover:mt-1 duration-500 hover:shadow-2xl  object-cover object-center rounded-xl shadow-md z-50"
-        />
+        <Link to={`/restaurants/${props.restaurantId}`} state={props?.item}>
+          <img
+            src={props.image}
+            alt="Restaurant"
+            className="w-64 h-72 hover:opacity-90 hover:mt-1 duration-500 hover:shadow-2xl  object-cover object-center rounded-xl shadow-md z-50"
+          />
         </Link>
         <div className="relative px-4 -mt-16 md:hover:-mt-24 lg:hover:-mt-24 duration-500">
           <div className="bg-white p-6 rounded-2xl shadow-lg w-full">
@@ -31,7 +30,9 @@ export default function RestroCard(props) {
               <span className="text-teal-600 text-md font-semibold">
                 4/5 ratings{" "}
               </span>
-              <span className="text-sm text-gray-600">(based on 234 ratings)</span>
+              <span className="text-sm text-gray-600">
+                (based on 234 ratings)
+              </span>
             </div>
           </div>
         </div>

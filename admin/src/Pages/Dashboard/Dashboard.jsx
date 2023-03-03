@@ -26,7 +26,7 @@ function Dashboard(props) {
     <div className="mt-24">
       <div className="flex flex-wrap lg:flex-nowrap justify-center bg-slate-300 rounded-2xl">
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
-          {earningData.map((item,index) => (
+          {earningData.map((item, index) => (
             <div
               key={index}
               className="bg-slate-100 h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl hover:drop-shadow-xl "
@@ -67,7 +67,7 @@ function Dashboard(props) {
               role="list"
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
-              {datas.map((item,index) => {
+              {datas.map((item, index) => {
                 return (
                   <li key={index} className="py-3 sm:py-4">
                     <div className="flex items-center space-x-4">
