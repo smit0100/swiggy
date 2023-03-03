@@ -342,10 +342,12 @@ const acceptOrder = async (req, res, next) => {
 const fetchAllProduct = async (req, res, next) => {
     try {
         const { id } = req.query;
+        console.log(id);
         const result = await Resturant.findById(id).populate('product');
         console.log(result);
         return res.status(200).json({ message: 'product founded', result });
     } catch (e) {
+        console.log(e);
         res.status(500).json({ messag: "something went wrong" });
     }
 }
