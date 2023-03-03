@@ -6,7 +6,7 @@ const cloudinary = require("cloudinary").v2;
 
 const createProduct = async (req, res, next) => {
     try {
-        const { name, price, category,resturnat,subCategory } = req.body;
+        const { description,name, price, category,resturnat,subCategory } = req.body;
         console.log(JSON.stringify(req.body));
     const categoryExist = await Category.findById(category);
 
@@ -41,7 +41,7 @@ const createProduct = async (req, res, next) => {
             return res.status(500).json({ message: 'product uploading failed' });
         }
 
-    const product = await new Product({ name, price, category,resturnat,subCategory,imageUrl:result.url }).save();
+    const product = await new Product({ name, price, category,resturnat,subCategory,imageUrl:result.url,description }).save();
     
     console.log(product._id);
     //added in category
