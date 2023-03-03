@@ -3,6 +3,9 @@ import axios from 'axios';
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
+import Loader from './Loader';
 
 
 const AddProduct = () => {
@@ -17,6 +20,9 @@ const AddProduct = () => {
   const [description, setDescription] = useState('');
   const [descriptionError, setDescriptionError] = useState('')
   const [productImage, setProductImage] = useState(null)
+  const [loading,setLoading]=useState(false)
+
+  const navigate=useNavigate()
 
   const owner = useSelector(state => state.userData.user);
   const handleName = (e) => {
@@ -79,6 +85,7 @@ const AddProduct = () => {
     (
       async () => {
         e.preventDefault();
+        setLoading(true)
         const formData = new FormData();
         formData.append("name", name);
         formData.append('price', price);
@@ -94,13 +101,18 @@ const AddProduct = () => {
        console.log(owner._id);
         const data = await axios.post('http://localhost:4000/product/add', formData)
         console.log(data);
+        setLoading(false)
+      swal("SuccessFully Added", "", "success");
+        navigate("/listofproducts")
+        
       }
     )();
    
   }
 
   return (
-    <>
+    <>{
+      loading==true? <Loader/>:
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100'>
 
         <div className='mx-10'>
@@ -204,6 +216,7 @@ const AddProduct = () => {
 
 
       </div>
+}
     </>
   )
 }

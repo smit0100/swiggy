@@ -41,7 +41,7 @@ const ResturantPage = () => {
       console.log("this is ct log");
       console.log(typeof (ct));
       const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
-
+ 
       // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
 
 
@@ -104,7 +104,7 @@ const ResturantPage = () => {
     <>
       {/* image */}
       <div className=''>
-        <div className="md:mx-36 top-60 mx-10 bg-cover bg-scale bg-no-repeat  md:h-[500px] h-[300px]  box-border  flex justify-center items-center" style={{ backgroundImage: `url('https://cdn.pixabay.com/photo/2013/11/28/10/03/river-219972_960_720.jpg')` }}></div>
+        <div className="md:mx-36 top-60 mx-10 bg-cover bg-scale bg-no-repeat  md:h-[500px] h-[300px]  box-border  flex justify-center items-center" style={{ backgroundImage: `url(${data.length != 0 ? data.resturant.bgImageUrl[0] : 'https://picsum.photos/200' })` }}></div>
       </div>
       <div className='md:mx-36 m-4  p-2 mx-10 '>
         {/* link */}
@@ -143,7 +143,7 @@ const ResturantPage = () => {
                   <div className='row overflow-auto'>
                     <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-black/10 left-0 overflow-hidden'>
                       <ul className="space-y-2">
-                        {/* {
+                        {
                           category != null && category.map(item => <li>
                             <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
                             <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
@@ -153,10 +153,10 @@ const ResturantPage = () => {
                             </label>
 
                           </li>)
-                        } */}
-                        {menuItems.map((menu, index) => {
+                        }
+                        {/* {menuItems.map((menu, index) => {
                           return <MenuItems items={menu} key={index} event={handleCategoryChange}/>;
-                        })}
+                        })} */}
                       </ul>
 
                     </div>
@@ -244,6 +244,14 @@ export default ResturantPage
 
 
 const MenuItems = ({ items ,event}) => {
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(`http://localhost:4000/category/all`)
+      console.log(response);
+      // setCategory(response.data.response)
+    })()
+  }, [])
+
   const [dropdown, setDropdown] = useState(false);
   return (
     <li>
@@ -357,6 +365,7 @@ export const UserReviewCard = () => {
 }
 
 export const RestroCategoryCard = ({ item }) => {
+  // console.log(item);
   const id = item._id;
   const isUser = useSelector(state => state.userData.user);
   const cartItemData = useSelector(state => state.cartData.cart);
@@ -433,7 +442,7 @@ export const RestroCategoryCard = ({ item }) => {
     <>
       <div className="flex flex-wrap-reverse anim py-3 gap-5">
         <div className="relative ">
-          <img className="h-36 w-36 rounded-md object-cover" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80" alt="food" />
+          <img className="h-36 w-36 rounded-md object-cover" src={`${item.imageUrl}`} alt="food" />
 
           <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
           >
@@ -445,7 +454,7 @@ export const RestroCategoryCard = ({ item }) => {
           <img alt="veg" className="w-5 mr-1" src="../svg/veg.svg" />
           <p className="font-bold capitalize">{item.name} </p>
           <p className="text-sm">&#8377; {item.price}</p>
-          <p className='text-md text-slate-500 capitalize'>Onions|Tomatoes|Capsicum|Sweet Corns</p>
+          <p className='text-md text-slate-500 capitalize'>{item.description}</p>
         </div>
 
       </div>
