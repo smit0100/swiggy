@@ -2,7 +2,7 @@ import Api from "./Api";
 
 function GetRequests(num) {
   return Api({
-    url: `/resturant/fetchAll?pageNumber=${num}&pageSize=9`,
+    url: `/resturant/getAllPending`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +12,7 @@ function GetRequests(num) {
 
 function GetApprovedRestaurant() {
   return Api({
-    url: "/resturant/fetchAllActive",
+    url: "/resturant/fetchAll",
     method: "GET",
     headers: {
       "Content-Type": "application/json",

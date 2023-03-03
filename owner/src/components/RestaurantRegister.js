@@ -507,8 +507,8 @@ const RestaurantRegister = () => {
                   </div>
                 </div>
                 <div className='p-5 border-[1.5px] shadow-md shadow-black mt-4 relative'>
-                  <h2 className='text-2xl font-semibold'>Contact number at restaurant</h2>
-                  <h3 className='text-slate-500'>Your Customer will call on this number for general enquiries</h3>
+                  <h2 className='text-2xl font-semibold'>Restaurant Owner name</h2>
+                  <h3 className='text-slate-500'>Your Customer will call on this nanme for general enquiries</h3>
                   <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-8">
                     <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                       <i className="fas fa-user"></i>
@@ -517,7 +517,7 @@ const RestaurantRegister = () => {
                     <span className='text-sm text-red-500'>{errorHandle.ownerName}</span>
 
                   </div>
-                  <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
+                  {/* <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                     <span className="z-10 h-full leading-snug font-normal  text-center text-slate-700 absolute bg-transparent rounded text-base items-center justify-center w-8 px-3 py-3">
                       +91
                     </span>
@@ -533,7 +533,7 @@ const RestaurantRegister = () => {
                     <button className=' sm:ml-3 inline-block bg-white hover:text-white w-28 sm:w-fit hover:bg-blue-600 font-bold  rounded border border-current px-10 text-center py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Verify</button>
                     <span className='text-sm text-red-500'>{errorHandle.email}</span>
 
-                  </div>
+                  </div> */}
                   <div className='flex justify-end pt-12'>
                     {handleFirstForm()}
                   </div>
@@ -624,14 +624,15 @@ const RestaurantRegister = () => {
                   }
                      
                   </div>
+                  <div className='flex justify-end pt-12'>
+                    <button onClick={() => setTabOpen(3)} className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
+                  </div>
                 </div>
 
-                <div className='shadow-md p-5 mt-3'>
+                {/* <div className='shadow-md p-5 mt-3'>
                   <h2 className='text-2xl font-medium'>Restaurant operational hours</h2>
                   <h3 className='text-slate-500'>Mark restaurant opening and closing hours</h3>
                   <div className='flex pt-8 justify-evenly'>
-
-
                     <div className="flex justify-center">
                       <div className="timepicker relative form-floating mb-3 xl:w-40">
                         <input type="time"
@@ -656,7 +657,7 @@ const RestaurantRegister = () => {
                   <div className='flex justify-end pt-12'>
                     <button onClick={() => setTabOpen(3)} className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
                   </div>
-                </div>
+                </div> */}
               </form>
             </div>
             : <></>

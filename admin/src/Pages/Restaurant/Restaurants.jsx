@@ -6,14 +6,17 @@ import resto from "../../Assets/resto.jpg";
 export default function Restaurants() {
   const [data, setData] = useState([]);
   useEffect(() => {
+     
+
+    
     getRestaurants();
   }, []);
   const getRestaurants = () => {
     Restaurant.GetApprovedRestaurant()
       .then((res) => {
         console.log("===res", res);
-        if (res?.data) {
-          setData(res?.data);
+        if (res?.results) {
+          setData(res?.results);
         }
       })
       .catch((e) => {

@@ -1,7 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ListOfProductCard from './ListOfProductCard';
+import {useSelector} from "react-redux"
+import axios from 'axios'
 
 const ListOfProducts = () => {
+  const user = useSelector(state => state.userData.user)
+ const [load, setLoad] = useState(false)
+ const [data, setData] = useState(null)
+  useEffect(() => {
+    (async () => {
+      setLoad(true)
+      const response = await axios.get(`http://localhost:4000/resturant/allProduct?id=${user._id}`);
+      setData(response.data.results)
+      console.log(response.data)
+      setLoad(false)
+    })()
+  },[])
+  
   return (
     <>
       <div className='flex flex-wrap'>

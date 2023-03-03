@@ -10,21 +10,22 @@ const createProduct = async (req, res, next) => {
         console.log(JSON.stringify(req.body));
     const categoryExist = await Category.findById(category);
 
-    if (!categoryExist) return res.status(400).json({ message: 'choose valid category' });
+    // if (!categoryExist) return res.status(400).json({ message: 'choose valid category' });
 
-    const subCategoryExist = await SubCategory.findById(subCategory);
+    // const subCategoryExist = await SubCategory.findById(subCategory);
 
-        if (!subCategoryExist) return res.status(400).json({ message: "choose valid sub category" });
+    //     if (!subCategoryExist) return res.status(400).json({ message: "choose valid sub category" });
         
 
-        console.log(resturnat);
-        const resturantExist = await Resturant.findById(resturnat);
+    //     console.log(resturnat);
+    //     const resturantExist = await Resturant.findById(resturnat);
 
-        console.log(resturantExist);
+    //     console.log(resturantExist);
 
-        if (!resturantExist) return res.status(400).json({ message: "resturant not found" });
+    //     if (!resturantExist) return res.status(400).json({ message: "resturant not found" });
 
-        let { productImage } = req.files
+        let productImage  = req.files.productImage
+        
         let result
         try {
              result = await cloudinary.uploader.upload(productImage.tempFilePath, {
@@ -37,14 +38,14 @@ const createProduct = async (req, res, next) => {
 
         } catch (e) {
             console.log(e);
-            res.status(500).json({ message: 'product uploading failed' });
+            return res.status(500).json({ message: 'product uploading failed' });
         }
 
     const product = await new Product({ name, price, category,resturnat,subCategory,imageUrl:result.url }).save();
     
     console.log(product._id);
     //added in category
-        const addProductInCategory = await Category.findByIdAndUpdate(category, { $push: { product: product.id } })
+        const addProductInCategory = await Category.findByIdAndUpdate(category, { $push: { product: product._id } })
         
         await SubCategory.findByIdAndUpdate(subCategory, {
             $push: {
@@ -54,9 +55,15 @@ const createProduct = async (req, res, next) => {
     
 
     //added in resturant
+ 
+    const addProductInResturnat = await Resturant.findByIdAndUpdate(resturnat, {$push:{ product: product._id }},{
+        new:true
+    });
+    console.log("this is resturant id");
     console.log(resturnat);
-    const addProductInResturnat = await Resturant.findByIdAndUpdate(resturnat, {$push:{ product: product.id }});
+   
     console.log(addProductInResturnat);
+ 
 
     
 

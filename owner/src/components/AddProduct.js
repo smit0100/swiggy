@@ -83,10 +83,15 @@ const AddProduct = () => {
         formData.append("name", name);
         formData.append('price', price);
         formData.append("description", description);
-        formData.append('productImage', productImage);
-        formData.append('resturant',owner._id)
-    
-    
+       
+        formData.append('resturnat',owner._id)
+        formData.append('category',category);
+        formData.append('subCategory',subCategory)
+        formData.append('productImage',productImage)
+
+        console.log(name, price, description,productImage,owner._id,category,subCategory,productImage);
+
+       console.log(owner._id);
         const data = await axios.post('http://localhost:4000/product/add', formData)
         console.log(data);
       }
@@ -184,7 +189,7 @@ const AddProduct = () => {
                     <label className="block capitalize text-blueGray-600 text-md pb-1" htmlFor="pdImage">
                       Upload prodouct image
                     </label>
-                    <input type="file" name="productImage" id="pdImage" onCanPlay={(e) => setProductImage(e.target.files[0])} />
+                    <input type="file" name="productImage" id="pdImage" onChange={(e) => setProductImage(e.target.files[0])} />
                   </div>
                   <button className="inline-block ml-2 mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500" onClick={handleSubmit}>
                     Add Product

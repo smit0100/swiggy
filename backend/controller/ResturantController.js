@@ -209,11 +209,12 @@ const fetchAllResturants = async (req, res, next) => {
         const totalPages = Math.ceil(totalCount / pageSize);
     
         // retrieve the blog posts based on the page number and page size
-        const blogPosts = await Resturant.find({isApproved:'Approved'})
+        const blogPosts = await Resturant.find({isApproved: 'Accepted'} )
           .skip((pageNumber - 1) * pageSize)
           .limit(pageSize);
-    
-        // return the paginated results
+        
+        // return the  results
+        console.log(blogPosts);
         res.status(200).json({
           page: pageNumber,
           totalPages: totalPages,
@@ -227,6 +228,17 @@ const fetchAllResturants = async (req, res, next) => {
       }
 
     
+}
+
+
+const getAllResturant = async (req,res) => {
+try{
+        const response = await Resturant.find({ isApproved: 'pending'});
+        console.log(response);
+        res.status(200).json({messag:'resturnat fetched',results:response});
+    } catch (e) {
+        res.status(500).json({messag:'something went wrong'});
+    }
 }
 
 const resturantStatus = async (req, res, next) => {
@@ -347,7 +359,8 @@ module.exports = {
     verfiyResturant,
     register,
     fetchAllProduct,
-    fetchAllResturantOrder
+    fetchAllResturantOrder,
+    getAllResturant
 }
 
 
