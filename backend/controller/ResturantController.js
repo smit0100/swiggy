@@ -209,7 +209,7 @@ const fetchAllResturants = async (req, res, next) => {
         const totalPages = Math.ceil(totalCount / pageSize);
     
         // retrieve the blog posts based on the page number and page size
-        const blogPosts = await Resturant.find()
+        const blogPosts = await Resturant.find({isApproved:'Approved'})
           .skip((pageNumber - 1) * pageSize)
           .limit(pageSize);
     

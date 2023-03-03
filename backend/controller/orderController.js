@@ -129,9 +129,48 @@ const fetchUserOrder = async (req, res, next) => {
 
 }
 
+const fetchAllResturantOrder = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const data = await Order.find({ resturant: id }).populate([
+            {
+                path: 'products.product',
+                model:'Product'
+            }, {
+                path: 'customer',
+                model:"User"
+            }, {
+                path: 'review',
+                model:'Review'
+            }
+        ])
+        res.status(200).json({ message: 'order fetched', data });
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
+
+const acceptOrder = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const response = await Order.findByIdAndUpdate(id, {
+            status:"accept"
+        }, {
+            new:true
+        })
+        res.status(200).json({message:"order status update",response})
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+    
+}
+
 module.exports = {
     createOrder,
     fetchAllOrder,
     fetchUserOrder,
-    fetchOneOrder
+    fetchOneOrder,
+    fetchAllResturantOrder
 }

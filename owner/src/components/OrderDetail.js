@@ -1,11 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 
 const OrderDetail = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [order, setOrder] = useState('')
+  const owner = useSelector(state => state.userData.user)
   const navigate = useNavigate()
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showOrderDetail, setShowOrderDetail] = useState(false)
+
+
+  useEffect(() => {
+    (
+      async () => {
+        const response = await axios.post('http://localhost:4000/order')
+      }
+    )();
+  }, [])
+  
 
   const orders = [
     { id: 123, customerName: "John Doe", totalPrice: 45.99, orderDate: "2023-02-21", status: "Delivered" },
