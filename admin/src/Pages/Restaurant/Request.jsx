@@ -100,31 +100,37 @@ export default function Request() {
             );
           })}
       </div>
-      <div className="mt-4 justify-center items-center flex">
-        <button
-          disabled={currentPage > 1 ? false : true}
-          onClick={() => handlePageChange(currentPage - 1)}
-          className={`inline-flex items-center px-4 py-2 ${
-            currentPage > 1
-              ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
-              : ""
-          }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
-        >
-          Previous
-        </button>
+      {data?.length > 0 ? (
+        <div className="mt-4 justify-center items-center flex">
+          <button
+            disabled={currentPage > 1 ? false : true}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className={`inline-flex items-center px-4 py-2 ${
+              currentPage > 1
+                ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+                : ""
+            }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+          >
+            Previous
+          </button>
 
-        <button
-          disabled={data?.length == 9 ? false : true}
-          onClick={() => handlePageChange(currentPage + 1)}
-          className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
-            data?.length == 9
-              ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
-              : "bg-white"
-          }`}
-        >
-          Next
-        </button>
-      </div>
+          <button
+            disabled={data?.length == 9 ? false : true}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
+              data?.length == 9
+                ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+                : "bg-white"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-center font-bold dark:text-white">No request here</h1>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,34 +4,48 @@ import pizza from "../../Assets/pizza.jpg";
 import { MdFastfood } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useState } from "react";
-import { Category, Product } from "../../Components";
+import { Categories, Product } from "../../Components";
 import Restaurants from "../../Apis/Restaurants";
+import Category from "../../Apis/Category";
+
 export default function ApprovedRestaurant() {
   const location = useLocation();
-  const [category, setCategory] = useState("fastfood");
+  const [category, setCategory] = useState("");
+  const [mainCategory, setMainCategory] = useState([]);
   const state = location.state;
   const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
   useEffect(() => {
+    getCategory();
     getProducts();
   }, []);
+  const getCategory = () => {
+    Category.getAllCategory().then((result) => {
+      console.log("===getAllCategory", result);
+      if (result?.response) {
+        setMainCategory(result?.response);
+      }
+    });
+  };
   const getProducts = () => {
     Restaurants.getOneProduct(state._id)
       .then((res) => {
         console.log("resresresresres", res);
         setData(res?.product);
+        setAllData(res?.product);
       })
       .catch((e) => {
         console.log("=====e", e);
       });
   };
-  console.log("==rohittttt", state);
   const { currentColor, rupee } = useStateContext();
-  const categorydata = [
-    { name: "fastfood" },
-    { name: "South Indian" },
-    { name: "panjabi" },
-    { name: "Italian" },
-  ];
+  const handleFilter = (id) => {
+    setCategory(id);
+    let arrayData = [...allData];
+    let datas = arrayData?.filter((item) => item.category == id);
+    console.log("===data", datas);
+    setData(datas);
+  };
   return (
     <div>
       <div className="bg-gradient-to-tl from-purple-900 to-green-700 h-96 w-full relative">
@@ -50,12 +64,13 @@ export default function ApprovedRestaurant() {
         &bull; Categories
       </h1>
       <div className="flex flex-wrap max-sm:gap-5 md:gap-5 lg:gap-10 items-center justify-center mb-10">
-        {categorydata?.map((item, index) => {
+        {mainCategory?.map((item, index) => {
           return (
-            <Category
+            <Categories
               key={index}
-              onClick={() => setCategory(item?.name)}
+              onClick={() => handleFilter(item?._id)}
               name={item?.name}
+              id={item?._id}
               currentColor={currentColor}
               category={category}
             />
@@ -74,7 +89,8 @@ export default function ApprovedRestaurant() {
                   key={index}
                   name={item?.name}
                   price={item?.price}
-                  bgImage={pizza}
+                  bgImage={item?.imageUrl}
+                  description={item?.description}
                 />
               );
             })}

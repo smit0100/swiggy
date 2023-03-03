@@ -1,14 +1,14 @@
 import React from "react";
 import { MdFastfood } from "react-icons/md";
 
-export default function Category(props) {
+export default function Categories(props) {
   return (
     <button
       onClick={props.onClick}
       className={`h-36 rounded-xl max-sm:hover:mb-0 ease-in-out hover:scale-110 duration-500 w-28 flex items-center justify-center shadow-2xl`}
       style={{
         background:
-          props?.category == props?.name ? props?.currentColor : "white",
+          props?.category == props?.id ? props?.currentColor : "white",
       }}
     >
       <div className="py-5">
@@ -16,19 +16,19 @@ export default function Category(props) {
           <div
             style={{
               background:
-                props?.category != props?.name ? props?.currentColor : "white",
+                props?.category != props?.id ? props?.currentColor : "white",
             }}
             className={`justify-center flex items-center h-10 rounded-full duration-500 ease-in-out hover:scale-150 w-10`}
           >
             <MdFastfood
-              color={props?.category == props?.name ? "black" : "white"}
+              color={props?.category == props?.id ? "black" : "white"}
             />
           </div>
         </div>
         <div className="flex justify-center align-middle items-center text-center">
           <h1
             className={`${
-              props?.category == props?.name ? "text-white" : "text-black"
+              props?.category == props?.id ? "text-white" : "text-black"
             } mt-5 flex flex-wrap`}
           >
             {props?.name}
