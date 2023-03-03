@@ -342,7 +342,19 @@ const acceptOrder = async (req, res, next) => {
 const fetchAllProduct = async (req, res, next) => {
     try {
         const { id } = req.query;
-        const result = await Resturant.findById(id).populate('product');
+        const result = await Resturant.findById(id).populate([
+            {
+                path: 'product',
+                module: 'Product',
+                
+            }, {
+                path: 'product',
+                populate: {
+                    path: 'category',
+                    module:'Category'
+                }
+            }
+        ]);
         console.log(result);
         return res.status(200).json({ message: 'product founded', result });
     } catch (e) {
