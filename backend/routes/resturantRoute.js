@@ -19,7 +19,11 @@ router.get('/fetchAllActive', resturantController.fetchAllApprovedResturant);
 router.get('/status', resturantController.resturantStatus);
 router.get('/allProduct', resturantController.fetchAllProduct);
 router.get('/allOrder', resturantController.fetchAllResturantOrder);
+router.get('/allResturantOrder', resturantController.fetchAllResturantOrder);
+router.get('/updateOrderStatus', resturantController.acceptOrder)
 
+
+    
 
 
 

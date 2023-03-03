@@ -284,21 +284,27 @@ const fetchAllResturantOrder = async (req, res, next) => {
         const { id } = req.query;
         // const order = await Resturant.findById(id, { order: 1 }).populate('order');
          
-        const order = await Resturant.findById(id, { order: 1 }).populate([
+        const order = await Order.find({resturant:id}).populate([
            { 
-                 path: 'order',
-                model: 'Order'
+                 path: 'products.product',
+                model: 'Product'
+            }, {
+                path: "customer",
+                module:"User"
+            }, {
+                path: 'resturant',
+                module:"Resturant"
             }
         ]);
 
-        const name = await User.findById(order.order[0].customer,{name:1}) 
+     
         
-        console.log(name);
+     
 
 
         if (!order) return res.status(400).json({ messag: "order not found", order })
-        
-        res.status(200).json({messag:"order fetched",order,name})
+        console.log(order);
+        res.status(200).json({messag:"order fetched",order})
     } catch (e) {
         console.log(e);
         res.status(404).json({ messag: "something went wrong" });
@@ -313,9 +319,9 @@ const acceptOrder = async (req, res, next) => {
             new:true
         });
 
-        const order = await Resturant.findById(id);
+        
 
-        res.status(200).json({messag:"order accepted",order})
+        res.status(200).json({messag:"order accepted",response})
     } catch (e) {
         res.status(400).json({ messag: 'something went wrong' });
     }
@@ -323,7 +329,7 @@ const acceptOrder = async (req, res, next) => {
 
 const fetchAllProduct = async (req, res, next) => {
     try {
-        const { id } = req.body;
+        const { id } = req.query;
         const result = await Resturant.findById(id).populate('product');
         console.log(result);
         return res.status(200).json({ message: 'product founded', result });
