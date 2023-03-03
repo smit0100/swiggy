@@ -62,6 +62,7 @@ const RestaurantRegister = () => {
   const [bg1, setBg1] = useState(null)
   const [bg2, setBg2] = useState(null)
   const [bg3, setBg3] = useState(null)
+  const [category,setCategory] = useState([])
 
   const [loading, setLoading] = useState(false)
 
@@ -205,6 +206,10 @@ const RestaurantRegister = () => {
       setBanknpanError({ ...banknpanError, [e.target.name]: "" })
     }
   }
+
+  useEffect(() => {
+    console.log(selectCuisinesType);
+  },[selectCuisinesType])
   const handlepanholder = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value })
     var regex = /^[\sA-Za-z]+$/;
@@ -289,7 +294,8 @@ const RestaurantRegister = () => {
     formData.append("bg3", bg3)
     formData.append("bankDetails", JSON.stringify(bankDetails));
     formData.append("panCard", JSON.stringify(pancardDetail))
-    formData.append("id",owner._id)
+    formData.append("id", owner._id)
+    
 
     try {
       setLoading(true)
@@ -392,6 +398,10 @@ const RestaurantRegister = () => {
       const response = await axios.get(`http://localhost:4000/outlet/all`)
       console.log(response);
       setOutletType(response.data.response)
+
+      const data = await axios.get('http://localhost:4000/category/all');
+      setCategory(data.data.response)
+      console.log(data.data.response);
     })()
   }, [])
 
@@ -589,21 +599,30 @@ const RestaurantRegister = () => {
                 </div>
 
                 <div className='shadow-md p-5 mt-3'>
-                  <h2 className='text-2xl font-medium'>Type of cuisines</h2>
+                  <h2 className='text-2xl font-medium'>
+                    Category
+                  </h2>
                   <h3 className='text-slate-500'>Select options which best describe food your serve</h3>
                   <div className='grid grid-cols-1 sm:grid-cols-3 pt-4'>
-                    {cuisinesType.map((opt, index) => (
-                      <label key={index} className="p-1">
+                  {
+                  category && category.map(item => (
+                    <div>
+
+                      
+                       <label key={item._id} className="p-1">
                         <input
                           type="checkbox"
-                          value={opt}
-                          checked={selectCuisinesType.includes(opt)}
+                          value={item._id}
+                          // checked={selectCuisinesType.includes(opt)}
                           onChange={handleCuisinesType}
                           className=""
                         />
-                        &nbsp;{opt}
+                        &nbsp;{ item.name}
                       </label>
-                    ))}
+                      </div>
+                    ))
+                  }
+                     
                   </div>
                 </div>
 

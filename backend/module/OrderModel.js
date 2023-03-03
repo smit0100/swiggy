@@ -47,13 +47,16 @@ const Order = new Schema({
                 type:String
             },
             pincode: {
-                type:Number
+            type:Number
             }
     },
     review: {
         type: mongoose.Types.ObjectId,
         ref:"Review"
-    }
+    }, createdAt: {
+        type: Date,
+        default: Date.now
+      }
     
 })
 

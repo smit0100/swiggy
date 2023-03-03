@@ -88,10 +88,10 @@ const Navbar = () => {
                     <TbHelp />Help
                   </Link>
                 </li>
-                {owner !== null && owner.isApproved === "accepted" ?
+                {owner !== null && owner.isApproved === "Accepted" ?
                   <>
                     <li className="text-gray-600 hover:text-blue-600">
-                      <Link to="/help" className='flex items-center gap-1'>
+                      <Link to="/addproduct" className='flex items-center gap-1'>
                         <IoAddCircleOutline />Add Product
                       </Link>
                     </li>

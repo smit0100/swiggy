@@ -1,6 +1,8 @@
 import axios from 'axios';
+
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
 
 
 const AddProduct = () => {
@@ -16,6 +18,7 @@ const AddProduct = () => {
   const [descriptionError, setDescriptionError] = useState('')
   const [productImage, setProductImage] = useState(null)
 
+  const owner = useSelector(state => state.userData.user);
   const handleName = (e) => {
     setName(e.target.value)
     var regex = /^[\sA-Za-z]+$/;
@@ -73,15 +76,22 @@ const AddProduct = () => {
 
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append('price', price);
-    formData.append("description", description);
-    formData.append('productImage', productImage);
-
-
-
+    (
+      async () => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append('price', price);
+        formData.append("description", description);
+        formData.append('productImage', productImage);
+        formData.append('resturant',owner._id)
+    
+    
+        const data = await axios.post('http://localhost:4000/product/add', formData)
+        console.log(data);
+      }
+    )();
+   
   }
 
   return (

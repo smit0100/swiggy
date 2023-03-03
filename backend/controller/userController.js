@@ -4,6 +4,7 @@ const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const { log } = require('console');
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 
@@ -86,8 +87,9 @@ const verifyUser = async (req, res, next) => {
             
         }
         await token.remove();
-
         res.status(200).json({ message: "user verifed", user });
+        
+        
     } catch (e) {
         console.log(e);
         res.status(500).send({
@@ -157,6 +159,7 @@ const loginUser = async (req, res, next) => {
     const pass = await bcrypt.compareSync(password, user.password);
 
     if (pass) {
+        
         return res.status(200).json({ message: "user founded", user });
     } else {
         return res.status(402).json({ message: 'please check your email and password' });

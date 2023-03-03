@@ -7,7 +7,7 @@ const cloudinary = require("cloudinary").v2;
 const createProduct = async (req, res, next) => {
     try {
         const { name, price, category,resturnat,subCategory } = req.body;
-
+        console.log(JSON.stringify(req.body));
     const categoryExist = await Category.findById(category);
 
     if (!categoryExist) return res.status(400).json({ message: 'choose valid category' });
@@ -36,6 +36,7 @@ const createProduct = async (req, res, next) => {
 
 
         } catch (e) {
+            console.log(e);
             res.status(500).json({ message: 'product uploading failed' });
         }
 
@@ -62,6 +63,7 @@ const createProduct = async (req, res, next) => {
     
     return res.status(200).json({ message: 'product created',product });
     } catch (e) {
+        console.log(e);
         res.status(404).json({ message: "something went wrong" });
     }
     
@@ -97,6 +99,16 @@ const findProduct = async (req, res, next) => {
     return res.status(200).json({ message: 'product founded', product });
 }
 
+const updateProduct = async (req, res) => {
+    try {
+        const { price, name, description, id } = req.body;
+        const product = await Product.findByIdAndUpdate(id, { name, price, description });
+        res.status(200).json({ message: 'product updated', product });
+    } catch (e) {
+        res.status(500).json({message:'something went wrong'})
+    }
+}
+
 const fetchAllProduct = async (req, res, next) => {
     const searchQuery = req.query.q;
     const regex = new RegExp(searchQuery, 'i');
@@ -127,5 +139,6 @@ module.exports = {
     findProduct,
     fetchProduct,
     fetchAllProduct,
-    allResturantProduct
+    allResturantProduct,
+    updateProduct
 }

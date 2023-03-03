@@ -10,9 +10,9 @@ const User = require('../module/UserModel')
 
 const createResturnat = async (req, res, next) => {
    
-    let { address, email, name, ownerName, number, panCard,outLetType, bankDetails,id } = req.body;
+    let { address, email, name, ownerName, number, panCard,outLetType, bankDetails,id,category } = req.body;
     console.log(req.body);
-    console.log(typeof(outLetType));
+    // console.log(typeof(outLetType));
    address = JSON.parse(address);
     panCard = JSON.parse(panCard);
     bankDetails = JSON.parse(bankDetails)
@@ -70,7 +70,7 @@ const createResturnat = async (req, res, next) => {
         console.log(bgimageUrl);
         
         console.log(outLetType);
-        const response = await Resturant.findByIdAndUpdate(id,{ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard,isApproved:'pending' },{
+        const response = await Resturant.findByIdAndUpdate(id,{ name,ownerName,address,panCard,bankDetails, email, number, outLetType,pancardURL: panUrl.url, bankURL: result.url,bgImageUrl:bgimageUrl,panCard,isApproved:'pending' ,category},{
             new:true
         });
 
