@@ -172,5 +172,6 @@ module.exports = {
     fetchAllOrder,
     fetchUserOrder,
     fetchOneOrder,
-    fetchAllResturantOrder
+    fetchAllResturantOrder,
+    acceptOrder
 }
