@@ -17,5 +17,9 @@ router.get("/userforadmin",userController.fetchOnlyOneUser);
 router.post("/updateType",userController.updateUserType);
 router.get("/fetchAll",userController.fetchAllUser)
 router.put('/editAddress', userController.editAddress);
+router.post('/forgotpassword', userController.forgotPasswordForSentEmail);
+router.post('/verfiyotp', userController.forgotPasswordForSetNewPassword);
+
+
 
 module.exports = router
