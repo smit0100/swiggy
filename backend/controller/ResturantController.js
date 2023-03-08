@@ -128,7 +128,7 @@ const verfiyResturant = async (req, res, next) => {
     try {
         let rest = await Resturant.findOne({ _id: req.body.id });
 
-        if (!rest) return res.status(404).send({ message: 'user not found' });
+        if (!rest) return res.status(404).json({ message: 'user not found' });
         
         const token = await Token.findOne({
             userID: req.body.id,
@@ -156,7 +156,8 @@ const loginResturant = async (req, res, next) => {
     
         if (!rest) return res.status(400).json({ messag: 'resturant not registered' })
         
-        if (!rest.registerVerfied) return res.status(401).json({ messag: 'please verify you user account' })
+        if (!rest.registerVerfied) return res.status(401).json({ messag: 'please verify your user account' })
+        
         
         const pass = await bcrypt.compareSync(password, rest.password)
         
