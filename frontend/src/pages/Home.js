@@ -20,7 +20,7 @@ const Home = () => {
     (async () => {
       try {
         
-        const data = await axios.get('http://localhost:4000/auth/login/success', { withCredentials: true });
+        const data = await axios.get(`${process.env.REACT_APP_BASEURL}/auth/login/success`, { withCredentials: true });
         console.log(data)
         dispatch(userData(data.data.user))
       } catch (e) {

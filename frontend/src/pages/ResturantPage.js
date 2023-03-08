@@ -40,7 +40,7 @@ const ResturantPage = () => {
       const ct = categories.map(id => id.toString()).join(',');
       console.log("this is ct log");
       console.log(typeof (ct));
-      const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
  
       // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
 
@@ -52,7 +52,7 @@ const ResturantPage = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`http://localhost:4000/category/all`)
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
       console.log(response);
       setCategory(response.data.response)
     })()
@@ -61,7 +61,7 @@ const ResturantPage = () => {
   useEffect(() => {
     (async () => {
       if (user != null) {
-        const response = await axios.get(`http://localhost:4000/cart/${user._id}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/cart/${user._id}`);
         console.log(response.data.data);
         dispatch(cartData(response.data.data.cart))
       }
@@ -246,7 +246,7 @@ export default ResturantPage
 const MenuItems = ({ items ,event}) => {
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`http://localhost:4000/category/all`)
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
       console.log(response);
       // setCategory(response.data.response)
     })()
@@ -381,7 +381,7 @@ export const RestroCategoryCard = ({ item }) => {
       navigate('/login')
     } else {
       if (cartItemData != null && cartItemData.products.length == 0) {
-        const response = await axios.post('http://localhost:4000/cart/add', {
+        const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
           productId: id,
           userId: isUser._id,
           resturantId: restaurantId
@@ -404,9 +404,9 @@ export const RestroCategoryCard = ({ item }) => {
           })
             .then(async (willDelete) => {
               if (willDelete) {
-                const cart = await axios.get(`http://localhost:4000/cart/clear?userId=${isUser._id}`)
+                const cart = await axios.get(`${process.env.REACT_APP_BASEURL}/cart/clear?userId=${isUser._id}`)
 
-                const response = await axios.post('http://localhost:4000/cart/add', {
+                const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
                   productId: id,
                   userId: isUser._id,
                   resturantId: restaurantId
@@ -422,7 +422,7 @@ export const RestroCategoryCard = ({ item }) => {
             });
         }
         else {
-          const response = await axios.post('http://localhost:4000/cart/add', {
+          const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
             productId: id,
             userId: isUser._id,
             resturantId: restaurantId

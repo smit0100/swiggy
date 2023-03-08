@@ -33,7 +33,7 @@ const CheckoutPage = () => {
       "Content-Type":"application/json"
     }
   
-    const response =  axios.post(`http://localhost:4000/payment`, {
+    const response =  axios.post(`${process.env.REACT_APP_BASEURL}/payment`, {
       token,
       product: {
         name: 'first product',
@@ -59,7 +59,7 @@ const CheckoutPage = () => {
     })
 
    
-    const response = await axios.post('http://localhost:4000/order/create', {
+    const response = await axios.post(`${process.env.REACT_APP_BASEURL}/order/create`, {
     
       customer: user._id,
       total,
@@ -109,7 +109,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:4000/user/addAddress", {
+    const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/addAddress`, {
       "userId": user._id,
       "area": address,
       "city": city,
@@ -121,11 +121,11 @@ const CheckoutPage = () => {
   }
 
   const handlePayment = async () => {
-    const response = await axios.post("http://localhost:4000/payment/create-checkout-session")
+    const response = await axios.post(`${process.env.REACT_APP_BASEURL}/payment/create-checkout-session`)
   }
 
   const addressDelete = async (id) => {
-    const response = await axios.get(`http://localhost:4000/user/delteAddress?userId=${user._id}&itemId=${id}`)
+    const response = await axios.get(`${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`)
 
     dispatch(userData(response.data.response))
   }

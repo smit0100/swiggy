@@ -14,7 +14,8 @@ const Directory = () => {
   useEffect(() => {
     (async () => {
       setLoad(true)
-      const response = await axios.get(`http://localhost:4000/resturant/fetchAll?pageNumber=${pageNumber}&pageSize=${10}`);
+      console.log(process.env.REACT_APP_BASEURL);
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/fetchAll?pageNumber=${pageNumber}&pageSize=${10}`);
       setData(response.data.results)
       setTotalPages(response.data.totalPages)
       setLoad(false)
