@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 
@@ -13,6 +14,7 @@ import { CgProfile } from 'react-icons/cg'
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
 
+  const isUser = useSelector(state => state.userData.user);
 
   return (
     <>
@@ -84,12 +86,14 @@ const Navbar = () => {
                     <TbHelp />Help
                   </Link>
                 </li>
-
-                <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/profile" className='flex items-center gap-1'>
-                    <CgProfile />Profile
-                  </Link>
-                </li>
+                {
+                  isUser ? <>hello {isUser != null ? isUser.name : "profile"}</> :
+                    <li className="text-gray-600 hover:text-blue-600">
+                      <Link to="/login" className='flex items-center gap-1'>
+                        <CgProfile />Login
+                      </Link>
+                    </li>
+                }
               </ul>
             </div>
           </div>

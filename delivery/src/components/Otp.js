@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -9,8 +9,8 @@ import swal from 'sweetalert'
 const Otp = () => {
     const [otp, setOtp] = useState('')
     const [searchParams] = useSearchParams();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('')
+    // const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState('')
     const id = (searchParams.get('id'));
     const email = (searchParams.get('email'));
 
@@ -22,7 +22,7 @@ const Otp = () => {
         e.preventDefault();
         console.log(id, otp);
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/verify`, {
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/verify`, {
                 id,
                 otp
             })
@@ -67,7 +67,7 @@ const Otp = () => {
                             />
 
                             <div className="flex justify-center text-center mt-5">
-                                <Link className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"><span className="font-bold">Resend OTP</span><i className='bx bx-caret-right ml-1'></i></Link>
+                                <link className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"><span className="font-bold">Resend OTP</span><i className='bx bx-caret-right ml-1'></i></link>
                             </div>
 
                             <button onClick={handleClick} className="inline-block mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
