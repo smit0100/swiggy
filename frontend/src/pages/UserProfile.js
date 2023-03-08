@@ -22,7 +22,7 @@ const UserProfile = () => {
     (
       async () => {
         setIsLoading(true);
-        const response = await axios(`http://localhost:4000/order/customer?userId=${user._id}`);
+        const response = await axios(`${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`);
         console.log(response.data.response.order);
         setOrder(response.data.response.order)
 

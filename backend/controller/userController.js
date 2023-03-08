@@ -7,6 +7,9 @@ const { log } = require('console');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
+const { sign } = require("jsonwebtoken")
+
+
 
 const createUser = async (req, res, next) => {
     const { name, email, number, password } = req.body;

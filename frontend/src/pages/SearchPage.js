@@ -23,7 +23,7 @@ const SearchPage = () => {
   useEffect(() => {
     (async () => {
       setLoad(true)
-      const response = await axios.get(`http://localhost:4000/product/fetchAll?q=${search}&pageNumber=${pageNumber}&pageSize=${10}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/product/fetchAll?q=${search}&pageNumber=${pageNumber}&pageSize=${10}`);
       console.log(response);
       setData(response.data.response)
 
@@ -58,7 +58,7 @@ const SearchPage = () => {
       navigate('/login')
     } else {
       if (cartItemData!=null && cartItemData.products.length == 0) {
-        const response = await axios.post('http://localhost:4000/cart/add', {
+        const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
           productId: id,
           userId: isUser._id,
           resturantId: restaurantId
@@ -81,9 +81,9 @@ const SearchPage = () => {
           })
             .then(async (willDelete) => {
               if (willDelete) {
-                const cart = await axios.get(`http://localhost:4000/cart/clear?userId=${isUser._id}`)
+                const cart = await axios.get(`${process.env.REACT_APP_BASEURL}/cart/clear?userId=${isUser._id}`)
 
-                const response = await axios.post('http://localhost:4000/cart/add', {
+                const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
                   productId: id,
                   userId: isUser._id,
                   resturantId: restaurantId
@@ -99,7 +99,7 @@ const SearchPage = () => {
             });
         }
         else {
-          const response = await axios.post('http://localhost:4000/cart/add', {
+          const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
             productId: id,
             userId: isUser._id,
             resturantId: restaurantId

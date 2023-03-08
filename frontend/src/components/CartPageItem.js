@@ -12,7 +12,7 @@ const CartPageItem = ({ item }) => {
     const navigate = useNavigate()
     const increase = async (e) => {
         e.preventDefault()
-            const response = await axios.patch('http://localhost:4000/cart/addQuantity', {
+            const response = await axios.patch(`${process.env.REACT_APP_BASEURL}/cart/addQuantity`, {
                 userId: isUser._id,
                 itemId: item._id,
                 productId:item.product._id
@@ -25,7 +25,7 @@ const CartPageItem = ({ item }) => {
 
          
             console.log('hey');
-            const response = await axios.patch('http://localhost:4000/cart/subtractQuantity', {
+            const response = await axios.patch(`${process.env.REACT_APP_BASEURL}/cart/subtractQuantity`, {
                 userId: isUser._id,
                 itemId: item._id,
                 productId: item.product._id
@@ -39,7 +39,7 @@ const CartPageItem = ({ item }) => {
 
     const removeProduct = async (e) => {
         e.preventDefault()
-        const response = await axios.patch('http://localhost:4000/cart/remove', {
+        const response = await axios.patch(`${process.env.REACT_APP_BASEURL}/cart/remove`, {
             userId: isUser._id,
             itemId: item._id,
             price:item.product.price,
