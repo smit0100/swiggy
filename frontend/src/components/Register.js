@@ -71,11 +71,11 @@ export default function Register() {
   }
 
   const googleAuth = () => {
-    window.open('http://localhost:4000/auth/google/callback', "self")
+    window.open(`${process.env.REACT_APP_BASEURL}/auth/google/callback`, "self")
   }
 
   const facebookAuth = () => {
-    window.open('http://localhost:4000/auth/facebook/callback', "self")
+    window.open(`${process.env.REACT_APP_BASEURL}/auth/facebook/callback`, "self")
    }
 
   const handleName = (e) => {
@@ -145,7 +145,7 @@ export default function Register() {
     console.log('hey');
     console.log(name, email, number, pass);
     try {
-      const response = await axios.post('http://localhost:4000/user/create', {
+      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/create`, {
         name,
         email,
         number,

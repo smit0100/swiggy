@@ -18,7 +18,7 @@ const CartPage = () => {
   useEffect(() => {
 
     (async () => {
-      const response = await axios.get(`http://localhost:4000/cart/${isUser._id}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/cart/${isUser._id}`);
       // console.log(response.data.data.cart);
       console.log(response.data.data);
       dispatch(cartData(response.data.data.cart))

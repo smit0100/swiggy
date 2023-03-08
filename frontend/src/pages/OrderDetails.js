@@ -54,7 +54,7 @@ const OrderDetails = () => {
     (
       async () => {
         setIsLoading(true);
-        const response = await axios(`http://localhost:4000/order/fetchOneOrder/?id=${orderId}`);
+        const response = await axios(`${process.env.REACT_APP_BASEURL}/order/fetchOneOrder/?id=${orderId}`);
         console.log(response.data.order);
         setOrderData(response.data.order)
        

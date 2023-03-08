@@ -8,13 +8,20 @@ const DeliveryBoy = new Schema({
         type:String
     },
     number: {
-        type:number
+        type:String
     },
     bankDetails: {
         type: mongoose.Types.ObjectId,
         ref:'BankDetails'
     },
+    password: {
+        type:String
+    },
     isApproved: {
+        type: Boolean,
+        default:false
+    },
+    isVerified: {
         type: Boolean,
         default:false
     },

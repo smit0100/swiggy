@@ -65,7 +65,7 @@ const UserAddress = () => {
 
   const handleSubmitForAddress = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:4000/user/addAddress", {
+    const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/addAddress`, {
       "itemId": changeAddress,
       "userId": user._id,
       "area": address,
@@ -85,7 +85,7 @@ const UserAddress = () => {
     e.preventDefault();
     try {
 
-      const response = await axios.put("http://localhost:4000/user/editAddress", {
+      const response = await axios.put(`${process.env.REACT_APP_BASEURL}/user/editAddress`, {
         "itemId": changeAddress,
         "userId": user._id,
         "area": address,
@@ -113,7 +113,7 @@ const UserAddress = () => {
 
   const addressDelete = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:4000/user/delteAddress?userId=${user._id}&itemId=${id}`)
+      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`)
 
       dispatch(userData(response.data.response))
       swal("Deleted successfully", "", "success");

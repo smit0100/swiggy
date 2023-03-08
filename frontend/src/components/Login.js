@@ -38,7 +38,7 @@ export default function Login() {
   }
 
   const googleAuth = () => {
-    window.open('http://localhost:4000/auth/google/callback', "self")
+    window.open(`${process.env.REACT_APP_BASEURL}/auth/google/callback`, "self")
   }
 
   function SubmitButton() {
@@ -82,7 +82,7 @@ export default function Login() {
     console.log('hey');
     console.log(email, pass);
     try {
-      const response = await axios.post('http://localhost:4000/user/login', {
+      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, {
         email, password: pass
       })
       dispatch(userData(response.data.user))

@@ -102,7 +102,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         e.preventDefault()
         console.log(email, number, name);
         try {
-            const response = await axios.post("http://localhost:4000/user/update", {
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/update`, {
                 userId: user._id,
                 email,
                 number,
@@ -132,7 +132,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     const otpSubmit = async (e) => {
         e.preventDefault();
         try{
-        const response = await axios.post('http://localhost:4000/user/verify', {
+        const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/verify`, {
             id: user._id,
             otp,
             newAddress
