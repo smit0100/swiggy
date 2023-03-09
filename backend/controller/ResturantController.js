@@ -215,7 +215,7 @@ const fetchAllResturants = async (req, res, next) => {
           .limit(pageSize);
         
         // return the  results
-        console.log(blogPosts);
+        
         res.status(200).json({
           page: pageNumber,
           totalPages: totalPages,

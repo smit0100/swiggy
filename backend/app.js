@@ -4,9 +4,11 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+ 
 
-
-
+ 
   
 
 const mongoose = require('mongoose');
@@ -35,9 +37,29 @@ const ratingRoute = require('./routes/ratingRoutes');
 const cloudinary = require('cloudinary')
 const deliveryBoyRoute = require('./routes/deliveryBoyRoute');
 const { Socket } = require('socket.io');
+const bodyParser = require('body-parser');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+app.use(
+    session({
+      secret: 'my-secret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: false, // set to true if using HTTPS
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // session will expire after 1 day
+      }
+    })
+
+)
 
 
 cloudinary.config({
@@ -51,13 +73,28 @@ app.use(fileUpload({
     useTempFiles: true,
     tempFileDir:"/temp/"
 }))
-app.use(
-    cookieSession({
-        name: "session",
-        keys: ['cyberwolve'],
-        maxAge:24*60*60*100
-    })
-)
+
+app.use(cookieParser());
+
+
+
+
+// app.use(session({
+//     secret: 'supersecret',
+//     resave: false,
+//     saveUninitialized: false,
+//     store: sessionStore,
+//     cookie: { secure: false }
+//   }));
+
+
+// app.use(
+//     cookieSession({
+//         name: "session",
+//         keys: ['cyberwolve'],
+//         maxAge:24*60*60*100
+//     })
+// )
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -120,7 +157,7 @@ app.get('/auth/login/success', (req, res) => {
        })
             
     } else {
-        res.status(403).json({error:true,message:'not authorized'})
+        res.status(201).json({message:'it is not exist'})
     }
 })
 

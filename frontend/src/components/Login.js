@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { userData } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import swal from 'sweetalert';
+import { useCookies } from 'react-cookie'
 
 export default function Login() {
+  const [cookies, setCookie] = useCookies(['access_token', 'refresh_token'])
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [emailError, setEmailError] = useState('')
@@ -85,6 +87,13 @@ export default function Login() {
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, {
         email, password: pass
       })
+
+      let expires = new Date()
+      expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
+      setCookie('access_token', response.data.token, { path: '/',  expires})
+      
+      console.log('check this response');
+      console.log(response);
       dispatch(userData(response.data.user))
       swal("SuccessFully Login", "", "success");
       navigate('/');

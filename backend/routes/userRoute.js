@@ -19,7 +19,7 @@ router.get("/fetchAll",userController.fetchAllUser)
 router.put('/editAddress', userController.editAddress);
 router.post('/forgotpassword', userController.forgotPasswordForSentEmail);
 router.post('/verfiyotp', userController.forgotPasswordForSetNewPassword);
-
+router.get('/isExist', userController.isExist)
 
 
 module.exports = router

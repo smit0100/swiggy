@@ -67,6 +67,7 @@ const createUser = async (req, res, next) => {
 const verifyUser = async (req, res, next) => {
     try {
         let user = await User.findOne({ _id: req.body.id });
+        console.log(user + "this data");
         if (!user) return res.status(404).send({ message: 'user not found' });
 
         const token = await Token.findOne({
@@ -147,7 +148,7 @@ const fetchOnlyOneUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
 
     // user not exist
 
@@ -162,8 +163,15 @@ const loginUser = async (req, res, next) => {
     const pass = await bcrypt.compareSync(password, user.password);
 
     if (pass) {
+       
         
-        return res.status(200).json({ message: "user founded", user });
+        const token = jwt.sign({ id:user._id }, 'jwtsecret');
+        res.cookie('token', token);
+        req.session.isLoggedIn = true;
+        
+      
+        
+        return res.status(200).json({ message: "user founded", user,token});
     } else {
         return res.status(402).json({ message: 'please check your email and password' });
     }
@@ -384,6 +392,54 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
     }
 }
 
+
+const isExist = async (req, res) => {
+
+    try {
+        const access_token = req.cookies.access_token;
+        if (access_token) {
+            jwt.verify(access_token, 'jwtsecret', async (err, data) => {
+                if (err) {
+                    console.log(err + "this is error");
+                  res.sendStatus(403);
+                } else {
+                    let user = await User.findById(data.id);
+                    console.log(user);
+                    return res.status(200).json({ message: "user founded", user});
+                }
+              });
+        } else {
+            res.sendStatus(403)
+        }
+    } catch (e) {
+        resaccess_tokenstatus(500).json({ messag: 'something went wrong' }); 
+          
+        
+    }
+
+    // try {
+    //     // const token = req.cookies.token;
+    //     const user = req.session.user;
+
+        // console.log(token + "check this token");
+        // console.log(user);
+
+        // console.log(JSON.stringify(req.cookies));
+        // console.log(JSON.stringify(req.session));
+   
+    
+    //     if ( !user) {
+       
+    //         res.sendStatus(403)
+            
+    //     } else {
+          
+    //     }
+    // } catch (e) {
+    //     console.log(e);
+    //     res.status(500).json({ messag: 'something went wrong' });
+    // }
+}
   
 
 module.exports = {
@@ -401,5 +457,6 @@ module.exports = {
     deleteUser,
     editAddress,
     forgotPasswordForSentEmail,
-    forgotPasswordForSetNewPassword
+    forgotPasswordForSetNewPassword,
+    isExist
 }

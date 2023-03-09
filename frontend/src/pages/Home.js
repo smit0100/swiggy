@@ -16,13 +16,27 @@ const Home = () => {
   const dispatch = useDispatch(); 
 
   useEffect(() => {
-    console.log('hey');
+    
     (async () => {
       try {
         
         const data = await axios.get(`${process.env.REACT_APP_BASEURL}/auth/login/success`, { withCredentials: true });
+        console.log('this is something');
         console.log(data)
-        dispatch(userData(data.data.user))
+        
+       
+        if (data.status === 201) {
+          const isExist = await axios.get(`${process.env.REACT_APP_BASEURL}/user/isExist`, { withCredentials: true })
+          console.log(isExist + "check this exist");
+          dispatch(userData(isExist.data.user))
+        } else {
+          dispatch(userData(data.data.user))
+        }
+
+    
+
+
+        
       } catch (e) {
         console.log(e);
       }

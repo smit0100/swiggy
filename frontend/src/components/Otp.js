@@ -22,7 +22,7 @@ const Otp = () => {
         e.preventDefault();
         console.log(id, otp);
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/verify`, {
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/verify`, {
                 id,
                 otp
             })
