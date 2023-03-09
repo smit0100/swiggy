@@ -5,10 +5,29 @@ import Directory from './components/Directory';
 import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
-import Otp from './components/Otp';
+import Otp from './components/Otp'; 
+ 
+import { messaging } from './fierbase';
+import { useEffect } from 'react';
+import { getToken } from 'firebase/messaging';
 
 function App() {
 
+  async function requestPermisson() {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      // messaging.app
+      const token = await getToken(messaging, { vapidKey: "BBz7_CTHfESYDINMZC8fILRoIhIcEHl3vILZcJEAZgezPskthzQI35n2O1EpPTMakgnVbH1e7ObZJldNQwO0Ezg" })
+      console.log(token);
+    } else if (permission === 'denied') {
+      alert('you denined for the notification');
+
+    }
+  }
+
+  useEffect(() => {
+    requestPermisson()
+  },[])
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Home/>} >

@@ -1,5 +1,14 @@
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
+
+
+
+
+  
+
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
@@ -7,6 +16,8 @@ const cookieSession = require('cookie-session')
 const fileUpload = require('express-fileupload')
 const multer = require('multer')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+ 
+    
 
 const userRoute = require('./routes/userRoute');
 const resturantRoute = require('./routes/resturantRoute');
@@ -23,6 +34,7 @@ const outletRoute = require('./routes/outletRoutes');
 const ratingRoute = require('./routes/ratingRoutes');
 const cloudinary = require('cloudinary')
 const deliveryBoyRoute = require('./routes/deliveryBoyRoute');
+const { Socket } = require('socket.io');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -136,9 +148,31 @@ app.get('/auth/google/callback', passport.authenticate("google", {
    
 }))
 
-app.listen(process.env.PORT, () => {
-    console.log('server start');
-})
+// app.listen(process.env.PORT, () => {
+//     console.log('server start');
+// })
 
+
+io.on("connection", (socket) => {
+    console.log(`A user connected: ${socket.id}`);
+  
+    socket.on("join", (orderId) => {
+      console.log(`User joined order: ${orderId}`);
+      socket.join(orderId);
+    });
+  
+    socket.on("updateOrderStatus", ({ orderId, status }) => {
+      console.log(`Order ${orderId} status updated to ${status}`);
+      io.to(orderId).emit("orderStatusUpdated", status);
+    });
+  
+    socket.on("disconnect", () => {
+      console.log(`A user disconnected: ${socket.id}`);
+    });
+  });
+  
+  http.listen(4000, () => {
+    console.log(`Server is listening on port`);
+  });
 
 // 63ce16e7b7d42e34cd93780d 

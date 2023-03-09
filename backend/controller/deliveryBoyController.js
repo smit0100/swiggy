@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
         if (!user) return res.status(400).json({ message: 'user not exist' });
 
         if (!user.isVerified) return res.status(401).json({ message: 'please verify your account' })
-        
+
         const pass = await bcrypt.compareSync(password, user.password);
         console.log(pass);
         if (pass) {
@@ -83,8 +83,41 @@ const login = async (req, res, next) => {
     }
 }
 
+const fetchAll = async (req, res, next) => {
+    try {
+        const courierBoy = await DeliveryBoy.find({ isVerified: true });
+        res.status(200).json({ message: 'courier boy founded', courierBoy });
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
+
+const accept = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const courierBoy = await DeliveryBoy.findByIdAndUpdate(id, { isApproved: 'approved' });
+        res.status(200).json({ message: 'courier boy approved', courierBoy });
+
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+} 
+
+const reject = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const courierBoy = await DeliveryBoy.findByIdAndUpdate(id, { isApproved: 'rejected' });
+        res.status(200).json({ message: 'courier boy reject', courierBoy });
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
+
 module.exports = {
     register,
     login,
-    verify
+    verify,
+    accept,
+    reject,
+    fetchAll
 }

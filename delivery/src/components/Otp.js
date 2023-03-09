@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams,Link } from 'react-router-dom'
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -22,7 +22,7 @@ const Otp = () => {
         e.preventDefault();
         console.log(id, otp);
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/verify`, {
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/verify`, {
                 id,
                 otp
             })
@@ -67,7 +67,7 @@ const Otp = () => {
                             />
 
                             <div className="flex justify-center text-center mt-5">
-                                <link className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"><span className="font-bold">Resend OTP</span><i className='bx bx-caret-right ml-1'></i></link>
+                                <Link className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer"><span className="font-bold">Resend OTP</span><i className='bx bx-caret-right ml-1'></i></Link>
                             </div>
 
                             <button onClick={handleClick} className="inline-block mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">

@@ -1,7 +1,21 @@
 const Order = require('../module/OrderModel');
 const Resturant = require('../module/ResturantModel');
 const User = require('../module/UserModel');
+const MongoClient = require('mongodb').MongoClient; 
+require('dotenv').config()
+const uri = process.env.MONGOOSE_URL;
 
+
+
+const client = new MongoClient(uri);
+client.connect(err => {
+    const db = client.db("test");
+    const collection = db.collection("deliveryboys");
+    const changeStream = collection.watch();
+    changeStream.on("change", function(change) {
+      console.log("Delivery boy location updated:", change);
+    });
+  });
 
 const createOrder = async (req, res, next) => {
     try {
@@ -160,6 +174,10 @@ const acceptOrder = async (req, res, next) => {
         }, {
             new:true
         })
+
+        const courierBoys = await Courier.find({ isAvilable: true });
+
+        
         res.status(200).json({message:"order status update",response})
     } catch (e) {
         res.status(500).json({ message: 'something went wrong' });

@@ -1,7 +1,22 @@
+import axios from 'axios';
 import React from 'react'
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 
+
+// import io from 'socket.io-client';
+// const socket = io("http://localhost:4000");
+
 const OrderSummary = () => {
+  const { state } = useLocation();
+  console.log(state);
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
+      console.log(response);
+    })();
+  },[])
   return (
     <>
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 '>

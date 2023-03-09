@@ -11,6 +11,7 @@ const OrderDetail = () => {
   const navigate = useNavigate()
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showOrderDetail, setShowOrderDetail] = useState(false)
+  const [orderStatus,setOrderStatus] = useState('not define')
 
 
   useEffect(() => {
@@ -22,6 +23,9 @@ const OrderDetail = () => {
         console.log(response.data.order);
         setOrder(response.data.order);
         setIsLoading(false)
+
+
+         
       }
     )();
   }, [])
@@ -65,7 +69,7 @@ const OrderDetail = () => {
                           key={order && order._id}
                           //  ${selectedOrderId === order._id ? "bg-blue-100" : ""}`
                           className={`border-b border-gray-200 hover:bg-gray-100`}
-                          onClick={() =>{ navigate('/ordersummary'); setSelectedOrderId(order.id)}}>
+                          onClick={() =>{ navigate('/ordersummary',{state:order._id}); setSelectedOrderId(order.id)}}>
                           <td className="py-3 px-6 text-left">{order._id}</td>
                           <td className="py-3 px-6 text-left">{order.customer.name}</td>
                           <td className="py-3 px-6 text-left">${order.total}</td>

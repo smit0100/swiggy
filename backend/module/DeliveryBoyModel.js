@@ -18,8 +18,8 @@ const DeliveryBoy = new Schema({
         type:String
     },
     isApproved: {
-        type: Boolean,
-        default:false
+        type: String,
+        default:'pending'
     },
     isVerified: {
         type: Boolean,
@@ -39,7 +39,13 @@ const DeliveryBoy = new Schema({
     rating: {
         type: Number,
         deault:0
-    }
+    },
+    isAvilable: {
+        type: Boolean,
+        default:true
+    },
+    registrationToken: String,
+    socketId: String,
 })
 
 module.exports = mongoose.model('DeliverBoy',DeliveryBoy)
