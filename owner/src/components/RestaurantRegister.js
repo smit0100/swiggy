@@ -222,8 +222,8 @@ const RestaurantRegister = () => {
 
   // for next step 
   function handleFirstForm(e) {
-    if (restaurantName && restaurantAddress && area && city && pincode && state && ownerName && number && email
-      && errorHandle.restaurantName.length === 0 && errorHandle.restaurantAddress.length === 0 && errorHandle.area.length === 0 && errorHandle.city.length === 0 && errorHandle.state.length === 0 && errorHandle.pincode.length === 0 && errorHandle.ownerName.length === 0 && errorHandle.email.length === 0 && errorHandle.number.length === 0) {
+    if (restaurantName && restaurantAddress && area && city && pincode && state && ownerName
+      && errorHandle.restaurantName.length === 0 && errorHandle.restaurantAddress.length === 0 && errorHandle.area.length === 0 && errorHandle.city.length === 0 && errorHandle.state.length === 0 && errorHandle.pincode.length === 0 && errorHandle.ownerName.length === 0 ) {
       return (<button onClick={() => setTabOpen(2)} className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>)
     } else {
       return (<button disabled onClick={() => setTabOpen(2)} className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>)
@@ -231,7 +231,6 @@ const RestaurantRegister = () => {
   }
 
 
-  console.log(opentime + "   " + closetime);
 
   function handelchange(e) {
     e.preventDefault()

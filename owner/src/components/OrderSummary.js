@@ -3,6 +3,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
+import OrderSummaryFoodCard from './OrderSummaryFoodCard';
 
 
 // import io from 'socket.io-client';
@@ -16,12 +17,13 @@ const OrderSummary = () => {
       const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
       console.log(response);
     })();
-  },[])
+  }, [])
   return (
     <>
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 '>
         <div className='flex flex-wrap mx-5'>
           <div className='w-full sm:w-2/3 p-5'>
+
             <div className='mb-2 shadow-md rounded bg-white bg-opacity-40 p-3'>
               <h1 className='text-2xl font-normal capitalize border-b-2 border-black mb-4 pb-2'>Customer Details</h1>
               <div>
@@ -45,6 +47,15 @@ const OrderSummary = () => {
                 </table>
               </div>
             </div>
+
+            <div className='shadow-md rounded bg-white bg-opacity-40 p-3 flex flex-wrap gap-2'>
+              <h1 className='text-2xl w-full font-normal capitalize border-b-2 border-black mb-4 pb-2'>Customer order Details</h1>
+             <OrderSummaryFoodCard />
+             <OrderSummaryFoodCard />
+             <OrderSummaryFoodCard />
+             <OrderSummaryFoodCard />
+            </div>
+
             <div className='shadow-md rounded bg-white bg-opacity-40 p-3'>
               <h1 className='text-2xl font-normal capitalize border-b-2 border-black mb-4 pb-2'>Delivery Boy Details</h1>
               <div>
@@ -68,6 +79,7 @@ const OrderSummary = () => {
                 </table>
               </div>
             </div>
+
           </div>
           <div className='w-full sm:w-1/3 px-5 sm:p-5'>
             <div className='shadow-md rounded h-full bg-white bg-opacity-40 p-3'>

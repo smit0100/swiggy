@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-
+import dateFormat from 'dateformat';
 
 const OrderDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -72,8 +72,8 @@ const OrderDetail = () => {
                           onClick={() =>{ navigate('/ordersummary',{state:order._id}); setSelectedOrderId(order.id)}}>
                           <td className="py-3 px-6 text-left">{order._id}</td>
                           <td className="py-3 px-6 text-left">{order.customer.name}</td>
-                          <td className="py-3 px-6 text-left">${order.total}</td>
-                          <td className="py-3 px-6 text-left">{order.createdAt}</td>
+                          <td className="py-3 px-6 text-left">₹{order.total}</td>
+                          <td className="py-3 px-6 text-left">{dateFormat(order.createdAt, "mmmm dS, yyyy")}</td>
                           <td className="py-3 px-6 text-left">
                             <span className={`py-1 px-3 rounded-full text-xs ${order.status === "Delivered" ? "bg-green-200 text-green-600" : order.status === "Preparing" ? "bg-yellow-200 text-yellow-600" : "bg-amber-200 text-amber-600"}`}>
                               {order.status}

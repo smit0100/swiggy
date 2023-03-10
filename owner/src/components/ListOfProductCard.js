@@ -24,11 +24,10 @@ const ListOfProductCard = ({item}) => {
                         ₹{item ? item.price:"0.00"}<span className="text-sm text-gray-600"> /Price</span>
                     </div>
 
-                    <div className="text-sm mt-1 font-ligh text-slate-700">
-                        Tomato / capsicup / chilly / olive
+                    <div className="text-sm mt-1 font-ligh text-slate-700 first-letter:uppercase">
+                        {item ? item.description : ""}
                     </div>
                     <div className="mt-1 font-medium">
-                        Other description
                     </div>
                     <div className='absolute bottom-3 left-3 space-x-3'>
                         <button onClick={(e) => { setShowModal(true) }} className="rounded-full inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  border border-current w-fit p-2 ml-1 text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500">
