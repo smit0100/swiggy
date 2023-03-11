@@ -177,11 +177,14 @@ const acceptOrder = async (req, res, next) => {
             new:true
         }).populate([
             {
-                path:'customer',
-                module:"User",
+                path: 'products.product',
+                model:'Product'
             }, {
                 path: "resturant",
-                module:"Resturant"
+                model:"Resturant"
+            },{
+                path:"customer",
+                model:"User"
             }
         ])
         

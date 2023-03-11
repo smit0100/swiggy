@@ -148,6 +148,17 @@ const deliverFoodForCustomer = async (req, res, next) => {
     }
 }
 
+const allOrder = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+
+        const response = await DeliveryBoy.findById(id).populate('order');
+        res.status(200).json({ message: 'all order fetcehd',response });
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
+
 module.exports = {
     register,
     login,
