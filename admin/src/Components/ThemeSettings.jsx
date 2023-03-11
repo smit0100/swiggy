@@ -3,11 +3,20 @@ import { MdOutlineCancel } from "react-icons/md";
 import { BsCheck } from "react-icons/bs";
 import { themeColors } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
+import { Link,useNavigate } from "react-router-dom";
+import { BiLogOut } from "react-icons/bi";
 
 const ThemeSettings = () => {
-  const { setColor, setMode, currentMode, currentColor, setThemeSettings } =
+  const { setColor, setMode, currentMode, currentColor, setThemeSettings,setIsLogIn } =
     useStateContext();
+  const history = useNavigate();
 
+const handleLogOut=()=>{
+  localStorage.removeItem("isLogIn");
+  setIsLogIn(false)
+  setThemeSettings(false)
+  history('/')
+}
   return (
     <div className="bg-half-transparent w-screen fixed nav-item top-0 right-0">
       <div className="float-right h-screen dark:text-gray-200  bg-white dark:bg-[#484B52] w-400">
@@ -77,6 +86,17 @@ const ThemeSettings = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="p-4 border-t-1 border-color ml-4">
+        <Link
+          to="/"
+          className={`px-2 flex py-2 flex-1 justify-center items-center font-semibold text-xl text-white rounded-md shadow-lg hover:pr-10 duration-500`}
+          style={{backgroundColor:currentColor}}
+          onClick={handleLogOut}
+          >
+          <BiLogOut className="mr-5"/>
+          Log out
+        </Link>
         </div>
       </div>
     </div>

@@ -91,11 +91,11 @@ export const links = [
         icon: <AiOutlineShoppingCart />,
       },
       {
-        name: "Login",
-        icon: <IoMdContacts />,
+        name: "customers",
+        icon: <RiContactsLine />,
       },
       {
-        name: "customers",
+        name: "delivery parter",
         icon: <RiContactsLine />,
       },
       {

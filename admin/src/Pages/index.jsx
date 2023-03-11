@@ -8,3 +8,4 @@ export {default as GetUser} from './User/GetUser';
 export {default as AddCategory} from './Category/AddCategory'
 export {default as UserDetail} from './User/UserDetail'
 export {default as GetOrder} from './Order/GetOrder'
+export {default as GetDeliveryBoy} from './DeliveryBoy/GetDeliveryBoy'

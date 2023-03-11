@@ -13,7 +13,7 @@ export default function Product(props) {
         />
       </div>
       <div className="text-center h-28">
-        <h3 className="text-center text-4xl font-bold">{props?.name}</h3>
+        <h3 className="text-center text-2xl font-bold">{props?.name}</h3>
         {props.description ? (
           <span className="text-sm dark:text-gray-400">
             {props.description}

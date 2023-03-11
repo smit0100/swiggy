@@ -3,7 +3,7 @@ import NotFoundImg from "../Assets/404.svg";
 
 const NotFound = () => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center min-h-screen flex-1">
       <img
         src={`${NotFoundImg}`}
         alt=""

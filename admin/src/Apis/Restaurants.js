@@ -1,6 +1,6 @@
 import Api from "./Api";
 
-function GetRequests(num) {
+function GetRequests() {
   return Api({
     url: `/resturant/getAllPending`,
     method: "GET",
