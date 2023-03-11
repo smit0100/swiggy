@@ -196,10 +196,11 @@ const acceptOrder = async (req, res, next) => {
             console.log(courierBoys);
             const otpNumberForResturant = Math.floor(100000 + Math.random() * 900000)
             const otpNUmberForCustomer = Math.floor(100000 + Math.random() * 900000)
-
+            console.log(response.resturant.email);
+            console.log(response.customer.email);
             response.courierBoyotpNumber = otpNumberForResturant
             await sendEmail(response.resturant.email, "Otp Nuber", String(otpNumberForResturant));
-            await sendEmail(response.user.email, "order otp", String(otpNUmberForCustomer));
+            await sendEmail(response.customer.email, "order otp", String(otpNUmberForCustomer));
             response.customerOtpNumber = otpNUmberForCustomer
             response.deliveryBoy = courierBoys._id;
             await response.save();
