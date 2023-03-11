@@ -6,11 +6,11 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import Otp from './components/Otp'; 
- 
+import OrderSummary from './components/OrderSummary' 
+
 import { messaging } from './fierbase';
 import { useEffect } from 'react';
 import { getToken } from 'firebase/messaging';
-import Status from './components/Status';
 
 function App() {
 
@@ -37,7 +37,8 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="otp" element={<Otp />} />
-        <Route path="status" element={<Status/>}/>
+
+
       </Route>
     )
   )

@@ -8,6 +8,7 @@ import { HiOutlineLocationMarker } from 'react-icons/hi'
 import { GoSearch } from 'react-icons/go'
 import { TbHelp } from 'react-icons/tb'
 import { CgProfile } from 'react-icons/cg'
+import {BsCardChecklist} from 'react-icons/bs'
 
 
 
@@ -87,7 +88,19 @@ const Navbar = () => {
                   </Link>
                 </li>
                 {
-                  isUser ? <>hello {isUser != null ? isUser.name : "profile"}</> :
+                  isUser ? <>
+                  <li className="text-gray-600 hover:text-blue-600">
+                      <Link to="/orderdetails" className='flex items-center gap-1'>
+                        <BsCardChecklist />Order List
+                      </Link>
+                    </li>
+                    <li className="text-gray-600 hover:text-blue-600">
+                      <Link to="/profile" className='flex items-center gap-1'>
+                        <CgProfile />{isUser != null ? isUser.name : "profile"}
+                      </Link>
+                    </li>
+                    
+                  </> :
                     <li className="text-gray-600 hover:text-blue-600">
                       <Link to="/login" className='flex items-center gap-1'>
                         <CgProfile />Login
