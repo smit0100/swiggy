@@ -68,6 +68,9 @@ const fetchOneOrder = async (req, res, next) => {
             },{
                 path:"customer",
                 model:"User"
+            },{
+                path:"deliveryBoy",
+                module:"DeliverBoy"
             }
         ])
         
@@ -171,7 +174,7 @@ const fetchAllResturantOrder = async (req, res, next) => {
 const acceptOrder = async (req, res, next) => {
     try {
         const { id } = req.query;
-        const response = await Order.findByIdAndUpdate(id, {
+        let response = await Order.findByIdAndUpdate(id, {
             status:"accept"
         }, {
             new:true
@@ -206,6 +209,10 @@ const acceptOrder = async (req, res, next) => {
             await sendEmail(response.customer.email, "order otp", String(otpNUmberForCustomer));
             response.customerOtpNumber = otpNUmberForCustomer
             response.deliveryBoy = courierBoys._id;
+            await response.populate({
+                path:"deliveryBoy",
+                module:"DeliverBoy"
+            })
             await response.save();
             res.status(200).json({message:"order status update",response})  
         }

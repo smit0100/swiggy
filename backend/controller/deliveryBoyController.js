@@ -1,8 +1,9 @@
-const DeliveryBoy = require('../module/DeliveryBoyModel');
 const bcrypt = require('bcrypt');
 const Token = require('../module/TokenModel');
 const sendEmail = require('../utils/sendEmail');
 const Order = require('../module/OrderModel');
+const DeliveryBoy=require('../module/DeliveryBoyModel');
+ 
 
 const register = async (req, res, next) => {
     try {
@@ -62,22 +63,22 @@ const verify = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try {
+        console.log('hey');
+       console.log(req.body);
         const { email, password } = req.body;
         const user = await DeliveryBoy.findOne({ email });
-
+        console.log(user);
         if (!user) return res.status(400).json({ message: 'user not exist' });
+        console.log(user);
 
-        if (!user.isVerified) return res.status(401).json({ message: 'please verify your account' })
-
+        // if (!user.isVerified) return res.status(401).json({ message: 'please verify your account' })
+        console.log(user.email);
         const pass = await bcrypt.compareSync(password, user.password);
         console.log(pass);
         if (pass) {
             return res.status(200).json({message:'user founded',user})
         } else {
             return res.status(402).json({ message: 'please check your email and password' });
-
-
-
         }
     } catch (e) {
         res.status(500).json({ message: "something went wrong" });
@@ -86,7 +87,18 @@ const login = async (req, res, next) => {
 
 const fetchAll = async (req, res, next) => {
     try {
-        const courierBoy = await DeliveryBoy.find({ isVerified: true });
+        const {id} = req.query;
+        console.log(id);
+        const courierBoy = await DeliveryBoy.findById(id).populate([{
+            path:'order',
+            module:"Order"
+        },{
+            path:'order',
+            populate:{
+                path:'customer',
+                module:'User'
+            }
+        }]);
         res.status(200).json({ message: 'courier boy founded', courierBoy });
     } catch (e) {
         res.status(500).json({ message: 'something went wrong' });

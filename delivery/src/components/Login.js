@@ -52,6 +52,7 @@ export default function Login() {
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/login`, {
         email, password: pass
       })
+      console.log(response);
       dispatch(userData(response.data.user))
       swal("SuccessFully Login", "", "success");
       if (response.data.user.isApproved == "pending") {

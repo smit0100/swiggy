@@ -34,7 +34,7 @@ const Order = new Schema({
     },
     deliveryBoy: {
         type: mongoose.Types.ObjectId,
-        ref:'DeliveryBoy'
+        ref:'DeliverBoy'
     },
     address: 
         {    area: {

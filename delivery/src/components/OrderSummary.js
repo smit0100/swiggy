@@ -12,12 +12,12 @@ import OrderSummaryFoodCard from './OrderSummaryFoodCard';
 const OrderSummary = () => {
   const { state } = useLocation();
   console.log(state);
-  useEffect(() => {
-    (async () => {
-      const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
-      console.log(response);
-    })();
-  }, [])
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
+  //     console.log(response);
+  //   })();
+  // }, [])
   return (
     <>
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 '>
