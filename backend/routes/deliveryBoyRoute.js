@@ -10,6 +10,6 @@ router.patch('/reject', deliveryBoyController.reject)
 router.get('/fetchall', deliveryBoyController.fetchAll);
 router.post('/acceptfromresturant', deliveryBoyController.receiveFoodFromResturant)
 router.post('/deliver', deliveryBoyController.deliverFoodForCustomer);
-
+router.get('/allorder',deliveryBoyController.allOrder)
 
 module.exports = router

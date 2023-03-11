@@ -167,5 +167,6 @@ module.exports = {
     reject,
     fetchAll,
     receiveFoodFromResturant,
-    deliverFoodForCustomer
+    deliverFoodForCustomer,
+    allOrder
 }
