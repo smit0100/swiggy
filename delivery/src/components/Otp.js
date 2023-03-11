@@ -29,7 +29,13 @@ const Otp = () => {
             console.log(response.data.user);
             dispatch(userData(response.data.user))
             swal("SuccessFully register", "", "success");
+            if(response.data.user.isApproved=="pending")
+            {
+                navigate("/status")
+            }
+            else{
             navigate('/')
+            }
         } catch ({ response }) {
             console.log(response);
             if (response.status === 401 || response.status === 404) {

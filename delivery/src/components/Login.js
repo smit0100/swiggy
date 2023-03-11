@@ -54,8 +54,12 @@ export default function Login() {
       })
       dispatch(userData(response.data.user))
       swal("SuccessFully Login", "", "success");
-      navigate('/');
-      
+      if (response.data.user.isApproved == "pending") {
+        navigate("/status")
+      } else {
+        navigate('/');
+      }
+
     } catch ({ response }) {
       if (response.status === 400 || response.status === 401 || response.status === 402) {
         swal(`${response.data.message}`, "", "error");
