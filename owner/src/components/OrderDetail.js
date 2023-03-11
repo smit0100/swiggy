@@ -1,8 +1,9 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import dateFormat from 'dateformat';
+import Loader from './Loader';
 
 const OrderDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -11,7 +12,7 @@ const OrderDetail = () => {
   const navigate = useNavigate()
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showOrderDetail, setShowOrderDetail] = useState(false)
-  const [orderStatus,setOrderStatus] = useState('not define')
+  const [orderStatus, setOrderStatus] = useState('not define')
 
 
   useEffect(() => {
@@ -25,11 +26,11 @@ const OrderDetail = () => {
         setIsLoading(false)
 
 
-         
+
       }
     )();
   }, [])
-  
+
 
   const orders = [
     { id: 123, customerName: "John Doe", totalPrice: 45.99, orderDate: "2023-02-21", status: "Delivered" },
@@ -45,31 +46,30 @@ const OrderDetail = () => {
   return (
     <>
       {
-        isLoading ? <h1>Loading</h1> : <>
+        isLoading ? <Loader />: <>
           {
-        
-              <div className='mx-5'>
+            <div className='mx-5'>
               <div className='p-5 shadow-md'>
                 <h1 class="text-3xl font-bold mb-4">Order Summary</h1>
                 <div class="overflow-x-auto">
                   <table class="table w-full whitespace-no-wrap">
                     <thead>
                       <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                          <th class="py-3 px-6 text-left">Order Id</th>
+                        <th class="py-3 px-6 text-left">Order Id</th>
                         <th class="py-3 px-6 text-left">Customer Name</th>
                         <th class="py-3 px-6 text-left">Total Price</th>
                         <th class="py-3 px-6 text-left">Order Date</th>
                         <th class="py-3 px-6 text-left">Status</th>
                       </tr>
                     </thead>
-                    
+
                     <tbody className="text-gray-600 text-sm font-light">
                       {order && order.map((order) => (
                         <tr
                           key={order && order._id}
                           //  ${selectedOrderId === order._id ? "bg-blue-100" : ""}`
                           className={`border-b border-gray-200 hover:bg-gray-100`}
-                          onClick={() =>{ navigate('/ordersummary',{state:order._id}); setSelectedOrderId(order.id)}}>
+                          onClick={() => { navigate('/ordersummary', { state: order._id }); setSelectedOrderId(order.id) }}>
                           <td className="py-3 px-6 text-left">{order._id}</td>
                           <td className="py-3 px-6 text-left">{order.customer.name}</td>
                           <td className="py-3 px-6 text-left">₹{order.total}</td>
@@ -84,9 +84,9 @@ const OrderDetail = () => {
                     </tbody>
                   </table>
                 </div>
-      
-      
-      
+
+
+
                 {/* {
                   showOrderDetail &&
                   <div className='absolute bg-red-500 top-0 left-0 z-50'>
@@ -170,12 +170,12 @@ const OrderDetail = () => {
                 } */}
               </div>
             </div>
-            
+
           }
-         
+
         </>
       }
-      
+
     </>
   )
 }

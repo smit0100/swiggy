@@ -109,7 +109,7 @@ const Navbar = () => {
                   <></>
                 }
                 <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/profile" className='flex items-center gap-1'>
+                  <Link to="/ownerprofile" className='flex items-center gap-1'>
                     <CgProfile />Profile
                   </Link>
                 </li>

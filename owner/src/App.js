@@ -12,6 +12,7 @@ import OrderDetail from './components/OrderDetail';
 import AddProduct from './components/AddProduct';
 import OrderSummary from './components/OrderSummary';
 import ListOfProducts from './components/ListOfProducts';
+import OwnerProfile from './pages/OwnerProfile';
 function App() {
 
   const owner = useSelector(state => state.userData.user)
@@ -33,6 +34,7 @@ function App() {
           <Route path='/listofproducts' element={<ListOfProducts />} />
           <Route path='/privacyPolicy' element={<PrivacyPolicy />} />
           <Route path='/resturantRegister' element={<RestaurantRegister />} />
+          <Route path='/ownerprofile' element={<OwnerProfile />} />
         </Route>
     )
   )
