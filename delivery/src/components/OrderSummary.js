@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
@@ -11,13 +11,16 @@ import OrderSummaryFoodCard from './OrderSummaryFoodCard';
 
 const OrderSummary = () => {
   const { state } = useLocation();
+  const [userData, setUserData] = useState(null)
   console.log(state);
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
-  //     console.log(response);
-  //   })();
-  // }, [])
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
+      console.log(response);
+      setUserData(response.data.order)
+      console.log(userData);
+    })();
+  }, [])
   return (
     <>
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 '>
@@ -32,19 +35,19 @@ const OrderSummary = () => {
                 <table className='table-auto border-spacing-y-3 border-separate'>
                   <tr className=''>
                     <td className='text-slate-700 text-lg text-semibold pr-5 w-1/6'>Name</td>
-                    <td className='text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded '>Dixit padsala</td>
+                    <td className='text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded '>{ userData !== null ? userData.customer?.name: "" }</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5 '>Mobile No.</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>8160651512</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{ userData !== null ? userData.customer?.number: "" }</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5'>E-mail</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>dixitptl116@gmail.com</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{ userData !== null ? userData.customer?.email: "" }</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5'>Delivery Address</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>116, Raganvdhut soc. punagam brts road surat - 395010</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{ userData !== null ? userData.address.area + " " + userData.address.city + " " + userData.address.state + " - " + userData.address.pincode : "" }</td>
                   </tr>
                 </table>
               </div>
