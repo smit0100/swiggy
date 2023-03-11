@@ -2,20 +2,22 @@ const Order = require('../module/OrderModel');
 const Resturant = require('../module/ResturantModel');
 const User = require('../module/UserModel');
 const MongoClient = require('mongodb').MongoClient; 
+const Courier = require('../module/DeliveryBoyModel');
+const sendEmail = require('../utils/sendEmail');
 require('dotenv').config()
 const uri = process.env.MONGOOSE_URL;
 
 
 
-const client = new MongoClient(uri);
-client.connect(err => {
-    const db = client.db("test");
-    const collection = db.collection("deliveryboys");
-    const changeStream = collection.watch();
-    changeStream.on("change", function(change) {
-      console.log("Delivery boy location updated:", change);
-    });
-  });
+// const client = new MongoClient(uri);
+// client.connect(err => {
+//     const db = client.db("test");
+//     const collection = db.collection("deliveryboys");
+//     const changeStream = collection.watch();
+//     changeStream.on("change", function(change) {
+//       console.log("Delivery boy location updated:", change);
+//     });
+//   });
 
 const createOrder = async (req, res, next) => {
     try {
@@ -173,13 +175,39 @@ const acceptOrder = async (req, res, next) => {
             status:"accept"
         }, {
             new:true
-        })
-
-        const courierBoys = await Courier.find({ isAvilable: true });
-
+        }).populate([
+            {
+                path:'customer',
+                module:"User",
+            }, {
+                path: "resturant",
+                module:"Resturant"
+            }
+        ])
         
-        res.status(200).json({message:"order status update",response})
+
+        const courierBoys = await Courier.findOne({ isAvilable: true });
+
+        if (!courierBoys) {
+            return res.status(205).json({message:'courier boy is not avilable '})
+        } else {
+            courierBoys.order.push(id);
+            await courierBoys.save();
+            console.log(courierBoys);
+            const otpNumberForResturant = Math.floor(100000 + Math.random() * 900000)
+            const otpNUmberForCustomer = Math.floor(100000 + Math.random() * 900000)
+
+            response.courierBoyotpNumber = otpNumberForResturant
+            await sendEmail(response.resturant.email, "Otp Nuber", String(otpNumberForResturant));
+            await sendEmail(response.user.email, "order otp", String(otpNUmberForCustomer));
+            response.customerOtpNumber = otpNUmberForCustomer
+            response.deliveryBoy = courierBoys._id;
+            await response.save();
+            res.status(200).json({message:"order status update",response})  
+        }
+      
     } catch (e) {
+        console.log(e)
         res.status(500).json({ message: 'something went wrong' });
     }
     

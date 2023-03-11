@@ -341,19 +341,21 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
         const { email } = req.body;
         const user = await User.findOne({ email });
          console.log(user);
-        if (!user) return res.status(400).json({ messag: 'user not exist' });
+        if (user === null) {console.log("this is ru");  return res.status(205).json({ messag: 'user not exist' })}
+        else {
+            const otpNumber = Math.floor(100000 + Math.random() * 900000)        
 
-        const otpNumber = Math.floor(100000 + Math.random() * 900000)        
-
-        const token = await new Token({
-            userID: user._id,
-            token: otpNumber
-        }).save();
-
-        await sendEmail(user.email, "verify email", String(otpNumber));
-
-        res.status(200).json({ messag: 'otop sent', user });
-
+            const token = await new Token({
+                userID: user._id,
+                token: otpNumber
+            }).save();
+    
+            await sendEmail(user.email, "verify email", String(otpNumber));
+    
+            res.status(200).json({ messag: 'otop sent', user });
+    
+        }
+       
 
     } catch (e) {
         console.log(e);
@@ -377,9 +379,9 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
 
         console.log(token);
 
-        if (!token) return res.status(401).json({ messag: 'wrong otp' });
-
-        await token.remove();
+        if (!token) { return res.status(205).json({ messag: 'wrong otp' }) }
+        else {
+            await token.remove();
         const saltGen = await bcrypt.genSalt(10);
         const encryptedPass = await bcrypt.hash( newPassword,saltGen)
         await User.findByIdAndUpdate(id, {
@@ -387,6 +389,9 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
         })
 
         res.status(200).json({ messag: 'password changes' });
+        }
+
+        
     } catch (e) {
         res.status(500).json({ messag: 'something went wrong' });
     }

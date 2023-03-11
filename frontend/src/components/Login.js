@@ -90,7 +90,7 @@ export default function Login() {
 
       let expires = new Date()
       expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
-      setCookie('access_token', response.data.token, { path: '/',  expires})
+      setCookie('access_token', response.data.token, { path: '/',maxAge: 24 * 60 * 60 * 1000} )
       
       console.log('check this response');
       console.log(response);

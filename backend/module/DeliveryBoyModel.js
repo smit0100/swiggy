@@ -46,6 +46,10 @@ const DeliveryBoy = new Schema({
     },
     registrationToken: String,
     socketId: String,
+    order: [{
+        type: mongoose.Types.ObjectId,
+        ref:'Order'}
+    ]
 })
 
 module.exports = mongoose.model('DeliverBoy',DeliveryBoy)

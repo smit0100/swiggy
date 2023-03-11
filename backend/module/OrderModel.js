@@ -34,7 +34,7 @@ const Order = new Schema({
     },
     deliveryBoy: {
         type: mongoose.Types.ObjectId,
-        ref:'DeliverBoy'
+        ref:'DeliveryBoy'
     },
     address: 
         {    area: {
@@ -49,6 +49,12 @@ const Order = new Schema({
             pincode: {
             type:Number
             }
+    },
+    courierBoyotpNumber: {
+        type:Number
+    },
+    customerOtpNumber: {
+      type:Number  
     },
     review: {
         type: mongoose.Types.ObjectId,

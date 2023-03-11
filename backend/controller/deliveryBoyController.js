@@ -2,6 +2,7 @@ const DeliveryBoy = require('../module/DeliveryBoyModel');
 const bcrypt = require('bcrypt');
 const Token = require('../module/TokenModel');
 const sendEmail = require('../utils/sendEmail');
+const Order = require('../module/OrderModel');
 
 const register = async (req, res, next) => {
     try {
@@ -113,11 +114,47 @@ const reject = async (req, res, next) => {
     }
 }
 
+const receiveFoodFromResturant = async (req, res, next) => {
+    try {
+        const { id,otp } = req.body;
+        const order = await Order.findOne({ _id: id, courierBoyotpNumber: otp });
+
+        if (!order) {
+           return res.status(209).json({ message: 'please check ones otp' })
+        } else {
+            order.status = 'on the way';
+            await order.save()
+            return res.status(200).json({ message: 'order on the way', order });
+        }
+    } catch (e) {   
+        res.status(500).json({ message: 'somethin went wrong' });
+    }
+}
+
+const deliverFoodForCustomer = async (req, res, next) => {
+    try {
+        const { id, otp } = req.body;
+
+        const order = await Order.findOne({ _id: id, customerOtpNumber: otp });
+        if (!order) {
+            return res.status(209).json({ message: 'please check ones otp' })
+         } else {
+             order.status = 'delivered';
+             await order.save()
+             return res.status(200).json({ message: 'order delivered', order });
+         }
+    } catch (e) {
+        res.status(500).json({ message: 'something went wronng' });
+    }
+}
+
 module.exports = {
     register,
     login,
     verify,
     accept,
     reject,
-    fetchAll
+    fetchAll,
+    receiveFoodFromResturant,
+    deliverFoodForCustomer
 }

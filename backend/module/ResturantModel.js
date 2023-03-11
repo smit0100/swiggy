@@ -101,7 +101,7 @@ const Resturant = new Schema({
     ],
     order: [{
         type: mongoose.Types.ObjectId,
-        ref:'Order'
+        ref: 'Order'
     }],
     isApproved: {
         type: String,
