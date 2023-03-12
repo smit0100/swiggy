@@ -13,6 +13,7 @@ const ThemeSettings = () => {
 
 const handleLogOut=()=>{
   localStorage.removeItem("isLogIn");
+  localStorage.removeItem("Admin");
   setIsLogIn(false)
   setThemeSettings(false)
   history('/')

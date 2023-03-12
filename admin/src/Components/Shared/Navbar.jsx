@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { RiNotification3Line } from "react-icons/ri";
@@ -8,6 +8,7 @@ import avatar from "../../Assets/avatar.jpg";
 // import { Cart, Chat, Notification, UserProfile } from '.';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { setActiveMenu } from "../../redux/shop/shopslice";
+import { Images } from "../../Assets";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <button
@@ -29,6 +30,7 @@ const Navbar = () => {
     useStateContext();
   const activeMenu = useSelector((state) => state.setActiveMenu.activeMenu);
   const dispatch = useDispatch();
+  const [data, setData] = useState({})
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -46,6 +48,14 @@ const Navbar = () => {
       dispatch(setActiveMenu(true));
     }
   }, [screenSize]);
+  useEffect(() => {
+    getAdmin()
+  }, [])
+  
+  const getAdmin=()=>{
+    const temp = localStorage.getItem("Admin");
+    setData(JSON.parse(temp))
+  }
 
   const handleActiveMenu = () => dispatch(setActiveMenu(!activeMenu));
 
@@ -77,12 +87,12 @@ const Navbar = () => {
         >
           <img
             className="rounded-full w-8 h-8"
-            src={avatar}
+            src={Images.user}
             alt="user-profile"
           />
           <p>
             <span className="text-gray-400 text-14">Hi,</span>{" "}
-            <span className="text-gray-400 font-bold ml-1 text-14">Rohit</span>
+            <span className="text-gray-400 font-bold ml-1 text-14">{data?.name}</span>
           </p>
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
         </div>

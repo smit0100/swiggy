@@ -4,6 +4,7 @@ import avatar from "../../Assets/avatar.jpg";
 import User from "../../Apis/User";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { Images } from "../../Assets";
 function Dashboard(props) {
   const [datas, setDatas] = useState([]);
   const { rupee } = useStateContext();
@@ -74,7 +75,7 @@ function Dashboard(props) {
                       <div className="flex-shrink-0">
                         <img
                           className="w-8 h-8 rounded-full"
-                          src={avatar}
+                          src={Images.user2}
                           alt="Customers"
                         />
                       </div>

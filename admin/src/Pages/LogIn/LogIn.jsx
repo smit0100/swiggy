@@ -3,6 +3,8 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import User from "../../Apis/User";
+import swal from "sweetalert";
 
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 function LogIn() {
@@ -22,12 +24,56 @@ function LogIn() {
   }, []);
   const history = useNavigate();
   const handleLogIn = () => {
-    localStorage.setItem("isLogIn", JSON.stringify(true));
-    setIsLogIn(true);
-    history("/dashboard");
+    let data = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (email == "") {
+      toast.error("Email is required!", { duration: 1000 });
+    } else if (!regex.test(email)) {
+      toast.error("This is not a valid email format!", { duration: 1000 });
+    } else if (password == "") {
+      toast.error("Password is required", { duration: 1000 });
+    } else if (password.length < 5) {
+      toast.error("Password must be more than 4 characters", {
+        duration: 1000,
+      });
+    } else {
+      data = {
+        email: email,
+        password: password,
+      };
+      User.AdminLogIn(JSON.stringify(data))
+        .then((result) => {
+          console.log("==result", result);
+          if (result?.messag && result?.response) {
+            clearLogInState();
+            localStorage.setItem("isLogIn", JSON.stringify(true));
+            let data = {
+              email: result?.response?.email,
+              name: result?.response?.name,
+            };
+            localStorage.setItem("Admin", JSON.stringify(data));
+            setIsLogIn(true);
+            history("/dashboard");
+            swal({
+              title: `Wellcome ${result?.response?.name}`,
+              text: `You are successfully log in`,
+              icon: "success",
+              buttons: false,
+              timer: 3000,
+            });
+          } else {
+            toast.error(result?.data?.messag);
+          }
+        })
+        .catch((error) => {
+          console.log("==error login", error);
+          toast.error("something went wrong,Please try again");
+        });
+    }
   };
   const hanldeForgot = () => {
     setIsForgot(!isForgot);
+    clearLogInState();
   };
   const handleForgotPassword = () => {
     if (cPassword.trim() == "") {
@@ -59,21 +105,15 @@ function LogIn() {
       clearState();
       setIsForgot(false);
     }
-    // const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    // if (email != "") {
-    //   setEmailErr("Email is required!")
-    // } else if (!regex.test(email)) {
-    //   setEmailErr("This is not a valid email format!")
-    // } else if (!password) {
-    //   setPassErr("Password is required")
-    // } else{
-    //   console.log("===call api");
-    // }
   };
   const clearState = () => {
     setCPassword("");
     setNewPass("");
     setConfirmNpass("");
+  };
+  const clearLogInState = () => {
+    setEmail("");
+    setPassword("");
   };
   return (
     <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
