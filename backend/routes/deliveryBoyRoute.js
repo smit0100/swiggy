@@ -14,5 +14,5 @@ router.get('/allorder', deliveryBoyController.allOrder)
 router.get('/fetchpending', deliveryBoyController.fetchPending);
 router.get('/fetchaccepted',deliveryBoyController.fetchAllAccepted)
 router.get('/fetchrejected',deliveryBoyController.fetchAllRejected)
-
+router.post('/addReview', deliveryBoyController.addReview);
 module.exports = router

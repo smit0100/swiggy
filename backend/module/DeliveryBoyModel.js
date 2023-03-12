@@ -33,13 +33,12 @@ const DeliveryBoy = new Schema({
             },
             description: {
                 type:String
+            },
+            star: {
+                type:String
             }
         }
     ],
-    rating: {
-        type: Number,
-        deault:0
-    },
     isAvilable: {
         type: Boolean,
         default:true

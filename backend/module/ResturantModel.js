@@ -119,7 +119,7 @@ const Resturant = new Schema({
         }
     ],
     rating: {
-        type: Number,
+        type: String,
         default:0
     },
     review: [

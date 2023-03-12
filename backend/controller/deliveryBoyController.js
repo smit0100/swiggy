@@ -201,6 +201,27 @@ const allOrder = async (req, res, next) => {
     }
 }
 
+const addReview = async (req, res, next) => {
+    try {
+        const { deliveryboyId, user, description, star } = req.body;
+
+        const response = await DeliveryBoy.findByIdAndUpdate(deliveryboyId, {
+            $push: {
+                review: {
+                    user: user,
+                    description,
+                    star
+                }
+            }
+        })
+
+        res.status(200).json({ message: 'review added' ,response});
+
+    } catch (e) {
+        res.status(400).json({ message: 'something went wrong' });
+    }
+}
+
 module.exports = {
     register,
     login,
@@ -213,5 +234,6 @@ module.exports = {
     allOrder,
     fetchPending,
     fetchAllRejected,
-    fetchAllAccepted
+    fetchAllAccepted,
+    addReview
 }
