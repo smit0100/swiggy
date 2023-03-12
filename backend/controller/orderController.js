@@ -96,7 +96,6 @@ const fetchAllOrder = async (req, res, next) => {
         const response = await Order.find()
           .skip((pageNumber - 1) * pageSize)
           .limit(pageSize);
-        console.log("==response===>>>",response);
         // return the paginated results
         res.status(200).json({
             message: 'order founded',

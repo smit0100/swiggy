@@ -11,7 +11,6 @@ function AddMainCategory(data) {
   });
 }
 function AddSubCategory(data) {
-  console.log("==data",data);
   return Api({
     url: `/subcategory/add`,
     method: "POST",

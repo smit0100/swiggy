@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import pizza from "../../Assets/pizza.jpg";
 
 import Order from "../../Apis/Order";
-
 export default function GetOrder() {
   const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +20,7 @@ export default function GetOrder() {
         })
         .catch((e) => console.log("====ee", e));
     })();
+    document.title = "Admin - Orders";
   }, [currentPage]);
   const rowsPerPage = 10;
 

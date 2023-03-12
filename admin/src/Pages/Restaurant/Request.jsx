@@ -9,7 +9,8 @@ export default function Request() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    GetRequests(currentPage);
+    GetRequests();
+    document.title = "Admin - Request";
   }, [currentPage]);
 
   const GetRequests = () => {
