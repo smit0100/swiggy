@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FiShoppingBag, FiBarChart } from "react-icons/fi";
 import { BiRestaurant } from "react-icons/bi";
-import { IoMdContacts, IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { RiContactsLine } from "react-icons/ri";
 import { MdOutlineSupervisorAccount, MdOutlineFastfood } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
