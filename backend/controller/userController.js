@@ -445,7 +445,40 @@ const isExist = async (req, res) => {
     //     res.status(500).json({ messag: 'something went wrong' });
     // }
 }
+
+const loginAsAdmin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const response = await User.findOne({ email,type:'admin' });
+
+        if (!response) return res.status(400).json({ messag: 'user not exist' });
+
+        const pass = bcrypt.compareSync(password, response.password);
+
+        if (pass) {
+            return res.status(200).json({ messag: 'user founded',response });
+        } else {
+            return res.status(300).json({ messag: 'please check your crediential' });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ messag: 'something went wrong' });
+    }
+}
   
+
+const makeAdmin = async (req, res) => {
+    try {
+        const { id } = req.query;
+
+        const res = await User.findByIdAndUpdate(id, { type: 'admin' });
+
+        res.status(200).json({ messag: 'updated', res });
+    } catch (e) {
+        res.status(500).json({ messag: 'somehting went wrong' });
+    }
+}
 
 module.exports = {
     createUser,
@@ -463,5 +496,7 @@ module.exports = {
     editAddress,
     forgotPasswordForSentEmail,
     forgotPasswordForSetNewPassword,
-    isExist
+    isExist,
+    loginAsAdmin,
+    makeAdmin
 }

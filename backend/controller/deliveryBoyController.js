@@ -116,6 +116,36 @@ const accept = async (req, res, next) => {
     }
 } 
 
+
+const fetchAllAccepted = async (req, res) => {
+    try {
+        const response = await DeliveryBoy.find({ isApproved: 'approved' });
+        res.status(200).json({ message: 'fetch all accepted', response });
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
+
+const fetchAllRejected = async (req, res) => {
+    try {
+        const response = await DeliveryBoy.find({ isApproved: 'rejected' });
+        res.status(200).json({ message: 'fetch all rejected', response });
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+
+    }
+} 
+
+
+const fetchPending = async (req, res) => {
+    try {
+        const respnose = await DeliveryBoy.find({ isApproved: 'pending' });
+        res.status(200).json({ message: 'delivery booy fetched', respnose });
+    } catch (e) {
+        res.status(500).json({ message: 'somethign went wrong' });
+    }
+}
+
 const reject = async (req, res, next) => {
     try {
         const { id } = req.query;
@@ -180,5 +210,8 @@ module.exports = {
     fetchAll,
     receiveFoodFromResturant,
     deliverFoodForCustomer,
-    allOrder
+    allOrder,
+    fetchPending,
+    fetchAllRejected,
+    fetchAllAccepted
 }

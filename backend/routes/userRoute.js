@@ -19,7 +19,9 @@ router.get("/fetchAll",userController.fetchAllUser)
 router.put('/editAddress', userController.editAddress);
 router.post('/forgotpassword', userController.forgotPasswordForSentEmail);
 router.post('/verfiyotp', userController.forgotPasswordForSetNewPassword);
-router.get('/isExist', userController.isExist)
+router.get('/isExist', userController.isExist);
+router.post('/loginAsAdmin', userController.loginAsAdmin);
+router.get('/makeAdmin', userController.makeAdmin);
 
 
 module.exports = router

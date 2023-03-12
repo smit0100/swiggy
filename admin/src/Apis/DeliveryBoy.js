@@ -2,7 +2,7 @@ import Api from "./Api";
 
 function GetRequests() {
   return Api({
-    url: `/courier/fetchall`,
+    url: `/courier/fetchpending`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
