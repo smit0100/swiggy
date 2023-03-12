@@ -10,6 +10,7 @@ export default function Request() {
 
   useEffect(() => {
     GetRequests();
+    document.title = "Admin - Request";
   }, [currentPage]);
 
   const GetRequests = () => {

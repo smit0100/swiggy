@@ -22,6 +22,7 @@ function Dashboard(props) {
         })
         .catch((e) => console.log("====ee", e));
     })();
+    document.title = "Admin - Dashboard";
   }, []);
   return (
     <div className="mt-24">

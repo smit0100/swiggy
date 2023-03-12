@@ -16,6 +16,7 @@ export default function AddCategory() {
   const [edit, setEdit] = useState(false);
   useEffect(() => {
     getCategory();
+    document.title = "Admin - Category";
   }, []);
   const getCategory = () => {
     Category.getAllCategory().then((result) => {

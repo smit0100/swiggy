@@ -8,6 +8,7 @@ export default function UserDetail() {
   const [data, setData] = useState([]);
   useEffect(() => {
     getUser();
+    document.title = "Admin - Profile";
   }, []);
   const getUser = () => {
     Users.GetOneUser(id)

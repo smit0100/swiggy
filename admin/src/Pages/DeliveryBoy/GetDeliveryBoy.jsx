@@ -29,6 +29,7 @@ export default function GetDeliveryBoy() {
 
   useEffect(() => {
     GetRequests();
+    document.title = "Admin - Delivery Boy Request";
   }, [currentPage]);
   const GetRequests = async () => {
     DeliveryBoy.GetRequests(currentPage, 9)

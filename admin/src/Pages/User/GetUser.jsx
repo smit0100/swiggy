@@ -24,6 +24,7 @@ export default function GetUser() {
         })
         .catch((e) => console.log("====ee", e));
     })();
+    document.title = "Admin - Customers";
   }, []);
 
   const handleSelection = (e) => {
