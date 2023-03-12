@@ -8,13 +8,13 @@ const Review = new Schema({
     userName: {
         type:String
     },
+    resturant: {
+        type: mongoose.Types.ObjectId,
+        ref:'Resturant'
+    },
     orderId: {
         type: mongoose.Types.ObjectId,
         ref:"Order"
-    },
-    product: {
-        type: mongoose.Types.ObjectId,
-        ref:'Product'
     },
     review: {
         type:String

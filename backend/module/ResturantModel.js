@@ -117,6 +117,16 @@ const Resturant = new Schema({
         {
             type:String
         }
+    ],
+    rating: {
+        type: Number,
+        default:0
+    },
+    review: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref:'Review'
+        }
     ]
 })
 
