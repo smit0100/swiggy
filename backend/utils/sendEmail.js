@@ -30,7 +30,7 @@ let transporter = nodemailer.createTransport({
     
     console.log('this is info');
     console.log(JSON.stringify(info));
-
+    console.log("OTP",text);
     console.log("Message sent: %s", info.messageId);
 
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
