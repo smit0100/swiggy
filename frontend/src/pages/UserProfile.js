@@ -5,6 +5,8 @@ import UserAddress from '../components/UserAddress'
 import ChangePasswordPopup from '../components/ChangePasswordPopup'
 import UpdateProfileDetails from '../components/UpdateProfileDetails'
 import axios from 'axios'
+import dateFormat from 'dateformat';
+
 import { BsArrowRightCircle } from 'react-icons/bs'
 
 const UserProfile = () => {
@@ -23,6 +25,7 @@ const UserProfile = () => {
       async () => {
         setIsLoading(true);
         const response = await axios(`${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`);
+        console.log('smit')
         console.log(response.data.response.order);
         setOrder(response.data.response.order)
 
@@ -89,12 +92,10 @@ const UserProfile = () => {
           {/* order module  */}
           <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
             <h1 className='text-xl font-semibold pb-5 capitalize'>Order Detail</h1>
-            <div className='w-3/4 h-full '>
+            <div className='w-full flex flex-wrap  gap-2 justify-evenly '>
               {
-                order ? order.map(item => <OrderDetailsCard items={item}/>) : ''
+                order ? order.map(item => { console.log('item' + JSON.stringify(item)); return <OrderDetailsCard items={item}/>}) : ''
               }
-
-
             </div>
           </div>
         </div>
@@ -118,20 +119,24 @@ export default UserProfile
 
 
 export const OrderDetailsCard = ({items}) => {
+  console.log('check this item')
   console.log(items);
   return (
-    <div className="grid h-full w-fit  place-items-start  text-gray-900 antialiased">
+    // <div>
+    // <Link  to={`/orderDetails/${items._id}`}>{items._id}</Link>
+    // </div>
+    <div className="flex w-[32%] relative  text-gray-900 antialiased">
       <div>
-        <div className='overflow-hidden w-full rounded-lg'>
-          <img src="https://source.unsplash.com/random/350x350" alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
+        <div className='overflow-hidden w-full   rounded-lg'>
+          <img src={items.resturant.bgImageUrl[0]} alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
         </div>
         <Link to={`/orderDetails/${items._id}`} >
           <div className="relative group -mt-16 px-4 hover:skew-x-1 transition-all duration-500" >
             <div className="rounded-lg bg-white p-5 shadow-lg">
               <div className="flex items-baseline">
-                <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">28 &bull; 02 &bull; 2023</div>
+                <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">{dateFormat(items.createdAt, "dd")} &bull; {dateFormat(items.createdAt, "mm")} &bull; {dateFormat(items.createdAt, "yyyy")}</div>
               </div>
-              <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">Restaurant Name</h4>
+              <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">{items?.resturant.name}</h4>
               <div className="mt-1 font-medium">
                 ₹{items.total}<span className="text-sm text-gray-600"> /Total Amout</span>
               </div>
