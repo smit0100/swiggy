@@ -4,6 +4,7 @@ import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 // import { useSelector } from 'react-redux';
 
 import swal from 'sweetalert';
+import InlineButtonLoader from "./InlineButtonLoader";
 
 export default function Register() {
 
@@ -22,7 +23,6 @@ export default function Register() {
   const [disabled, setDisabled] = useState(true)
 
   // const user = useSelector(state => state.userData.user);
-
 
   const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ export default function Register() {
           type="button"
           onClick={handleSubmit}
         >
-          Register Account
+          {loading ? <InlineButtonLoader /> : 'Register Account'}
         </button>
       );
     } else {
@@ -73,10 +73,6 @@ export default function Register() {
   const googleAuth = () => {
     window.open(`${process.env.REACT_APP_BASEURL}/auth/google/callback`, "self")
   }
-
-  const facebookAuth = () => {
-    window.open(`${process.env.REACT_APP_BASEURL}/auth/facebook/callback`, "self")
-   }
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -174,12 +170,9 @@ export default function Register() {
       {
         loading &&
         <div className="absolute w-screen h-screen bg-black/20 z-50">
-          <div className="flex justify-center items-center h-screen">
-            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-            </div>
-          </div>
+        
         </div>
+
       }
       <div className="relative h-screen w-screen ">
         <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
@@ -193,19 +186,8 @@ export default function Register() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={facebookAuth}
-                  >
-                    <img
-                      alt="github logo"
-                      className="w-5 mr-1"
-                      src="./svg/facebook.svg"
-                    />
-                    Facebook
-                  </button>
-                  <button
+                 
+                  <button 
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                     onClick={googleAuth}

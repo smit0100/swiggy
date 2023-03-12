@@ -5,13 +5,14 @@ import { useDispatch } from 'react-redux';
 import { userData } from '../redux/user/userSlice';
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
+import InlineButtonLoader from "./InlineButtonLoader";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [emailError, setEmailError] = useState('')
   const [passError, setPassError] = useState('')
-
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 
   const navigate = useNavigate()
@@ -41,7 +42,7 @@ export default function Login() {
 
   function SubmitButton() {
     if (email && pass && emailError.length === 0 && passError.length === 0) {
-      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" onClick={handleSubmit} >Login</button>);
+      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" onClick={handleSubmit} > {loading ? <InlineButtonLoader /> : 'Login'}</button>);
     } else {
       return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" disabled >Login</button>);
     }
@@ -49,13 +50,16 @@ export default function Login() {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true)
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/login`, {
         email, password: pass
       })
       console.log(response);
       dispatch(userData(response.data.user))
+      setLoading(false)
       swal("SuccessFully Login", "", "success");
-      if (response.data.user.isApproved == "pending") {
+      
+      if (response.data.user.isApproved === "pending") {
         navigate("/status")
       } else {
         navigate('/');
