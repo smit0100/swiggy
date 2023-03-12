@@ -1,9 +1,9 @@
-const reviewController = require('../controller/ratingAndReviewController');
+const reviewController = require('../controller/ratingController');
 const { Router } = require('express');
 const router = Router();
 
 
-router.post('/addreview', reviewController.addRating);
+router.post('/addreview', reviewController.addReview);
 
 
 

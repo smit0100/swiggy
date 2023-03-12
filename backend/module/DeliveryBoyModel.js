@@ -39,6 +39,10 @@ const DeliveryBoy = new Schema({
             }
         }
     ],
+    averageRating: {
+        type: String,
+        default:0
+    },
     isAvilable: {
         type: Boolean,
         default:true

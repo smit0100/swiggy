@@ -4,31 +4,42 @@ const Review = require('../module/ReviewModel')
 
 const addReview = async (req, res) => {
     try {
+       
         const { userId, userName, resturant, orderId, review, star } = req.body;
 
-        const response = new Review({ userId, userName, resturant, orderId, review, star });
+        const response = await new Review({ userId, userName, resturant, orderId, review, star }).save();
 
         const order = await Order.findByIdAndUpdate(orderId, { review: response._id });
 
+       
         const resturantUpdate = await Resturant.findByIdAndUpdate(resturant, { $push: { review: response._id } }, {
             new:true
-        }).populate('review');
+        });
         
         
-        const numberOfRating = resturantUpdate.review.length + 1;
-
-        const TotalRatingStar = 0
-
-        resturantUpdate.review.map(item => {
-            TotalRatingStar + item.star
+        const numberOfRating = resturantUpdate.review.length;
+        console.log(numberOfRating);
+        
+        let TotalRatingStar = 0
+        await resturantUpdate.populate({
+            path: 'review',
+            model:"Review"
         })
-
-        resturantUpdate.rating = TotalRatingStar / numberOfRating;
+        
+        console.log(resturantUpdate.review);
+       
+        resturantUpdate.review.map(item => {
+            console.log(item.star + "this is item star" );
+            TotalRatingStar = TotalRatingStar + Number(item.star)
+        })
+        console.log(TotalRatingStar)
+        resturantUpdate.rating = (TotalRatingStar / numberOfRating).toFixed(1);
 
         resturantUpdate.save();
 
         return res.status(200).json({ message: 'review added', response });
     } catch (e) {
+        console.log(e);
         res.status(500).json({ message: 'something went wrong' });
     }
 }

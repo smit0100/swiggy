@@ -213,7 +213,19 @@ const addReview = async (req, res, next) => {
                     star
                 }
             }
+        }, {
+            new:true
         })
+
+        let ratingCount = 0
+
+        response.review.map(item => {
+            ratingCount += Number(item.star);
+        })
+
+        response.averageRating = (ratingCount / Number(response.review.length)).toFixed(1);
+
+        await response.save();
 
         res.status(200).json({ message: 'review added' ,response});
 
