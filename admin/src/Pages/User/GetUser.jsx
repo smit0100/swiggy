@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import User from "../../Apis/User";
+import { Images } from "../../Assets";
 import avatar from "../../Assets/avatar.jpg";
 import { Button } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
@@ -23,6 +24,7 @@ export default function GetUser() {
         })
         .catch((e) => console.log("====ee", e));
     })();
+    document.title = "Admin - Customers";
   }, []);
 
   const handleSelection = (e) => {
@@ -87,8 +89,8 @@ export default function GetUser() {
             >
               <img
                 className="w-10 h-10 rounded-full"
-                src={avatar}
-                alt="user image"
+                src={Images.user2}
+                alt="user"
               />
             </Link>
             <div className="pl-3">

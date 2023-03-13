@@ -33,9 +33,10 @@ const passportSetup = require('./utils/passport')
 const facebookSetup = require('./utils/facebook')
 const orderRoute = require('./routes/orderRoutes');
 const outletRoute = require('./routes/outletRoutes');
-const ratingRoute = require('./routes/ratingRoutes');
+ 
 const cloudinary = require('cloudinary')
 const deliveryBoyRoute = require('./routes/deliveryBoyRoute');
+const reviewRoutes = require('./routes/reviewRoutes');
 const { Socket } = require('socket.io');
 const bodyParser = require('body-parser');
 
@@ -100,7 +101,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:3001','http://localhost:3002'],    
+    origin: ['http://localhost:3000','http://localhost:3001','http://localhost:3002','http://localhost:3003'],    
     credentials:true
 }));
 
@@ -132,7 +133,7 @@ app.use('/payment', paymentRoute);
 app.use('/order', orderRoute)
 app.use('/outlet', outletRoute);
 app.use('/subcategory', subCategoryRoute);
-app.use('/rating', ratingRoute)
+app.use('/review', reviewRoutes)
 app.use('/courier',deliveryBoyRoute)
 
 app.get('/google', passport.authenticate("google", ["profile", "email"]))

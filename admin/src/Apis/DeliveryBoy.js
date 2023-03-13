@@ -1,8 +1,8 @@
 import Api from "./Api";
 
-function GetRequests() {
+function GetRequests(startNum,endNum) {
   return Api({
-    url: `/courier/fetchpending`,
+    url: `/courier/fetchpending?pageNumber=${startNum}&pageSize=${endNum}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -31,8 +31,8 @@ function getOneProduct(id) {
 function handleRequest(id,req) {
   console.log("==id,req",id,req);
   return Api({
-    url: `/courier/${req}/${id}`,
-    method: "POST",
+    url: `/courier/${req}?id=${id}`,
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },

@@ -20,7 +20,7 @@ const Review = new Schema({
         type:String
     },
     star: {
-        type:Number
+        type:String
     }
 })
 

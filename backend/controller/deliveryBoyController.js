@@ -138,9 +138,13 @@ const fetchAllRejected = async (req, res) => {
 
 
 const fetchPending = async (req, res) => {
+    const pageNumber = parseInt(req.query.pageNumber) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10 ;
     try {
-        const respnose = await DeliveryBoy.find({ isApproved: 'pending' });
-        res.status(200).json({ message: 'delivery booy fetched', respnose });
+        const response = await DeliveryBoy.find()
+          .skip((pageNumber - 1) * pageSize)
+          .limit(pageSize);
+        res.status(200).json({ message: 'delivery booy fetched', response,page: pageNumber,pageSize: pageSize });
     } catch (e) {
         res.status(500).json({ message: 'somethign went wrong' });
     }
@@ -213,7 +217,19 @@ const addReview = async (req, res, next) => {
                     star
                 }
             }
+        }, {
+            new:true
         })
+
+        let ratingCount = 0
+
+        response.review.map(item => {
+            ratingCount += Number(item.star);
+        })
+
+        response.averageRating = (ratingCount / Number(response.review.length)).toFixed(1);
+
+        await response.save();
 
         res.status(200).json({ message: 'review added' ,response});
 

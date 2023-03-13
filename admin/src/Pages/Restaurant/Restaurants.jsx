@@ -7,6 +7,7 @@ export default function Restaurants() {
   const [data, setData] = useState([]);
   useEffect(() => {
     getRestaurants();
+    document.title = "Admin - Approved Restaurants";
   }, []);
   const getRestaurants = () => {
     Restaurant.GetApprovedRestaurant()
@@ -27,7 +28,7 @@ export default function Restaurants() {
       </h1>
       <div className="container my-12 mx-auto px-4 md:px-12 justify-center">
         <div className="flex flex-wrap -mx-1 lg:-mx-4 gap-3 justify-start max-sm:justify-center items-center">
-          {data?.length > 0 ?
+          {data?.length > 0 ? (
             data?.map((item, index) => {
               return (
                 <RestroCard
@@ -38,11 +39,14 @@ export default function Restaurants() {
                   item={item}
                 />
               );
-            }):(
-              <div className="w-full">
-          <h1 className="text-center font-bold dark:text-white">No Active Restaurants here</h1>
-        </div>
-            )}
+            })
+          ) : (
+            <div className="w-full">
+              <h1 className="text-center font-bold dark:text-white">
+                No Active Restaurants here
+              </h1>
+            </div>
+          )}
         </div>
       </div>
     </>

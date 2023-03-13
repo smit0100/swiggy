@@ -151,6 +151,7 @@ const verfiyResturant = async (req, res, next) => {
 
 const loginResturant = async (req, res, next) => {
     try {
+        console.log('hey');
         const { email, password } = req.body;
         const rest = await Resturant.findOne({ email });
     
