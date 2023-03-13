@@ -22,6 +22,7 @@ router.get('/allOrder', resturantController.fetchAllResturantOrder);
 router.get('/getAllPending',resturantController.getAllResturant);
 router.get('/allResturantOrder', resturantController.fetchAllResturantOrder);
 router.get('/updateOrderStatus', resturantController.acceptOrder)
+router.get('/rejectedResturant',resturantController.rejectedResturant)
 
 
     

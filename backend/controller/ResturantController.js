@@ -364,6 +364,15 @@ const fetchAllProduct = async (req, res, next) => {
         res.status(500).json({ messag: "something went wrong" });
     }
 }
+
+const rejectedResturant = async (req, res,) => {
+    try {
+        const result = await Resturant.find({ isApproved: "Rejected" });
+        res.status(200).json({messag:'finded',result})
+    } catch (e) {
+        res.status(500).json({ messag: 'something went wrong' });
+    }
+}
  
 
 module.exports = {
@@ -381,7 +390,8 @@ module.exports = {
     register,
     fetchAllProduct,
     fetchAllResturantOrder,
-    getAllResturant
+    getAllResturant,
+    rejectedResturant
 }
 
 
