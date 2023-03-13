@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import OrderSummaryFoodCard from './OrderSummaryFoodCard';
+import { useSelector } from 'react-redux';
 
 
 // import io from 'socket.io-client';
@@ -12,15 +13,38 @@ import OrderSummaryFoodCard from './OrderSummaryFoodCard';
 const OrderSummary = () => {
   const { state } = useLocation();
   const [userData, setUserData] = useState(null)
+  const user = useSelector(state => state.userData.user)
+  const [resturantOtp, setresturantOtp] = useState()
+  const [customerOtp, setcustomerOtp] = useState()
+
+  const [resturanthandle,setresturanthandle]=useState(null)
+  const [customerhandle,setcustomerhandle]=useState(null)
+
   console.log(state);
   useEffect(() => {
     (async () => {
       const response = await axios.get(`http://localhost:4000/order/fetchOneOrder?id=${state}`);
       console.log(response);
       setUserData(response.data.order)
-      console.log(userData);
     })();
-  }, [])
+  }, [resturanthandle,customerhandle])
+  // acceptfromresturant
+
+
+  const handleResturantOtp = async (e) => {
+    e.preventDefault()
+    const res = await axios.post(`http://localhost:4000/courier/acceptfromresturant`, { id: userData != null ? userData._id : 0, otp: resturantOtp });
+    setresturanthandle(res)
+    console.log(res);
+  }
+
+  const handleCutomerOtp = async (e) => {
+    e.preventDefault()
+    const res = await axios.post(`http://localhost:4000/courier/deliver`, { id: userData != null ? userData._id : 0, otp: customerOtp });
+    setcustomerhandle(res)
+    console.log(res);
+  }
+
   return (
     <>
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 '>
@@ -35,19 +59,19 @@ const OrderSummary = () => {
                 <table className='table-auto border-spacing-y-3 border-separate'>
                   <tr className=''>
                     <td className='text-slate-700 text-lg text-semibold pr-5 w-1/6'>Name</td>
-                    <td className='text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded '>{ userData !== null ? userData.customer?.name: "" }</td>
+                    <td className='text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded '>{userData !== null ? userData.customer?.name : ""}</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5 '>Mobile No.</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{ userData !== null ? userData.customer?.number: "" }</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{userData !== null ? userData.customer?.number : ""}</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5'>E-mail</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{ userData !== null ? userData.customer?.email: "" }</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{userData !== null ? userData.customer?.email : ""}</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5'>Delivery Address</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{ userData !== null ? userData.address.area + " " + userData.address.city + " " + userData.address.state + " - " + userData.address.pincode : "" }</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{userData !== null ? userData.address.area + " " + userData.address.city + " " + userData.address.state + " - " + userData.address.pincode : ""}</td>
                   </tr>
                 </table>
               </div>
@@ -56,10 +80,9 @@ const OrderSummary = () => {
             {/* customer order details  */}
             <div className='shadow-md rounded bg-white bg-opacity-40 p-3 flex flex-wrap gap-2'>
               <h1 className='text-2xl w-full font-normal capitalize border-b-2 border-black mb-4 pb-2'>Customer order Details</h1>
-              <OrderSummaryFoodCard />
-              <OrderSummaryFoodCard />
-              <OrderSummaryFoodCard />
-              <OrderSummaryFoodCard />
+              {
+                userData != null ? userData.products.map(product => <OrderSummaryFoodCard product={product} />) : <></>
+              }
             </div>
 
             {/* Restaurant details  */}
@@ -69,19 +92,19 @@ const OrderSummary = () => {
                 <table className='table-auto border-spacing-y-3 border-separate'>
                   <tr className=''>
                     <td className='text-slate-700 text-lg text-semibold pr-5 w-1/6'>Name</td>
-                    <td className='text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded '>Delight Restro & Cafe</td>
+                    <td className='text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded '>{userData != null ? userData.resturant.name : ""}</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5 '>Mobile No.</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>9349534534</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{userData != null ? userData.resturant.number : ""}</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5'>E-mail</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>delight@gmail.com</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{userData != null ? userData.resturant.email : ""}</td>
                   </tr>
                   <tr>
                     <td className='text-slate-700 text-lg text-semibold pr-5'>Shipping Address</td>
-                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>B-12 Row house Apartment Rander surat - 440023</td>
+                    <td className='text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded'>{userData !== null ? userData.resturant.address.area + " " + userData.resturant.address.city + " " + userData.resturant.address.state + " - " + userData.resturant.address.pincode : ""}</td>
                   </tr>
                 </table>
               </div>
@@ -97,29 +120,39 @@ const OrderSummary = () => {
                 <div className='space-y-4'>
                   <div className='flex items-center justify-between gap-2'>
                     <div className='text-slate-500  text-semibold '>Restaurant Name</div>
-                    <div className='text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded '>Delight Restro & Cafe</div>
+                    <div className='text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded '>{userData != null ? userData.resturant.name : ""}</div>
                   </div>
                   <div className='flex items-center justify-between gap-2'>
                     <div className='text-slate-500  text-semibold '>Sub-total</div>
-                    <div className='text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded'>500</div>
+                    <div className='text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded'>₹{userData != null ? userData.total : 0}</div>
                   </div>
                   <div className='flex items-center justify-between gap-2 pb-2 border-b border-black'>
                     <div className='text-slate-500  text-semibold'>Charges</div>
-                    <div className='text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded'>50</div>
+                    <div className='text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded'>₹50</div>
                   </div>
                   <div className='flex items-center justify-between gap-2'>
                     <div className='text-black  text-lg font-semibold text-semibold'>Total</div>
-                    <div className='text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded'>550</div>
+                    <div className='text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded'>₹{userData != null ? userData.total + 50 : 0}</div>
                   </div>
                 </div>
-                <div>
-                  <button className="inline-block mt-3 bg-transparent hover:text-white hover:bg-emerald-600 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-emerald-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-emereld-500 mr-1">
-                    Approve Order
-                  </button>
-                  <button className="inline-block mt-3 bg-transparent hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-emereld-500">
-                    Reject Order
-                  </button>
-                </div>
+                {userData != null && userData.status == "accept" ?
+                  <div className='flex flex-col'>
+                    <input type='text' maxLength={6} value={resturantOtp} onChange={(e) => setresturantOtp(e.target.value)} placeholder='Enter Resturant Otp..' className="inline-block mt-3  rounded border border-current px-4 py-[6px] text-xs uppercase   transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring mr-1" />
+                    <button type='button' onClick={handleResturantOtp}>Go</button>
+                  </div> : <></>
+                }
+                {
+                  userData != null && userData.status == "on the way" ?
+                    <div className='flex flex-col'>
+                      <input type='text' maxLength={6} value={customerOtp} onChange={(e) => setcustomerOtp(e.target.value)} placeholder='Enter Customer Otp..' className="inline-block mt-3  rounded border border-current px-4 py-[6px] text-xs uppercase  transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring " />
+                      <button onClick={handleCutomerOtp}>Go</button>
+                    </div> : <></>
+                }
+
+                {
+                  userData != null && userData.status == "delivered" ?
+                  <div>Delivered successFully</div>:<></>
+                }
               </div>
             </div>
           </div>
