@@ -12,7 +12,7 @@ export default function Product(props) {
           className="mx-auto w-44 h-36 rounded-tl-3xl rounded-br-3xl hover:shadow-xl"
         />
       </div>
-      <div className="text-center h-28">
+      <div className="text-center" style={{minHeight:"7rem"}}>
         <h3 className="text-center text-2xl font-bold">{props?.name}</h3>
         {props.description ? (
           <span className="text-sm dark:text-gray-400">

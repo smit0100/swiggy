@@ -1,12 +1,12 @@
 import Api from "./Api";
 
-function GetRequests(startNum,endNum) {
+function GetRequests(startNum,endNum,data) {
   return Api({
-    url: `/courier/fetchpending?pageNumber=${startNum}&pageSize=${endNum}`,
+    url: `/courier/fetchpending?pageNumber=${startNum}&pageSize=${endNum}&extraField=${data}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
+    }
   });
 }
 

@@ -7,3 +7,4 @@ export { default as Card } from './Card';
 export { default as Categories } from './Categories';
 export { default as DeliveryBoyCard } from './DeliveryBoyCard';
 export { default as Product } from './Product';
+export { default as Tabs } from './Tabs';

@@ -121,13 +121,13 @@ export default function RestaurantDetail() {
                   </div>
                 )}
               </div>
-              <div
+              {/* <div
                 className="text-3xl font-semibold"
                 style={{ color: currentColor }}
               >
                 {rupee}
                 {item.price}{" "}
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-col items-start gap-8 lg:flex-row">
               <div className="max-w-[768px]">

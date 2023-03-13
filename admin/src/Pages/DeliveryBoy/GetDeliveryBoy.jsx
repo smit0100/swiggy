@@ -4,7 +4,7 @@ import { useState } from "react";
 import swal from "sweetalert";
 import DeliveryBoy from "../../Apis/DeliveryBoy";
 import { Images } from "../../Assets";
-import { DeliveryBoyCard } from "../../Components";
+import { DeliveryBoyCard, Tabs } from "../../Components";
 const data = [
   {
     name: "Smit",
@@ -26,17 +26,37 @@ const data = [
 export default function GetDeliveryBoy() {
   const [datas, setDatas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [tabs, setTabs] = useState([
+    { label: "All", badge: null },
+    { label: "Approved", badge: null },
+    { label: "Rejected", badge: null },
+  ]);
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   useEffect(() => {
-    GetRequests();
+    GetRequests(tabs[activeTabIndex].label);
     document.title = "Admin - Delivery Boy Request";
-  }, [currentPage]);
-  const GetRequests = async () => {
-    DeliveryBoy.GetRequests(currentPage, 9)
+  }, [currentPage, activeTabIndex]);
+
+  const GetRequests = async (label) => {
+    let object = "";
+    if (label == "Approved") {
+      object = "approved";
+    } else if (label == "Rejected") {
+      object = "rejected";
+    }
+    DeliveryBoy.GetRequests(currentPage, 9, object)
       .then((res) => {
         console.log("===fetchall", res);
         if (res?.response) {
           setDatas(res?.response);
+          if (res?.totalCount) {
+            let data = [...tabs];
+            data[0].badge = res?.totalCount;
+            data[1].badge = res?.totalAccepted;
+            data[2].badge = res?.totalRejected;
+            setTabs(data);
+          }
         }
       })
       .catch((e) => console.log("====ee", e));
@@ -98,9 +118,18 @@ export default function GetDeliveryBoy() {
   };
   return (
     <div>
-      <h1 className="ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
-        &bull; Delivery Boy's request
-      </h1>
+      <div className="flex flex-wrap bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
+        <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
+          &bull; Delivery Boy's request
+        </h1>
+        <div>
+          <Tabs
+            tabs={tabs}
+            activeTabIndex={activeTabIndex}
+            setActiveTabIndex={(index) => setActiveTabIndex(index)}
+          />
+        </div>
+      </div>
       <div className="flex flex-wrap justify-start gap-2 max-sm:justify-center items-center mb-16">
         {datas.map((item, index) => {
           return (

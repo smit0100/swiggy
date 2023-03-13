@@ -140,11 +140,22 @@ const fetchAllRejected = async (req, res) => {
 const fetchPending = async (req, res) => {
     const pageNumber = parseInt(req.query.pageNumber) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10 ;
+    const { extraField } = req.query;
     try {
-        const response = await DeliveryBoy.find()
-          .skip((pageNumber - 1) * pageSize)
-          .limit(pageSize);
-        res.status(200).json({ message: 'delivery booy fetched', response,page: pageNumber,pageSize: pageSize });
+        const totalCount = await DeliveryBoy.countDocuments();
+        const totalAccepted = await DeliveryBoy.find({isApproved:"approved"}).countDocuments();
+        const totalRejected = await DeliveryBoy.find({isApproved:"rejected"}).countDocuments();
+        let response
+        if (extraField != "") {
+            response = await DeliveryBoy.find({isApproved:extraField})
+              .skip((pageNumber - 1) * pageSize)
+              .limit(pageSize);
+        } else {
+            response = await DeliveryBoy.find()
+              .skip((pageNumber - 1) * pageSize)
+              .limit(pageSize);
+        }
+        res.status(200).json({ message: 'delivery booy fetched', response,page: pageNumber,pageSize: pageSize,totalCount,totalAccepted,totalRejected });
     } catch (e) {
         res.status(500).json({ message: 'somethign went wrong' });
     }

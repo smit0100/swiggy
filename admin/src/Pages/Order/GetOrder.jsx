@@ -80,6 +80,7 @@ export default function GetOrder() {
               </div>
             </div>
           </th>
+          <td className="pl-10 py-4">{item?._id}</td>
           <td className="pl-10 py-4">{item?.total}</td>
           <td className="py-4">
             {/* <div className="flex items-center">
@@ -212,6 +213,9 @@ export default function GetOrder() {
             </th>
             <th scope="col" className="px-6 py-3">
               Name
+            </th>
+            <th scope="col" className="px-10 py-3">
+              Order Id
             </th>
             <th scope="col" className="px-6 py-3">
               RUPEES

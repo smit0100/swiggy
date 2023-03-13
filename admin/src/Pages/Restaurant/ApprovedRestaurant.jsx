@@ -60,7 +60,7 @@ export default function ApprovedRestaurant() {
           </h2>
         </div>
       </div>
-      <h1 className="mt-5 ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
+      <h1 className="my-5 ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
         &bull; Categories
       </h1>
       <div className="flex flex-wrap max-sm:gap-5 md:gap-5 lg:gap-10 items-center justify-center mb-10">
