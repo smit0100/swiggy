@@ -41,7 +41,7 @@ const ResturantPage = () => {
       console.log("this is ct log");
       console.log(typeof (ct));
       const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
- 
+
       // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
 
 
@@ -67,8 +67,6 @@ const ResturantPage = () => {
       }
     })()
   }, [])
-
-  load == false ? console.log(data) : console.log("poojan");
 
   const images = [
     'https://picsum.photos/id/27/200/300',
@@ -104,7 +102,9 @@ const ResturantPage = () => {
     <>
       {/* image */}
       <div className=''>
-        <div className="md:mx-36 top-60 mx-10 bg-cover bg-scale bg-no-repeat  md:h-[500px] h-[300px]  box-border  flex justify-center items-center" style={{ backgroundImage: `url(${data.length != 0 ? data.resturant.bgImageUrl[0] : 'https://picsum.photos/200' })` }}></div>
+        <div className="md:mx-28 top-60 mx-10 bg-cover bg-scale bg-no-repeat  box-border  flex justify-center items-center" >
+          <img className="w-full h-[600px] object-cover" src={`${data.length !== 0 ? data.resturant.bgImageUrl[0] : 'https://picsum.photos/200'}`} alt="REstro  pic" />
+        </div>
       </div>
       <div className='md:mx-36 m-4  p-2 mx-10 '>
         {/* link */}
@@ -141,7 +141,7 @@ const ResturantPage = () => {
               <div className="p-3 mt-6 bg-white border">
                 <div className={openTab === 1 ? "block" : "hidden"}>
                   <div className='row overflow-auto'>
-                    <div className='sticky w-full sm:w-2/6 p-4 top-0 bg-black/10 left-0 overflow-hidden'>
+                    <div className='block sm:sticky w-full sm:w-2/6 p-4 top-0 bg-black/10 left-0 overflow-hidden'>
                       <ul className="space-y-2">
                         {
                           category != null && category.map(item => <li>
@@ -243,7 +243,7 @@ const ResturantPage = () => {
 export default ResturantPage
 
 
-const MenuItems = ({ items ,event}) => {
+const MenuItems = ({ items, event }) => {
   useEffect(() => {
     (async () => {
       const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
@@ -275,9 +275,9 @@ const MenuItems = ({ items ,event}) => {
   )
 }
 
-const Dropdown = ({ submenus , dropdown}) => {
+const Dropdown = ({ submenus, dropdown }) => {
   return (
-    <ul className={`${ !dropdown ? "hidden" : ""} mt-1 space-y-1 bg-white/60`}>
+    <ul className={`${!dropdown ? "hidden" : ""} mt-1 space-y-1 bg-white/60`}>
       {submenus.map((submenu, index) => (
         <li key={index} className="menu-items pl-5">
           <div>{submenu.title}</div>
@@ -440,21 +440,18 @@ export const RestroCategoryCard = ({ item }) => {
 
   return (
     <>
-      <div className="flex flex-wrap-reverse anim py-3 gap-5">
+      <div className="flex flex-wrap anim py-3 gap-5">
         <div className="relative ">
           <img className="h-36 w-36 rounded-md object-cover" src={`${item.imageUrl}`} alt="food" />
-
-          <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-          >
+          <button onClick={addtoCart} className="inline-block absolute left-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
             Add
           </button>
-
         </div>
         <div className="sm:pt-5 lg:pt-0">
           <img alt="veg" className="w-5 mr-1" src="../svg/veg.svg" />
           <p className="font-bold capitalize">{item.name} </p>
           <p className="text-sm">&#8377; {item.price}</p>
-          <p className='text-md text-slate-500 capitalize'>{item.description}</p>
+          <p className='text-md text-slate-500 capitalize w-96'>{item.description}</p>
         </div>
 
       </div>
