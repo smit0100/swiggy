@@ -62,7 +62,17 @@ const Order = new Schema({
     }, createdAt: {
         type: Date,
         default: Date.now
-      }
+      },
+      isreviewGiven:{
+        forResturant:{
+            type:Boolean,
+            default:false
+        },
+        forDeliveryBoy:{
+            type:Boolean,
+            default:false
+        }
+    },
     
 })
 

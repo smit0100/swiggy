@@ -17,6 +17,7 @@ const CartPageItem = ({ item }) => {
                 itemId: item._id,
                 productId:item.product._id
             })
+            console.log(response.data.data);
         dispatch(cartData(response.data.data.cart)) 
         
     }

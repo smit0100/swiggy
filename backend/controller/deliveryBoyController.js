@@ -3,7 +3,7 @@ const Token = require('../module/TokenModel');
 const sendEmail = require('../utils/sendEmail');
 const Order = require('../module/OrderModel');
 const DeliveryBoy=require('../module/DeliveryBoyModel');
- 
+const User = require('../module/UserModel')
 
 const register = async (req, res, next) => {
     try {
@@ -207,9 +207,10 @@ const allOrder = async (req, res, next) => {
 
 const addReview = async (req, res, next) => {
     try {
-        const { deliveryboyId, user, description, star } = req.body;
+        console.log(req.body);
+        const { deliveryboyId, user, description, star,orderId } = req.body;
 
-        const response = await DeliveryBoy.findByIdAndUpdate(deliveryboyId, {
+        let response = await DeliveryBoy.findByIdAndUpdate(deliveryboyId, {
             $push: {
                 review: {
                     user: user,
@@ -228,10 +229,14 @@ const addReview = async (req, res, next) => {
         })
 
         response.averageRating = (ratingCount / Number(response.review.length)).toFixed(1);
+        response = await Order.findByIdAndUpdate(orderId,{"isreviewGiven.forDeliveryBoy":true},{
+            new:true
+        })
 
         await response.save();
-
+        console.log(response);
         res.status(200).json({ message: 'review added' ,response});
+
 
     } catch (e) {
         res.status(400).json({ message: 'something went wrong' });

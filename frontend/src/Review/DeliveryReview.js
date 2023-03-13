@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { MdOutlineRateReview } from 'react-icons/md'
 import swal from 'sweetalert'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
 
-
-const ReviewPopUp = ({setDeliveryReview}) => {
+const ReviewPopUp = ({setDeliveryReview,deliverboyId,orderId,setIsDeliveryButton}) => {
 
   const [review, setReview] = useState('')
   const [rating, setRating] = useState(0);
@@ -13,6 +14,38 @@ const ReviewPopUp = ({setDeliveryReview}) => {
     setRating(newRating);
   };
 console.log("Review text : ",review,"Rating",rating);
+const user=useSelector(state=>state.userData.user)
+
+
+const goreview= async(e)=>{
+  e.preventDefault()
+//   {
+//     "userId":"640aef0faea95766c12d8b0c",
+//     "userName":"smit",
+//     "orderId":"640af5b40c645eff8d9279b8",
+//     "review":"this is some dummy review",
+//     "star":"5",
+//     "resturant":"640ab9faeb64bebfea8d6549"   
+// }
+try{
+  const res=await axios.post(`http://localhost:4000/courier/addreview`,{
+            deliveryboyId:deliverboyId,
+            user:user._id,
+            description:review,
+            star:rating,
+            orderId:orderId
+  })
+  console.log(res);
+   if(res.data.response.isreviewGiven.forDeliveryBoy)
+   {
+    setIsDeliveryButton(res.data.response.isreviewGiven.forDeliveryBoy)
+   }
+  setDeliveryReview(false)
+}catch(err){
+  console.log(err);
+  setDeliveryReview(false)
+}
+}
   return (
    
           <>
@@ -47,7 +80,7 @@ console.log("Review text : ",review,"Rating",rating);
                       onClick={() => setDeliveryReview(false)}>
                       Close
                     </button>
-                    <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                    <button onClick={goreview} className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                     >
                       Submit
                     </button>

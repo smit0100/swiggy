@@ -44,7 +44,7 @@ const ResturantPage = () => {
 
       // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
 
-
+      console.log(response.data,"ooko");
       setData(response.data)
       setLoad(false)
     })()

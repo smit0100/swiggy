@@ -14,7 +14,14 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const toggle = useSelector(state => state.sidebarToggle.sidebar);
   const isUser = useSelector(state => state.userData.user);
-  const cart = useSelector(state => state.cart)
+  const cart = useSelector(state => state.cartData.cart)
+
+  let qty=0;
+  if(cart!=null){
+    cart.products.map(product=>{
+      qty+=product.quantity
+    })
+  }
 
   // useEffect(() => {
   //   (async () => {
@@ -114,7 +121,7 @@ const Navbar = () => {
                       <Link to="/cart" className=" w-16 rounded text-gray-600 text-lg flex justify-evenly hover:text-blue-800">
                         <div className='flex justify-center items-end relative w-7 h-7'>
                           <img alt="veg" className="w-full h-full absolute" src="./svg/bag.svg" />
-                          <span className='text-xs text-gray-700 font-extrabold mb-0.5'>12</span>
+                          <span className='text-xs text-gray-700 font-extrabold mb-0.5'>{qty}</span>
                         </div>
                         cart
                       </Link>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Restaurant = ({ restaurant }) => {
-  console.log(restaurant);
+  // console.log(restaurant);
   return (
     <Link to={`/restaurant/${restaurant._id}`}>
       <div className='w-[350px] h-[390px] md:w-[250px] md:h-[330px] justify-center relative overflow-hidden rounded-md cursor-pointer shadow-xl group text-center align-middle'>
