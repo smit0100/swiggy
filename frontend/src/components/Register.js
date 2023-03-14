@@ -145,11 +145,17 @@ export default function Register() {
     console.log('hey');
     console.log(name, email, number, pass);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/create`, {
+      // let fcmToken = ""
+      // const temp = localStorage.getItem("fcmToken");
+      // if (temp != null) {
+      //   fcmToken = temp
+      // }
+      const response = await axios.post(`${process.env.}/user/create`, {
         name,
         email,
         number,
-        password: pass
+        password: pass,
+        // fcmToken
       })
       setLoading(false);
       console.log(response.data);
@@ -164,7 +170,7 @@ export default function Register() {
     }
     catch ({ response }) {
       console.log(response);
-      if (response.status === 409) {
+      if (response?.status === 409) {
         swal(`${response.data.message}`, "", "error");
         return
       }
