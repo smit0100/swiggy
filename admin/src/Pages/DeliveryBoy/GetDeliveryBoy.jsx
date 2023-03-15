@@ -126,7 +126,10 @@ export default function GetDeliveryBoy() {
           <Tabs
             tabs={tabs}
             activeTabIndex={activeTabIndex}
-            setActiveTabIndex={(index) => setActiveTabIndex(index)}
+            setActiveTabIndex={(index) => {
+              setActiveTabIndex(index);
+              handlePageChange(1);
+            }}
           />
         </div>
       </div>
