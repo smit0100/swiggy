@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux';
 
 import swal from 'sweetalert';
+import InlineButtonLoader from "./InlineButtonLoader";
 
 export default function OwnerRegister() {
 
@@ -18,16 +18,14 @@ export default function OwnerRegister() {
   const [cpass, setCpass] = useState('');
   const [cpassError, setCpassError] = useState('')
   const [check, SetCheck] = useState(false);
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false);
-  const [info, setInfo] = useState("")
   const [disabled, setDisabled] = useState(true)
 
 
   const navigate = useNavigate();
 
   const handledisable = () => {
-    if (nameError.length == 0 && numberError.length == 0 && emailError.length == 0 && passError.length == 0 && cpass.length == 0) {
+    if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0 && passError.length === 0 && cpass.length === 0) {
       console.log('hheydfljdskflsfd');
       setDisabled(!disabled)
       console.log(disabled)
@@ -35,38 +33,10 @@ export default function OwnerRegister() {
   }
 
   function SubmitButton() {
-    if (
-      name &&
-      email &&
-      number &&
-      pass &&
-      check &&
-      cpass &&
-      nameError.length === 0 &&
-      emailError.length === 0 &&
-      numberError.length === 0 &&
-      passError.length === 0 &&
-      cpassError.length === 0
-    ) {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          onClick={handleSubmit}
-        >
-          Register Account
-        </button>
-      );
+    if (name && email && number && pass && check && cpass && nameError.length === 0 && emailError.length === 0 && numberError.length === 0 && passError.length === 0 && cpassError.length === 0 ) {
+      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" onClick={handleSubmit}>{loading ? <InlineButtonLoader /> : 'Register Account'}</button>);
     } else {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          disabled
-        >
-          Register Account
-        </button>
-      );
+      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" disabled >{loading ? <InlineButtonLoader /> : 'Register Account'} </button>);
     }
   }
 
@@ -114,7 +84,7 @@ export default function OwnerRegister() {
 
   const handleCpass = (e) => {
     setCpass(e.target.value)
-    if (pass == e.target.value) {
+    if (pass === e.target.value) {
       setCpassError('')
     } else {
       setCpassError('please enter same password');
@@ -129,7 +99,7 @@ export default function OwnerRegister() {
     } else {
       setPassError('')
     }
-    if (e.target.value == cpass) {
+    if (e.target.value === cpass) {
       setCpassError('')
     } else {
       setCpassError('please enter same password');
@@ -137,9 +107,6 @@ export default function OwnerRegister() {
     handledisable()
   }
 
-
-
-  const user = useSelector(state => state.userData.user);
   const handleSubmit = async () => {
     setLoading(true)
     console.log('hey');
@@ -163,25 +130,17 @@ export default function OwnerRegister() {
       })
     }
     catch ({response}) {
-      // console.log(err);
+      console.log(response);
+      console.log(response.data.message);
       if (response.status === 400) {
-        swal(`${response.data.message}`, "", "error");
-        return
+        swal(`${response.data.messag}`, "", "error");
+      setLoading(false);
+      return
       }
     }
   }
   return (
     <>
-      {
-        loading &&
-        <div className="absolute w-screen h-screen bg-black/20 z-50">
-          <div className="flex justify-center items-center h-screen">
-            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-            </div>
-          </div>
-        </div>
-      }
       <div className="relative h-screen w-screen ">
         <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
         <div className="flex content-center items-center justify-center h-full w-screen ">

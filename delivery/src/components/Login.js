@@ -67,7 +67,8 @@ export default function Login() {
 
     } catch ({ response }) {
       if (response.status === 400 || response.status === 401 || response.status === 402) {
-        swal(`${response.data.message}`, "", "error");
+      setLoading(false)
+      swal(`${response.data.message}`, "", "error");
         return
       }
     }

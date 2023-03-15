@@ -17,14 +17,14 @@ const Directory = () => {
     return (
         <div className='relative h-screen w-screen'>
             <img className='h-4/6 w-full object-cover' src='https://i.ibb.co/2hdPfQf/1.png' alt='img' />
-            <div className='absolute top-40 sm:left-[40px] md:left-[500px] space-y-3'>
+            <div className='absolute top-40 sm:left-[40px] md:left-[400px] space-y-3'>
                 <p className='text-4xl text-white '>Register your restaurant on Zomato</p>
                 <p className=' text-xl text-slate-300 font-light'>and get more customers!</p>
-                {owner !== null && owner.isApproved == "Not Request" ?
+                {owner !== null && owner.isApproved === "Not Request" ?
                     <button className='text-xl bg-blue-500 font-light px-14 rounded py-2 text-white ' onClick={() => navigate("/resturantRegister")}>Register your restaurant</button> :
                     <></>
                 }
-                <div className='absolute bg-white top-52 left-0 w-full h-fit rounded-md shadow-md p-10'>
+                <div className='absolute bg-white top-72 left-0 w-full h-fit rounded-md shadow-md p-10'>
                     <div className='pb-10 space-y-2'>
                         <h1 className='text-center text-3xl text-slate-800'>Get started with online ordering</h1>
                         <h2 className='text-center text-slate-500'>Please keep the documents ready  for a smooth signup</h2>

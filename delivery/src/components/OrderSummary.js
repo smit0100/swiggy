@@ -135,14 +135,14 @@ const OrderSummary = () => {
                     <div className='text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded'>₹{userData != null ? userData.total + 50 : 0}</div>
                   </div>
                 </div>
-                {userData != null && userData.status == "accept" ?
+                {userData != null && userData.status === "accept" ?
                   <div className='flex flex-col'>
                     <input type='text' maxLength={6} value={resturantOtp} onChange={(e) => setresturantOtp(e.target.value)} placeholder='Enter Resturant Otp..' className="inline-block mt-3  rounded border border-current px-4 py-[6px] text-xs uppercase   transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring mr-1" />
                     <button type='button' onClick={handleResturantOtp}>Go</button>
                   </div> : <></>
                 }
                 {
-                  userData != null && userData.status == "on the way" ?
+                  userData != null && userData.status === "on the way" ?
                     <div className='flex flex-col'>
                       <input type='text' maxLength={6} value={customerOtp} onChange={(e) => setcustomerOtp(e.target.value)} placeholder='Enter Customer Otp..' className="inline-block mt-3  rounded border border-current px-4 py-[6px] text-xs uppercase  transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring " />
                       <button onClick={handleCutomerOtp}>Go</button>
@@ -150,7 +150,7 @@ const OrderSummary = () => {
                 }
 
                 {
-                  userData != null && userData.status == "delivered" ?
+                  userData != null && userData.status === "delivered" ?
                   <div>Delivered successFully</div>:<></>
                 }
               </div>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import FacebookLogin from 'react-facebook-login';
 import { userData } from '../redux/user/userSlice';
+import InlineButtonLoader from "./InlineButtonLoader";
 import { useDispatch } from 'react-redux';
 import swal from 'sweetalert';
 
@@ -12,8 +13,7 @@ export default function OwnerLogin() {
   const [pass, setPass] = useState('');
   const [emailError, setEmailError] = useState('')
   const [passError, setPassError] = useState('')
-  const [error, setError] = useState('');
-  const [info, setInfo] = useState('');
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ export default function OwnerLogin() {
   const googleAuth = () => {
     window.open('http://localhost:4000/auth/google/callback', "self")
   }
-console.log(googleAuth)
+  console.log(googleAuth)
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -54,7 +54,7 @@ console.log(googleAuth)
           type="button"
           onClick={handleSubmit}
         >
-          Login
+          {loading ? <InlineButtonLoader /> : 'Login'}
         </button>
       );
     } else {
@@ -64,7 +64,8 @@ console.log(googleAuth)
           type="button"
           disabled
         >
-          Login
+          {loading ? <InlineButtonLoader /> : 'Login'}
+
         </button>
       );
     }
@@ -79,21 +80,23 @@ console.log(googleAuth)
   //     }
   // }
   const handleSubmit = async () => {
-    console.log('hey');
-    console.log(email, pass);
+    
     try {
+      setLoading(true)
       const response = await axios.post('http://localhost:4000/resturant/login', {
         email, password: pass
       })
       console.log(response);
       dispatch(userData(response.data.rest))
       swal("SuccessFully Login", "", "success");
+      setLoading(false)
       navigate('/');
-      
+
     } catch ({ response }) {
       console.log(response);
       if (response.status === 400 || response.status === 401 || response.status === 402) {
-        swal(`${response.data.message}`, "", "error");
+        swal(`${response.status === 402 ?response.data.message : response.data.messag}`, "", "error");
+        setLoading(false)
         return
       }
     }

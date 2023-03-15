@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { userData } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import swal from 'sweetalert';
+import InlineButtonLoader from "./InlineButtonLoader";
 import { useCookies } from 'react-cookie'
 
 export default function Login() {
@@ -14,8 +15,7 @@ export default function Login() {
   const [pass, setPass] = useState('');
   const [emailError, setEmailError] = useState('')
   const [passError, setPassError] = useState('')
-  const [error, setError] = useState('');
-  const [info, setInfo] = useState('');
+const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -56,7 +56,7 @@ export default function Login() {
           type="button"
           onClick={handleSubmit}
         >
-          Login
+          {loading ? <InlineButtonLoader /> : "Login"}
         </button>
       );
     } else {
@@ -83,6 +83,7 @@ export default function Login() {
   const handleSubmit = async () => {
     console.log('hey');
     console.log(email, pass);
+    setLoading(true)
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, {
         email, password: pass
@@ -96,12 +97,14 @@ export default function Login() {
       console.log(response);
       dispatch(userData(response.data.user))
       swal("SuccessFully Login", "", "success");
+      setLoading(false)
       navigate('/');
       
     } catch ({ response }) {
       console.log(response);
       if (response.status === 400 || response.status === 401 || response.status === 402) {
         swal(`${response.data.message}`, "", "error");
+        setLoading(false)
         return
       }
     }

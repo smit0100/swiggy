@@ -6,12 +6,12 @@ const OrderSummaryFoodCard = ({product}) => {
     <>
       <div className='w-full lg:w-[49%]'>
         <div className="flex justify-center">
-          <div className="flex flex-col rounded-lg bg-white shadow-lg dark:bg-neutral-700 md:max-w-xl md:flex-row">
+          <div className="flex  rounded-lg bg-white shadow-lg dark:bg-neutral-700 md:max-w-xl md:flex-row">
             <img 
-              className="h-52 w-80 rounded-t-lg object-cover md:h-52 md:w-44 md:rounded-none md:rounded-l-lg"
+              className="h-auto  w-52 rounded-t-lg object-cover md:w-48 md:rounded-none md:rounded-l-lg"
               src={`${product?.product.imageUrl}`}
               alt="" />
-            <div className="flex flex-col justify-start p-6">
+            <div className="flex flex-col justify-start p-4">
               <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
               {product?.product.name}
               </h5>
