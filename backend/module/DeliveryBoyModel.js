@@ -52,7 +52,10 @@ const DeliveryBoy = new Schema({
     order: [{
         type: mongoose.Types.ObjectId,
         ref:'Order'}
-    ]
+    ],
+    fcmToken: {
+        type:String
+    }
 })
 
 module.exports = mongoose.model('DeliverBoy',DeliveryBoy)
