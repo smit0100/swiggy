@@ -127,7 +127,10 @@ const Resturant = new Schema({
             type: mongoose.Types.ObjectId,
             ref:'Review'
         }
-    ]
+    ],
+    fcmToken: {
+        type:String
+    }
 })
 
 module.exports = mongoose.model('Resturant', Resturant);

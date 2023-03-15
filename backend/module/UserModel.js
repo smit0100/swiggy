@@ -75,6 +75,9 @@ const User = new Schema({
             
         }
     },
+    fcmToken: {
+        type:String
+    },
    
     googleId: String,
     googleAccessToken: String,
