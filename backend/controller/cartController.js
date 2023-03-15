@@ -1,54 +1,52 @@
-const User = require('../module/UserModel');
-const Product = require('../module/ProductModel')
-
+const User = require("../module/UserModel");
+const Product = require("../module/ProductModel");
+const { sendNotification } = require("../utils/PushNotification");
 const addProduct = async (req, res, next) => {
   const { userId, productId, resturantId } = req.body;
-  console.log(resturantId);
-  console.log(resturantId);
   const product = await Product.findById(productId);
   const price = product.price;
 
   // const item = {
-  //    product: productId, 
+  //    product: productId,
   //     price
   // }
-
+  let users = await User.findById(userId);
+  let fcmToken = users.fcmToken;
+  let data = {
+    title: "cart",
+    body: "product added in cart successfully",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=6GHAjsWpt9&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80",
+  };
+  sendNotification(fcmToken, data);
   const item = {
     product: productId,
     quantity: 1,
   };
   const firstItem = await User.findById(userId, { cart: 1 });
-  console.log("first item first item first item first item");
-  console.log(firstItem);
-  console.log(firstItem.cart.products.length);
   if (firstItem.cart.products.length === 0) {
     try {
-      console.log("hey");
-      console.log(productId);
       let userData = await User.findByIdAndUpdate(userId, {
         $push: { "cart.products": item },
       });
-      console.log(price);
       //  userData = await User.findOneAndUpdate({_id:userId}, {
       //    $inc: { "cart.total": price },
       //  });
 
+      userData = await User.findByIdAndUpdate(
+        userId,
+        {
+          $inc: { "cart.total": price },
+        },
+        {
+          new: true,
+        }
+      );
+
       userData = await User.findByIdAndUpdate(userId, {
-        $inc: { "cart.total": price },
-         
-      }, {
-        new:true
+        "cart.resturant": resturantId,
       });
-
-      userData = await User.findByIdAndUpdate(userId, {
-        "cart.resturant":resturantId
-      })
-      console.log("this is log");
-      console.log(userData);
-      // userData = await 
       userData = await User.findById(userId);
-
-      console.log(userData);
 
       return res.status(200).json({ data: userData });
     } catch (e) {
@@ -59,24 +57,15 @@ const addProduct = async (req, res, next) => {
     _id: userId,
     "cart.products.product": productId,
   });
-  console.log(existOrNot);
-  console.log(
-    "exit exit exist exist exit exit exist exist exit exit exist exist exit exit "
-  );
-  console.log(existOrNot);
   if (existOrNot.length === 0) {
     try {
-      console.log(productId);
       let userData = await User.findByIdAndUpdate(userId, {
         $push: { "cart.products": item },
       });
-      console.log(userData);
       userData = await User.findByIdAndUpdate(userId, {
         $inc: { "cart.total": price },
       });
       userData = await User.findById(userId);
-
-      console.log(userData);
 
       return res.status(200).json({ data: userData });
     } catch (e) {
@@ -85,12 +74,7 @@ const addProduct = async (req, res, next) => {
   } else {
     next();
   }
-
-
-
-
-
-}
+};
 
 const itemAlreadyExistUpdateQuantity = async (req, res) => {
   let { productId, userId } = req.body;
@@ -120,7 +104,6 @@ const itemAlreadyExistUpdateQuantity = async (req, res) => {
     );
     data = await User.findById(userId);
     // const data = await User.findById(userId)
-    console.log(data);
     res.status(200).json({ message: "product added", data });
   } catch (e) {
     res.status(500).json({ message: e });
@@ -129,7 +112,7 @@ const itemAlreadyExistUpdateQuantity = async (req, res) => {
 
 const addCartItemquantity = async (req, res) => {
   let { userId, itemId, productId } = req.body;
-  console.log('hello');
+  console.log("hello");
   const product = await Product.findById(productId);
   const price = product.price;
   // const user = await User.find({_id:userId});
@@ -152,14 +135,16 @@ const addCartItemquantity = async (req, res) => {
     });
     console.log(check);
 
-    return res.status(200).json({ data: check, message: 'product added in cart' });
+    return res
+      .status(200)
+      .json({ data: check, message: "product added in cart" });
   } catch (e) {
     return res.status(500).json({ message: "something went wrong" });
   }
 };
 
 const subtractCartItemquantity = async (req, res, next) => {
-  console.log('bsssss');
+  console.log("bsssss");
   let { userId, itemId, productId } = req.body;
   console.log(userId, itemId, productId);
   const product = await Product.findById(productId);
@@ -167,33 +152,37 @@ const subtractCartItemquantity = async (req, res, next) => {
   // const user = await User.find({_id:userId});
   try {
     const product = await Product.findById(productId);
-  const price = product.price;
+    const price = product.price;
 
     let user = await User.findById(userId).populate({
-            path: "cart",
-            populate: [
-              {
-                path: "products.product",
-                model: "Product",
-              },
-            ],
-          });
+      path: "cart",
+      populate: [
+        {
+          path: "products.product",
+          model: "Product",
+        },
+      ],
+    });
     // const cartItem = cart.items.find(item => item.productId.toString() === productId);
 
-    const cartItem = user.cart.products.find(item => item._id.toString() === itemId);
+    const cartItem = user.cart.products.find(
+      (item) => item._id.toString() === itemId
+    );
 
-    if (!cartItem) return res.status(400).json({ message: "product not found" });
+    if (!cartItem)
+      return res.status(400).json({ message: "product not found" });
 
     if (cartItem.quantity > 1) {
       cartItem.quantity -= 1;
-      user.cart.total -= price
+      user.cart.total -= price;
     } else {
-      user.cart.products = user.cart.products.filter(item => item._id.toString() !== itemId);
+      user.cart.products = user.cart.products.filter(
+        (item) => item._id.toString() !== itemId
+      );
       user.cart.total -= price;
     }
 
     await user.save();
-
 
     console.log(user);
     res.status(200).json({ data: user });
@@ -228,7 +217,6 @@ const subtractCartItemquantity = async (req, res, next) => {
     //      res.status(200).json({ data: check });
     //   }
     // })
-
   } catch (e) {
     return res.status(500).json({ message: "something went wrong" });
   }
@@ -255,43 +243,54 @@ const fetchCartItem = async (req, res) => {
 };
 
 const removeItem = async (req, res, next) => {
-  console.log('log');
+  console.log("log");
   let { userId, itemId, productId } = req.body;
 
   const product = await Product.findById(productId);
   const price = product.price;
 
   try {
-    let response = await User.findOneAndUpdate({ _id: userId, "cart.products._id": itemId }, {
-      $inc: { "cart.products.$.quantity": -price },
-      $unset:{"cart.resturant":""}
+    let response = await User.findOneAndUpdate(
+      { _id: userId, "cart.products._id": itemId },
+      {
+        $inc: { "cart.products.$.quantity": -price },
+        $unset: { "cart.resturant": "" },
+      },
+      { new: true }
+    );
+    response = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { "cart.products": { _id: itemId } },
+      },
+      { new: true }
+    );
 
-    }, { new: true })
-    response = await User.findByIdAndUpdate(userId, {
-      $pull: { "cart.products": { _id: itemId } },
-    },{new:true});
-   
-    console.log('check');
+    console.log("check");
     console.log(JSON.stringify(response));
     if (response.cart.products.length == 0) {
-      response = await User.findOneAndUpdate({ _id: userId}, {
-       $unset:{"cart.resturant":""}
- 
-     }, { new: true })
-   }
-    console.log('hello how arre');
+      response = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $unset: { "cart.resturant": "" },
+        },
+        { new: true }
+      );
+    }
+    console.log("hello how arre");
     console.log(response);
     res.status(200).json({
-      message: 'product deleted',data:response
-    })
+      message: "product deleted",
+      data: response,
+    });
   } catch (e) {
     console.log(e);
-    res.status(501).json({ message: 'something went wrong' });
+    res.status(501).json({ message: "something went wrong" });
   }
-}
+};
 
 const removeItemCart = async (req, res, next) => {
-  console.log('hey');
+  console.log("hey");
   const { userId, itemId, price, quantity } = req.body;
   let totalPrice = price * quantity;
   try {
@@ -303,7 +302,7 @@ const removeItemCart = async (req, res, next) => {
       $pull: { "cart.products": { _id: itemId } },
     });
     data = await User.findByIdAndUpdate(userId, {
-      $inc: { "cart.total": -totalPrice }
+      $inc: { "cart.total": -totalPrice },
     });
     data = await User.findById(userId, { cart: 1 }).populate({
       path: "cart",
@@ -316,12 +315,15 @@ const removeItemCart = async (req, res, next) => {
     });
     console.log(data);
     if (data.cart.products.length == 0) {
-      data = await User.findOneAndUpdate({ _id: userId}, {
-       $unset:{"cart.resturant":""}
- 
-     }, { new: true })
-   }
-    console.log('pull');
+      data = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $unset: { "cart.resturant": "" },
+        },
+        { new: true }
+      );
+    }
+    console.log("pull");
     console.log(data);
     // const data = User.findById(userId,{$pull:{"cart.products.$":{_id:itemId}}},{
     //   new:true
@@ -340,25 +342,21 @@ const clearCart = async (req, res, next) => {
   try {
     const { userId } = req.query;
     console.log(userId);
-    
+
     const response = await User.findByIdAndUpdate(userId, {
       "cart.products": [],
       "cart.total": 0,
-      $unset:{"cart.resturant":""}
-    })
-    
+      $unset: { "cart.resturant": "" },
+    });
+
     console.log(response);
 
-    res.status(200).json({ message: 'cart clear', response });
+    res.status(200).json({ message: "cart clear", response });
   } catch (e) {
     console.log(e);
-    res.status(500).json({message:'something went wrong'})
+    res.status(500).json({ message: "something went wrong" });
   }
- 
-
-
-}
-
+};
 
 //   const addCartItem = async (req, res, next) => {
 //     let { productId, userId, price } = req.body;
@@ -437,5 +435,5 @@ module.exports = {
   addCartItemquantity,
   removeItemCart,
   removeItem,
-  clearCart
-}
+  clearCart,
+};

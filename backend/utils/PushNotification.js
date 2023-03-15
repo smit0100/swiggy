@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("./swiggy.json");
+const serviceAccount = require("../swiggy.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -11,6 +11,7 @@ function sendNotification(token, payload) {
     notification: {
       title: payload.title,
       body: payload.body,
+      image: payload?.image
     },
     token:token,
   };
@@ -25,3 +26,4 @@ function sendNotification(token, payload) {
       console.log("Error sending message:", error);
     });
 }
+module.exports = { sendNotification };

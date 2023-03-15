@@ -12,7 +12,7 @@ const { sign } = require("jsonwebtoken")
 
 
 const createUser = async (req, res, next) => {
-    const { name, email, number, password } = req.body;
+    const { name, email, number, password,fcmToken } = req.body;
 
 
     const userExist = await User.findOne({ email });
@@ -25,7 +25,7 @@ const createUser = async (req, res, next) => {
     // const encryptedPass = await bcrypt.hash(password, 10);
     console.log('this is encrypted');
     console.log(encryptedPass);
-    const user = await new User({ name, email, number, password: encryptedPass }).save();
+    const user = await new User({ name, email, number, password: encryptedPass,fcmToken }).save();
     const otpNumber = Math.floor(100000 + Math.random() * 900000)
     const token = await new Token({
         userID: user._id,
@@ -147,8 +147,8 @@ const fetchOnlyOneUser = async (req, res, next) => {
 
 
 const loginUser = async (req, res, next) => {
-    const { email, password } = req.body;
-    let user = await User.findOne({ email });
+    const { email, password,fcmToken } = req.body;
+    let user = await User.findOneAndUpdate({ email },{fcmToken},{new:true});
 
     // user not exist
 

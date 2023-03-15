@@ -85,25 +85,30 @@ const [loading, setLoading] = useState(false)
     console.log(email, pass);
     setLoading(true)
     try {
+      let fcmToken = ""
+      const temp = localStorage.getItem("fcmToken");
+      if (temp != null) {
+        fcmToken = temp
+      }
+      console.log("===fcmToken",fcmToken);
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, {
-        email, password: pass
+        email, password: pass , fcmToken
       })
-
+      
       let expires = new Date()
       expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
       setCookie('access_token', response.data.token, { path: '/',maxAge: 24 * 60 * 60 * 1000} )
       
-      console.log('check this response');
-      console.log(response);
-      dispatch(userData(response.data.user))
+      console.log("=====ress",response);
+      dispatch(userData(response?.data?.user))
       swal("SuccessFully Login", "", "success");
       setLoading(false)
       navigate('/');
       
-    } catch ({ response }) {
-      console.log(response);
-      if (response.status === 400 || response.status === 401 || response.status === 402) {
-        swal(`${response.data.message}`, "", "error");
+    } catch ({response} ) {
+      console.log("===error",response);
+      if (response?.status === 400 || response?.status === 401 || response?.status === 402) {
+        swal(`${response?.data?.message}`, "", "error");
         setLoading(false)
         return
       }

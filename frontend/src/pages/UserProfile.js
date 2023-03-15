@@ -128,7 +128,7 @@ export const OrderDetailsCard = ({items}) => {
     <div className="flex w-[32%] relative  text-gray-900 antialiased">
       <div>
         <div className='overflow-hidden w-full   rounded-lg'>
-          <img src={items.resturant.bgImageUrl[0]} alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
+          <img src={items?.resturant?.bgImageUrl[0]} alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
         </div>
         <Link to={`/orderDetails/${items._id}`} >
           <div className="relative group -mt-16 px-4 hover:skew-x-1 transition-all duration-500" >
@@ -136,9 +136,9 @@ export const OrderDetailsCard = ({items}) => {
               <div className="flex items-baseline">
                 <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">{dateFormat(items.createdAt, "dd")} &bull; {dateFormat(items.createdAt, "mm")} &bull; {dateFormat(items.createdAt, "yyyy")}</div>
               </div>
-              <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">{items?.resturant.name}</h4>
+              <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">{items?.resturant?.name}</h4>
               <div className="mt-1 font-medium">
-                ₹{items.total}<span className="text-sm text-gray-600"> /Total Amout</span>
+                ₹{items?.total}<span className="text-sm text-gray-600"> /Total Amout</span>
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-md font-semibold text-teal-600">4/5 ratings </span>

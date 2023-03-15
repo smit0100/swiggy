@@ -36,15 +36,15 @@ const stripePromise = loadStripe(
 function App() {
   const user = useSelector((state) => state.userData.user);
   const [tokenFound, setTokenFound] = useState(false);
-  // useEffect(() => {
-  //   getFcmToken();
-  // }, []);
-  // const getFcmToken = () => {
-  //   const temp = localStorage.getItem("fcmToken");
-  //   if (temp == null) {
-  //     requestForToken(setTokenFound);
-  //   }
-  // };
+  useEffect(() => {
+    getFcmToken();
+  }, []);
+  const getFcmToken = () => {
+    const temp = localStorage.getItem("fcmToken");
+    if (temp == null) {
+      requestForToken(setTokenFound);
+    }
+  };
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Home />}>
@@ -71,7 +71,7 @@ function App() {
   return (
     <div>
       <RouterProvider router={router} />
-      {/* <Notification /> */}
+      <Notification />
     </div>
   );
 }

@@ -115,17 +115,17 @@ export default function Register() {
     setLoading(true)
     console.log(name, email, number, pass);
     try {
-      // let fcmToken = ""
-      // const temp = localStorage.getItem("fcmToken");
-      // if (temp != null) {
-      //   fcmToken = temp
-      // }
+      let fcmToken = ""
+      const temp = localStorage.getItem("fcmToken");
+      if (temp != null) {
+        fcmToken = temp
+      }
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/create`, {
         name,
         email,
         number,
         password: pass,
-        // fcmToken
+        fcmToken
       })
       setLoading(false);
       console.log(response.data);
