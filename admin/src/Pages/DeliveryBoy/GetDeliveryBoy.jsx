@@ -99,17 +99,37 @@ export default function GetDeliveryBoy() {
         });
       });
   };
+  const handleDelete = (id) => {
+    DeliveryBoy.deleteDeliveryBoy(id).then((response) => {
+      if (response?.messag) {
+        swal({
+          title: "Success!",
+          text: `Delivery boy deleted successfully.`,
+          icon: "success",
+          buttons: false,
+          timer: 1000,
+        });
+        GetRequests();
+      }
+    });
+  };
   const handleSubmit = (req, id) => {
-    if (req == "reject") {
+    if (req == "reject" || req == "Delete") {
       swal({
         title: "Are you sure?",
-        text: "Are you sure! you want to reject this Delivery boy?",
+        text: `Are you sure! you want to ${
+          req == "reject" ? "reject" : "delete"
+        } this Delivery boy?`,
         icon: "warning",
         buttons: true,
         dangerMode: true,
       }).then((e) => {
         if (e) {
-          handleApicall(req, id);
+          if (req == "reject") {
+            handleApicall(req, id);
+          } else {
+            handleDelete(id);
+          }
         }
       });
     } else {

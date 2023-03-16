@@ -28,6 +28,15 @@ function getOneProduct(id) {
     },
   });
 }
+function deleteDeliveryBoy(id) {
+  return Api({
+    url: `/courier/delete?userId=${id}`,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function handleRequest(id,req) {
   console.log("==id,req",id,req);
   return Api({
@@ -40,5 +49,5 @@ function handleRequest(id,req) {
 }
 
 export default {
-    GetRequests,getOneProduct,handleRequest,GetApprovedRestaurant
+    GetRequests,getOneProduct,handleRequest,GetApprovedRestaurant,deleteDeliveryBoy
 }

@@ -215,7 +215,19 @@ const allOrder = async (req, res, next) => {
         res.status(500).json({ message: 'something went wrong' });
     }
 }
+const deleteDeliveryBoy = async (req, res, next) => {
+    try {
+        const { userId } = req.query;
 
+        const data = await DeliveryBoy.findByIdAndDelete(userId)
+
+        if (!data) return res.status(400).json({ messag: "DeliveryBoy not founded" });
+
+        res.status(200).json({messag:'DeliveryBoy deleted'})
+    } catch (e) {
+        res.status(500).json({ messag: "something went wrong" });
+    }
+}
 const addReview = async (req, res, next) => {
     try {
         console.log(req.body);
@@ -267,5 +279,6 @@ module.exports = {
     fetchPending,
     fetchAllRejected,
     fetchAllAccepted,
-    addReview
+    addReview,
+    deleteDeliveryBoy
 }
