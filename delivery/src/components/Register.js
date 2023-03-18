@@ -1,38 +1,43 @@
 import React, { useState } from "react";
-import axios from 'axios'
-import { createSearchParams, Link, useNavigate } from 'react-router-dom'
+import axios from "axios";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 // import { useSelector } from 'react-redux';
 
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
 
 export default function Register() {
-
-  const [name, setName] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [number, setNumber] = useState('');
-  const [numberError, setNumberError] = useState('')
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('')
-  const [pass, setPass] = useState('');
-  const [passError, setPassError] = useState('')
-  const [cpass, setCpass] = useState('');
-  const [cpassError, setCpassError] = useState('')
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [number, setNumber] = useState("");
+  const [numberError, setNumberError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [pass, setPass] = useState("");
+  const [passError, setPassError] = useState("");
+  const [cpass, setCpass] = useState("");
+  const [cpassError, setCpassError] = useState("");
   const [check, SetCheck] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
 
   // const user = useSelector(state => state.userData.user);
 
   const navigate = useNavigate();
 
   const handledisable = () => {
-    if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0 && passError.length === 0 && cpass.length === 0) {
-      console.log('hheydfljdskflsfd');
-      setDisabled(!disabled)
-      console.log(disabled)
+    if (
+      nameError.length === 0 &&
+      numberError.length === 0 &&
+      emailError.length === 0 &&
+      passError.length === 0 &&
+      cpass.length === 0
+    ) {
+      console.log("hheydfljdskflsfd");
+      setDisabled(!disabled);
+      console.log(disabled);
     }
-  }
+  };
 
   function SubmitButton() {
     if (
@@ -54,7 +59,7 @@ export default function Register() {
           type="button"
           onClick={handleSubmit}
         >
-          {loading ? <InlineButtonLoader /> : 'Register Account'}
+          {loading ? <InlineButtonLoader /> : "Register Account"}
         </button>
       );
     } else {
@@ -71,111 +76,120 @@ export default function Register() {
   }
 
   const googleAuth = () => {
-    window.open(`${process.env.REACT_APP_BASEURL}/auth/google/callback`, "self")
-  }
+    window.open(
+      `${process.env.REACT_APP_BASEURL}/auth/google/callback`,
+      "self"
+    );
+  };
 
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;
 
     if (!regex.test(e.target.value)) {
-      setNameError("please enter valid name")
+      setNameError("please enter valid name");
     } else {
-      setNameError("")
+      setNameError("");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address")
+      setEmailError("Please enter valid email address");
     } else {
-      setEmailError("")
+      setEmailError("");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleNumber = (e) => {
     setNumber(e.target.value);
-    const regx = /^[789]\d{9}$/
+    const regx = /^[789]\d{9}$/;
     if (!regx.test(e.target.value)) {
-      setNumberError("please enter valid number")
+      setNumberError("please enter valid number");
     } else {
       setNumberError("");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleCpass = (e) => {
-    setCpass(e.target.value)
+    setCpass(e.target.value);
     if (pass === e.target.value) {
-      setCpassError('')
+      setCpassError("");
     } else {
-      setCpassError('please enter same password');
+      setCpassError("please enter same password");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handlePassword = (e) => {
     setPass(e.target.value);
     if (e.target.value.length < 8) {
-      setPassError('password must be 8 character');
+      setPassError("password must be 8 character");
     } else {
-      setPassError('')
+      setPassError("");
     }
     if (e.target.value === cpass) {
-      setCpassError('')
+      setCpassError("");
     } else {
-      setCpassError('please enter same password');
+      setCpassError("please enter same password");
     }
-    handledisable()
-  }
-
-
+    handledisable();
+  };
 
   const handleSubmit = async () => {
-    setLoading(true)
-    console.log('hey');
+    setLoading(true);
+    console.log("hey");
     console.log(name, email, number, pass);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/register`, {
-        name,
-        email,
-        number,
-        password: pass
-      })
+      let fcmToken = "";
+      const temp = localStorage.getItem("fcmTokenDelivery");
+      if (temp != null) {
+        fcmToken = temp;
+      }
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/courier/register`,
+        {
+          name,
+          email,
+          number,
+          password: pass,
+          fcmToken,
+        }
+      );
       setLoading(false);
       console.log(response.data);
 
       navigate({
-        pathname: '/otp',
+        pathname: "/otp",
         search: createSearchParams({
           id: response.data.user._id,
-          email: response.data.user.email
-        }).toString()
-      })
-    }
-    catch ({ response }) {
+          email: response.data.user.email,
+        }).toString(),
+      });
+    } catch ({ response }) {
       console.log(response);
       if (response.status === 409) {
         swal(`${response.data.message}`, "", "error");
-        return
+        return;
       }
     }
-  }
+  };
   return (
     <>
-      {
-        loading &&
-        <div className="absolute w-screen h-screen bg-black/20 z-50">
-        
-        </div>
-
-      }
+      {loading && (
+        <div className="absolute w-screen h-screen bg-black/20 z-50"></div>
+      )}
       <div className="relative h-screen w-screen ">
-        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
+        <img
+          src="https://i.ibb.co/dL8GQvF/4.png"
+          className="absolute w-screen h-screen blur-[3px]"
+          alt="background"
+        />
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -186,8 +200,7 @@ export default function Register() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                 
-                  <button 
+                  <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                     onClick={googleAuth}
@@ -241,7 +254,6 @@ export default function Register() {
                       onBlur={handleNumber}
                     />
                     <div className="text-sm text-red-500">{numberError}</div>
-
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -294,7 +306,6 @@ export default function Register() {
                       value={cpass}
                       onChange={handleCpass}
                       onBlur={handleCpass}
-
                     />
                     <div className="text-sm text-red-500">{cpassError}</div>
                   </div>
@@ -307,7 +318,6 @@ export default function Register() {
                         id="customCheckLogin"
                         type="checkbox"
                         className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}
@@ -319,9 +329,7 @@ export default function Register() {
                           Privacy Policy
                         </Link>
                       </span>
-
                     </label>
-
                   </div>
                   {SubmitButton()}
                   {/* <div className="text-center mt-6">
@@ -332,8 +340,7 @@ export default function Register() {
               </div>
             </div>
             <div className="flex flex-wrap mt-6 relative">
-              <div className="w-1/2">
-              </div>
+              <div className="w-1/2"></div>
               <div className="w-1/2 text-right">
                 <Link to="/login" className="text-blueGray-200">
                   <div className="text-white text-md">Sign In...</div>
@@ -343,7 +350,6 @@ export default function Register() {
           </div>
         </div>
       </div>
-
     </>
   );
 }

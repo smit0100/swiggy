@@ -110,7 +110,7 @@ const createResturnat = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   try {
-    const { name, email, password, number, coordinates } = req.body;
+    const { name, email, password, number, coordinates, fcmToken } = req.body;
 
     const emailExist = await Resturant.find({ email });
 
@@ -127,6 +127,7 @@ const register = async (req, res, next) => {
       password: encryptedPass,
       latitude: coordinates?.latitude,
       longitude: coordinates?.longitude,
+      fcmToken,
     }).save();
 
     const otpNumber = Math.floor(100000 + Math.random() * 900000);

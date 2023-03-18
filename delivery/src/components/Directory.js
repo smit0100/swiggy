@@ -10,9 +10,6 @@ const Directory = () => {
           <p className='text-2xl md:text-3xl lg:text-5xl text-white transition-all duration-300 align-middle text-center'>Discover the best food & drinks in Surat</p>
         </div>
       </div>
-      <div>
-        all of component render here......!
-      </div>
     </>
   )
 }

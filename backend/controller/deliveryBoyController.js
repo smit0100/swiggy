@@ -8,7 +8,7 @@ const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
 
 const register = async (req, res, next) => {
   try {
-    const { name, email, number, password } = req.body;
+    const { name, email, number, password, fcmToken } = req.body;
 
     const isExist = await DeliveryBoy.findOne({ email });
 
@@ -23,6 +23,7 @@ const register = async (req, res, next) => {
       email,
       number,
       password: encryptedPass,
+      fcmToken,
     }).save();
     const otpNumber = Math.floor(100000 + Math.random() * 900000);
 
@@ -66,8 +67,12 @@ const login = async (req, res, next) => {
   try {
     console.log("hey");
     console.log(req.body);
-    const { email, password } = req.body;
-    const user = await DeliveryBoy.findOne({ email });
+    const { email, password, fcmToken } = req.body;
+    const user = await DeliveryBoy.findOneAndUpdate(
+      { email },
+      { fcmToken },
+      { new: true }
+    );
     console.log(user);
     if (!user) return res.status(400).json({ message: "user not exist" });
     console.log(user);

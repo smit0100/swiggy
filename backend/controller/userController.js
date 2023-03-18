@@ -480,7 +480,7 @@ const loginAsAdmin = async (req, res) => {
 
     if (pass) {
       localStorage.setItem("fcmTokenAdmin", fcmToken);
-      
+
       return res.status(200).json({ messag: "user founded", response });
     } else {
       return res.status(300).json({ messag: "please check your crediential" });
@@ -500,6 +500,22 @@ const makeAdmin = async (req, res) => {
     res.status(200).json({ messag: "updated", res });
   } catch (e) {
     res.status(500).json({ messag: "somehting went wrong" });
+  }
+};
+const forgotAdminPassword = async (req, res) => {
+  const { oldPass, newPass } = req.body;
+  let user = await User.findOne({ type: "admin" });
+  console.log("=====",req.body,user);
+  const pass = await bcrypt.compareSync(oldPass, user.password);
+  console.log(pass);
+  if (!pass) {
+    return res.status(401).json({
+      message: "Your password is incorrect",
+    });
+  } else {
+    const encryptedPass = await bcrypt.hash(newPass, 10);
+    await user.updateOne({ password: encryptedPass });
+    return res.status(200).json({ messag: "Admin password updated" });
   }
 };
 
@@ -522,4 +538,5 @@ module.exports = {
   isExist,
   loginAsAdmin,
   makeAdmin,
+  forgotAdminPassword,
 };

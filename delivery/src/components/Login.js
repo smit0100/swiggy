@@ -1,83 +1,126 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { userData } from '../redux/user/userSlice';
+import { useDispatch } from "react-redux";
+import { corierLogIn, userData } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [emailError, setEmailError] = useState('')
-  const [passError, setPassError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const dispatch = useDispatch()
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passError, setPassError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address")
+      setEmailError("Please enter valid email address");
     } else {
-      setEmailError("")
+      setEmailError("");
     }
-  }
+  };
   const handlePassword = (e) => {
     setPass(e.target.value);
     if (e.target.value.length < 8) {
-      setPassError('password must be 8 character');
+      setPassError("password must be 8 character");
     } else {
-      setPassError('')
+      setPassError("");
     }
-  }
+  };
 
   const googleAuth = () => {
-    window.open(`${process.env.REACT_APP_BASEURL}/auth/google/callback`, "self")
-  }
+    window.open(
+      `${process.env.REACT_APP_BASEURL}/auth/google/callback`,
+      "self"
+    );
+  };
 
   function SubmitButton() {
     if (email && pass && emailError.length === 0 && passError.length === 0) {
-      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" onClick={handleSubmit} > {loading ? <InlineButtonLoader /> : 'Login'}</button>);
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleSubmit}
+        >
+          {" "}
+          {loading ? <InlineButtonLoader /> : "Login"}
+        </button>
+      );
     } else {
-      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" disabled >Login</button>);
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          disabled
+        >
+          Login
+        </button>
+      );
     }
   }
 
   const handleSubmit = async () => {
     try {
-      setLoading(true)
-      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/courier/login`, {
-        email, password: pass
-      })
-      console.log(response);
-      dispatch(userData(response.data.user))
-      setLoading(false)
-      swal("SuccessFully Login", "", "success");
-      
-      if (response.data.user.isApproved === "pending") {
-        navigate("/status")
-      } else {
-        navigate('/');
+      let fcmToken = "";
+      const temp = localStorage.getItem("fcmTokenDelivery");
+      if (temp != null) {
+        fcmToken = temp;
       }
+      setLoading(true);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/courier/login`,
+        {
+          email,
+          password: pass,
+          fcmToken,
+        }
+      );
+      console.log(response);
+      dispatch(userData(response.data.user));
 
+      dispatch(corierLogIn(true));
+      localStorage.setItem("isCorierLogIn", JSON.stringify(true));
+      localStorage.setItem(
+        "deliveryData",
+        JSON.stringify(response?.data?.user)
+      );
+
+      setLoading(false);
+      swal("SuccessFully Login", "", "success");
+
+      if (response.data.user.isApproved === "pending") {
+        navigate("/status");
+      } else {
+        navigate("/");
+      }
     } catch ({ response }) {
-      if (response.status === 400 || response.status === 401 || response.status === 402) {
-      setLoading(false)
-      swal(`${response.data.message}`, "", "error");
-        return
+      if (
+        response.status === 400 ||
+        response.status === 401 ||
+        response.status === 402
+      ) {
+        setLoading(false);
+        swal(`${response.data.message}`, "", "error");
+        return;
       }
     }
-
-  }
+  };
   return (
     <>
       <div className="relative h-screen w-screen">
-        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-[98.5vw] h-screen blur-[3px]" alt="background" />
+        <img
+          src="https://i.ibb.co/dL8GQvF/4.png"
+          className="absolute w-[98.5vw] h-screen blur-[3px]"
+          alt="background"
+        />
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -132,8 +175,6 @@ export default function Login() {
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
-
-
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -181,9 +222,7 @@ export default function Login() {
                       </span>
                     </label>
                   </div>
-                  <div className="text-center mt-6">
-                    {SubmitButton()}
-                  </div>
+                  <div className="text-center mt-6">{SubmitButton()}</div>
                 </form>
               </div>
             </div>
@@ -195,7 +234,7 @@ export default function Login() {
                   onClick={(e) => e.preventDefault()}
                   className="text-blueGray-200"
                 >
-                  <Link to='/forgotpassword'>
+                  <Link to="/forgotpassword">
                     <small className="text-white">Forgot password?</small>
                   </Link>
                 </a>
@@ -206,18 +245,16 @@ export default function Login() {
                 </Link>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-
     </>
   );
 }
-//=========================================================== 
+//===========================================================
 // Do not delete below code it will use for getting distance
 // between customer and restaurant
-//=========================================================== 
+//===========================================================
 
 // import React, { useState, useEffect } from 'react';
 
@@ -261,42 +298,42 @@ export default function Login() {
 //     { id: 2, name: 'Jane', latitude: 51.5074, longitude: -0.1278 },
 //     { id: 3, name: 'Bob', latitude: 48.8566, longitude: 2.3522 }
 //   ];
-  
+
 //   const getNearestDeliveryBoy = (targetLocation) => {
 //     const EARTH_RADIUS = 6371; // Earth's average radius in kilometers
 //     let nearestDeliveryBoy = null;
 //     let nearestDistance = Infinity;
-  
+
 //     deliveryBoys.forEach(deliveryBoy => {
 //       const { latitude: dbLatitude, longitude: dbLongitude } = deliveryBoy;
-  
+
 //       const lat1 = (Math.PI / 180) * targetLocation.latitude;
 //       const lon1 = (Math.PI / 180) * targetLocation.longitude;
 //       const lat2 = (Math.PI / 180) * dbLatitude;
 //       const lon2 = (Math.PI / 180) * dbLongitude;
-  
+
 //       const deltaLat = lat2 - lat1;
 //       const deltaLon = lon2 - lon1;
-  
+
 //       const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
 //                 Math.cos(lat1) * Math.cos(lat2) *
 //                 Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-  
+
 //       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 //       const distance = EARTH_RADIUS * c;
-  
+
 //       if (distance < nearestDistance) {
 //         nearestDeliveryBoy = deliveryBoy;
 //         nearestDistance = distance;
 //       }
 //     });
-  
+
 //     return nearestDeliveryBoy;
 //   };
-  
+
 //   const targetLocation = { latitude: 38.7749, longitude: -120.4194 };
 //   const nearestDeliveryBoy = getNearestDeliveryBoy(targetLocation);
-  
+
 //   return (
 //     <ul>
 //       {deliveryDestinations.map((destination, index) => (

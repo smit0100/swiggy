@@ -161,6 +161,11 @@ export default function OwnerRegister() {
     console.log("hey");
     console.log(name, email, number, pass);
     try {
+      let fcmToken = "";
+      const temp = localStorage.getItem("fcmTokenOwner");
+      if (temp != null) {
+        fcmToken = temp;
+      }
       const response = await axios.post(
         "http://localhost:4000/resturant/register",
         {
@@ -168,7 +173,8 @@ export default function OwnerRegister() {
           email,
           password: pass,
           number,
-          coordinates
+          coordinates,
+          fcmToken
         }
       );
       setLoading(false);

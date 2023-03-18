@@ -21,7 +21,9 @@ export default function GetUser() {
       User.GetAllUsers(currentPage, 10)
         .then((res) => {
           console.log("response", res);
-          setDatas(res?.data);
+          if (res?.data?.length > 0 && res?.status != 404) {
+            setDatas(res?.data);
+          }
         })
         .catch((e) => console.log("====ee", e));
     })();
@@ -57,7 +59,7 @@ export default function GetUser() {
     }
   };
   const dataTable = (data) =>
-    data.map((item, index) => {
+    data?.map((item, index) => {
       return (
         <tr
           key={index}

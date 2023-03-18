@@ -27,9 +27,20 @@ function AdminLogIn(data) {
     data,
   });
 }
+function ForgotPasswords(data) {
+  return Api({
+    url: `/user/forgotAdmin`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
+  });
+}
 
 export default {
   GetAllUsers,
   GetOneUser,
   AdminLogIn,
+  ForgotPasswords
 };

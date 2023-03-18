@@ -33,9 +33,7 @@ const OwnerProfile = () => {
   const history = useNavigate();
 
   const handleLogOut = () => {
-    localStorage.removeItem("isOwnerLogIn");
-    localStorage.removeItem("ownerData");
-    localStorage.removeItem("fcmTokenOwner");
+    localStorage.clear();
     dispatch(ownerLogIn(false));
     dispatch(userData(null));
     history("/");

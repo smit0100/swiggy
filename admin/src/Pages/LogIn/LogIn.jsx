@@ -21,7 +21,7 @@ function LogIn() {
   }
   useEffect(() => {
     setBgIndex(getRandomIndex());
-    document.title = "Admin - Login"
+    document.title = "Admin - Login";
   }, []);
   const history = useNavigate();
   const handleLogIn = () => {
@@ -38,15 +38,15 @@ function LogIn() {
         duration: 1000,
       });
     } else {
-      let fcmToken = ""
+      let fcmToken = "";
       const temp = localStorage.getItem("fcmToken");
       if (temp != null) {
-        fcmToken = temp
+        fcmToken = temp;
       }
       data = {
         email,
         password,
-        fcmToken
+        fcmToken,
       };
       User.AdminLogIn(JSON.stringify(data))
         .then((result) => {
@@ -96,19 +96,30 @@ function LogIn() {
     } else if (confirmNpass != newPass) {
       toast.error("Confirm Password does not match", { duration: 1000 });
     } else {
-      toast("Password Changed Successfully", {
-        duration: 3000,
-        position: "top-center",
-        icon: "👏",
-        iconTheme: {
-          primary: "#000",
-          secondary: "#fff",
-        },
-        ariaProps: {
-          role: "status",
-          "aria-live": "polite",
-        },
-      });
+      let data = {
+        oldPass: cPassword,
+        newPass: newPass,
+      };
+      User.ForgotPasswords(data)
+        .then((res) => {
+          console.log("res",res);
+        })
+        .catch((e) => {
+          console.log("===e", e);
+        });
+      // toast("Password Changed Successfully", {
+      //   duration: 3000,
+      //   position: "top-center",
+      //   icon: "👏",
+      //   iconTheme: {
+      //     primary: "#000",
+      //     secondary: "#fff",
+      //   },
+      //   ariaProps: {
+      //     role: "status",
+      //     "aria-live": "polite",
+      //   },
+      // });
       clearState();
       setIsForgot(false);
     }
@@ -198,7 +209,7 @@ function LogIn() {
               <div className="flex justify-between w-full py-4">
                 <div className="mr-24">
                   <input type="checkbox" name="ch" id="ch" className="mr-2" />
-                  <span className="text-md">Remember for 7 days</span>
+                  <span className="text-md">Remember me</span>
                 </div>
                 <span
                   onClick={hanldeForgot}
