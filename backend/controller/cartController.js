@@ -10,15 +10,15 @@ const addProduct = async (req, res, next) => {
   //    product: productId,
   //     price
   // }
-  let users = await User.findById(userId);
-  let fcmToken = users.fcmToken;
-  let data = {
-    title: "cart",
-    body: "product added in cart successfully",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=6GHAjsWpt9&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80",
-  };
-  sendNotification(fcmToken, data);
+  // let users = await User.findById(userId);
+  // let fcmToken = users.fcmToken;
+  // let data = {
+  //   title: "cart",
+  //   body: "product added in cart successfully",
+  //   image:
+  //     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=6GHAjsWpt9&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80",
+  // };
+  // sendNotification(fcmToken, data);
   const item = {
     product: productId,
     quantity: 1,

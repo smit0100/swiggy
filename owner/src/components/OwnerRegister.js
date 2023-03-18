@@ -1,148 +1,204 @@
 import React, { useState } from "react";
-import axios from 'axios'
-import { createSearchParams, Link, useNavigate } from 'react-router-dom'
+import axios from "axios";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { useEffect } from "react";
 
 export default function OwnerRegister() {
-
-  const [name, setName] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [number, setNumber] = useState('');
-  const [numberError, setNumberError] = useState('')
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('')
-  const [pass, setPass] = useState('');
-  const [passError, setPassError] = useState('')
-  const [cpass, setCpass] = useState('');
-  const [cpassError, setCpassError] = useState('')
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [number, setNumber] = useState("");
+  const [numberError, setNumberError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [pass, setPass] = useState("");
+  const [passError, setPassError] = useState("");
+  const [cpass, setCpass] = useState("");
+  const [cpassError, setCpassError] = useState("");
   const [check, SetCheck] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(true)
-
+  const [disabled, setDisabled] = useState(true);
+  const [coordinates, setCoordinates] = useState({
+    latitude: null,
+    longitude: null,
+  });
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    getLocation();
+  }, []);
+  const getLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) =>
+        setCoordinates({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }),
+      (error) => console.error(error)
+    );
+  };
   const handledisable = () => {
-    if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0 && passError.length === 0 && cpass.length === 0) {
-      console.log('hheydfljdskflsfd');
-      setDisabled(!disabled)
-      console.log(disabled)
+    if (
+      nameError.length === 0 &&
+      numberError.length === 0 &&
+      emailError.length === 0 &&
+      passError.length === 0 &&
+      cpass.length === 0
+    ) {
+      console.log("hheydfljdskflsfd");
+      setDisabled(!disabled);
+      console.log(disabled);
     }
-  }
+  };
 
   function SubmitButton() {
-    if (name && email && number && pass && check && cpass && nameError.length === 0 && emailError.length === 0 && numberError.length === 0 && passError.length === 0 && cpassError.length === 0 ) {
-      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" onClick={handleSubmit}>{loading ? <InlineButtonLoader /> : 'Register Account'}</button>);
+    if (
+      name &&
+      email &&
+      number &&
+      pass &&
+      check &&
+      cpass &&
+      nameError.length === 0 &&
+      emailError.length === 0 &&
+      numberError.length === 0 &&
+      passError.length === 0 &&
+      cpassError.length === 0
+    ) {
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleSubmit}
+        >
+          {loading ? <InlineButtonLoader /> : "Register Account"}
+        </button>
+      );
     } else {
-      return (<button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="button" disabled >{loading ? <InlineButtonLoader /> : 'Register Account'} </button>);
+      return (
+        <button
+          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+          type="button"
+          disabled
+        >
+          {loading ? <InlineButtonLoader /> : "Register Account"}{" "}
+        </button>
+      );
     }
   }
 
   const googleAuth = () => {
-    window.open('http://localhost:4000/auth/google/callback', "self")
-  }
+    window.open("http://localhost:4000/auth/google/callback", "self");
+  };
 
   const facebookAuth = () => {
-    window.open('http://localhost:4000/auth/facebook/callback', "self")
-   }
+    window.open("http://localhost:4000/auth/facebook/callback", "self");
+  };
 
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;
 
     if (!regex.test(e.target.value)) {
-      setNameError("please enter valid name")
+      setNameError("please enter valid name");
     } else {
-      setNameError("")
+      setNameError("");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address")
+      setEmailError("Please enter valid email address");
     } else {
-      setEmailError("")
+      setEmailError("");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleNumber = (e) => {
     setNumber(e.target.value);
-    const regx = /^[789]\d{9}$/
+    const regx = /^[789]\d{9}$/;
     if (!regx.test(e.target.value)) {
-      setNumberError("please enter valid number")
+      setNumberError("please enter valid number");
     } else {
       setNumberError("");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleCpass = (e) => {
-    setCpass(e.target.value)
+    setCpass(e.target.value);
     if (pass === e.target.value) {
-      setCpassError('')
+      setCpassError("");
     } else {
-      setCpassError('please enter same password');
+      setCpassError("please enter same password");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handlePassword = (e) => {
     setPass(e.target.value);
     if (e.target.value.length < 8) {
-      setPassError('password must be 8 character');
+      setPassError("password must be 8 character");
     } else {
-      setPassError('')
+      setPassError("");
     }
     if (e.target.value === cpass) {
-      setCpassError('')
+      setCpassError("");
     } else {
-      setCpassError('please enter same password');
+      setCpassError("please enter same password");
     }
-    handledisable()
-  }
+    handledisable();
+  };
 
   const handleSubmit = async () => {
-    setLoading(true)
-    console.log('hey');
+    setLoading(true);
+    console.log("hey");
     console.log(name, email, number, pass);
     try {
-      const response = await axios.post('http://localhost:4000/resturant/register', {
-        name,
-        email,
-        password: pass,
-        number
-      })
+      const response = await axios.post(
+        "http://localhost:4000/resturant/register",
+        {
+          name,
+          email,
+          password: pass,
+          number,
+          coordinates
+        }
+      );
       setLoading(false);
       console.log(response.data);
 
       navigate({
-        pathname: '/otp',
+        pathname: "/otp",
         search: createSearchParams({
           id: response.data.restuarnt._id,
-          email: response.data.restuarnt.email
-        }).toString()
-      })
-    }
-    catch ({response}) {
+          email: response.data.restuarnt.email,
+        }).toString(),
+      });
+    } catch ({ response }) {
       console.log(response);
       console.log(response.data.message);
       if (response.status === 400) {
         swal(`${response.data.messag}`, "", "error");
-      setLoading(false);
-      return
+        setLoading(false);
+        return;
       }
     }
-  }
+  };
   return (
     <>
       <div className="relative h-screen w-screen ">
-        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
+        <img
+          src="https://i.ibb.co/dL8GQvF/4.png"
+          className="absolute w-screen h-screen blur-[3px]"
+          alt="background"
+        />
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -219,7 +275,6 @@ export default function OwnerRegister() {
                       onBlur={handleNumber}
                     />
                     <div className="text-sm text-red-500">{numberError}</div>
-
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -272,7 +327,6 @@ export default function OwnerRegister() {
                       value={cpass}
                       onChange={handleCpass}
                       onBlur={handleCpass}
-
                     />
                     <div className="text-sm text-red-500">{cpassError}</div>
                   </div>
@@ -285,7 +339,6 @@ export default function OwnerRegister() {
                         id="customCheckLogin"
                         type="checkbox"
                         className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}
@@ -296,9 +349,7 @@ export default function OwnerRegister() {
                           Privacy Policy
                         </Link>
                       </span>
-
                     </label>
-
                   </div>
                   {SubmitButton()}
                   {/* <div className="text-center mt-6">
@@ -309,8 +360,7 @@ export default function OwnerRegister() {
               </div>
             </div>
             <div className="flex flex-wrap mt-6 relative">
-              <div className="w-1/2">
-              </div>
+              <div className="w-1/2"></div>
               <div className="w-1/2 text-right">
                 <Link to="/" className="text-blueGray-200">
                   <div className="text-white">Sign In...</div>
@@ -320,13 +370,9 @@ export default function OwnerRegister() {
           </div>
         </div>
       </div>
-
     </>
   );
 }
-
-
-
 
 // import React from 'react'
 
@@ -365,7 +411,7 @@ export default function OwnerRegister() {
 //       </div>
 //     </form>
 //   </div>
-  
+
 //   )
 // }
 

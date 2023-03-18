@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { earningData } from "../../data/dummy";
-import avatar from "../../Assets/avatar.jpg";
 import User from "../../Apis/User";
+import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
@@ -58,8 +58,13 @@ function Dashboard(props) {
               Latest Customers
             </h5>
             <Link
-              to="/customers"
+              // to="/customers"
               className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+              onClick={()=>toast.success("hiii",{
+                data:{
+                  title:"test",
+                  text:'hiii'
+              }})}
             >
               View all
             </Link>

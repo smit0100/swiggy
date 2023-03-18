@@ -1,7 +1,7 @@
 import Api from "./Api";
-function GetAllUsers() {
+function GetAllUsers(startNum,endNum) {
   return Api({
-    url: "/user/fetchAll",
+    url: `/user/fetchAll?pageNumber=${startNum}&pageSize=${endNum}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",

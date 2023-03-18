@@ -214,3 +214,98 @@ export default function Login() {
     </>
   );
 }
+//=========================================================== 
+// Do not delete below code it will use for getting distance
+// between customer and restaurant
+//=========================================================== 
+
+// import React, { useState, useEffect } from 'react';
+
+// const EARTH_RADIUS = 6371; // Earth's average radius in kilometers
+
+// const Login = () => {
+//   const [location, setLocation] = useState({ latitude: 21.1910656, longitude: 72.8399872 });
+//   const [deliveryDestinations, setDeliveryDestinations] = useState([
+//     { latitude: 21.204220, longitude: 72.780300, distance: 0 }
+//   ]);
+
+//   useEffect(() => {
+//     if (!location.latitude || !location.longitude) {
+//       return;
+//     }
+
+//     setDeliveryDestinations(destinations => destinations.map(destination => {
+//       const { latitude, longitude } = destination;
+
+//       const lat1 = (Math.PI / 180) * location.latitude;
+//       const lon1 = (Math.PI / 180) * location.longitude;
+//       const lat2 = (Math.PI / 180) * latitude;
+//       const lon2 = (Math.PI / 180) * longitude;
+
+//       const deltaLat = lat2 - lat1;
+//       const deltaLon = lon2 - lon1;
+//       console.log("===",destination);
+//       const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+//                 Math.cos(lat1) * Math.cos(lat2) *
+//                 Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
+//       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//       const distance = EARTH_RADIUS * c;
+
+//       return { ...destination, distance };
+//     }));
+//   }, [location]);
+
+//   const deliveryBoys = [
+//     { id: 1, name: 'John', latitude: 37.7749, longitude: -122.4194 },
+//     { id: 2, name: 'Jane', latitude: 51.5074, longitude: -0.1278 },
+//     { id: 3, name: 'Bob', latitude: 48.8566, longitude: 2.3522 }
+//   ];
+  
+//   const getNearestDeliveryBoy = (targetLocation) => {
+//     const EARTH_RADIUS = 6371; // Earth's average radius in kilometers
+//     let nearestDeliveryBoy = null;
+//     let nearestDistance = Infinity;
+  
+//     deliveryBoys.forEach(deliveryBoy => {
+//       const { latitude: dbLatitude, longitude: dbLongitude } = deliveryBoy;
+  
+//       const lat1 = (Math.PI / 180) * targetLocation.latitude;
+//       const lon1 = (Math.PI / 180) * targetLocation.longitude;
+//       const lat2 = (Math.PI / 180) * dbLatitude;
+//       const lon2 = (Math.PI / 180) * dbLongitude;
+  
+//       const deltaLat = lat2 - lat1;
+//       const deltaLon = lon2 - lon1;
+  
+//       const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+//                 Math.cos(lat1) * Math.cos(lat2) *
+//                 Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+  
+//       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//       const distance = EARTH_RADIUS * c;
+  
+//       if (distance < nearestDistance) {
+//         nearestDeliveryBoy = deliveryBoy;
+//         nearestDistance = distance;
+//       }
+//     });
+  
+//     return nearestDeliveryBoy;
+//   };
+  
+//   const targetLocation = { latitude: 38.7749, longitude: -120.4194 };
+//   const nearestDeliveryBoy = getNearestDeliveryBoy(targetLocation);
+  
+//   return (
+//     <ul>
+//       {deliveryDestinations.map((destination, index) => (
+//         <li key={index}>
+//           Destination {index + 1}: {destination.distance.toFixed(2)} km
+//         </li>
+//       ))}
+//     </ul>
+//   );
+// };
+
+// export default Login;

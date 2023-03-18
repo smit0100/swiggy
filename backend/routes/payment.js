@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
     
     try {
         const { amount, currency } = req.body;
+        console.log("====body",req.body);
         const paymentIntent = await stripe.paymentIntents.create({
           amount,
           currency,

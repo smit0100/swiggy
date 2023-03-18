@@ -3,58 +3,53 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import FacebookLogin from 'react-facebook-login';
-import { userData } from '../redux/user/userSlice';
+import { ownerLogIn, userData } from "../redux/user/userSlice";
 import InlineButtonLoader from "./InlineButtonLoader";
-import { useDispatch } from 'react-redux';
-import swal from 'sweetalert';
+import { useDispatch } from "react-redux";
+import swal from "sweetalert";
 
 export default function OwnerLogin() {
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [emailError, setEmailError] = useState('')
-  const [passError, setPassError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passError, setPassError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const googleAuth = () => {
-    window.open('http://localhost:4000/auth/google/callback', "self")
-  }
-  console.log(googleAuth)
+    window.open("http://localhost:4000/auth/google/callback", "self");
+  };
+  console.log(googleAuth);
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address")
+      setEmailError("Please enter valid email address");
     } else {
-      setEmailError("")
+      setEmailError("");
     }
-  }
+  };
   const handlePassword = (e) => {
     setPass(e.target.value);
     if (e.target.value.length < 8) {
-      setPassError('password must be 8 character');
+      setPassError("password must be 8 character");
     } else {
-      setPassError('')
+      setPassError("");
     }
-  }
+  };
 
   function SubmitButton() {
-    if (
-      email &&
-      pass &&
-      emailError.length === 0 &&
-      passError.length === 0
-    ) {
+    if (email && pass && emailError.length === 0 && passError.length === 0) {
       return (
         <button
           className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
           type="button"
           onClick={handleSubmit}
         >
-          {loading ? <InlineButtonLoader /> : 'Login'}
+          {loading ? <InlineButtonLoader /> : "Login"}
         </button>
       );
     } else {
@@ -64,8 +59,7 @@ export default function OwnerLogin() {
           type="button"
           disabled
         >
-          {loading ? <InlineButtonLoader /> : 'Login'}
-
+          {loading ? <InlineButtonLoader /> : "Login"}
         </button>
       );
     }
@@ -80,32 +74,61 @@ export default function OwnerLogin() {
   //     }
   // }
   const handleSubmit = async () => {
-    
     try {
-      setLoading(true)
-      const response = await axios.post('http://localhost:4000/resturant/login', {
-        email, password: pass
-      })
-      console.log(response);
-      dispatch(userData(response.data.rest))
-      swal("SuccessFully Login", "", "success");
-      setLoading(false)
-      navigate('/');
-
+      let fcmToken = "";
+      const temp = localStorage.getItem("fcmTokenOwner");
+      if (temp != null) {
+        fcmToken = temp;
+      }
+      setLoading(true);
+      const response = await axios.post(
+        "http://localhost:4000/resturant/login",
+        {
+          email,
+          password: pass,
+          fcmToken,
+        }
+      );
+      console.log("owner login res::",response);
+      dispatch(userData(response.data.rest));
+      dispatch(ownerLogIn(true));
+      localStorage.setItem("isOwnerLogIn", JSON.stringify(true));
+      localStorage.setItem("ownerData", JSON.stringify(response?.data?.rest));
+      swal("SuccessFully Login", "", "success",{
+        buttons:false,
+        timer:1000
+      });
+      setLoading(false);
+      navigate("/");
     } catch ({ response }) {
       console.log(response);
-      if (response.status === 400 || response.status === 401 || response.status === 402) {
-        swal(`${response.status === 402 ?response.data.message : response.data.messag}`, "", "error");
-        setLoading(false)
-        return
+      if (
+        response.status === 400 ||
+        response.status === 401 ||
+        response.status === 402
+      ) {
+        swal(
+          `${
+            response.status === 402
+              ? response.data.message
+              : response.data.messag
+          }`,
+          "",
+          "error"
+        );
+        setLoading(false);
+        return;
       }
     }
-
-  }
+  };
   return (
     <>
       <div className="relative h-screen w-screen">
-        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-[98.5vw] h-screen blur-[3px]" alt="background" />
+        <img
+          src="https://i.ibb.co/dL8GQvF/4.png"
+          className="absolute w-[98.5vw] h-screen blur-[3px]"
+          alt="background"
+        />
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -160,8 +183,6 @@ export default function OwnerLogin() {
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
-
-
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -230,7 +251,7 @@ export default function OwnerLogin() {
                   onClick={(e) => e.preventDefault()}
                   className="text-blueGray-200"
                 >
-                  <Link to='/forgotpassword'>
+                  <Link to="/forgotpassword">
                     <small className="text-white">Forgot password?</small>
                   </Link>
                 </a>
@@ -241,15 +262,12 @@ export default function OwnerLogin() {
                 </Link>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-
     </>
   );
 }
-
 
 // import React from 'react'
 

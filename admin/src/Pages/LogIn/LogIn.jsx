@@ -21,6 +21,7 @@ function LogIn() {
   }
   useEffect(() => {
     setBgIndex(getRandomIndex());
+    document.title = "Admin - Login"
   }, []);
   const history = useNavigate();
   const handleLogIn = () => {
@@ -37,9 +38,15 @@ function LogIn() {
         duration: 1000,
       });
     } else {
+      let fcmToken = ""
+      const temp = localStorage.getItem("fcmToken");
+      if (temp != null) {
+        fcmToken = temp
+      }
       data = {
-        email: email,
-        password: password,
+        email,
+        password,
+        fcmToken
       };
       User.AdminLogIn(JSON.stringify(data))
         .then((result) => {

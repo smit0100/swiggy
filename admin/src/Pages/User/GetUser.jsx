@@ -15,9 +15,10 @@ export default function GetUser() {
   const [editUser, setEditUser] = useState({});
   const [selectedFilter, setselectedFilter] = useState("Filter");
   const { currentColor } = useStateContext();
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     (async () => {
-      User.GetAllUsers()
+      User.GetAllUsers(currentPage, 10)
         .then((res) => {
           console.log("response", res);
           setDatas(res?.data);
@@ -25,27 +26,20 @@ export default function GetUser() {
         .catch((e) => console.log("====ee", e));
     })();
     document.title = "Admin - Customers";
-  }, []);
+  }, [currentPage]);
 
   const handleSelection = (e) => {
     setselectedFilter(e);
     setAction(false);
   };
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
-
-  const totalPages = Math.ceil(datas.length / rowsPerPage);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const rows = datas.slice(startIndex, endIndex);
   const handleSearch = (value) => {
     setsearch(value);
-    const temp = [...rows];
+    const temp = [...datas];
     const data = temp.filter((item) => item?.name == value);
     if (data.length > 0) {
       setfilterDatas(data);
@@ -243,7 +237,7 @@ export default function GetUser() {
           </tr>
         </thead>
         <tbody>
-          {search?.length > 0 ? dataTable(filterDatas) : dataTable(rows)}
+          {search?.length > 0 ? dataTable(filterDatas) : dataTable(datas)}
         </tbody>
       </table>
       <div className="mt-4">
@@ -260,10 +254,10 @@ export default function GetUser() {
         </button>
 
         <button
-          disabled={currentPage < totalPages ? false : true}
+          disabled={datas?.length == 10 ? false : true}
           onClick={() => handlePageChange(currentPage + 1)}
           className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
-            currentPage < totalPages
+            datas?.length == 10
               ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
               : "bg-white"
           }`}

@@ -4,8 +4,6 @@ import { FiShoppingCart } from "react-icons/fi";
 import { RiNotification3Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import avatar from "../../Assets/avatar.jpg";
-// import { Cart, Chat, Notification, UserProfile } from '.';
 import { useStateContext } from "../../contexts/ContextProvider";
 import { setActiveMenu } from "../../redux/shop/shopslice";
 import { Images } from "../../Assets";

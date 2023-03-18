@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import "./App.css";
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./contexts/ContextProvider";
 import { Navbar, Sidebar, ThemeSettings } from "./Components";
@@ -19,6 +21,9 @@ import {
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import LogIn from "./Pages/LogIn/LogIn";
+import { useState } from "react";
+import { requestForToken } from "./firebase";
+import Notification from "./Components/Notification";
 
 function App() {
   const {
@@ -32,6 +37,7 @@ function App() {
     setIsLogIn,
   } = useStateContext();
   const activeMenu = useSelector((state) => state.setActiveMenu.activeMenu);
+  const [tokenFound, setTokenFound] = useState(false);
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
@@ -47,8 +53,18 @@ function App() {
       setIsLogIn(JSON.parse(temp));
     }
   }, []);
+  useEffect(() => {
+    getFcmToken();
+  }, []);
+  const getFcmToken = () => {
+    const temp = localStorage.getItem("fcmToken");
+    console.log("===tempp",temp);
+    if (temp == null) {
+      requestForToken(setTokenFound);
+    }
+  };
   return (
-    <div className={currentMode === "Dark" ? "dark" : ""}>
+    <div className={currentMode === "Dark" ? "dark" : ""} style={{overflowX:'hidden'}}>
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           {isLogIn ? (
@@ -83,6 +99,7 @@ function App() {
                 }
               >
                 <div className="sticky top-0 z-30 backdrop-blur-xl dark:bg-main-dark-bg navbar w-full ">
+                  <ToastContainer pauseOnHover={false} theme={currentMode === "Dark" ? "light" : "dark"}/>
                   <Navbar />
                 </div>
                 {themeSettings && <ThemeSettings />}
@@ -117,6 +134,7 @@ function App() {
           )}
         </div>
       </BrowserRouter>
+      <Notification/>
     </div>
   );
 }
