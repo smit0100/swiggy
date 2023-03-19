@@ -231,9 +231,9 @@ const CheckoutPage = () => {
               </div>
             </div>
           </div>
-          <div className="w-full h-full shadow-md px-14">
+          {/* <div className="w-full h-full shadow-md px-14">
             Choose payment method{" "}
-          </div>
+          </div> */}
         </div>
       </div>
       {showModal ? (

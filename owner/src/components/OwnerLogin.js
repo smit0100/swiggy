@@ -80,6 +80,7 @@ export default function OwnerLogin() {
       if (temp != null) {
         fcmToken = temp;
       }
+      console.log("===fcmtoken:::",fcmToken);
       setLoading(true);
       const response = await axios.post(
         "http://localhost:4000/resturant/login",

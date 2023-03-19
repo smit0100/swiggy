@@ -78,6 +78,12 @@ const User = new Schema({
     fcmToken: {
         type:String
     },
+    latitude: {
+        type:String
+    },
+    longitude: {
+        type:String
+    },
    
     googleId: String,
     googleAccessToken: String,

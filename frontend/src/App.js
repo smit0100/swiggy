@@ -42,6 +42,9 @@ function App() {
   }, []);
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmToken");
+    console.log('====================================');
+    console.log("===temp++user",temp);
+    console.log('====================================');
     if (temp == null) {
       requestForToken(setTokenFound);
     }

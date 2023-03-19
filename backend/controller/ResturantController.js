@@ -170,7 +170,7 @@ const verfiyResturant = async (req, res, next) => {
 
 const loginResturant = async (req, res, next) => {
   try {
-    console.log("hey");
+    console.log("hey===",req.body);
     const { email, password, fcmToken } = req.body;
     const rest = await Resturant.findOneAndUpdate(
       { email },

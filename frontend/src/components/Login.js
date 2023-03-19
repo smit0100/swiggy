@@ -1,55 +1,68 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import FacebookLogin from 'react-facebook-login';
-import { userData } from '../redux/user/userSlice';
-import { useDispatch } from 'react-redux';
-import swal from 'sweetalert';
+import { userData } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
+import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
-import { useCookies } from 'react-cookie'
+import { useCookies } from "react-cookie";
 
 export default function Login() {
-  const [cookies, setCookie] = useCookies(['access_token', 'refresh_token'])
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [emailError, setEmailError] = useState('')
-  const [passError, setPassError] = useState('')
-const [loading, setLoading] = useState(false)
+  const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passError, setPassError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [coordinates, setCoordinates] = useState({
+    latitude: 21.19215,
+    longitude: 72.88799,
+  });
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getLocation();
+  }, []);
+  const getLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) =>
+        setCoordinates({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }),
+      (error) => console.error(error)
+    );
+  };
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address")
+      setEmailError("Please enter valid email address");
     } else {
-      setEmailError("")
+      setEmailError("");
     }
-  }
+  };
   const handlePassword = (e) => {
     setPass(e.target.value);
     if (e.target.value.length < 8) {
-      setPassError('password must be 8 character');
+      setPassError("password must be 8 character");
     } else {
-      setPassError('')
+      setPassError("");
     }
-  }
+  };
 
   const googleAuth = () => {
-    window.open(`${process.env.REACT_APP_BASEURL}/auth/google/callback`, "self")
-  }
+    window.open(
+      `${process.env.REACT_APP_BASEURL}/auth/google/callback`,
+      "self"
+    );
+  };
 
   function SubmitButton() {
-    if (
-      email &&
-      pass &&
-      emailError.length === 0 &&
-      passError.length === 0
-    ) {
+    if (email && pass && emailError.length === 0 && passError.length === 0) {
       return (
         <button
           className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
@@ -81,44 +94,59 @@ const [loading, setLoading] = useState(false)
   //     }
   // }
   const handleSubmit = async () => {
-    console.log('hey');
+    console.log("hey");
     console.log(email, pass);
-    setLoading(true)
+    setLoading(true);
     try {
-      let fcmToken = ""
+      let fcmToken = "";
       const temp = localStorage.getItem("fcmToken");
       if (temp != null) {
-        fcmToken = temp
+        fcmToken = temp;
       }
-      console.log("===fcmToken",fcmToken);
-      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, {
-        email, password: pass , fcmToken
-      })
-      
-      let expires = new Date()
-      expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
-      setCookie('access_token', response.data.token, { path: '/',maxAge: 24 * 60 * 60 * 1000} )
-      
-      console.log("=====ress",response);
-      dispatch(userData(response?.data?.user))
+      console.log("===fcmToken", fcmToken);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/user/login`,
+        {
+          email,
+          password: pass,
+          fcmToken,
+          coordinates,
+        }
+      );
+
+      let expires = new Date();
+      expires.setTime(expires.getTime() + response.data.expires_in * 1000);
+      setCookie("access_token", response.data.token, {
+        path: "/",
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      console.log("=====ress", response);
+      dispatch(userData(response?.data?.user));
       swal("SuccessFully Login", "", "success");
-      setLoading(false)
-      navigate('/');
-      
-    } catch ({response} ) {
-      console.log("===error",response);
-      if (response?.status === 400 || response?.status === 401 || response?.status === 402) {
+      setLoading(false);
+      navigate("/");
+    } catch ({ response }) {
+      console.log("===error", response);
+      if (
+        response?.status === 400 ||
+        response?.status === 401 ||
+        response?.status === 402
+      ) {
         swal(`${response?.data?.message}`, "", "error");
-        setLoading(false)
-        return
+        setLoading(false);
+        return;
       }
     }
-
-  }
+  };
   return (
     <>
       <div className="relative h-screen w-screen">
-        <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-[98.5vw] h-screen blur-[3px]" alt="background" />
+        <img
+          src="https://i.ibb.co/dL8GQvF/4.png"
+          className="absolute w-[98.5vw] h-screen blur-[3px]"
+          alt="background"
+        />
         <div className="flex content-center items-center justify-center h-full w-screen ">
           <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
             <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
@@ -173,8 +201,6 @@ const [loading, setLoading] = useState(false)
                   <small>Or sign in with credentials</small>
                 </div>
                 <form>
-
-
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -243,7 +269,7 @@ const [loading, setLoading] = useState(false)
                   onClick={(e) => e.preventDefault()}
                   className="text-blueGray-200"
                 >
-                  <Link to='/forgotpassword'>
+                  <Link to="/forgotpassword">
                     <small className="text-white">Forgot password?</small>
                   </Link>
                 </a>
@@ -254,11 +280,9 @@ const [loading, setLoading] = useState(false)
                 </Link>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-
     </>
   );
 }

@@ -17,14 +17,13 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(null);
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
-
+  console.log("==user",user);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       const response = await axios(
         `${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`
       );
-      console.log("smit");
       console.log("======ressssss", response);
       setOrder(response.data.response.order);
 
@@ -138,7 +137,6 @@ const UserProfile = () => {
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
               {order
                 ? order.map((item) => {
-                    console.log("item" + JSON.stringify(item));
                     return <OrderDetailsCard items={item} />;
                   })
                 : ""}
@@ -163,7 +161,6 @@ const UserProfile = () => {
 export default UserProfile;
 
 export const OrderDetailsCard = ({ items }) => {
-  console.log("check this item", items);
   return (
     // <div>
     // <Link  to={`/orderDetails/${items._id}`}>{items._id}</Link>

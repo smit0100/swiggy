@@ -164,10 +164,13 @@ const fetchOnlyOneUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  const { email, password, fcmToken } = req.body;
+  const { email, password, fcmToken,coordinates } = req.body;
   let user = await User.findOneAndUpdate(
     { email },
-    { fcmToken },
+    { fcmToken,      
+      latitude: coordinates?.latitude,
+      longitude: coordinates?.longitude,
+    },
     { new: true }
   );
 

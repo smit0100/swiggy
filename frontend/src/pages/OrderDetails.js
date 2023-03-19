@@ -204,14 +204,27 @@ const OrderDetails = () => {
                         </div>
                         <p className="text-lg font-semibold leading-6 text-gray-800"></p>
                       </div>
-                      <h3 className="text-xl font-semibold leading-5 text-gray-800">
-                        Customer OTP
-                      </h3>
-                      <div className="flex justify-start items-start">
-                        <p className="text-lg leading-6 font-bold text-gray-800">
-                          {orderData?.customerOtpNumber}
-                        </p>
-                      </div>
+                      {orderData?.status !== "delivered" ? (
+                        <>
+                          <h3 className="text-xl font-semibold leading-5 text-gray-800">
+                            Customer OTP
+                          </h3>
+                          <div className="flex justify-start items-start">
+                            <p className="text-lg leading-6 font-bold text-gray-800">
+                              {orderData?.customerOtpNumber}
+                            </p>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="text-xl font-semibold leading-5 text-gray-800">
+                            Order status
+                          </h3>
+                          <span class="text-xs font-semibold w-24 justify-center items-center flex py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
+                            Delivered
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
