@@ -7,45 +7,7 @@ import { RiContactsLine } from "react-icons/ri";
 import { MdOutlineSupervisorAccount, MdOutlineFastfood } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
 
-export const earningData = [
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: "1354",
-    percentage: "-4%",
-    title: "Customers",
-    iconColor: "#03C9D7",
-    iconBg: "#E5FAFB",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BiRestaurant />,
-    amount: "96",
-    percentage: "+23%",
-    title: "Restaurants",
-    iconColor: "rgb(255, 244, 229)",
-    iconBg: "rgb(254, 201, 15)",
-    pcColor: "green-600",
-  },
-  {
-    icon: <FiBarChart />,
-    amount: "42,339",
-    percentage: "+38%",
-    title: "Sales",
-    iconColor: "rgb(228, 106, 118)",
-    iconBg: "rgb(255, 244, 229)",
 
-    pcColor: "green-600",
-  },
-  {
-    icon: <HiOutlineRefresh />,
-    amount: "354",
-    percentage: "-12%",
-    title: "delevery partner",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
-];
 export const themeColors = [
   {
     name: "blue-theme",

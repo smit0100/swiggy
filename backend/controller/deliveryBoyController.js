@@ -5,6 +5,7 @@ const Order = require("../module/OrderModel");
 const DeliveryBoy = require("../module/DeliveryBoyModel");
 const User = require("../module/UserModel");
 const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
+const { sendNotification } = require("../utils/PushNotification");
 
 const register = async (req, res, next) => {
   try {
@@ -196,7 +197,7 @@ const reject = async (req, res, next) => {
 
 const receiveFoodFromResturant = async (req, res, next) => {
   try {
-    const { id, otp } = req.body;
+    const { id, otp, userfcmToken } = req.body;
     const order = await Order.findOne({ _id: id, courierBoyotpNumber: otp });
 
     if (!order) {
@@ -204,16 +205,21 @@ const receiveFoodFromResturant = async (req, res, next) => {
     } else {
       order.status = "on the way";
       await order.save();
+      let data = {
+        title: "👋 Hurray!",
+        body: "Delivery boy picked your order from restaurant",
+      };
+      sendNotification(userfcmToken, data);
       return res.status(200).json({ message: "order on the way", order });
     }
   } catch (e) {
-    res.status(500).json({ message: "somethin went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 };
 
 const deliverFoodForCustomer = async (req, res, next) => {
   try {
-    const { id, otp } = req.body;
+    const { id, otp, ownerfcmToken } = req.body;
 
     const order = await Order.findOne({ _id: id, customerOtpNumber: otp });
     if (!order) {
@@ -221,6 +227,11 @@ const deliverFoodForCustomer = async (req, res, next) => {
     } else {
       order.status = "delivered";
       await order.save();
+      let data = {
+        title: "👋 Hurray!",
+        body: "Your order delivered successfully 🍟",
+      };
+      sendNotification(ownerfcmToken, data);
       return res.status(200).json({ message: "order delivered", order });
     }
   } catch (e) {
@@ -255,7 +266,8 @@ const deleteDeliveryBoy = async (req, res, next) => {
 const addReview = async (req, res, next) => {
   try {
     console.log(req.body);
-    const { deliveryboyId, user, description, star, orderId } = req.body;
+    const { deliveryboyId, user, description, star, orderId, fcmToken } =
+      req.body;
 
     let response = await DeliveryBoy.findByIdAndUpdate(
       deliveryboyId,
@@ -292,6 +304,11 @@ const addReview = async (req, res, next) => {
 
     await response.save();
     console.log(response);
+    let payload = {
+      title: "👋 Review!",
+      body: `A customer give ${star} ⭐ to you.🔥`,
+    };
+    sendNotification(fcmToken, payload);
     res.status(200).json({ message: "review added", response });
   } catch (e) {
     res.status(400).json({ message: "something went wrong" });

@@ -510,7 +510,7 @@ const forgotAdminPassword = async (req, res) => {
   console.log(pass);
   if (!pass) {
     return res.status(401).json({
-      message: "Your password is incorrect",
+      errors: "Your password is incorrect",
     });
   } else {
     const encryptedPass = await bcrypt.hash(newPass, 10);

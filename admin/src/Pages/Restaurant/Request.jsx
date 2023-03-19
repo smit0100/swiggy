@@ -14,7 +14,7 @@ export default function Request() {
   }, [currentPage]);
 
   const GetRequests = () => {
-    Restaurants.GetRequests(currentPage)
+    Restaurants.GetRequests(currentPage,9)
       .then((res) => {
         console.log("===res", res);
         if (res?.results) {

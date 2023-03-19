@@ -5,7 +5,7 @@ import { VscTrash } from "react-icons/vsc";
 import { Images } from "../Assets";
 
 export default function DeliveryBoyCard(props) {
-  const { name, email, image, number, isVerified, isApproved } = props.data;
+  const { name, email, image, number, isAvilable, isApproved } = props.data;
   return (
     <div className="mt-20 md:mt-28 md:ml-5">
       <div className="bg-slate-200 dark:bg-gray-800 h-64 w-80 md:w-96 md:rounded-3xl rounded-tl-3xl drop-shadow-xl rounded-br-3xl rounded-tr-lg rounded-bl-lg shadow-md relative flex flex-col items-center justify-between md:items-start py-5 md:p-5 transition-all duration-150">
@@ -20,10 +20,10 @@ export default function DeliveryBoyCard(props) {
         </div>
         <div
           className="w-1/3 py-1 rounded-lg md:absolute right-5 shadow-lg"
-          style={{ backgroundColor: isVerified ? "#35fc03 " : "red" }}
+          style={{ backgroundColor: isAvilable ? "#35fc03 " : "red" }}
         >
           <p className="w-full text-center text-white text-sm">
-            {isVerified ? "Verified" : "Not verified"}
+            {isAvilable ? "Available" : "On delivery"}
           </p>
         </div>
         <div className="flex w-full px-3">

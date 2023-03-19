@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import User from "../../Apis/User";
 import swal from "sweetalert";
 
@@ -28,14 +28,14 @@ function LogIn() {
     let data = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (email == "") {
-      toast.error("Email is required!", { duration: 1000 });
+      toast.error("Email is required!", { theme: "dark" });
     } else if (!regex.test(email)) {
-      toast.error("This is not a valid email format!", { duration: 1000 });
+      toast.error("This is not a valid email format!", { theme: "dark" });
     } else if (password == "") {
-      toast.error("Password is required", { duration: 1000 });
+      toast.error("Password is required", { theme: "dark" });
     } else if (password.length < 5) {
       toast.error("Password must be more than 4 characters", {
-        duration: 1000,
+        theme: "dark",
       });
     } else {
       let fcmToken = "";
@@ -69,12 +69,14 @@ function LogIn() {
               timer: 3000,
             });
           } else {
-            toast.error(result?.data?.messag);
+            toast.error(result?.data?.messag, { theme: "dark" });
           }
         })
         .catch((error) => {
           console.log("==error login", error);
-          toast.error("something went wrong,Please try again");
+          toast.error("something went wrong,Please try again", {
+            theme: "dark",
+          });
         });
     }
   };
@@ -84,17 +86,17 @@ function LogIn() {
   };
   const handleForgotPassword = () => {
     if (cPassword.trim() == "") {
-      toast.error("Current Password is required.", { duration: 1000 });
+      toast.error("Current Password is required.", { theme: "dark" });
     } else if (newPass.trim() == "") {
-      toast.error("New Password is required.", { duration: 1000 });
+      toast.error("New Password is required.", { theme: "dark" });
     } else if (newPass.length < 5) {
       toast.error("New Password must be more than 4 characters", {
-        duration: 1000,
+        theme: "dark",
       });
     } else if (confirmNpass == "") {
-      toast.error("Confirm Password is required.", { duration: 1000 });
+      toast.error("Confirm Password is required.", { theme: "dark" });
     } else if (confirmNpass != newPass) {
-      toast.error("Confirm Password does not match", { duration: 1000 });
+      toast.error("Confirm Password does not match", { theme: "dark" });
     } else {
       let data = {
         oldPass: cPassword,
@@ -102,26 +104,24 @@ function LogIn() {
       };
       User.ForgotPasswords(data)
         .then((res) => {
-          console.log("res",res);
+          if (res?.messag) {
+            console.log("res", res);
+            toast.success("Password Changed Successfully 👌", {
+              theme: "dark",
+            });
+            clearState();
+            setIsForgot(false);
+          }
+          if (res?.data?.errors) {
+            toast.error(res?.data?.errors, { theme: "dark" });
+          }
         })
         .catch((e) => {
           console.log("===e", e);
+          toast.error("Something went wrong,please try again", {
+            theme: "dark",
+          });
         });
-      // toast("Password Changed Successfully", {
-      //   duration: 3000,
-      //   position: "top-center",
-      //   icon: "👏",
-      //   iconTheme: {
-      //     primary: "#000",
-      //     secondary: "#fff",
-      //   },
-      //   ariaProps: {
-      //     role: "status",
-      //     "aria-live": "polite",
-      //   },
-      // });
-      clearState();
-      setIsForgot(false);
     }
   };
   const clearState = () => {
@@ -135,7 +135,6 @@ function LogIn() {
   };
   return (
     <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
-      <Toaster />
       <img
         src={BgImages[bgIndex]}
         className="w-full h-full object-cover absolute mix-blend-overlay"

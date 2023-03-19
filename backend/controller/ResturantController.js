@@ -3,6 +3,7 @@ const Product = require("../module/ProductModel");
 const cloudinary = require("cloudinary").v2;
 const mongoose = require("mongoose");
 const Order = require("../module/OrderModel");
+const DeliveryBoy = require("../module/DeliveryBoyModel");
 const bcrypt = require("bcrypt");
 const Token = require("../module/TokenModel");
 const sendEmail = require("../utils/sendEmail");
@@ -262,10 +263,29 @@ const fetchAllResturants = async (req, res, next) => {
 };
 
 const getAllResturant = async (req, res) => {
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
   try {
-    const response = await Resturant.find(); //{ isApproved: 'pending'});
+    const totalCount = await Resturant.countDocuments();
+    // calculate the number of pages
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    // retrieve the blog posts based on the page number and page size
+    const response = await Resturant.find()
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
     console.log(response);
-    res.status(200).json({ messag: "resturnat fetched", results: response });
+    res
+      .status(200)
+      .json({
+        messag: "resturnat fetched",
+        results: response,
+        page: pageNumber,
+        totalPages: totalPages,
+        pageSize: pageSize,
+        totalCount: totalCount,
+      });
   } catch (e) {
     res.status(500).json({ messag: "something went wrong" });
   }
@@ -402,6 +422,28 @@ const rejectedResturant = async (req, res) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 };
+const getDashboardCount = async (req, res) => {
+  try {
+    const resCount = await Resturant.countDocuments();
+    const DeliveryCount = await DeliveryBoy.countDocuments();
+    const userCount = await User.countDocuments();
+    const order = await Order.find({ status: "delivered" });
+    let totalSales = 0;
+    for (let index = 0; index < order.length; index++) {
+      const element = order[index];
+      totalSales += element?.total;
+    }
+    res.status(200).json({
+      message: "finded counts",
+      resCount,
+      DeliveryCount,
+      userCount,
+      totalSales,
+    });
+  } catch (e) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -419,4 +461,5 @@ module.exports = {
   fetchAllResturantOrder,
   getAllResturant,
   rejectedResturant,
+  getDashboardCount,
 };

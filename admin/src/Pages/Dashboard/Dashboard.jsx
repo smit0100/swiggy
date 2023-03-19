@@ -1,12 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { earningData } from "../../data/dummy";
 import User from "../../Apis/User";
-import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
+import Restaurants from "../../Apis/Restaurants";
+import { FiBarChart } from "react-icons/fi";
+import { BiRestaurant } from "react-icons/bi";
+import { MdOutlineSupervisorAccount } from "react-icons/md";
+import { HiOutlineRefresh } from "react-icons/hi";
+const earningDatas = [
+  {
+    icon: <MdOutlineSupervisorAccount />,
+    amount: "1354",
+    percentage: "-4%",
+    title: "Customers",
+    iconColor: "#03C9D7",
+    iconBg: "#E5FAFB",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BiRestaurant />,
+    amount: "96",
+    percentage: "+23%",
+    title: "Restaurants",
+    iconColor: "rgb(255, 244, 229)",
+    iconBg: "rgb(254, 201, 15)",
+    pcColor: "green-600",
+  },
+  {
+    icon: <FiBarChart />,
+    amount: "42,339",
+    percentage: "+38%",
+    title: "Sales",
+    iconColor: "rgb(228, 106, 118)",
+    iconBg: "rgb(255, 244, 229)",
+
+    pcColor: "green-600",
+  },
+  {
+    icon: <HiOutlineRefresh />,
+    amount: "354",
+    percentage: "-12%",
+    title: "delevery partner",
+    iconColor: "rgb(0, 194, 146)",
+    iconBg: "rgb(235, 250, 242)",
+    pcColor: "red-600",
+  },
+];
 function Dashboard(props) {
   const [datas, setDatas] = useState([]);
+  const [earningData, setEarningData] = useState(earningDatas);
   const { rupee } = useStateContext();
   useEffect(() => {
     (async () => {
@@ -24,6 +68,28 @@ function Dashboard(props) {
     })();
     document.title = "Admin - Dashboard";
   }, []);
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = () => {
+    Restaurants.GetCounts()
+      .then((res) => {
+        console.log("===res", res);
+        if (res) {
+          let temp = [...earningData];
+          temp[0].amount = res?.userCount;
+          temp[1].amount = res?.resCount;
+          temp[2].amount = res?.totalSales + " ₹";
+          temp[3].amount = res?.DeliveryCount;
+          setEarningData(temp);
+          return;
+        }
+      })
+      .then((e) => {
+        console.log("==getCounts error::", e);
+      });
+  };
   return (
     <div className="mt-24">
       <div className="flex flex-wrap lg:flex-nowrap justify-center bg-slate-300 rounded-2xl">
@@ -58,13 +124,8 @@ function Dashboard(props) {
               Latest Customers
             </h5>
             <Link
-              // to="/customers"
+              to="/customers"
               className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
-              onClick={()=>toast.success("hiii",{
-                data:{
-                  title:"test",
-                  text:'hiii'
-              }})}
             >
               View all
             </Link>

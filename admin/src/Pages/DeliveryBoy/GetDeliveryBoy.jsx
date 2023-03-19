@@ -140,7 +140,7 @@ export default function GetDeliveryBoy() {
     <div>
       <div className="flex flex-wrap bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
         <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
-          &bull; Delivery Boy's request
+          &bull; Delivery Partners
         </h1>
         <div>
           <Tabs

@@ -1,5 +1,6 @@
 import "./App.css";
-
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import {
   Route,
   RouterProvider,
@@ -70,6 +71,7 @@ function App() {
   );
   return (
     <div>
+      <ToastContainer/>
       <RouterProvider router={router} />
       <Notification />
     </div>
