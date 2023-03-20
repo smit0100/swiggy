@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { cartData } from "../redux/cart/cartSlice";
 import swal from "sweetalert"
+import toast, { Toaster } from 'react-hot-toast'
 
 const ResturantPage = () => {
 
@@ -14,7 +15,9 @@ const ResturantPage = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false);
   const [categories, setCategories] = useState([]);
-  // const [showSubcat, setShowSubcat] = useState("hidden")
+  const { restaurantId } = useParams();
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.userData.user);
 
 
   const handleCategoryChange = (event) => {
@@ -28,11 +31,6 @@ const ResturantPage = () => {
   };
 
 
-
-  const { restaurantId } = useParams();
-
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.userData.user);
   useEffect(() => {
     (async () => {
       setLoad(true)
@@ -44,7 +42,7 @@ const ResturantPage = () => {
 
       // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
 
-      console.log(response.data,"ooko");
+      console.log(response.data, "ooko");
       setData(response.data)
       setLoad(false)
     })()
@@ -109,126 +107,113 @@ const ResturantPage = () => {
       <div className='md:mx-36 m-4  p-2 mx-10 '>
         {/* link */}
         <div className='w-full'>
-          <div className="">
-            <div className=" w-full">
-              <div className='sticky  top-0 z-30 bg-white'>
-                <div className='text-3xl uppercase'>{data.resturant ? data.resturant.name : ''}</div>
-                <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
-                <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
-                <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
-                <ul className="flex space-x-2 relative">
-                  <li>
-                    <button onClick={() => { setOpenTab(1); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow " >
-                      Order Online
-                    </button>
-                  </li>
+          <div className=" w-full relative">
+            <div className='sticky  top-0 z-30 bg-white'>
+              <div className='text-3xl uppercase'>{data.resturant ? data.resturant.name : ''}</div>
+              <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
+              <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
+              <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
+              <ul className="flex space-x-2 relative">
+                <li><button onClick={() => { setOpenTab(1); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow " >
+                  Order Online</button></li>
+                <li><button onClick={() => { setOpenTab(2); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow">
+                  Reviews</button></li>
+                <li><button onClick={() => { setOpenTab(3); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow">
+                  Photos</button></li>
+              </ul>
+              <div className='border-[1.5px] border-black mb-2'></div>
 
-                  <li>
-                    <button onClick={() => { setOpenTab(2); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow">
-                      Reviews
-                    </button>
-                  </li>
+            </div>
+            <div className="p-3 mt-6 bg-white border">
+              <div className={openTab === 1 ? "block" : "hidden"}>
+                <div className='row overflow-auto'>
+                  <div className='block w-full sm:w-2/6 p-4 bg-black/10  overflow-hidden'>
+                    <ul className="space-y-2">
+                      {
+                        category != null && category.map(item => <li>
+                          <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
+                          <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
+                            <div className="block">
+                              <div className="w-full text-lg font-semibold">{item.name}</div>
+                            </div>
+                          </label>
 
-                  <li>
-                    <button onClick={() => { setOpenTab(3); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow">
-                      Photos
-                    </button>
-                  </li>
-                </ul>
-                <div className='border-[1.5px] border-black mb-2'></div>
-              </div>
-
-              <div className="p-3 mt-6 bg-white border">
-                <div className={openTab === 1 ? "block" : "hidden"}>
-                  <div className='row overflow-auto'>
-                    <div className='block sm:sticky w-full sm:w-2/6 p-4 top-0 bg-black/10 left-0 overflow-hidden'>
-                      <ul className="space-y-2">
-                        {
-                          category != null && category.map(item => <li>
-                            <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
-                            <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
-                              <div className="block">
-                                <div className="w-full text-lg font-semibold">{item.name}</div>
-                              </div>
-                            </label>
-
-                          </li>)
-                        }
-                        {/* {menuItems.map((menu, index) => {
+                        </li>)
+                      }
+                      {/* {menuItems.map((menu, index) => {
                           return <MenuItems items={menu} key={index} event={handleCategoryChange}/>;
                         })} */}
-                      </ul>
+                    </ul>
 
-                    </div>
-                    <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
-                      {
-                        // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
-                        data.product ? data.product.map(item => <RestroCategoryCard item={item} />) :
-                          <div className="flex justify-center items-center h-screen">
-                            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-                            </div>
+                  </div>
+                  <div className='w-full sm:w-4/6 p-4 h-[800px] no-scrollbar'>
+                    {
+                      // load === true ? (<h1>loading..</h1>): data.product.map(restaurant=><RestroCategoryCard restaurant={restaurant} />)
+                      data.product ? data.product.map(item => <RestroCategoryCard item={item} />) :
+                        <div className="flex justify-center items-center h-screen">
+                          <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
                           </div>
-                      }
-                    </div>
-                  </div>
-                </div>
-
-                <div className={openTab === 2 ? "block" : "hidden"}>
-                  <section className="bg-white">
-                    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-                      <div className="mx-auto max-w-xl text-center">
-                        <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                          Read trusted reviews from our customers
-                        </h2>
-
-                        <p className="text-md ring-offset-warm-gray-500 mx-auto mt-4 max-w-lg">
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-                          praesentium natus sapiente commodi. Aliquid sunt tempore iste
-                          repellendus explicabo dignissimos placeat, autem harum dolore
-                          reprehenderit quis! Quo totam dignissimos earum.
-                        </p>
-                      </div>
-
-                      <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-16 lg:grid-cols-3">
-                        <UserReviewCard />
-                        <UserReviewCard />
-                        <UserReviewCard />
-                        <UserReviewCard />
-                        <UserReviewCard />
-                      </div>
-                    </div>
-                  </section>
-
-                </div>
-
-                <div className={openTab === 3 ? "block" : "hidden"}>
-                  <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-
-                    {images.map((image, index) => (
-                      <div className='overflow-hidden'>
-                        <img
-                          key={image}
-                          src={image}
-                          className="w-[300px] h-[250px] object-cover rounded-sm transition-all duration-400 hover:scale-110 cursor-pointer z-40"
-                          onClick={() => handleClick(index)}
-                          alt="backbone of text"
-                        />
-                      </div>
-                    ))}
-                    {isOpen && (
-                      <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-50 bg-black/50" >
-                        <div className="bg-gray-900 text-white rounded-lg overflow-hidden relative">
-                          <img src={images[imageIndex]} className="w-[400px] h-[250px] sm:w-[500px]  sm:h-[350px] object-cover" alt='backbone' />
-                          <button className="hover:bg-black/50 text-white p-2 absolute top-0 left-0 h-full w-[40px]" onClick={handlePrev}>
-                            &lt;
-                          </button>
-                          <button className="hover:bg-black/50 text-white p-2 absolute top-0 right-0 h-full w-[40px]" onClick={handleNext}> {">"} </button>
                         </div>
-                        <div className='absolute inset-0 h-screen w-screen bg-black/50 -z-10' onClick={handleClose}></div>
-                      </div>
-                    )}
+                    }
                   </div>
+                </div>
+              </div>
+
+              <div className={openTab === 2 ? "block" : "hidden"}>
+                <section className="bg-white">
+                  <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+                    <div className="mx-auto max-w-xl text-center">
+                      <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
+                        Read trusted reviews from our customers
+                      </h2>
+
+                      <p className="text-md ring-offset-warm-gray-500 mx-auto mt-4 max-w-lg">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
+                        praesentium natus sapiente commodi. Aliquid sunt tempore iste
+                        repellendus explicabo dignissimos placeat, autem harum dolore
+                        reprehenderit quis! Quo totam dignissimos earum.
+                      </p>
+                    </div>
+
+                    <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-16 lg:grid-cols-3">
+                      <UserReviewCard />
+                      <UserReviewCard />
+                      <UserReviewCard />
+                      <UserReviewCard />
+                      <UserReviewCard />
+                    </div>
+                  </div>
+                </section>
+
+              </div>
+
+              <div className={openTab === 3 ? "block" : "hidden"}>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
+
+                  {images.map((image, index) => (
+                    <div className='overflow-hidden'>
+                      <img
+                        key={image}
+                        src={image}
+                        className="w-[300px] h-[250px] object-cover rounded-sm transition-all duration-400 hover:scale-110 cursor-pointer z-40"
+                        onClick={() => handleClick(index)}
+                        alt="backbone of text"
+                      />
+                    </div>
+                  ))}
+                  {isOpen && (
+                    <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-50 bg-black/50" >
+                      <div className="bg-gray-900 text-white rounded-lg overflow-hidden relative">
+                        <img src={images[imageIndex]} className="w-[400px] h-[250px] sm:w-[500px]  sm:h-[350px] object-cover" alt='backbone' />
+                        <button className="hover:bg-black/50 text-white p-2 absolute top-0 left-0 h-full w-[40px]" onClick={handlePrev}>
+                          &lt;
+                        </button>
+                        <button className="hover:bg-black/50 text-white p-2 absolute top-0 right-0 h-full w-[40px]" onClick={handleNext}> {">"} </button>
+                      </div>
+                      <div className='absolute inset-0 h-screen w-screen bg-black/50 -z-10' onClick={handleClose}></div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -367,14 +352,36 @@ export const UserReviewCard = () => {
 export const RestroCategoryCard = ({ item }) => {
   // console.log(item);
   const id = item._id;
+  const imgUrl = item.imageUrl
   const isUser = useSelector(state => state.userData.user);
   const cartItemData = useSelector(state => state.cartData.cart);
-
+  const [imageUrl, setImageUrl] = useState(null)
   const navigate = useNavigate();
   const { restaurantId } = useParams();
   const dispatch = useDispatch()
 
+  const toastElement = () =>
+  (toast.custom((t) => (
+    <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
+      <div className="flex-1 w-0 p-4">
+        <div className="flex items-start">
+          <div className="flex-shrink-0 pt-0.5"><img className="h-14 w-14 rounded-full" src={imgUrl} alt="" /></div>
+          <div className="ml-3 flex-1">
+            <p className="text-sm font-medium text-gray-900">{item.name}</p>
+            <p className="mt-1 text-sm text-gray-500">Add in cart <span className='text-emerald-700 '>Successfully</span></p>
+          </div>
+        </div>
+      </div>
+      <div className="flex border-l border-gray-200">
+        <button onClick={() => toast.dismiss(t.id)} className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">Close</button>
+      </div>
+    </div>
+  ), { duration: 800 }))
+
+
   const addtoCart = async (e) => {
+    setImageUrl(item.imageUrl)
+    console.log('imageurl', imageUrl);
     console.log(restaurantId);
     e.preventDefault();
     if (!isUser) {
@@ -388,7 +395,7 @@ export const RestroCategoryCard = ({ item }) => {
         })
         console.log(response.data.data.cart);
         dispatch(cartData(response.data.data.cart))
-        swal("Item added in cart", "", "success");
+        toastElement()
       }
       else {
         if (cartItemData.resturant != restaurantId) {
@@ -429,7 +436,7 @@ export const RestroCategoryCard = ({ item }) => {
           })
           console.log("ok");
           dispatch(cartData(response.data.data.cart))
-          swal("Item added in cart", "", "success");
+          toastElement()
         }
       }
 

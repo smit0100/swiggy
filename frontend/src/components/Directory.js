@@ -60,21 +60,21 @@ const Directory = () => {
               ) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
           }
           <div class="flex w-full justify-center">
-            <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+            <a href="#a" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
               &laquo;
             </a>
-            <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
+            <a href="#a" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
               Pre
             </a>
-            <span href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
+            <span href="#a" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
               {pageNumber}
               
             </span>
-            <button href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
+            <button  class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
               Next
             </button>
 
-            <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+            <a href="#a" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
               &raquo;
             </a>
           </div>
