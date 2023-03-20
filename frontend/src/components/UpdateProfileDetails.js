@@ -17,7 +17,6 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     const [emailError, setEmailError] = useState('')
     const [disabled, setDisabled] = useState(true)
 
-    const [otpTab, setotpTab] = useState(false)
     const [newAddress, setNewAddress] = useState({})
     const [otp, setOtp] = useState('')
 
@@ -25,11 +24,48 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     const navigate = useNavigate();
     const user = useSelector(state => state.userData.user)
 
+
     useEffect(() => {
         setName(user.name);
         setEmail(user.email);
         setNumber(user.number)
     }, [])
+
+    const [otpTab,setOtpTab]=useState(false)
+    const changeProfileDetails = async (e) => {
+        e.preventDefault()
+        console.log(email, number, name);
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/update`, {
+                userId: user._id,
+                email,
+                number,
+                name
+            })
+            console.log(response);
+            if (response.status === 201) {
+                console.log("ooo");
+                console.log(otpTab);
+                setOtpTab(!otpTab)
+                console.log(otpTab);
+                setNewAddress(response.data.newDetails)
+                console.log("kk");
+
+            } else {
+                // add redux 
+                console.log("ooo");
+                dispatch(userData(response.data.user))
+                swal("Profile updated successfully", "", "success");
+
+            }
+        }
+        catch (err) {
+            if (err.response.status == 409) {
+                swal(`${err.response.data.message}`, "", "error");
+
+            }
+        }
+    }
 
     const handleName = (e) => {
         setName(e.target.value)
@@ -92,40 +128,8 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
 
     const handledisable = () => {
         if (nameError.length === 0 && numberError.length === 0 && emailError.length === 0) {
-            console.log('hheydfljdskflsfd');
             setDisabled(!disabled)
-            console.log(disabled)
-        }
-    }
-
-    const changeProfileDetails = async (e) => {
-        e.preventDefault()
-        console.log(email, number, name);
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/update`, {
-                userId: user._id,
-                email,
-                number,
-                name
-            })
-            if (response.status === 201) {
-                console.log("ooo");
-                setotpTab(true);
-                setNewAddress(response.data.newDetails)
-
-            } else {
-                // add redux 
-                console.log("ooo");
-                dispatch(userData(response.data.user))
-                swal("Profile updated successfully", "", "success");
-
-            }
-        }
-        catch (err) {
-            if (err.response.status == 409) {
-                swal(`${err.response.data.message}`, "", "error");
-
-            }
+            // console.log(disabled)
         }
     }
 
@@ -211,7 +215,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-xl font-semibold">Enter your OTP</h3>
                                     <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                        onClick={() => setotpTab(false)}>
+                                        onClick={() => setOtpTab(!otpTab)}>
                                         <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                                             X
                                         </span>
@@ -233,12 +237,12 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                                 {/*footer*/}
                                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                     <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                        onClick={() => setotpTab(false)}>
+                                        onClick={() => setOtpTab(!otpTab)}>
                                         Close
                                     </button>
                                     <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                                         onClick={(e) => {
-                                            setotpTab(false)
+                                            setOtpTab(!otpTab)
                                             otpSubmit(e);
                                         }}>
                                         Submit OTP

@@ -18,7 +18,7 @@ const Directory = () => {
         <div className='relative h-screen w-screen'>
             <img className='h-4/6 w-full object-cover' src='https://i.ibb.co/2hdPfQf/1.png' alt='img' />
             <div className='absolute top-40 sm:left-[40px] md:left-[400px] space-y-3'>
-                <p className='text-4xl text-white '>Register your restaurant on Zomato</p>
+                <p className='text-4xl text-white '>Register your restaurant on FOODPOINT</p>
                 <p className=' text-xl text-slate-300 font-light'>and get more customers!</p>
                 {owner !== null && owner.isApproved === "Not Request" ?
                     <button className='text-xl bg-blue-500 font-light px-14 rounded py-2 text-white ' onClick={() => navigate("/resturantRegister")}>Register your restaurant</button> :

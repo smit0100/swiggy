@@ -24,7 +24,8 @@ const Navbar = () => {
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">
               <Link to="/">
-                <h2 className="text-2xl font-bold">LOGO</h2>
+              <img src='./svg/foodpoint.svg' className="w-14 h-auto" />
+              
               </Link>
               <div className="md:hidden">
                 <button className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border" onClick={() => setNavbar(!navbar)}>

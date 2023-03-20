@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { cartData } from "../redux/cart/cartSlice";
 import swal from "sweetalert"
+import { AiTwotoneStar } from 'react-icons/ai'
 import toast, { Toaster } from 'react-hot-toast'
 
 const ResturantPage = () => {
@@ -96,6 +97,20 @@ const ResturantPage = () => {
   const handleNext = () => {
     setImageIndex((imageIndex + 1) % images.length);
   }
+  let bgReview = "bg-green-600";
+
+  if (data.length != 0) {
+    if (+data.resturant.rating <= 1.5) {
+      bgReview = "bg-red-600"
+    }
+    else if (+data.resturant.rating > 1.5 && data.resturant.rating < 3.5) {
+      bgReview = "bg-orange-600"
+    }
+    else {
+      bgReview = "bg-green-600"
+
+    }
+  }
   return (
     <>
       {/* image */}
@@ -113,6 +128,7 @@ const ResturantPage = () => {
               <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
               <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
               <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
+              <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{data.length!=0 && data.resturant.rating} &nbsp; <AiTwotoneStar /></div>
               <ul className="flex space-x-2 relative">
                 <li><button onClick={() => { setOpenTab(1); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow " >
                   Order Online</button></li>
@@ -399,7 +415,6 @@ export const RestroCategoryCard = ({ item }) => {
       }
       else {
         if (cartItemData.resturant != restaurantId) {
-          console.log("hello jii");
           swal({
             title: "Items already in cart",
             text: "Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?",

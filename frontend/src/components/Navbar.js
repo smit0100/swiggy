@@ -46,7 +46,7 @@ const Navbar = () => {
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">
               <Link to="/">
-                <h2 className="text-2xl font-bold">LOGO</h2>
+                <img src='./svg/foodpoint.svg' className="w-14 h-auto" />
               </Link>
               <div className="md:hidden">
                 <button
@@ -951,7 +951,7 @@ const Navbar = () => {
 //       <div className="flex flex-wrap items-center justify-between mx-auto">
 //         <Link to="/" className="py-2 pl-3 pr-4 flex items-center rounded text-gray-600 text-lg">
 //           <img src="https://flowbite.com/docs/images/logo.svg" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
-//           Zometo
+//           FOODPOINT
 //         </Link>
 //         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
 //           <ul className="flex flex-col p-4 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">

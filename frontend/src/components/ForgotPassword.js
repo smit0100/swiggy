@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import swal from "sweetalert";
+import InlineButtonLoader from './InlineButtonLoader'
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('')
@@ -12,6 +15,9 @@ const ForgotPassword = () => {
   const [cpassError, setCpassError] = useState('')
   const [otpShow, setOtpShow] = useState(false);
   const [id, setId] = useState(null);
+const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -60,50 +66,61 @@ const ForgotPassword = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    
-    
+    setLoading(true)
     const response = await axios.post('http://localhost:4000/user/forgotpassword', {
       email
     })
-
+console.log(loading)
     if (response.status === 205) {
       console.log('something wrogn');
+      setLoading(false)
+
     } else {
       console.log(response);
       setId(response.data.user._id);
       setOtpShow(true)
+      setLoading(false)
     }
 
-     
-    
+
+
   }
 
   const handleSavePassword = async (e) => {
     e.preventDefault();
-    const response = await axios.post('http://localhost:4000/user/verfiyotp', {
-      id,
-      otp,
-      newPassword: pass
-    });
-
-    if (response.status === 205) { 
-       // otp wrong
-      console.log('wrong otp');
-    } else {
-      // popu up 
-      // home page
+    setLoading(true)
+    try {
+      const response = await axios.post('http://localhost:4000/user/verfiyotp', {
+        id,
+        otp,
+        newPassword: pass
+      });
+      console.log(response);
+      if (response.status === 205) {
+        swal(`wrong otp`, "", "error");
+        console.log('wrong otp');
+        setLoading(false)
+      } else {
+        swal("SuccessFully Forget Password", "", "success");
+        navigate("/login")
+      }
+    } catch (err) {
+      swal(`something error`, "", "error");
+      setLoading(false)
     }
+
+
   }
   function ResetBtn() {
     if (!otpShow) {
-      if (email && emailError.length === 0 ) {
+      if (email && emailError.length === 0) {
         return (
           <button
             className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleClick}
           >
-            Forgot Password
+            {loading ? <InlineButtonLoader /> : "Forgot Password"} 
           </button>
         );
       } else {
@@ -124,7 +141,8 @@ const ForgotPassword = () => {
             type="button"
             onClick={handleSavePassword}
           >
-            Forgot Password
+            {loading ? <InlineButtonLoader /> : "Forgot Password"} 
+        
           </button>
         );
       } else {
@@ -138,7 +156,7 @@ const ForgotPassword = () => {
         );
       }
     }
-    
+
   }
 
 
@@ -172,13 +190,13 @@ const ForgotPassword = () => {
                       onChange={handleEmail}
                       onBlur={handleEmail}
                       placeholder="Enter Email Address"
-                      disabled={otpShow && true }
+                      disabled={otpShow && true}
                     />
                     <div className="text-sm text-red-500">{emailError}</div>
 
                   </div>
                   <div className="mb-4">
-                    { otpShow && email && emailError.length === 0 &&
+                    {otpShow && email && emailError.length === 0 &&
                       <>
                         <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="otp">
                           OTP

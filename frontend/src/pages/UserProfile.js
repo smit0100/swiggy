@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+
 import UserAddress from "../components/UserAddress";
 import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
@@ -8,6 +9,12 @@ import axios from "axios";
 import dateFormat from "dateformat";
 
 import { BsArrowRightCircle } from "react-icons/bs";
+
+import { useCookies } from "react-cookie";
+import { userData } from "../redux/user/userSlice";
+import swal from 'sweetalert'
+
+
 
 const UserProfile = () => {
   // for popup state
@@ -17,7 +24,14 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(null);
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
-  console.log("==user",user);
+
+  const [,,removeCookie] = useCookies(["access_token", "refresh_token"]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+
+
+  console.log("==user", user);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -30,6 +44,28 @@ const UserProfile = () => {
       setIsLoading(false);
     })();
   }, []);
+
+  const logout = () => {
+      swal({
+        title: "Are you Sure !",
+        icon: "warning",
+        buttons: ["NO", "YES"],
+        cancelButtonColor: "#DD6B55",
+        confirmButtonColor: "#DD6B55",
+        dangerMode: true,
+      })
+        .then(async (willDelete) => {
+          if (willDelete) {
+            removeCookie("access_token")
+            removeCookie("refresh_token")
+            dispatch(userData(null))
+            swal("Successfully logout", {
+              icon: "success",
+            });
+            navigate("/");  
+          } 
+        });
+  }
 
   return (
     <>
@@ -71,14 +107,18 @@ const UserProfile = () => {
               >
                 Your Orders
               </li>
+              <li className="text-lg border-b-2 cursor-pointer">
+                <button onClick={logout} className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
+                  Logout
+                </button>
+              </li>
             </ul>
           </div>
 
           {/* profile module  */}
           <div
-            className={`${
-              openTab === 1 ? "block" : "hidden"
-            } w-full sm:w-4/5 p-5`}
+            className={`${openTab === 1 ? "block" : "hidden"
+              } w-full sm:w-4/5 p-5`}
           >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               your profile
@@ -127,9 +167,8 @@ const UserProfile = () => {
           </div>
           {/* order module  */}
           <div
-            className={`${
-              openTab === 2 ? "block" : "hidden"
-            } w-full sm:w-4/5 p-5`}
+            className={`${openTab === 2 ? "block" : "hidden"
+              } w-full sm:w-4/5 p-5`}
           >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               Order Detail
@@ -137,8 +176,8 @@ const UserProfile = () => {
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
               {order
                 ? order.map((item) => {
-                    return <OrderDetailsCard items={item} />;
-                  })
+                  return <OrderDetailsCard items={item} />;
+                })
                 : ""}
             </div>
           </div>
