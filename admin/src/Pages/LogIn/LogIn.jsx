@@ -141,7 +141,10 @@ function LogIn() {
       />
       <div className="relative flex flex-col m-6 space-y-8 bg-white shadow-md rounded-2xl md:flex-row md:space-y-0">
         <div className="flex flex-col justify-center p-8 md:p-14">
-          <span className="mb-3 text-4xl font-bold">Swiggy</span>
+          <div className="flex">
+          <img src={Images.logo} className="bg-cover h-8 w-8" />
+          <span className="mb-3 text-4xl font-bold">Food Point</span>
+          </div>
           <span className="font-light text-gray-400 mb-8">
             {`${
               isForgot ? "Forgot password," : "Welcom back!"
@@ -258,10 +261,7 @@ function LogIn() {
           />
           <div className="absolute hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block">
             <span className="text-white text-xl">
-              We've been uesing Untitle to kick"
-              <br />
-              start every new project and can't <br />
-              imagine working without it."
+              Our aim is not just to serve meal, it's a journey through taste and ambiance.
             </span>
           </div>
         </div>

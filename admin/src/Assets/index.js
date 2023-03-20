@@ -6,4 +6,5 @@ export const Images = {
     Avatar3:require("./avatar3.png"), 
     user:require("./user1.png"),
     user2:require("./user2.png"),
+    logo:require("./android-chrome-192x192.png"),
   };

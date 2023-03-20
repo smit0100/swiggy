@@ -154,9 +154,9 @@ function Dashboard(props) {
                           {item?.email}
                         </p>
                       </div>
-                      <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                      {/* <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                         {rupee}320
-                      </div>
+                      </div> */}
                     </div>
                   </li>
                 );

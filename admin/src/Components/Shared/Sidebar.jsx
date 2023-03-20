@@ -6,6 +6,7 @@ import { links } from "../../data/dummy";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveMenu } from "../../redux/shop/shopslice";
+import { Images } from "../../Assets";
 
 const Sidebar = () => {
   const { currentColor, screenSize } = useStateContext();
@@ -32,7 +33,8 @@ const Sidebar = () => {
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <SiShopware /> <span>Swiggy</span>
+              <img src={Images.logo} className="bg-cover h-8 w-8" />
+              <span>Food Point</span>
             </Link>
             <button
               type="button"
@@ -51,7 +53,9 @@ const Sidebar = () => {
                 </p>
                 {item.links.map((link) => (
                   <NavLink
-                    to={`/${link.name == "delivery parter" ? "deliveryboy" : link.name}`}
+                    to={`/${
+                      link.name == "delivery parter" ? "deliveryboy" : link.name
+                    }`}
                     key={link.name}
                     onClick={handleCloseSideBar}
                     style={({ isActive }) => ({

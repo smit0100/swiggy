@@ -29,8 +29,18 @@ function getAllCategory() {
     },
   });
 }
+function deleteCategory(id) {
+  return Api({
+    url: `/category/delete?userId=${id}`,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 export default {
   AddMainCategory,
   getAllCategory,
   AddSubCategory,
+  deleteCategory
 };

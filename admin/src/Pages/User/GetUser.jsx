@@ -106,7 +106,7 @@ export default function GetUser() {
           <td className="px-6 py-4">
             {/* <!-- Modal toggle --> */}
             <a
-              // onClick={() => handleModal(item?._id)}
+              onClick={() => handleModal(item?._id)}
               type="button"
               className="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >
