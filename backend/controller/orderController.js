@@ -213,28 +213,29 @@ const acceptOrder = async (req, res, next) => {
         model: "User",
       },
     ]);
-    const dataResponse = await Courier.find({ isAvilable: true });
-    let nearestDeliveryBoy
-    if (dataResponse) {
-      const restaurantLocation = {
-        latitude: response?.resturant?.latitude || 21.1910656,
-        longitude: response?.resturant?.longitude || 72.8399872
-      }
-      nearestDeliveryBoy = getNearestDeliveryBoy(
-        dataResponse,
-        restaurantLocation
-      );
+    // const dataResponse = await Courier.find({ isAvilable: true });
+    // let nearestDeliveryBoy
+    // if (dataResponse) {
+    //   const restaurantLocation = {
+    //     latitude: response?.resturant?.latitude || 21.1910656,
+    //     longitude: response?.resturant?.longitude || 72.8399872
+    //   }
+    //   nearestDeliveryBoy = getNearestDeliveryBoy(
+    //     dataResponse,
+    //     restaurantLocation
+    //   );
 
-      console.log("nearestDeliveryBoy", nearestDeliveryBoy);
-    }
-    // const courierBoys = await Courier.findOne({ isAvilable: true });
-
-    if (!nearestDeliveryBoy) {
+    //   console.log("nearestDeliveryBoy", nearestDeliveryBoy);
+    // }
+    let courierBoys = await Courier.findOne({ isAvilable: true });
+    courierBoys.isAvilable = false
+    
+    if (!courierBoys) {
       return res.status(205).json({ message: "courier boy is not avilable " });
     } else {
-      nearestDeliveryBoy.order.push(id);
-      await nearestDeliveryBoy.save();
-      console.log(nearestDeliveryBoy);
+      courierBoys.order.push(id);
+      await courierBoys.save();
+      console.log(courierBoys);
       const otpNumberForResturant = Math.floor(100000 + Math.random() * 900000);
       const otpNUmberForCustomer = Math.floor(100000 + Math.random() * 900000);
       console.log(response.resturant.email);
@@ -251,7 +252,7 @@ const acceptOrder = async (req, res, next) => {
         String(otpNUmberForCustomer)
       );
       response.customerOtpNumber = otpNUmberForCustomer;
-      response.deliveryBoy = nearestDeliveryBoy._id;
+      response.deliveryBoy = courierBoys._id;
       await response.populate({
         path: "deliveryBoy",
         module: "DeliverBoy",
@@ -260,11 +261,14 @@ const acceptOrder = async (req, res, next) => {
       let datas = {
         title: "🔥New Order!",
         body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,
-        }
-      sendNotification(nearestDeliveryBoy?.fcmToken,datas)
+      }
+      console.log(courierBoys);
+      sendNotification(courierBoys?.fcmToken, datas)
+      console.log(response);
       res.status(200).json({ message: "order status update", response });
     }
   } catch (e) {
+
     console.log(e);
     res.status(500).json({ message: "something went wrong" });
   }
