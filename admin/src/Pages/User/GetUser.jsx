@@ -16,6 +16,11 @@ export default function GetUser() {
   const [selectedFilter, setselectedFilter] = useState("Filter");
   const { currentColor } = useStateContext();
   const [currentPage, setCurrentPage] = useState(1);
+  const [checked, setChecked] = useState("");
+  const [names, setNames] = useState("");
+  const [descr, setDescr] = useState("");
+  const [number, setNumber] = useState("");
+
   useEffect(() => {
     (async () => {
       User.GetAllUsers(currentPage, 10)
@@ -56,6 +61,10 @@ export default function GetUser() {
     if (item) {
       setEditUser(item);
       setIsVisible(true);
+      setChecked(item?.type);
+      setNames(item?.name)
+      setDescr(item?.email)
+      setNumber(item?.number)
     }
   };
   const dataTable = (data) =>
@@ -313,7 +322,8 @@ export default function GetUser() {
                       type="text"
                       name="first-name"
                       id="first-name"
-                      value={editUser?.name}
+                      value={names}
+                      onChange={(e)=>setNames(e.target.value)}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Bonnie"
                       required=""
@@ -342,30 +352,34 @@ export default function GetUser() {
                       type="email"
                       name="email"
                       id="email"
-                      value={editUser?.email}
+                      value={descr}
+                      onChange={(e)=>setDescr(e.target.value)}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="example@company.com"
                       required=""
                     />
                   </div>
-                  <div className="col-span-6 sm:col-span-3">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Phone Number
-                    </label>
-                    <input
-                      name="phone-number"
-                      id="phone-number"
-                      value={editUser?.number}
-                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="e.g. +(12)3456 789"
-                      required=""
-                    />
-                  </div>
+                  {editUser?.number && (
+                    <div className="col-span-6 sm:col-span-3">
+                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Phone Number
+                      </label>
+                      <input
+                        name="phone-number"
+                        id="phone-number"
+                        value={number}
+                      onChange={(e)=>setNumber(e.target.value)}
+                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="e.g. +(12)3456 789"
+                        required=""
+                      />
+                    </div>
+                  )}
                   {/* <div className="col-span-6 sm:col-span-3">
                             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                             <input type="text" name="department" id="department" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required=""/>
                         </div> */}
-                  <div className="col-span-6 sm:col-span-3">
+                  {/* <div className="col-span-6 sm:col-span-3">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Address
                     </label>
@@ -377,32 +391,38 @@ export default function GetUser() {
                       placeholder="address"
                       required=""
                     />
-                  </div>
-                  <div className="col-span-6 sm:col-span-3">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Current Password
-                    </label>
-                    <input
-                      type="password"
-                      name="current-password"
-                      id="current-password"
-                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="••••••••"
-                      required=""
-                    />
-                  </div>
-                  <div className="col-span-6 sm:col-span-3">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      New Password
-                    </label>
-                    <input
-                      type="password"
-                      name="new-password"
-                      id="new-password"
-                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="••••••••"
-                      required=""
-                    />
+                  </div> */}
+                  <div className="col-span-6 sm:col-span-3 mt-5">
+                    <div className="flex items-center mb-4">
+                      <input
+                        type="radio"
+                        onChange={(e) => setChecked(e.target.value)}
+                        value={"customer"}
+                        checked={checked == "customer" ? true : false}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800  dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor="default-radio-1"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Customer
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={checked == "admin" ? true : false}
+                        onChange={(e) => setChecked(e.target.value)}
+                        value={"admin"}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor="default-radio-2"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Admin
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>

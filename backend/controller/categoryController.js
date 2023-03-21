@@ -40,7 +40,7 @@ const disactive = async (req, res, next) => {
 };
 const fetchAllCategory = async (req, res, next) => {
   try {
-    const response = await Category.find({ isActive: true });
+    const response = await Category.find();
     res.status(200).json({ message: "category founded", response });
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });
@@ -59,6 +59,30 @@ const deleteCategory = async (req, res, next) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 };
+
+const editCategory = async (req, res, next) => {
+  try {
+    const { _id, names, descr, checked } = req.body;
+    console.log("====req", req.body);
+    const response = await Category.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        name: names,
+        isActive: checked == "checked" ? true : false,
+        description: descr,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json({ message: "edited category", response });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   addCategory,
   fetchCategory,
@@ -66,4 +90,5 @@ module.exports = {
   disactive,
   fetchAllCategory,
   deleteCategory,
+  editCategory,
 };

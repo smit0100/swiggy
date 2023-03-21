@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Category from "../../Apis/Category";
 import { Button, Tabs } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
@@ -15,9 +15,9 @@ export default function AddCategory() {
   const [editUser, setEditUser] = useState({});
   const [subName, setSubName] = useState("");
   const [edit, setEdit] = useState(false);
-  const [checked, setChecked] = useState("")
-  const [names, setNames] = useState("")
-  const [descr, setDescr] = useState("")
+  const [checked, setChecked] = useState("");
+  const [names, setNames] = useState("");
+  const [descr, setDescr] = useState("");
   const [tabs, setTabs] = useState([
     { label: "All", badge: null },
     { label: "Add Category", badge: null },
@@ -91,7 +91,6 @@ export default function AddCategory() {
       });
     }
   };
-  console.log("==selectedOption", selectedOption);
   const deleteCategory = (id) => {
     Category.deleteCategory(id).then((response) => {
       if (response?.messag) {
@@ -105,9 +104,9 @@ export default function AddCategory() {
     let item = data.find((item) => item?._id == id);
     if (item) {
       setEditUser(item);
-      setChecked(item.isActive ? "checked" : "unchecked" )
-      setNames(item.name)
-      setDescr(item.description)
+      setChecked(item.isActive ? "checked" : "unchecked");
+      setNames(item.name);
+      setDescr(item.description);
       setIsVisible(true);
     }
   };
@@ -123,6 +122,24 @@ export default function AddCategory() {
         deleteCategory(id);
       }
     });
+  };
+  const editCategory = () => {
+    let data = {
+      _id: editUser._id,
+      names,
+      descr,
+      checked,
+    };
+    Category.editCategory(JSON.stringify(data))
+      .then((res) => {
+        console.log("===res", res);
+        if (res?.response) {
+        toast.success("⭐ Category edited successfully");
+          setIsVisible(false);
+          getCategory();
+        }
+      })
+      .catch((e) => console.log("=====e", e));
   };
   const ProductTable = () => {
     return (
@@ -190,116 +207,6 @@ export default function AddCategory() {
             ))}
           </tbody>
         </table>
-        {isVisible && (
-          <div
-            tabIndex="-1"
-            aria-hidden="true"
-            className="fixed top-0 left-0 right-0 bg-black bg-opacity-70 z-50 items-center justify-center  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full flex"
-          >
-            <div className="relative w-full h-full max-w-2xl md:h-auto">
-              {/* <!-- Modal content --> */}
-              <form className=" bg-white rounded-lg shadow dark:bg-gray-700">
-                {/* <!-- Modal header --> */}
-                <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Edit Category
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => setIsVisible(false)}
-                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                {/* <!-- Modal body --> */}
-                <div className="p-6 space-y-6">
-                  <div className="grid grid-cols-6 gap-6">
-                    <div className="col-span-6 sm:col-span-3">
-                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Category Name
-                      </label>
-                      <input
-                        type="text"
-                        value={names}
-                        onChange={(e)=>setNames(e.target.value)}
-                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="name"
-                      />
-                    </div>
-                    <div className="col-span-6 sm:col-span-3 mt-5">
-                      <div class="flex items-center mb-4">
-                        <input
-                          type="radio"
-                          onChange={(e)=>setChecked(e.target.value)}
-                          value={"checked"}
-                          checked={checked == "checked" ? true : false}
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          for="default-radio-1"
-                          class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                          Active
-                        </label>
-                      </div>
-                      <div class="flex items-center">
-                        <input
-                          type="radio"
-                          checked={checked == "unchecked" ? true : false}
-                          onChange={(e)=>setChecked(e.target.value)}
-                          value={"unchecked"}
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          for="default-radio-2"
-                          class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                          Deactive
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-6 sm:col-span-3 w-full">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Description
-                    </label>
-                    <textarea
-                      type="text"
-                      value={descr}
-                      onChange={(e)=>setDescr(e.target.value)}
-                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 flex w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Description"
-                    />
-                  </div>
-                </div>
-                <div className="flex py-2 items-center justify-center">
-                  <Button
-                    // disabled={isDisabled}
-                    color="white"
-                    bgColor={currentColor}
-                    text={"Save"}
-                    borderRadius="10px"
-                    width={"64"}
-                    onClick={() => setIsVisible(false)}
-                  />
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
       </div>
     );
   };
@@ -520,9 +427,13 @@ export default function AddCategory() {
                     }}
                   >
                     {mainCategory?.map((item, index) => (
-                      <option key={item?._id} value={item?._id}>
-                        {item?.name}
-                      </option>
+                      <>
+                        {item?.isActive && (
+                          <option key={item?._id} value={item?._id}>
+                            {item?.name}
+                          </option>
+                        )}
+                      </>
                     ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -550,6 +461,116 @@ export default function AddCategory() {
             </div>
           </form>
         </>
+      )}
+      {isVisible && (
+        <div
+          tabIndex="-1"
+          aria-hidden="true"
+          className="fixed top-0 left-0 right-0 bg-black bg-opacity-70 z-50 items-center justify-center  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full flex"
+        >
+          <div className="relative w-full h-full max-w-2xl md:h-auto">
+            {/* <!-- Modal content --> */}
+            <form className=" bg-white rounded-lg shadow dark:bg-gray-700">
+              {/* <!-- Modal header --> */}
+              <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Edit Category
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setIsVisible(false)}
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              {/* <!-- Modal body --> */}
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-6 gap-6">
+                  <div className="col-span-6 sm:col-span-3">
+                    <label className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Category Name
+                    </label>
+                    <input
+                      type="text"
+                      value={names}
+                      onChange={(e) => setNames(e.target.value)}
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="name"
+                    />
+                  </div>
+                  <div className="col-span-6 sm:col-span-3 mt-5">
+                    <div className="flex items-center mb-4">
+                      <input
+                        type="radio"
+                        onChange={(e) => setChecked(e.target.value)}
+                        value={"checked"}
+                        checked={checked == "checked" ? true : false}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800  dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor="default-radio-1"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Active
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        checked={checked == "unchecked" ? true : false}
+                        onChange={(e) => setChecked(e.target.value)}
+                        value={"unchecked"}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                      <label
+                        htmlFor="default-radio-2"
+                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Deactive
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-6 sm:col-span-3 w-full">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Description
+                  </label>
+                  <textarea
+                    type="text"
+                    value={descr}
+                    onChange={(e) => setDescr(e.target.value)}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 flex w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Description"
+                  />
+                </div>
+              </div>
+              <div className="flex py-2 items-center justify-center">
+                <Button
+                  // disabled={isDisabled}
+                  color="white"
+                  bgColor={currentColor}
+                  text={"Save"}
+                  borderRadius="10px"
+                  width={"64"}
+                  onClick={editCategory}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </>
   );

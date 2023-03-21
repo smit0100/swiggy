@@ -38,9 +38,20 @@ function deleteCategory(id) {
     },
   });
 }
+function editCategory(data) {
+  return Api({
+    url: `/category/edit`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data
+  });
+}
 export default {
   AddMainCategory,
   getAllCategory,
   AddSubCategory,
-  deleteCategory
+  deleteCategory,
+  editCategory
 };
