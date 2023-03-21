@@ -91,6 +91,10 @@ const fetchOneOrder = async (req, res, next) => {
         path: "deliveryBoy",
         module: "DeliverBoy",
       },
+     {
+        path:'review',
+        module:"Review"
+    }
     ]);
 
     if (!order) return res.status(404).json({ message: "order not found" });
