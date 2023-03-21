@@ -229,7 +229,7 @@ const acceptOrder = async (req, res, next) => {
     // }
     let courierBoys = await Courier.findOne({ isAvilable: true });
     courierBoys.isAvilable = false
-    
+
     if (!courierBoys) {
       return res.status(205).json({ message: "courier boy is not avilable " });
     } else {
@@ -263,7 +263,7 @@ const acceptOrder = async (req, res, next) => {
         body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,
       }
       console.log(courierBoys);
-      sendNotification(courierBoys?.fcmToken, datas)
+      // sendNotification(courierBoys?.fcmToken, datas)
       console.log(response);
       res.status(200).json({ message: "order status update", response });
     }
