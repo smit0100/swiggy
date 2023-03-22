@@ -505,6 +505,18 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 }
+
+const getAllReview = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const review = await Resturant.findById(id, { review: 1 }).populate('review');
+    console.log(review);
+    return res.status(200).json({ message: 'fetched all review', review });
+
+  } catch (e) {
+    res.status(500).json({ messag: 'something went wrong' });
+  }
+}
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -524,5 +536,6 @@ module.exports = {
   rejectedResturant,
   getDashboardCount,
   forgotPasswordForSetNewPassword,
-  forgotPasswordForSentEmail
+  forgotPasswordForSentEmail,
+  getAllReview
 };
