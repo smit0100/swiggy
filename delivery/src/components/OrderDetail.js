@@ -76,16 +76,16 @@ const OrderDetail = () => {
           {
             <div className='mx-5'>
               <div className='p-5 shadow-md'>
-                <h1 class="text-3xl font-bold mb-4">Order Summary</h1>
-                <div class="overflow-x-auto">
-                  <table class="table w-full whitespace-no-wrap">
+                <h1 className="text-3xl font-bold mb-4">Order Summary</h1>
+                <div className="overflow-x-auto">
+                  <table className="table w-full whitespace-no-wrap">
                     <thead>
-                      <tr class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left">Order Id</th>
-                        <th class="py-3 px-6 text-left">Customer Name</th>
-                        <th class="py-3 px-6 text-left">Total Price</th>
-                        {/* <th class="py-3 px-6 text-left">Order Date</th> */}
-                        <th class="py-3 px-6 text-left">Status</th>
+                      <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                        <th className="py-3 px-6 text-left">Order Id</th>
+                        <th className="py-3 px-6 text-left">Customer Name</th>
+                        <th className="py-3 px-6 text-left">Total Price</th>
+                        {/* <th className="py-3 px-6 text-left">Order Date</th> */}
+                        <th className="py-3 px-6 text-left">Status</th>
                       </tr>
                     </thead>
 

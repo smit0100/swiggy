@@ -135,14 +135,14 @@ const SearchPage = () => {
                 load === true ? (
                   <Loader/>
                   ) : data.map(restaurant => <div className='cursor-pointer'>
-                    <div onClick={() => redirectRestaurent(restaurant.resturnat)} class="bg-white flex items-center border rounded-lg p-6 shadow-lg mt-4">
-                      <img src="https://via.placeholder.com/150" alt="Food item" class="w-32 h-32 rounded-full mr-6" />
+                    <div onClick={() => redirectRestaurent(restaurant.resturnat)} className="bg-white flex items-center border rounded-lg p-6 shadow-lg mt-4">
+                      <img src="https://via.placeholder.com/150" alt="Food item" className="w-32 h-32 rounded-full mr-6" />
                       <div className=''>
-                        <h2 class="text-2xl font-bold mb-2">{restaurant.name}</h2>
-                        <p class="text-gray-700 text-base mb-4">A description of the food item goes here. This can be a brief overview of the ingredients or a summary of the dish.</p>
-                        <div class="flex items-center justify-between">
-                          <span class="text-lg font-bold">₹ {restaurant.price}</span>
-                          <button onClick={(e) => { e.stopPropagation(); addtoCart(restaurant.resturnat, restaurant._id) }} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">Add to cart</button>
+                        <h2 className="text-2xl font-bold mb-2">{restaurant.name}</h2>
+                        <p className="text-gray-700 text-base mb-4">A description of the food item goes here. This can be a brief overview of the ingredients or a summary of the dish.</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-lg font-bold">₹ {restaurant.price}</span>
+                          <button onClick={(e) => { e.stopPropagation(); addtoCart(restaurant.resturnat, restaurant._id) }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">Add to cart</button>
                         </div>
                       </div>
                     </div>
@@ -151,22 +151,22 @@ const SearchPage = () => {
               }
               <div className='py-5'>
 
-              <div class="flex w-full justify-center">
-                <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+              <div className="flex w-full justify-center">
+                <a href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
                   &laquo;
                 </a>
-                <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
+                <a href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
                   Pre
                 </a>
-                <span href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
+                <span href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                   {pageNumber}
 
                 </span>
-                <button href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
+                <button href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
                   Next
                 </button>
 
-                <a href="#" class="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                <a href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
                   &raquo;
                 </a>
               </div>

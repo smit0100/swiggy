@@ -18,11 +18,12 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.userData.user);
-  const product = useSelector((state) => state.cartData.cart.products);
-  const resturant = useSelector((state) => state.cartData.cart.resturant);
-  const total = useSelector((state) => state.cartData.cart.total);
+  // const product = useSelector((state) => state.cartData.cart.products);
+  // const resturant = useSelector((state) => state.cartData.cart.resturant);
+  // const total = useSelector((state) => state.cartData.cart.total);
+  const cart = useSelector(state => state.cartData.cart)
   const makePayment = async (token) => {
-    console.log("this is token",token);
+    console.log("this is token", token);
 
     const header = {
       "Content-Type": "application/json",
@@ -34,12 +35,12 @@ const CheckoutPage = () => {
         name: "first product",
         price: 1000,
       },
-    }).then((response)=>{
+    }).then((response) => {
       handleDelivery(address)
-      console.log("=====payment res:::",response);
-    }).catch((e)=>{
+      console.log("=====payment res:::", response);
+    }).catch((e) => {
       handleDelivery(address)
-      console.log("===error payment:::",e);
+      console.log("===error payment:::", e);
     })
 
   };
@@ -47,24 +48,34 @@ const CheckoutPage = () => {
   const handleDelivery = async (address) => {
     // e.preventDefault();
     console.log("hello how are you");
-    let pr = product.map((item) => {
+
+
+    let pr = cart != null && cart.product.map((item) => {
       return {
         product: item.product._id,
         quantity: item.quantity,
       };
     });
 
-    const response = await axios.post(
-      `${process.env.REACT_APP_BASEURL}/order/create`,
-      {
-        customer: user._id,
-        total,
-        resturant,
-        address,
-      }
-    );
 
-    console.log(response);
+    if (user != null && cart != null) {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BASEURL}/order/create`,
+          {
+            customer: user._id,
+            total:cart.total,
+            resturant:cart.resturant,
+            address,
+          }
+        );
+
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
   };
 
   const handleAddress = (e) => {
@@ -138,9 +149,9 @@ const CheckoutPage = () => {
               <img src="./svg/github.svg" className="w-7 h-7" alt="temp" />
             </div>
             <div className="flex space-x-5">
-              <p className="font-semibold text-lg">{user.name}</p>{" "}
+              <p className="font-semibold text-lg">{user!=null && user.name}</p>{" "}
               &nbsp;&nbsp;&nbsp; |
-              <p className="font-semibold text-lg">{user.number}</p>
+              <p className="font-semibold text-lg">{user!=null && user.number}</p>
             </div>
           </div>
 
@@ -348,75 +359,4 @@ const CheckoutPage = () => {
     </>
   );
 };
-
-// export function Modal() {
-//   const [showModal, setShowModal] = React.useState(false);
-//   return (
-//     <>
-//       <button
-//         className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-//         type="button"
-//         onClick={() => setShowModal(true)}
-//       >
-//         Open regular modal
-//       </button>
-//       {showModal ? (
-//         <>
-//           <div
-//             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-//           >
-//             <div className="relative w-auto my-6 mx-auto max-w-3xl">
-//               {/*content*/}
-//               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-//                 {/*header*/}
-//                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-//                   <h3 className="text-3xl font-semibold">
-//                     Modal Title
-//                   </h3>
-//                   <button
-//                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-//                     onClick={() => setShowModal(false)}
-//                   >
-//                     <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-//                       ×
-//                     </span>
-//                   </button>
-//                 </div>
-//                 {/*body*/}
-//                 <div className="relative p-6 flex-auto">
-//                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
-//                     I always felt like I could do anything. That’s the main
-//                     thing people are controlled by! Thoughts- their perception
-//                     of themselves! They're slowed down by their perception of
-//                     themselves. If you're taught you can’t do anything, you
-//                     won’t do anything. I was taught I could do everything.
-//                   </p>
-//                 </div>
-//                 {/*footer*/}
-//                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-//                   <button
-//                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-//                     type="button"
-//                     onClick={() => setShowModal(false)}
-//                   >
-//                     Close
-//                   </button>
-//                   <button
-//                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-//                     type="button"
-//                     onClick={() => setShowModal(false)}
-//                   >
-//                     Save Changes
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-//         </>
-//       ) : null}
-//     </>
-//   );
-// }
-
 export default CheckoutPage;

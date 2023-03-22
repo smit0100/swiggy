@@ -83,9 +83,8 @@ const OwnerProfile = () => {
 
           {/* profile module  */}
           <div
-            className={`${
-              openTab === 1 ? "block" : "hidden"
-            } w-full sm:w-4/5 p-5`}
+            className={`${openTab === 1 ? "block" : "hidden"
+              } w-full sm:w-4/5 p-5`}
           >
             <div>
               <h1 className="text-xl font-semibold pb-5 capitalize">
@@ -102,10 +101,10 @@ const OwnerProfile = () => {
                 <div>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user.ownerName}
+                      {user != null && user.ownerName}
                     </li>
-                    <li className=" text-lg font-normal">{user.number}</li>
-                    <li className="py-3 text-lg font-normal">{user.email}</li>
+                    <li className=" text-lg font-normal">{user != null && user.number}</li>
+                    <li className="py-3 text-lg font-normal">{user != null && user.email}</li>
                     <li className="py-3 text-lg font-normal">
                       <button
                         type="button"
@@ -142,13 +141,13 @@ const OwnerProfile = () => {
                   </ul>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user.bankDetails.ACnumber}
+                      {user != null && user.bankDetails.ACnumber}
                     </li>
                     <li className=" text-lg font-normal">
-                      {user.bankDetails.IFSC}
+                      {user != null && user.bankDetails.IFSC}
                     </li>
                     <li className="py-3 text-lg font-normal">
-                      {user.bankDetails.actype}
+                      {user != null && user.bankDetails.actype}
                     </li>
                   </ul>
                 </div>
@@ -162,10 +161,10 @@ const OwnerProfile = () => {
                   </ul>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user.panCard.holderName}
+                      {user != null && user.panCard.holderName}
                     </li>
                     <li className="py-3 text-lg font-normal">
-                      {user.panCard.number}
+                      {user != null && user.panCard.number}
                     </li>
                   </ul>
                 </div>
@@ -182,9 +181,8 @@ const OwnerProfile = () => {
 
           {/* your restaurant  */}
           <div
-            className={`${
-              openTab === 2 ? "block" : "hidden"
-            } w-full sm:w-4/5 p-5`}
+            className={`${openTab === 2 ? "block" : "hidden"
+              } w-full sm:w-4/5 p-5`}
           >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               Your Restaurant
@@ -203,10 +201,10 @@ const OwnerProfile = () => {
                 <div>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user.name}
+                      {user!=null &&user.name}
                     </li>
-                    <li className=" text-lg font-normal">{user.email}</li>
-                    <li className="py-3 text-lg font-normal">{`${user.address.street} ${user.address.area} ${user.address.city} ${user.address.state}-${user.address.pincode}`}</li>
+                    <li className=" text-lg font-normal">{user!=null &&user.email}</li>
+                    <li className="py-3 text-lg font-normal">{`${user!=null &&user.address.street} ${user!=null &&user.address.area} ${user!=null &&user.address.city} ${user!=null &&user.address.state}-${user!=null &&user.address.pincode}`}</li>
                   </ul>
                 </div>
               </div>
@@ -229,13 +227,13 @@ const OwnerProfile = () => {
                 <div>
                   <ul className="border-l-2 pl-5">
                     <li className="py-2 text-lg font-normal capitalize">
-                      {user.outLetType}
+                      {user!=null && user.outLetType}
                     </li>
                     <li className="py-2 text-lg font-normal capitalize">
-                      {user.product.length}
+                      {user!=null && user.product.length}
                     </li>
                     <li className="py-2 text-lg font-normal capitalize">
-                      {user.order.length}
+                      {user!=null && user.order.length}
                     </li>
                   </ul>
                 </div>

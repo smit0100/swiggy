@@ -240,32 +240,32 @@ export default function AddCategory() {
                       />
                     </div>
                     <div className="col-span-6 sm:col-span-3 mt-5">
-                      <div class="flex items-center mb-4">
+                      <div className="flex items-center mb-4">
                         <input
                           type="radio"
                           onChange={(e)=>setChecked(e.target.value)}
                           value={"checked"}
                           checked={checked == "checked" ? true : false}
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                         <label
                           for="default-radio-1"
-                          class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                         >
                           Active
                         </label>
                       </div>
-                      <div class="flex items-center">
+                      <div className="flex items-center">
                         <input
                           type="radio"
                           checked={checked == "unchecked" ? true : false}
                           onChange={(e)=>setChecked(e.target.value)}
                           value={"unchecked"}
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                         <label
                           for="default-radio-2"
-                          class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                         >
                           Deactive
                         </label>

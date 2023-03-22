@@ -189,7 +189,7 @@ const OrderDetails = () => {
                               className="Icon-sc-1iwi4w1-0 hZwKwm"
                             >
                               <path
-                                fill-rule="evenodd"
+                                fillRule="evenodd"
                                 clip-rule="evenodd"
                                 d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12zM6.355 12.322l2.761 2.76 7.863-7.85A.793.793 0 1118.1 8.355l-8.42 8.413a.793.793 0 01-1.122 0l-3.326-3.324a.791.791 0 01.56-1.354c.211 0 .413.084.562.233z"
                                 fill="#06A759"
@@ -220,7 +220,7 @@ const OrderDetails = () => {
                           <h3 className="text-xl font-semibold leading-5 text-gray-800">
                             Order status
                           </h3>
-                          <span class="text-xs font-semibold w-24 justify-center items-center flex py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
+                          <span className="text-xs font-semibold w-24 justify-center items-center flex py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
                             Delivered
                           </span>
                         </>

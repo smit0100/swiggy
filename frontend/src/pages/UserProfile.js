@@ -13,6 +13,8 @@ import { BsArrowRightCircle } from "react-icons/bs";
 import { useCookies } from "react-cookie";
 import { userData } from "../redux/user/userSlice";
 import swal from 'sweetalert'
+import { AiTwotoneStar } from 'react-icons/ai'
+
 
 
 
@@ -25,46 +27,41 @@ const UserProfile = () => {
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
 
-  const [,,removeCookie] = useCookies(["access_token", "refresh_token"]);
+  const [, , removeCookie] = useCookies(["access_token", "refresh_token"]);
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-
-
-  console.log("==user", user);
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const response = await axios(
-        `${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`
-      );
-      console.log("======ressssss", response);
-      setOrder(response.data.response.order);
-
-      setIsLoading(false);
+      if (user != null) {
+        setIsLoading(true);
+        const response = await axios(`${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`);
+        setOrder(response.data.response.order);
+        setIsLoading(false);
+      }
     })();
   }, []);
 
   const logout = () => {
-      swal({
-        title: "Are you Sure !",
-        icon: "warning",
-        buttons: ["NO", "YES"],
-        cancelButtonColor: "#DD6B55",
-        confirmButtonColor: "#DD6B55",
-        dangerMode: true,
-      })
-        .then(async (willDelete) => {
-          if (willDelete) {
-            removeCookie("access_token")
-            removeCookie("refresh_token")
-            dispatch(userData(null))
-            swal("Successfully logout", {
-              icon: "success",
-            });
-            navigate("/");  
-          } 
-        });
+    swal({
+      title: "Are you Sure !",
+      icon: "warning",
+      buttons: ["NO", "YES"],
+      cancelButtonColor: "#DD6B55",
+      confirmButtonColor: "#DD6B55",
+      dangerMode: true,
+    })
+      .then(async (willDelete) => {
+        if (willDelete) {
+          removeCookie("access_token")
+          removeCookie("refresh_token")
+          dispatch(userData(null))
+          swal("Successfully logout", {
+            icon: "success",
+          });
+          navigate("/");
+        }
+      });
   }
 
   return (
@@ -134,10 +131,10 @@ const UserProfile = () => {
               <div>
                 <ul className="border-l-2 pl-5">
                   <li className="py-3 text-lg font-normal capitalize">
-                    {user.name}
+                    {user != null && user.name}
                   </li>
-                  <li className=" text-lg font-normal">{user.number}</li>
-                  <li className="py-3 text-lg font-normal">{user.email}</li>
+                  <li className=" text-lg font-normal">{user != null && user.number}</li>
+                  <li className="py-3 text-lg font-normal">{user != null && user.email}</li>
                   <li className="py-3 text-lg font-normal">
                     <button
                       type="button"
@@ -200,6 +197,21 @@ const UserProfile = () => {
 export default UserProfile;
 
 export const OrderDetailsCard = ({ items }) => {
+  console.log(items);
+  let bgReview = "bg-green-600";
+
+  if (items != null) {
+    if (+items.resturant.rating <= 1.5) {
+      bgReview = "bg-red-600"
+    }
+    else if (+items.resturant.rating > 1.5 && items.resturant.rating < 3.5) {
+      bgReview = "bg-orange-600"
+    }
+    else {
+      bgReview = "bg-green-600"
+
+    }
+  }
   return (
     // <div>
     // <Link  to={`/orderDetails/${items._id}`}>{items._id}</Link>
@@ -232,7 +244,7 @@ export const OrderDetailsCard = ({ items }) => {
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-md font-semibold text-teal-600">
-                  4/5 ratings{" "}
+                <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{items!=null && items.resturant.rating} &nbsp; <AiTwotoneStar /></div>
                 </span>
                 <BsArrowRightCircle className="text-xl group-hover:translate-x-3 transition-all duration-500" />
               </div>
