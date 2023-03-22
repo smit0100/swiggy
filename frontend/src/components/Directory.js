@@ -13,12 +13,16 @@ const Directory = () => {
 
   useEffect(() => {
     (async () => {
-      setLoad(true)
-      console.log(process.env.REACT_APP_BASEURL);
-      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/fetchAll?pageNumber=${pageNumber}&pageSize=${10}`);
-      setData(response.data.results)
-      setTotalPages(response.data.totalPages)
-      setLoad(false)
+      try {
+        setLoad(true)
+        console.log(process.env.REACT_APP_BASEURL);
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/fetchAll?pageNumber=${pageNumber}&pageSize=${10}`);
+        setData(response.data.results)
+        setTotalPages(response.data.totalPages)
+        setLoad(false)
+      } catch (err) {
+        console.log(err);
+      }
     })()
   }, [pageNumber])
 
@@ -31,17 +35,12 @@ const Directory = () => {
   }
 
   function handleNextPage(e) {
-    
     e.preventDefault()
     if (pageNumber < totalPages) {
       setPageNumber(pageNumber + 1);
     }
   }
 
-
-  // useEffect(() => {
-  //   console.log(data);
-  // },[data])
   return (
     <>
       <div className='relative w-[98.70vw] h-4/5  flex flex-col content-center justify-center' >
@@ -56,8 +55,8 @@ const Directory = () => {
         <div className='row'>
           {
             load === true ? (
-             <Loader/>
-              ) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
+              <Loader />
+            ) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
           }
           <div className="flex w-full justify-center">
             <a href="#a" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
@@ -68,9 +67,9 @@ const Directory = () => {
             </a>
             <span href="#a" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
               {pageNumber}
-              
+
             </span>
-            <button  className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
+            <button className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
               Next
             </button>
 

@@ -26,14 +26,14 @@ const Otp = () => {
                 id,
                 otp
             })
-            console.log(response.data.user);
+            // console.log(response.data.user);
             dispatch(userData(response.data.user))
             swal("SuccessFully register", "", "success");
             navigate('/')
-        } catch ({ response }) {
-            console.log(response);
-            if (response.status === 401 || response.status === 404) {
-                swal(`${response.data.message}`, "", "error");
+        } catch (err) {
+            console.log(err);
+            if (err.response?.status === 401 || err.response?.status === 404) {
+                swal(`${err.response?.data.message}`, "", "error");
                 return
             }
         }

@@ -171,10 +171,10 @@ export default function Register() {
           email: response.data.user.email,
         }).toString(),
       });
-    } catch ({ response }) {
-      console.log(response);
-      if (response.status === 409) {
-        swal(`${response.data.message}`, "", "error");
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.status === 409) {
+        swal(`${err.response?.data?.message}`, "", "error");
         return;
       }
     }

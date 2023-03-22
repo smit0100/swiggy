@@ -6,13 +6,13 @@ import axios from "axios";
 import { cartData } from "../redux/cart/cartSlice";
 
 const CartPage = () => {
+  
   const dispatch = useDispatch()
 
   const isUser = useSelector(state => state.userData.user);
   const cart = useSelector(state => state.cartData.cart)
 
   useEffect(() => {
-
     (async () => {
       if (isUser != null) {
         try {
@@ -24,7 +24,6 @@ const CartPage = () => {
           console.log(err);
         }
       }
-
     })()
   }, [])
 

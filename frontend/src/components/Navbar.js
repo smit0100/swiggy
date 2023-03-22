@@ -23,19 +23,6 @@ const Navbar = () => {
     })
   }
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if(isUser!=null){
-  //     const response = await axios.get(`http://localhost:4000/cart/${isUser._id}`);
-  //     console.log(response.data.data);
-  //     dispatch(cartData(response.data.data.cart))
-  //     }
-  //   })()
-  // }, [])
-
-  // if(cart!=null){
-
-  // }
 
  
 

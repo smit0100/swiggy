@@ -187,11 +187,10 @@ export default function OwnerRegister() {
           email: response.data.restuarnt.email,
         }).toString(),
       });
-    } catch ({ response }) {
-      console.log(response);
-      console.log(response.data.message);
-      if (response.status === 400) {
-        swal(`${response.data.messag}`, "", "error");
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.status === 400) {
+        swal(`${err?.response?.data?.message}`, "", "error");
         setLoading(false);
         return;
       }

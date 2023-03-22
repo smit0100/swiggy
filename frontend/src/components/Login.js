@@ -20,12 +20,14 @@ export default function Login() {
     latitude: 21.19215,
     longitude: 72.88799,
   });
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     getLocation();
   }, []);
+
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) =>
@@ -36,6 +38,7 @@ export default function Login() {
       (error) => console.error(error)
     );
   };
+
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -45,6 +48,7 @@ export default function Login() {
       setEmailError("");
     }
   };
+
   const handlePassword = (e) => {
     setPass(e.target.value);
     if (e.target.value.length < 8) {
@@ -113,7 +117,6 @@ export default function Login() {
           coordinates,
         }
       );
-
       let expires = new Date();
       expires.setTime(expires.getTime() + response.data.expires_in * 1000);
       setCookie("access_token", response.data.token, {
@@ -121,13 +124,14 @@ export default function Login() {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
-      console.log("=====ress", response);
+      // console.log("=====ress", response);
       dispatch(userData(response?.data?.user));
       swal("SuccessFully Login", "", "success");
       setLoading(false);
       navigate("/");
-    } catch ({ response }) {
-      console.log("===error", response);
+    } 
+    catch ({ response }) {
+      // console.log("===error", response);
       if (
         response?.status === 400 ||
         response?.status === 401 ||
@@ -139,6 +143,7 @@ export default function Login() {
       }
     }
   };
+
   return (
     <>
       <div className="relative h-screen w-screen">

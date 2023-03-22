@@ -101,14 +101,15 @@ export default function Login() {
       } else {
         navigate("/");
       }
-    } catch ({ response }) {
+    } catch (err) {
+      console.log(err);
       if (
-        response.status === 400 ||
-        response.status === 401 ||
-        response.status === 402
+        err?.response?.status === 400 ||
+        err?.response?.status === 401 ||
+        err?.response?.status === 402
       ) {
         setLoading(false);
-        swal(`${response.data.message}`, "", "error");
+        swal(`${err?.response?.data?.message}`, "", "error");
         return;
       }
     }
