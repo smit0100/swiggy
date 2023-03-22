@@ -34,35 +34,45 @@ const ResturantPage = () => {
 
   useEffect(() => {
     (async () => {
-      setLoad(true)
-      console.log(categories);
-      const ct = categories.map(id => id.toString()).join(',');
-      console.log("this is ct log");
-      console.log(typeof (ct));
-      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
-
-      // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
-
-      console.log(response.data, "ooko");
-      setData(response.data)
-      setLoad(false)
+      try {
+        setLoad(true)
+        // console.log(categories);
+        const ct = categories.map(id => id.toString()).join(',');
+        console.log("this is ct log");
+        console.log(typeof (ct));
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
+        // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
+        // console.log(response.data);
+        setData(response.data)
+        setLoad(false)
+      } catch (err) {
+        console.log(err);
+      }
     })()
   }, [categories])
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
-      console.log(response);
-      setCategory(response.data.response)
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
+        console.log(response);
+        setCategory(response.data.response)
+      } catch (err) {
+        console.log(err);
+      }
     })()
   }, [])
 
   useEffect(() => {
     (async () => {
-      if (user != null) {
-        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/cart/${user._id}`);
-        console.log(response.data.data);
-        dispatch(cartData(response.data.data.cart))
+      try {
+        if (user != null) {
+          const response = await axios.get(`${process.env.REACT_APP_BASEURL}/cart/${user._id}`);
+          console.log(response.data.data);
+          dispatch(cartData(response.data.data.cart))
+        }
+      } catch (err) {
+        console.log(err);
       }
     })()
   }, [])
@@ -128,7 +138,7 @@ const ResturantPage = () => {
               <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
               <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
               <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
-              <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{data.length!=0 && data.resturant.rating} &nbsp; <AiTwotoneStar /></div>
+              <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{data.length != 0 && data.resturant.rating} &nbsp; <AiTwotoneStar /></div>
               <ul className="flex space-x-2 relative">
                 <li><button onClick={() => { setOpenTab(1); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow " >
                   Order Online</button></li>
@@ -247,9 +257,13 @@ export default ResturantPage
 const MenuItems = ({ items, event }) => {
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
-      console.log(response);
-      // setCategory(response.data.response)
+      try{
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
+        console.log(response);
+        // setCategory(response.data.response)
+      }catch(err){
+        console.log(err);
+      }
     })()
   }, [])
 
@@ -400,6 +414,7 @@ export const RestroCategoryCard = ({ item }) => {
     console.log('imageurl', imageUrl);
     console.log(restaurantId);
     e.preventDefault();
+    try{
     if (!isUser) {
       navigate('/login')
     } else {
@@ -456,6 +471,10 @@ export const RestroCategoryCard = ({ item }) => {
       }
 
     }
+  }catch(err){
+    console.log(err);
+  }
+
 
 
   }

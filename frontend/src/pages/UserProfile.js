@@ -33,11 +33,15 @@ const UserProfile = () => {
 
   useEffect(() => {
     (async () => {
-      if (user != null) {
-        setIsLoading(true);
-        const response = await axios(`${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`);
-        setOrder(response.data.response.order);
-        setIsLoading(false);
+      try {
+        if (user != null) {
+          setIsLoading(true);
+          const response = await axios(`${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`);
+          setOrder(response.data.response.order);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.log(err);
       }
     })();
   }, []);
@@ -244,7 +248,7 @@ export const OrderDetailsCard = ({ items }) => {
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-md font-semibold text-teal-600">
-                <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{items!=null && items.resturant.rating} &nbsp; <AiTwotoneStar /></div>
+                  <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{items != null && items.resturant.rating} &nbsp; <AiTwotoneStar /></div>
                 </span>
                 <BsArrowRightCircle className="text-xl group-hover:translate-x-3 transition-all duration-500" />
               </div>

@@ -18,38 +18,34 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.userData.user);
-  // const product = useSelector((state) => state.cartData.cart.products);
-  // const resturant = useSelector((state) => state.cartData.cart.resturant);
-  // const total = useSelector((state) => state.cartData.cart.total);
   const cart = useSelector(state => state.cartData.cart)
+
   const makePayment = async (token) => {
     console.log("this is token", token);
-
     const header = {
       "Content-Type": "application/json",
     };
-
-    axios.post(`${process.env.REACT_APP_BASEURL}/payment`, {
-      token,
-      product: {
-        name: "first product",
-        price: 1000,
-      },
-    }).then((response) => {
-      handleDelivery(address)
-      console.log("=====payment res:::", response);
-    }).catch((e) => {
-      handleDelivery(address)
-      console.log("===error payment:::", e);
-    })
-
+    try {
+      axios.post(`${process.env.REACT_APP_BASEURL}/payment`, {
+        token,
+        product: {
+          name: "first product",
+          price: 1000,
+        },
+      }).then((response) => {
+        handleDelivery(address)
+        console.log("=====payment res:::", response);
+      }).catch((e) => {
+        handleDelivery(address)
+        console.log("===error payment:::", e);
+      })
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleDelivery = async (address) => {
-    // e.preventDefault();
     console.log("hello how are you");
-
-
     let pr = cart != null && cart.product.map((item) => {
       return {
         product: item.product._id,
@@ -57,20 +53,18 @@ const CheckoutPage = () => {
       };
     });
 
-
     if (user != null && cart != null) {
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_BASEURL}/order/create`,
           {
             customer: user._id,
-            total:cart.total,
-            resturant:cart.resturant,
+            total: cart.total,
+            resturant: cart.resturant,
             address,
           }
         );
-
-        console.log(response);
+        // console.log(response);
       } catch (err) {
         console.log(err);
       }
@@ -111,8 +105,9 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post(
-      `${process.env.REACT_APP_BASEURL}/user/addAddress`,
+    try{
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/user/addAddress`,
       {
         userId: user._id,
         area: address,
@@ -123,20 +118,30 @@ const CheckoutPage = () => {
     );
     console.log(response.data.response);
     dispatch(userData(response.data.response));
+  }catch(err){
+    console.log(err);
+  }
   };
 
   const handlePayment = async () => {
-    const response = await axios.post(
-      `${process.env.REACT_APP_BASEURL}/payment/create-checkout-session`
-    );
+    try{
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASEURL}/payment/create-checkout-session`
+        );
+      }catch(err){
+        console.log(err);
+      }
   };
 
   const addressDelete = async (id) => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`
-    );
-
-    dispatch(userData(response.data.response));
+    try{
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`
+        ); 
+        dispatch(userData(response.data.response));
+      }catch(err){
+        console.log(err);
+      }
   };
 
   return (
@@ -149,9 +154,9 @@ const CheckoutPage = () => {
               <img src="./svg/github.svg" className="w-7 h-7" alt="temp" />
             </div>
             <div className="flex space-x-5">
-              <p className="font-semibold text-lg">{user!=null && user.name}</p>{" "}
+              <p className="font-semibold text-lg">{user != null && user.name}</p>{" "}
               &nbsp;&nbsp;&nbsp; |
-              <p className="font-semibold text-lg">{user!=null && user.number}</p>
+              <p className="font-semibold text-lg">{user != null && user.number}</p>
             </div>
           </div>
 

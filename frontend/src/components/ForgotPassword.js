@@ -15,7 +15,7 @@ const ForgotPassword = () => {
   const [cpassError, setCpassError] = useState('')
   const [otpShow, setOtpShow] = useState(false);
   const [id, setId] = useState(null);
-const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -66,39 +66,37 @@ const [loading, setLoading] = useState(false)
 
   const handleClick = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    const response = await axios.post('http://localhost:4000/user/forgotpassword', {
-      email
-    })
-console.log(loading)
-    if (response.status === 205) {
-      console.log('something wrogn');
-      setLoading(false)
-
-    } else {
-      console.log(response);
-      setId(response.data.user._id);
-      setOtpShow(true)
-      setLoading(false)
+    try {
+      setLoading(true)
+      const response = await axios.post('http://localhost:4000/user/forgotpassword', {
+        email
+      })
+      if (response.status === 205) {
+        console.log('something wrogn');
+        setLoading(false)
+      } else {
+        console.log(response);
+        setId(response.data.user._id);
+        setOtpShow(true)
+        setLoading(false)
+      }
+    }catch(err){
+      console.log(err);
     }
-
-
-
   }
 
   const handleSavePassword = async (e) => {
     e.preventDefault();
-    setLoading(true)
     try {
+    setLoading(true)
       const response = await axios.post('http://localhost:4000/user/verfiyotp', {
         id,
         otp,
         newPassword: pass
       });
-      console.log(response);
+      // console.log(response);
       if (response.status === 205) {
         swal(`wrong otp`, "", "error");
-        console.log('wrong otp');
         setLoading(false)
       } else {
         swal("SuccessFully Forget Password", "", "success");
@@ -107,6 +105,7 @@ console.log(loading)
     } catch (err) {
       swal(`something error`, "", "error");
       setLoading(false)
+      console.log(err);
     }
 
 
@@ -120,7 +119,7 @@ console.log(loading)
             type="button"
             onClick={handleClick}
           >
-            {loading ? <InlineButtonLoader /> : "Forgot Password"} 
+            {loading ? <InlineButtonLoader /> : "Forgot Password"}
           </button>
         );
       } else {
@@ -141,8 +140,8 @@ console.log(loading)
             type="button"
             onClick={handleSavePassword}
           >
-            {loading ? <InlineButtonLoader /> : "Forgot Password"} 
-        
+            {loading ? <InlineButtonLoader /> : "Forgot Password"}
+
           </button>
         );
       } else {

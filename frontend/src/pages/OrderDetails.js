@@ -16,7 +16,6 @@ import CustomerOrderCard from "../components/CustomerOrderCard";
 const OrderDetails = () => {
   const dispatch = useDispatch();
   const { orderId } = useParams();
-
   const navigate = useNavigate();
 
   const [model, setModel] = useState(false);
@@ -29,7 +28,6 @@ const OrderDetails = () => {
   const [isDeliveryButton, setIsDeliveryButton] = useState(false);
   const user = useSelector((state) => state.userData.user);
 
-  console.log(orderData);
   const location = useLocation();
   const data = location.state;
   console.log(data);
@@ -54,8 +52,9 @@ const OrderDetails = () => {
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const response = await axios(
+      try{
+        setIsLoading(true);
+        const response = await axios(
         `${process.env.REACT_APP_BASEURL}/order/fetchOneOrder/?id=${orderId}`
       );
       console.log("hello");
@@ -64,18 +63,26 @@ const OrderDetails = () => {
       setIsResturantButton(response.data.order.isreviewGiven.forResturant);
       setIsDeliveryButton(response.data.order.isreviewGiven.forDeliveryBoy);
       setIsLoading(false);
+    }catch(err){
+      console.log(err);
+    }
     })();
   }, []);
 
   const handleDelete = async (id) => {
-    console.log(id);
-
-    const data = await axios.delete(`http://localhost:5000/order/${id}`);
-    console.log(data);
-    // dispatch(getOrderItem(userId));
-    setModel(false);
-    navigate("/order");
+    try{
+      console.log(id); 
+      const data = await axios.delete(`http://localhost:5000/order/${id}`);
+      console.log(data);
+      // dispatch(getOrderItem(userId));
+      setModel(false);
+      navigate("/order");
+    }
+    catch(err){
+      console.log(err);
+    }
   };
+
   return (
     <>
       {isLoading === true ? (

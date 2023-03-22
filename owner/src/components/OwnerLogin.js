@@ -80,7 +80,7 @@ export default function OwnerLogin() {
       if (temp != null) {
         fcmToken = temp;
       }
-      console.log("===fcmtoken:::",fcmToken);
+      console.log("===fcmtoken:::", fcmToken);
       setLoading(true);
       const response = await axios.post(
         "http://localhost:4000/resturant/login",
@@ -90,29 +90,28 @@ export default function OwnerLogin() {
           fcmToken,
         }
       );
-      console.log("owner login res::",response);
+      console.log("owner login res::", response);
       dispatch(userData(response.data.rest));
       dispatch(ownerLogIn(true));
       localStorage.setItem("isOwnerLogIn", JSON.stringify(true));
       localStorage.setItem("ownerData", JSON.stringify(response?.data?.rest));
-      swal("SuccessFully Login", "", "success",{
-        buttons:false,
-        timer:1000
+      swal("SuccessFully Login", "", "success", {
+        buttons: false,
+        timer: 1000
       });
       setLoading(false);
       navigate("/");
-    } catch ({ response }) {
-      console.log(response);
+    } catch (err) {
+      console.log(err);
       if (
-        response.status === 400 ||
-        response.status === 401 ||
-        response.status === 402
+        err?.response?.status === 400 ||
+        err?.response?.status === 401 ||
+        err?.response?.status === 402
       ) {
         swal(
-          `${
-            response.status === 402
-              ? response.data.message
-              : response.data.messag
+          `${err?.response?.status === 402
+            ? err?.response?.data?.message
+            : err?.response?.data?.message
           }`,
           "",
           "error"

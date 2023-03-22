@@ -25,6 +25,7 @@ const UserAddress = () => {
   const [pincodeError, setPincodeError] = useState('')
 
   const dispatch = useDispatch()
+
   const handleAddress = (e) => {
     setaddress(e.target.value)
     if (address === null || address === "") {
@@ -71,7 +72,7 @@ const UserAddress = () => {
 
   const UpdateAddressButton = () => {
     if (address && city && state && pincode && addressError.length === 0 && cityError.length === 0 && stateError.length === 0 && pincodeError.length === 0) {
-      return (<button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={(e) => { setUpdateAddress(false); handelChangeAddress(e); clearAddress()}}>Update Address</button>)
+      return (<button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={(e) => { setUpdateAddress(false); handelChangeAddress(e); clearAddress() }}>Update Address</button>)
     } else {
       return (<button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" disabled>Update Address</button>)
     }
@@ -79,26 +80,29 @@ const UserAddress = () => {
 
   const handleSubmitForAddress = async (e) => {
     e.preventDefault();
-    const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/addAddress`, {
-      "itemId": changeAddress,
-      "userId": user._id,
-      "area": address,
-      "city": city,
-      "state": state,
-      "pincode": pincode
-    })
-    console.log(response.data.response);
-    dispatch(userData(response.data.response))
-    setaddress("")
-    setCity("")
-    setState("")
-    setPincode("")
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/addAddress`, {
+        "itemId": changeAddress,
+        "userId": user._id,
+        "area": address,
+        "city": city,
+        "state": state,
+        "pincode": pincode
+      })
+      console.log(response.data.response);
+      dispatch(userData(response.data.response))
+      setaddress("")
+      setCity("")
+      setState("")
+      setPincode("")
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const handelChangeAddress = async (e) => {
     e.preventDefault();
     try {
-
       const response = await axios.put(`${process.env.REACT_APP_BASEURL}/user/editAddress`, {
         "itemId": changeAddress,
         "userId": user._id,
@@ -119,7 +123,6 @@ const UserAddress = () => {
     } catch (err) {
       if (err.response.status == 500) {
         swal(`${err.response.data.message}`, "", "error");
-
       }
     }
   }
@@ -128,14 +131,11 @@ const UserAddress = () => {
   const addressDelete = async (id) => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`)
-
       dispatch(userData(response.data.response))
       swal("Deleted successfully", "", "success");
-
     } catch (err) {
       if (err) {
         swal("something went wrong", "", "error");
-
       }
     }
   }
@@ -153,6 +153,7 @@ const UserAddress = () => {
     setPincode("")
     setChangeAddress("")
   }
+  
   return (
     <div>
       {/* all address list  */}

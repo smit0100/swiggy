@@ -32,6 +32,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     }, [])
 
     const [otpTab,setOtpTab]=useState(false)
+    
     const changeProfileDetails = async (e) => {
         e.preventDefault()
         console.log(email, number, name);

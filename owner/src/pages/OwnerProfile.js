@@ -20,15 +20,18 @@ const OwnerProfile = () => {
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const response = await axios(
-        `http://localhost:4000/order/customer?userId=${user._id}`
-      );
-      // console.log(response.data.response.order);
-      setOrder(response.data.response.order);
+      if (user != null) {
+        setIsLoading(true);
+        const response = await axios(
+          `http://localhost:4000/order/customer?userId=${user._id}`
+        );
+        console.log(response);
+        setOrder(response.data.response.order);
 
-      setIsLoading(false);
+        setIsLoading(false);
+      }
     })();
+
   }, []);
   const history = useNavigate();
 
@@ -52,14 +55,14 @@ const OwnerProfile = () => {
               src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
             />
           </div>
-          <div className="flex justify-center gap-44 relative -top-5">
+          {/* <div className="flex justify-center gap-44 relative -top-5">
             <button className="inline-block bg-white hover:text-white hover:bg-green-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
               Add New
             </button>
             <button className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
               Remove
             </button>
-          </div>
+          </div> */}
           <div className="border-b-2 border-black/30"></div>
         </div>
 
@@ -201,10 +204,10 @@ const OwnerProfile = () => {
                 <div>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user!=null &&user.name}
+                      {user != null && user.name}
                     </li>
-                    <li className=" text-lg font-normal">{user!=null &&user.email}</li>
-                    <li className="py-3 text-lg font-normal">{`${user!=null &&user.address.street} ${user!=null &&user.address.area} ${user!=null &&user.address.city} ${user!=null &&user.address.state}-${user!=null &&user.address.pincode}`}</li>
+                    <li className=" text-lg font-normal">{user != null && user.email}</li>
+                    <li className="py-3 text-lg font-normal">{`${user != null && user.address.street} ${user != null && user.address.area} ${user != null && user.address.city} ${user != null && user.address.state}-${user != null && user.address.pincode}`}</li>
                   </ul>
                 </div>
               </div>
@@ -227,13 +230,13 @@ const OwnerProfile = () => {
                 <div>
                   <ul className="border-l-2 pl-5">
                     <li className="py-2 text-lg font-normal capitalize">
-                      {user!=null && user.outLetType}
+                      {user != null && user.outLetType}
                     </li>
                     <li className="py-2 text-lg font-normal capitalize">
-                      {user!=null && user.product.length}
+                      {user != null && user.product.length}
                     </li>
                     <li className="py-2 text-lg font-normal capitalize">
-                      {user!=null && user.order.length}
+                      {user != null && user.order.length}
                     </li>
                   </ul>
                 </div>
