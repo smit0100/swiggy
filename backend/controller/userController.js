@@ -370,7 +370,7 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
     console.log(user);
     if (user === null) {
       console.log("this is ru");
-      return res.status(205).json({ messag: "user not exist" });
+      return res.status(205).json({ message: "user not exist" });
     } else {
       const otpNumber = Math.floor(100000 + Math.random() * 900000);
 

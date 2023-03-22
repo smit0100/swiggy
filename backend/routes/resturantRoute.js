@@ -24,8 +24,8 @@ router.get('/getAllPending',resturantController.getAllResturant);
 router.get('/allResturantOrder', resturantController.fetchAllResturantOrder);
 router.get('/updateOrderStatus', resturantController.acceptOrder)
 router.get('/rejectedResturant',resturantController.rejectedResturant)
-
-
+router.post('/forgotpassword', resturantController.forgotPasswordForSentEmail);
+router.post('/verfiyotp', resturantController.forgotPasswordForSetNewPassword);
     
 
 

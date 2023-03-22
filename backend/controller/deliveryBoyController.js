@@ -327,6 +327,67 @@ const addLocation = async (req, res, next) => {
     res.status(500).json({ message: "something went wrong" });
   }
 };
+
+
+const forgotPasswordForSentEmail = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await DeliveryBoy.findOne({ email });
+    console.log(user);
+    if (user === null) {
+      console.log("this is ru");
+      return res.status(205).json({ message: "user not exist" });
+    } else {
+      const otpNumber = Math.floor(100000 + Math.random() * 900000);
+
+      const token = await new Token({
+        userID: user._id,
+        token: otpNumber,
+      }).save();
+
+      await sendEmail(user.email, "verify email", String(otpNumber));
+
+      res.status(200).json({ messag: "otop sent", user });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ messag: "somthing went wrong" });
+  }
+};
+
+const forgotPasswordForSetNewPassword = async (req, res, next) => {
+  try {
+    const { id, newPassword } = req.body;
+    let user = await DeliveryBoy.findById(id);
+
+    if (!user)
+      return res.status(404).send({
+        messag: "user not found",
+      });
+
+    const token = await DeliveryBoy.findOne({
+      userID: req.body.id,
+      token: req.body.otp,
+    });
+
+    console.log(token);
+
+    if (!token) {
+      return res.status(205).json({ messag: "wrong otp" });
+    } else {
+      await token.remove();
+      const saltGen = await bcrypt.genSalt(10);
+      const encryptedPass = await bcrypt.hash(newPassword, saltGen);
+      await User.findByIdAndUpdate(id, {
+        password: encryptedPass,
+      });
+
+      res.status(200).json({ messag: "password changes" });
+    }
+  } catch (e) {
+    res.status(500).json({ messag: "something went wrong" });
+  }
+};
 module.exports = {
   register,
   login,
@@ -343,4 +404,6 @@ module.exports = {
   addReview,
   deleteDeliveryBoy,
   addLocation,
+  forgotPasswordForSetNewPassword,
+  forgotPasswordForSentEmail
 };

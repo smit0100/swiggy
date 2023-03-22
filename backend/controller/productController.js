@@ -77,7 +77,7 @@ const createProduct = async (req, res, next) => {
 }
 
 const fetchProduct = async (req, res, next) => {
-    const product = await Product.find();
+    const product = await Product.find({isActive:true});
     return res.status(200).json({ message: 'product fetched', product });
 }
 
@@ -85,7 +85,7 @@ const allResturantProduct = async (req, res, next) => {
     try {
         const { id } = req.query;
 
-        const resturantExist = await Resturant.findById(id).populate('product');
+        const resturantExist = await Resturant.findById(id).populate({path:'product',match:{isActive:true}});
         if (!resturantExist) return res.status(400).json({ message: 'resturant not found' });
 
         res.status(200).json({ message: 'resturant product founded', resturantExist });
@@ -108,9 +108,33 @@ const findProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { price, name, description, id } = req.body;
-        const product = await Product.findByIdAndUpdate(id, { name, price, description });
-        res.status(200).json({ message: 'product updated', product });
+        const { price, name, description, id, category, subCategory } = req.body;
+        
+        if (req.files) {
+            let productImae = req.files.productImage
+            let result
+
+            try {
+                result = await cloudinary.uploader.upload(productImae.tempFilePath, {
+                    folder: 'productImage',
+                    crop: 'fill',
+                    width: 250,
+                    height:250
+                })
+
+                const product = await Product.findByIdAndUpdate(id, { name, price, description, category, subCategory, imageUrl: result.url }, { new: true });
+                console.log(product);
+                // http://res.cloudinary.com/drwhuxvlk/image/upload/v1678687241/productImage/e2kukvlf1z8sgbbqno45.jpg
+                res.status(200).json({ message: 'product updated', product });
+            } catch (e) {
+                console.log(e);
+                return res.status(500).json({ message: 'product upload failed' });
+            }
+        } else {
+            const product = await Product.findByIdAndUpdate(id, { name, price, description,category,subCategory });
+            res.status(200).json({ message: 'product updated', product });    
+        }
+        
     } catch (e) {
         res.status(500).json({message:'something went wrong'})
     }
@@ -127,10 +151,10 @@ const fetchAllProduct = async (req, res, next) => {
     try {
         
 
-        const totalCount = await Product.find({ name: regex }).countDocuments();
+        const totalCount = await Product.find({ name: regex,isActive:true }).countDocuments();
         const totalPages = Math.ceil(totalCount / pageSize);        
 
-        const response = await Product.find({ name: regex }).skip((pageNumber - 1) * pageSize).limit(pageSize);
+        const response = await Product.find({ name: regex,isActive:true }).skip((pageNumber - 1) * pageSize).limit(pageSize);
 
         return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
         pageSize: pageSize,
@@ -141,11 +165,25 @@ const fetchAllProduct = async (req, res, next) => {
     
 }
 
+const isActive = async (req, res, next) => {
+    try {
+        const { id } = req.query;
+        const product = await Product.findByIdAndUpdate(id, { isActive: false }, {
+            new:true
+        })
+        res.status(200).json({ message: 'deactivated product', product });
+
+    } catch (e) {
+        res.status(500).json({ message: 'something went wrong' });
+    }
+}
+
 module.exports = {
     createProduct,
     findProduct,
     fetchProduct,
     fetchAllProduct,
     allResturantProduct,
-    updateProduct
+    updateProduct,
+    isActive
 }
