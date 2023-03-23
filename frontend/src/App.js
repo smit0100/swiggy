@@ -23,6 +23,7 @@ import Otp from "./components/Otp";
 import CheckoutPage from "./pages/CheckoutPage";
 import Payment from "./components/StripeComponent";
 import StripeComponent from "./components/StripeComponent";
+import PrivacyPolicy from "./components/PrivacyPolicy"
 import ResturantPage from "./pages/ResturantPage";
 import UserProfile from "./pages/UserProfile";
 import OrderDetails from "./pages/OrderDetails";
@@ -59,6 +60,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="otp" element={<Otp />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
+        <Route path="privacypolicy" element={<PrivacyPolicy/>}/>
 
         {/* {user!=null ?<> */}
         <Route path="cart" element={<CartPage />} />

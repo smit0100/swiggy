@@ -23,11 +23,15 @@ const OrderSummary = () => {
   console.log(state);
   useEffect(() => {
     (async () => {
-      const response = await axios.get(
-        `http://localhost:4000/order/fetchOneOrder?id=${state}`
-      );
-      console.log(response);
-      setUserData(response.data.order);
+      try{
+        const response = await axios.get(
+          `http://localhost:4000/order/fetchOneOrder?id=${state}`
+          );
+          console.log(response);
+          setUserData(response.data.order);
+        }catch(err){
+          console.log(err);
+        }
     })();
   }, [resturanthandle, customerhandle]);
   // acceptfromresturant

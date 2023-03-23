@@ -27,6 +27,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   const dispatch = useDispatch()
@@ -62,6 +63,8 @@ function App() {
           <Route path="/otp" element={<Otp />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/*" element={<PageNotFound />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+
         </Route>
       ) : (
         <Route path="/" element={<Home />}>

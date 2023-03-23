@@ -109,6 +109,7 @@ const findProduct = async (req, res, next) => {
 const updateProduct = async (req, res) => {
     try {
         const { price, name, description, id, category, subCategory } = req.body;
+        console.log(req.body);
         
         if (req.files) {
             let productImae = req.files.productImage

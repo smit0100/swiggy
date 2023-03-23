@@ -166,18 +166,6 @@ export default function Register() {
                 </div>
                 <div className="btn-wrapper text-center">
                   <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={facebookAuth}
-                  >
-                    <img
-                      alt="github logo"
-                      className="w-5 mr-1"
-                      src="./svg/facebook.svg"
-                    />
-                    Facebook
-                  </button>
-                  <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
                     onClick={googleAuth}
@@ -302,9 +290,8 @@ export default function Register() {
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         I agree with the{" "}
                         <Link
-                          href="#pablo"
+                          to="/privacypolicy"
                           className="text-blue-500 border-b-[1px] border-blue-500"
-                          onClick={(e) => e.preventDefault()}
                         >
                           Privacy Policy
                         </Link>

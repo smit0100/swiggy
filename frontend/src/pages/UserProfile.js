@@ -27,7 +27,7 @@ const UserProfile = () => {
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
 
-  const [, , removeCookie] = useCookies(["access_token", "refresh_token"]);
+  const [cookies,setCookies , removeCookie] = useCookies(["access_token", "refresh_token"]);
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
@@ -59,6 +59,7 @@ const UserProfile = () => {
         if (willDelete) {
           removeCookie("access_token")
           removeCookie("refresh_token")
+          // removeCookie('connect.sid')
           dispatch(userData(null))
           swal("Successfully logout", {
             icon: "success",
@@ -74,21 +75,14 @@ const UserProfile = () => {
         <h1 className="text-3xl font-semibold">My Profile </h1>
         {/* profile image  */}
         <div>
-          <div className="flex justify-center relative">
+          <div className="flex justify-center relative mb-5">
             <img
               className="rounded-full w-40 h-40 sm:w-52 sm:h-52 object-cover"
               alt="user pic"
-              src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+              src="./avatar.png"
             />
           </div>
-          <div className="flex justify-center gap-44 relative -top-5">
-            <button className="inline-block bg-white hover:text-white hover:bg-green-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500">
-              Add New
-            </button>
-            <button className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
-              Remove
-            </button>
-          </div>
+          
           <div className="border-b-2 border-black/30"></div>
         </div>
 

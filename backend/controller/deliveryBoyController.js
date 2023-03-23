@@ -6,6 +6,7 @@ const DeliveryBoy = require("../module/DeliveryBoyModel");
 const User = require("../module/UserModel");
 const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
 const { sendNotification } = require("../utils/PushNotification");
+const TokenModel = require("../module/TokenModel");
 
 const register = async (req, res, next) => {
   try {
@@ -332,6 +333,7 @@ const addLocation = async (req, res, next) => {
 const forgotPasswordForSentEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
+    console.log(email);
     const user = await DeliveryBoy.findOne({ email });
     console.log(user);
     if (user === null) {
@@ -365,7 +367,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
         messag: "user not found",
       });
 
-    const token = await DeliveryBoy.findOne({
+    const token = await TokenModel.findOne({
       userID: req.body.id,
       token: req.body.otp,
     });
