@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-// import FacebookLogin from 'react-facebook-login';
 import { ownerLogIn, userData } from "../redux/user/userSlice";
 import InlineButtonLoader from "./InlineButtonLoader";
 import { useDispatch } from "react-redux";
@@ -64,15 +63,7 @@ export default function OwnerLogin() {
       );
     }
   }
-  //facebook login
-  // const responseFacebook = (response) => {
-  //   if (response != null) {
-  //     dispatch(userData(response))
-  //     navigate('/');
-  //   } else {
-  //     console.log("error",response);
-  //     }
-  // }
+
   const handleSubmit = async () => {
     try {
       let fcmToken = "";
@@ -139,17 +130,7 @@ export default function OwnerLogin() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="github"
-                      className="w-5 mr-1"
-                      src="./svg/facebook.svg"
-                    />
-                    Facebook
-                  </button>
+                  
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -162,19 +143,7 @@ export default function OwnerLogin() {
                     />
                     Google
                   </button>
-                  {/* <FacebookLogin
-                      textButton="facebook"
-                      appId="878193710074579"
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={responseFacebook}
-                      cssclassName="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                      icon={<img
-                        alt="google"
-                        className="w-5 mr-1"
-                        src="./svg/google.svg"
-                      />}
-                    /> */}
+                 
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
@@ -269,38 +238,3 @@ export default function OwnerLogin() {
   );
 }
 
-// import React from 'react'
-
-// const OwnerLogin = () => {
-//   return (
-//     <div>
-//       <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-//   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-//     <div className="mb-4">
-//       <label className="block text-gray-700 font-bold mb-2" for="username">
-//         Email
-//       </label>
-//       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Enter your username"/>
-//     </div>
-//     <div className="mb-6">
-//       <label className="block text-gray-700 font-bold mb-2" for="password">
-//         Password
-//       </label>
-//       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter your password"/>
-//     </div>
-//     <div className="flex items-center justify-between">
-//       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-//         Sign In
-//       </button>
-//       <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-//         Forgot Password?
-//       </a>
-//     </div>
-//   </form>
-// </div>
-
-//     </div>
-//   )
-// }
-
-// export default OwnerLogin

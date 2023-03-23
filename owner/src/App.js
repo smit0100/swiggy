@@ -27,6 +27,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   const dispatch = useDispatch()
@@ -73,6 +74,8 @@ function App() {
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/resturantRegister" element={<RestaurantRegister />} />
           <Route path="/ownerprofile" element={<OwnerProfile />} />
+          <Route path="contactus" element={<ContactUs />} />
+
           <Route path="/*" element={<PageNotFound />} />
         </Route>
       )

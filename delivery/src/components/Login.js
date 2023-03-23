@@ -132,17 +132,7 @@ export default function Login() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="github"
-                      className="w-5 mr-1"
-                      src="./svg/facebook.svg"
-                    />
-                    Facebook
-                  </button>
+                 
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -155,19 +145,7 @@ export default function Login() {
                     />
                     Google
                   </button>
-                  {/* <FacebookLogin
-                      textButton="facebook"
-                      appId="878193710074579"
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={responseFacebook}
-                      cssclassName="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                      icon={<img
-                        alt="google"
-                        className="w-5 mr-1"
-                        src="./svg/google.svg"
-                      />}
-                    /> */}
+                  
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>

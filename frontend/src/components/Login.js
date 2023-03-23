@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-// import FacebookLogin from 'react-facebook-login';
 import { userData } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
@@ -88,15 +87,7 @@ export default function Login() {
       );
     }
   }
-  //facebook login
-  // const responseFacebook = (response) => {
-  //   if (response != null) {
-  //     dispatch(userData(response))
-  //     navigate('/');
-  //   } else {
-  //     console.log("error",response);
-  //     }
-  // }
+
   const handleSubmit = async () => {
     console.log("hey");
     console.log(email, pass);
@@ -162,17 +153,7 @@ export default function Login() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="github"
-                      className="w-5 mr-1"
-                      src="./svg/facebook.svg"
-                    />
-                    Facebook
-                  </button>
+                 
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -185,19 +166,7 @@ export default function Login() {
                     />
                     Google
                   </button>
-                  {/* <FacebookLogin
-                      textButton="facebook"
-                      appId="878193710074579"
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={responseFacebook}
-                      cssclassName="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                      icon={<img
-                        alt="google"
-                        className="w-5 mr-1"
-                        src="./svg/google.svg"
-                      />}
-                    /> */}
+                   
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
@@ -254,13 +223,7 @@ export default function Login() {
                     </label>
                   </div>
                   <div className="text-center mt-6">
-                    {/* <button
-                      className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={handleSubmit}
-                    >
-                      Sign In
-                    </button> */}
+                   
                     {SubmitButton()}
                   </div>
                 </form>
