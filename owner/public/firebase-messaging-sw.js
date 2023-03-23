@@ -61,26 +61,26 @@ messaging.onBackgroundMessage(function (payload) {
 //   );
 // });
 
-self.addEventListener('notificationclick', function(event) {
-  console.log('Notification clicked!', event);
+// self.addEventListener('notificationclick', function(event) {
+//   console.log('Notification clicked!', event);
 
-  event.notification.close();
+//   event.notification.close();
 
-  event.waitUntil(
-    clients.matchAll({
-      type: 'window'
-    }).then(function(clientList) {
-      console.log('Client list:', clientList);
-      for (var i = 0; i < clientList.length; i++) {
-        var client = clientList[i];
-        console.log('Client:', client);
-        if (client.url.includes('localhost:3003') && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow('http://localhost:3003/orderdetails');
-      }
-    })
-  );
-});
+//   event.waitUntil(
+//     clients.matchAll({
+//       type: 'window'
+//     }).then(function(clientList) {
+//       console.log('Client list:', clientList);
+//       for (var i = 0; i < clientList.length; i++) {
+//         var client = clientList[i];
+//         console.log('Client:', client);
+//         if (client.url.includes('localhost:3003') && 'focus' in client) {
+//           return client.focus();
+//         }
+//       }
+//       if (clients.openWindow) {
+//         return clients.openWindow('http://localhost:3003/orderdetails');
+//       }
+//     })
+//   );
+// });
