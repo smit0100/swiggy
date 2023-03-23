@@ -31,6 +31,8 @@ import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
 import Notification from "./components/Notification";
 import { requestForToken } from "./firebase";
+import ContactUs from "./pages/ContactUs";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 const stripePromise = loadStripe(
   "pk_test_51MTNlMSCDtK5iouBSvzN781pJDRfpPgm1nv9yDY4YgX2WcxSFPlz3cBJNN7ywPw1nBikAckdFmNAoc1r0q1ezjNq00rlfYIMca"
@@ -69,6 +71,8 @@ function App() {
         <Route path="payment" element={<StripeComponent />} />
         <Route path="userprofile" element={<UserProfile />} />
         <Route path="orderDetails/:orderId" element={<OrderDetails />} />
+        <Route path="contactus" element={<ContactUs />} />
+        <Route path="privacypolicy" element={<PrivacyPolicy />} />
         {/* </>:<></>} */}
         <Route path="/*" element={<PageNotFound />} />
       </Route>

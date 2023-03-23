@@ -214,6 +214,7 @@ export default function OwnerRegister() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
+                 
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -345,10 +346,7 @@ export default function OwnerRegister() {
                     </label>
                   </div>
                   {SubmitButton()}
-                  {/* <div className="text-center mt-6">
-
-                    <button className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" type="submit" value="Create Account" disabled={true} onClick={handleSubmit}> create account</button>
-                  </div> */}
+                
                 </form>
               </div>
             </div>
@@ -367,45 +365,3 @@ export default function OwnerRegister() {
   );
 }
 
-// import React from 'react'
-
-// const OwnerRegister = () => {
-//   return (
-//     <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-//     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-//       <div className="mb-4">
-//         <label className="block text-gray-700 font-bold mb-2" for="username">
-//           Username
-//         </label>
-//         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Enter your username"/>
-//       </div>
-//       <div className="mb-4">
-//         <label className="block text-gray-700 font-bold mb-2" for="email">
-//           Email
-//         </label>
-//         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter your email address"/>
-//       </div>
-//       <div className="mb-6">
-//         <label className="block text-gray-700 font-bold mb-2" for="password">
-//           Password
-//         </label>
-//         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter your password"/>
-//       </div>
-//       <div className="mb-6">
-//         <label className="block text-gray-700 font-bold mb-2" for="confirm-password">
-//           Confirm Password
-//         </label>
-//         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirm-password" type="password" placeholder="Confirm your password"/>
-//       </div>
-//       <div className="flex items-center justify-between">
-//         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-//           Register
-//         </button>
-//       </div>
-//     </form>
-//   </div>
-
-//   )
-// }
-
-// export default OwnerRegister

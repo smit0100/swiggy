@@ -24,6 +24,7 @@ import { requestForToken } from "./firebase";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LiveLocation from "./pages/LiveLocation";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   const dispatch = useDispatch()
@@ -62,6 +63,7 @@ function App() {
         <Route path="profile" element={<UserProfile />} />
         <Route path="orderdetails" element={<OrderDetail />} />
         <Route path="ordersummary" element={<OrderSummary />} />
+        <Route path="contactus" element={<ContactUs />} />
         <Route path="/*" element={<PageNotFound />} />
       </Route>
       ):(

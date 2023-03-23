@@ -84,7 +84,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/help" className='flex items-center gap-1'>
+                  <Link to="/contactus" className='flex items-center gap-1'>
                     <TbHelp />Help
                   </Link>
                 </li>

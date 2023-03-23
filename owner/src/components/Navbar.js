@@ -24,7 +24,7 @@ const Navbar = () => {
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">
               <Link to="/">
-              <img src='./svg/foodpoint.svg' className="w-14 h-auto" />
+              <img src='./svg/foodpoint.svg' className="w-14 h-auto" alt='website logo'/>
               
               </Link>
               <div className="md:hidden">
@@ -43,7 +43,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="text-gray-600 hover:text-blue-600">
-                  <Link to="/help" className='flex items-center gap-1'>
+                  <Link to="/contactus" className='flex items-center gap-1'>
                     <TbHelp />Help
                   </Link>
                 </li>

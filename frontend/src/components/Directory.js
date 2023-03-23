@@ -44,14 +44,17 @@ const Directory = () => {
   return (
     <>
       <div className='relative w-[98.70vw] h-4/5  flex flex-col content-center justify-center' >
-        <img alt='pic' src='https://i.ibb.co/2hdPfQf/1.png' className='blur-[3px] w-screen h-[500px] object-cover' />
+        <img alt='pic' src='https://i.ibb.co/PM2sYy4/orangeBg.jpg' className=' blur-[1px] w-full h-[500px] object-cover' />
         <div className='w-full absolute left-0 '>
-          <p className='text-4xl md:text-6xl lg:text-8xl text-white transition-all z-20 duration-300 align-middle text-center'>FOODPOINT</p>
-          <p className='text-2xl md:text-3xl lg:text-5xl text-white transition-all duration-300 align-middle text-center'>Discover the best food & drinks in Surat</p>
+          <p className='text-3xl md:text-5xl lg:text-7xl text-white transition-all z-20 duration-300 align-middle text-center'>FOODPOINT</p>
+          <p className='text-2xl md:text-3xl lg:text-5xl text-white transition-all duration-300 align-middle text-center capitalize'>Discover the <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 relative inline-block">
+    <span class="relative text-white">best food & drinks</span>
+  </span></p>
 
         </div>
       </div>
       <div className='containerr'>
+        <h1 className='text-4xl font-semibold tracking-[2px] text-center my-5 border-b-4 pb-3 text-[rgba(246,147,18,255)] border-b-orange-500 uppercase'>Restaurant</h1>
         <div className='row'>
           {
             load === true ? (
