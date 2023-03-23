@@ -65,7 +65,7 @@ const ContactUs = () => {
 
   return (
     <>
-      <section className="relative z-10 overflow-hidden bg-white py-20 lg:py-[120px]">
+      <section className="relative z-10 overflow-hidden bg-inherit py-20 lg:py-[120px]">
         <div className="container mx-auto">
           <div className="-mx-4 flex flex-wrap lg:justify-center">
             <div className="w-full px-4 lg:w-1/2 xl:w-6/12">
@@ -111,22 +111,22 @@ const ContactUs = () => {
               </div>
             </div>
             <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
-              <div className="relative rounded-lg bg-white p-8 shadow-lg sm:p-12">
+              <div className="relative rounded-lg bg-orange-200 p-8 hover:shadow-xl transition-all duration-500  sm:p-12">
                 <form>
                   <div className="mb-6">
-                    <input type="text" value={name} onChange={handleName} onBlur={handleName} placeholder="Your Name" className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none" />
+                    <input type="text" value={name} onChange={handleName} onBlur={handleName} placeholder="Your Name" className="text-body-color border-[f0f0f0] focus:border-primary w-full  rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none bg-white/60" />
                     <span className="text-sm text-red-500">{nameError}</span>
                   </div>
                   <div className="mb-6">
-                    <input type="email" value={email} onChange={handleEmail} onBlur={handleEmail} placeholder="Your Email" className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none" />
+                    <input type="email" value={email} onChange={handleEmail} onBlur={handleEmail} placeholder="Your Email" className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none bg-white/60" />
                     <span className="text-sm text-red-500">{emailError}</span>
                   </div>
                   <div className="mb-6">
-                    <input type="text" value={number} onChange={handleNumber} onBlur={handleNumber} placeholder="Your Phone" className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none" />
+                    <input type="text" value={number} onChange={handleNumber} onBlur={handleNumber} placeholder="Your Phone" className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none bg-white/60" />
                     <span className="text-sm text-red-500">{numberError}</span>
                   </div>
                   <div className="mb-6">
-                    <textarea rows="6" value={message} onChange={handleMessage} onBlur={handleMessage} placeholder="Your Message" className="text-body-color border-[f0f0f0] focus:border-primary w-full resize-none rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none" />
+                    <textarea rows="6" value={message} onChange={handleMessage} onBlur={handleMessage} placeholder="Your Message" className="text-body-color border-[f0f0f0] focus:border-primary w-full resize-none rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none bg-white/60" />
                     <span className="text-sm text-red-500">{messageError}</span>
                   </div>
                   <div>

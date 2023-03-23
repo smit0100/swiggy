@@ -24,7 +24,7 @@ const Navbar = () => {
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">
               <Link to="/">
-              <img src='./svg/foodpoint.svg' className="w-14 h-auto" />
+              <img src='./svg/foodpoint.svg' className="w-14 h-auto" alt='website logo'/>
               
               </Link>
               <div className="md:hidden">

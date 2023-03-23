@@ -52,9 +52,11 @@ const Home = () => {
 
   return (
     <>
+    <div className='bg-orange-100'>
       <Navbar />
       <Outlet />
       <Footer />
+    </div>
     </>
   )
 }

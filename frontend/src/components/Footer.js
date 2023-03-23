@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
   return (
     <>
-      <footer aria-label="Site Footer" className="relative bg-white lg:grid lg:grid-cols-5">
+      <footer aria-label="Site Footer" className="relative bg-orange-200 lg:grid lg:grid-cols-5">
         <div className="relative block h-32 lg:col-span-2 lg:h-full">
           <img
             src="https://cdn.pixabay.com/photo/2018/01/31/09/57/coffee-3120750_960_720.jpg"
@@ -223,7 +223,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="pt-12 mt-12 border-t border-gray-100">
+          <div className="pt-12 mt-12 border-t border-black">
             <div className="sm:flex sm:items-center sm:justify-between">
               <nav aria-label="Footer Navigation - Support">
                 <ul className="flex flex-wrap gap-4 text-xs">
@@ -234,7 +234,7 @@ const Footer = () => {
                   </li>
 
                   <li>
-                    <Link to="abc" className="text-gray-500 transition hover:opacity-75">
+                    <Link to="/privacypolicy" className="text-gray-500 transition hover:opacity-75">
                       Privacy Policy
                     </Link>
                   </li>
