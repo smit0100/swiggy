@@ -8,7 +8,7 @@ export default function Card(props) {
         <Link to={`/request/${props.restaurantId}`}>
           <img
             className="rounded-t-2xl hover:scale-110 transition duration-300 ease-in-out"
-            src={"https://i.ibb.co/2hdPfQf/1.png"}
+            src={props.image}
             alt=""
           />
         </Link>
