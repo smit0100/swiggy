@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 import Restaurants from "../../Apis/Restaurants";
+import { Images } from "../../Assets";
 
 export default function RestaurantDetail() {
   const { rupee, currentColor } = useStateContext();
@@ -87,11 +88,10 @@ export default function RestaurantDetail() {
     price: 1011,
     imageLg: resto,
     agent: {
-      image: avatar,
+      image: Images.user2,
       name: "smit dakhra",
     },
   };
-  console.log("=====data", data);
   return (
     <section className="px-5">
       {data?.length == 0 ? (
@@ -133,7 +133,10 @@ export default function RestaurantDetail() {
               <div className="max-w-[768px]">
                 <div className="mb-8">
                   <img
-                    src={item.imageLg}
+                    src={
+                      item.imageLg
+                      // data?.bgImageUrl?.length > 0 ? data?.bgImageUrl[0] : item.imageLg
+                    }
                     className="rounded-2xl"
                     alt="restaurant image"
                   />

@@ -37,10 +37,30 @@ function ForgotPasswords(data) {
     data,
   });
 }
-
+function editUser(data) {
+  return Api({
+    url: `/user/edit`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data
+  });
+}
+function deleteUser(id) {
+  return Api({
+    url: `/user/delete?userId=${id}`,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 export default {
   GetAllUsers,
   GetOneUser,
   AdminLogIn,
-  ForgotPasswords
+  ForgotPasswords,
+  editUser,
+  deleteUser
 };

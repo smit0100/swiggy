@@ -114,7 +114,7 @@ const fetchAllOrder = async (req, res, next) => {
     // calculate the number of pages
 
     const totalPages = Math.ceil(totalCount / pageSize);
-
+    
     // retrieve the blog posts based on the page number and page size
     const response = await Order.find()
       .skip((pageNumber - 1) * pageSize)

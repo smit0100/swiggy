@@ -529,6 +529,30 @@ const forgotAdminPassword = async (req, res) => {
     return res.status(200).json({ messag: "Admin password updated" });
   }
 };
+const editUser = async (req, res, next) => {
+  try {
+    const { _id, names, descr, checked,number } = req.body;
+    console.log("====req", req.body);
+    const response = await User.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        name: names,
+        type: checked == "customer" ? "customer" : "admin",
+        email: descr,
+        number:number
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json({ message: "edited User successfully", response });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 
 module.exports = {
   createUser,
@@ -550,4 +574,5 @@ module.exports = {
   loginAsAdmin,
   makeAdmin,
   forgotAdminPassword,
+  editUser
 };

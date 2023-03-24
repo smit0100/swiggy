@@ -20,6 +20,8 @@ import ListOfProducts from "./components/ListOfProducts";
 import OwnerProfile from "./pages/OwnerProfile";
 import PageNotFound from "./components/PageNotFound";
 import Notification from "./components/Notification";
+import ForgotPassword from "./components/ForgotPassword";
+import ContactUs from "./components/ContactUs";
 import { requestForToken } from "./firebase";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -77,7 +79,7 @@ function App() {
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/resturantRegister" element={<RestaurantRegister />} />
           <Route path="/ownerprofile" element={<OwnerProfile />} />
-          {/* <Route path="contactus" element={<ContactUs />} /> */}
+          <Route path="/contactus" element={<ContactUs />} />
 
           <Route path="/*" element={<PageNotFound />} />
         </Route>

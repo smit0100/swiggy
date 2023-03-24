@@ -23,6 +23,6 @@ router.get('/isExist', userController.isExist);
 router.post('/loginAsAdmin', userController.loginAsAdmin);
 router.get('/makeAdmin', userController.makeAdmin);
 router.post('/forgotAdmin', userController.forgotAdminPassword);
-
+router.put('/edit',userController.editUser);
 
 module.exports = router

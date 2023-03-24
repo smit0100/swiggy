@@ -12,11 +12,8 @@ import { BsArrowRightCircle } from "react-icons/bs";
 
 import { useCookies } from "react-cookie";
 import { userData } from "../redux/user/userSlice";
-import swal from 'sweetalert'
-import { AiTwotoneStar } from 'react-icons/ai'
-
-
-
+import swal from "sweetalert";
+import { AiTwotoneStar } from "react-icons/ai";
 
 const UserProfile = () => {
   // for popup state
@@ -27,16 +24,21 @@ const UserProfile = () => {
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
 
-  const [cookies,setCookies , removeCookie] = useCookies(["access_token", "refresh_token"]);
+  const [cookies, setCookies, removeCookie] = useCookies([
+    "access_token",
+    "refresh_token",
+  ]);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       try {
         if (user != null) {
           setIsLoading(true);
-          const response = await axios(`${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`);
+          const response = await axios(
+            `${process.env.REACT_APP_BASEURL}/order/customer?userId=${user._id}`
+          );
           setOrder(response.data.response.order);
           setIsLoading(false);
         }
@@ -54,20 +56,19 @@ const UserProfile = () => {
       cancelButtonColor: "#DD6B55",
       confirmButtonColor: "#DD6B55",
       dangerMode: true,
-    })
-      .then(async (willDelete) => {
-        if (willDelete) {
-          removeCookie("access_token")
-          removeCookie("refresh_token")
-          // removeCookie('connect.sid')
-          dispatch(userData(null))
-          swal("Successfully logout", {
-            icon: "success",
-          });
-          navigate("/");
-        }
-      });
-  }
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        removeCookie("access_token");
+        removeCookie("refresh_token");
+        // removeCookie('connect.sid')
+        dispatch(userData(null));
+        swal("Successfully logout", {
+          icon: "success",
+        });
+        navigate("/");
+      }
+    });
+  };
 
   return (
     <>
@@ -82,7 +83,7 @@ const UserProfile = () => {
               src="./avatar.png"
             />
           </div>
-          
+
           <div className="border-b-2 border-black/30"></div>
         </div>
 
@@ -103,7 +104,10 @@ const UserProfile = () => {
                 Your Orders
               </li>
               <li className="text-lg border-b-2 cursor-pointer">
-                <button onClick={logout} className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
+                <button
+                  onClick={logout}
+                  className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
+                >
                   Logout
                 </button>
               </li>
@@ -112,8 +116,9 @@ const UserProfile = () => {
 
           {/* profile module  */}
           <div
-            className={`${openTab === 1 ? "block" : "hidden"
-              } w-full sm:w-4/5 p-5`}
+            className={`${
+              openTab === 1 ? "block" : "hidden"
+            } w-full sm:w-4/5 p-5`}
           >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               your profile
@@ -131,8 +136,12 @@ const UserProfile = () => {
                   <li className="py-3 text-lg font-normal capitalize">
                     {user != null && user.name}
                   </li>
-                  <li className=" text-lg font-normal">{user != null && user.number}</li>
-                  <li className="py-3 text-lg font-normal">{user != null && user.email}</li>
+                  <li className=" text-lg font-normal">
+                    {user != null && user.number}
+                  </li>
+                  <li className="py-3 text-lg font-normal">
+                    {user != null && user.email}
+                  </li>
                   <li className="py-3 text-lg font-normal">
                     <button
                       type="button"
@@ -162,8 +171,9 @@ const UserProfile = () => {
           </div>
           {/* order module  */}
           <div
-            className={`${openTab === 2 ? "block" : "hidden"
-              } w-full sm:w-4/5 p-5`}
+            className={`${
+              openTab === 2 ? "block" : "hidden"
+            } w-full sm:w-4/5 p-5`}
           >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               Order Detail
@@ -171,8 +181,8 @@ const UserProfile = () => {
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
               {order
                 ? order.map((item) => {
-                  return <OrderDetailsCard items={item} />;
-                })
+                    return <OrderDetailsCard items={item} />;
+                  })
                 : ""}
             </div>
           </div>
@@ -200,14 +210,11 @@ export const OrderDetailsCard = ({ items }) => {
 
   if (items != null) {
     if (+items.resturant.rating <= 1.5) {
-      bgReview = "bg-red-600"
-    }
-    else if (+items.resturant.rating > 1.5 && items.resturant.rating < 3.5) {
-      bgReview = "bg-orange-600"
-    }
-    else {
-      bgReview = "bg-green-600"
-
+      bgReview = "bg-red-600";
+    } else if (+items.resturant.rating > 1.5 && items.resturant.rating < 3.5) {
+      bgReview = "bg-orange-600";
+    } else {
+      bgReview = "bg-green-600";
     }
   }
   return (
@@ -242,7 +249,12 @@ export const OrderDetailsCard = ({ items }) => {
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-md font-semibold text-teal-600">
-                  <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{items != null && items.resturant.rating} &nbsp; <AiTwotoneStar /></div>
+                  <div
+                    className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}
+                  >
+                    {items != null && items.resturant.rating} &nbsp;{" "}
+                    <AiTwotoneStar />
+                  </div>
                 </span>
                 <BsArrowRightCircle className="text-xl group-hover:translate-x-3 transition-all duration-500" />
               </div>
