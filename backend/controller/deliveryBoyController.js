@@ -4,6 +4,7 @@ const sendEmail = require("../utils/sendEmail");
 const Order = require("../module/OrderModel");
 const DeliveryBoy = require("../module/DeliveryBoyModel");
 const User = require("../module/UserModel");
+const Courier = require("../module/DeliveryBoyModel");
 const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
 const { sendNotification } = require("../utils/PushNotification");
 const TokenModel = require("../module/TokenModel");
@@ -220,14 +221,17 @@ const receiveFoodFromResturant = async (req, res, next) => {
 
 const deliverFoodForCustomer = async (req, res, next) => {
   try {
-    const { id, otp, ownerfcmToken } = req.body;
+    const { id, otp, ownerfcmToken, deleveryBoyId } = req.body;
 
     const order = await Order.findOne({ _id: id, customerOtpNumber: otp });
+    let courierBoys = await Courier.findOne({ _id: deleveryBoyId });
     if (!order) {
       return res.status(209).json({ message: "please check ones otp" });
     } else {
+      courierBoys.isAvilable = true;
       order.status = "delivered";
       await order.save();
+      await courierBoys.save();
       let data = {
         title: "👋 Hurray!",
         body: "Your order delivered successfully 🍟",
@@ -329,7 +333,6 @@ const addLocation = async (req, res, next) => {
   }
 };
 
-
 const forgotPasswordForSentEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -407,5 +410,5 @@ module.exports = {
   deleteDeliveryBoy,
   addLocation,
   forgotPasswordForSetNewPassword,
-  forgotPasswordForSentEmail
+  forgotPasswordForSentEmail,
 };

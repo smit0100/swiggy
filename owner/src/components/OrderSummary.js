@@ -34,20 +34,24 @@ const OrderSummary = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+        Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c; // Distance in km
     return distance.toFixed(2);
   };
 
   const handleOrder = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/order/acceptOrder?id=${state}`
-    );
-    console.log(response);
-    setSummaryData(response.data.response);
+    axios
+      .get(`http://localhost:4000/order/acceptOrder?id=${state}`)
+      .then((response) => {
+        console.log("=====>>>",response);
+        if (response?.data?.response) { 
+          setSummaryData(response?.data?.response);
+        }
+      })
+      .catch((e) => console.log("===e", e));
   };
 
   let qty = 0;
@@ -99,12 +103,12 @@ const OrderSummary = () => {
                       <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
                         {summaryData != null
                           ? summaryData.customer.address[0].area +
-                          " " +
-                          summaryData.customer.address[0].city +
-                          " " +
-                          summaryData.customer.address[0].state +
-                          "-" +
-                          summaryData.customer.address[0].pincode
+                            " " +
+                            summaryData.customer.address[0].city +
+                            " " +
+                            summaryData.customer.address[0].state +
+                            "-" +
+                            summaryData.customer.address[0].pincode
                           : ""}
                       </td>
                     </tr>
@@ -136,7 +140,9 @@ const OrderSummary = () => {
                           Name
                         </td>
                         <td className="text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded ">
-                          {summaryData != null && summaryData.deliveryBoy != null && summaryData.deliveryBoy.name}
+                          {summaryData != null &&
+                            summaryData.deliveryBoy != null &&
+                            summaryData.deliveryBoy.name}
                         </td>
                       </tr>
                       <tr>
@@ -144,7 +150,9 @@ const OrderSummary = () => {
                           Mobile No.
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                          {summaryData != null && summaryData.deliveryBoy != null && summaryData.deliveryBoy.number}
+                          {summaryData != null &&
+                            summaryData.deliveryBoy != null &&
+                            summaryData.deliveryBoy.number}
                         </td>
                       </tr>
                       <tr>
@@ -152,7 +160,9 @@ const OrderSummary = () => {
                           E-mail
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                          {summaryData != null && summaryData.deliveryBoy != null && summaryData.deliveryBoy.email}
+                          {summaryData != null &&
+                            summaryData.deliveryBoy != null &&
+                            summaryData.deliveryBoy.email}
                         </td>
                       </tr>
                       <tr>
@@ -160,7 +170,7 @@ const OrderSummary = () => {
                           Address
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                        {/* {summaryData != null && summaryData.deliveryBoy != null &&  summaryData.deliveryBoy.address[0].area +
+                          {/* {summaryData != null && summaryData.deliveryBoy != null &&  summaryData.deliveryBoy.address[0].area +
                           " " +
                           summaryData.deliveryBoy.address[0].city +
                           " " +

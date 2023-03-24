@@ -29,9 +29,27 @@ function getAllCategory() {
     },
   });
 }
+function getAllSubCategory(startNum,endNum,data) {
+  return Api({
+    url: `/subcategory/getAll?pageNumber=${startNum}&pageSize=${endNum}&extraField=${data}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function deleteCategory(id) {
   return Api({
     url: `/category/delete?userId=${id}`,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+function deleteSubCategory(id) {
+  return Api({
+    url: `/subcategory/delete?userId=${id}`,
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +63,17 @@ function editCategory(data) {
     headers: {
       "Content-Type": "application/json",
     },
-    data
+    data,
+  });
+}
+function editSubCategory(data) {
+  return Api({
+    url: `/subcategory/edit`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
   });
 }
 export default {
@@ -53,5 +81,8 @@ export default {
   getAllCategory,
   AddSubCategory,
   deleteCategory,
-  editCategory
+  editCategory,
+  getAllSubCategory,
+  deleteSubCategory,
+  editSubCategory
 };
