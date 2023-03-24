@@ -27,11 +27,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
+import ForgotPassword from './components/ForgotPassword'
+// import ContectUs from './components/c'
 
 function App() {
   const dispatch = useDispatch()
   const owner = useSelector((state) => state.userData.isOwnerLogIn);
-  console.log("===owner",owner);
+  // console.log("===owner",owner);
   const [tokenFound, setTokenFound] = useState(false);
   useEffect(() => {
     const temp = localStorage.getItem("isOwnerLogIn");
@@ -62,7 +64,7 @@ function App() {
           <Route path="/otp" element={<Otp />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/*" element={<PageNotFound />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/forgotpassword" element={<ForgotPassword/>} />
 
         </Route>
       ) : (
@@ -75,7 +77,7 @@ function App() {
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/resturantRegister" element={<RestaurantRegister />} />
           <Route path="/ownerprofile" element={<OwnerProfile />} />
-          <Route path="contactus" element={<ContactUs />} />
+          {/* <Route path="contactus" element={<ContactUs />} /> */}
 
           <Route path="/*" element={<PageNotFound />} />
         </Route>

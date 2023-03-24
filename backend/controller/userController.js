@@ -256,42 +256,50 @@ const deleteUserAddress = async (req, res, next) => {
 };
 
 const updateAddress = async (req, res, next) => {
-  const { userId, name, number, email } = req.body;
+  try{
+    const { userId, name, number, email } = req.body;
 
-  let user = await User.findById(userId);
-  if (user.email === email) {
-    user = await User.findByIdAndUpdate(
-      userId,
-      { name, number },
-      {
-        new: true,
+    console.log(req.body);
+    let user = await User.findById(userId);
+    if (user.email === email) {
+      user = await User.findByIdAndUpdate(
+        userId,
+        { name, number },
+        {
+          new: true,
+        }
+      );
+  
+      return res.status(200).json({ message: "updated", user });
+    } else {
+      const emailExist = await User.find({ email });
+      console.log(emailExist);
+      if (emailExist.length != 0)
+        return res.status(409).json({ message: "email id already exist" });
+      else {
+        const otpNumber = Math.floor(100000 + Math.random() * 900000);
+        const token = await new Token({
+          userID: userId,
+          token: otpNumber,
+        }).save();
+  
+        const url = otpNumber;
+        console.log("this is url", url);
+        // await sendEmail(email, "Verify Email", String(url));
+  
+        res.status(201).json({
+          message: "otp sent",
+          user,
+          newDetails: { name, number, email },
+        });
       }
-    );
-
-    return res.status(200).json({ message: "updated", user });
-  } else {
-    const emailExist = await User.find({ email });
-    console.log(emailExist);
-    if (emailExist.length != 0)
-      return res.status(409).json({ message: "email id already exist" });
-    else {
-      const otpNumber = Math.floor(100000 + Math.random() * 900000);
-      const token = await new Token({
-        userID: userId,
-        token: otpNumber,
-      }).save();
-
-      const url = otpNumber;
-      console.log("this is url", url);
-      await sendEmail(email, "Verify Email", String(url));
-
-      res.status(201).json({
-        message: "otp sent",
-        user,
-        newDetails: { name, number, email },
-      });
     }
+  } catch(e) {
+   
+    console.log(e)
+    res.status(500).json({messag:'something went wrong'});
   }
+ 
 };
 
 const changePassword = async (req, res, next) => {

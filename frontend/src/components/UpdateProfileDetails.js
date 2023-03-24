@@ -8,6 +8,8 @@ import swal from "sweetalert"
 
 const UpdateProfileDetails = ({ setupdateProfile }) => {
 
+    const [otpMenu,setOtpMenu]=useState(false)
+    console.log("oyyy");
 
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('');
@@ -17,25 +19,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     const [emailError, setEmailError] = useState('')
     const [disabled, setDisabled] = useState(true)
 
-    const [newAddress, setNewAddress] = useState({})
-    const [otp, setOtp] = useState('')
-
-    const dispatch = useDispatch()
-    const navigate = useNavigate();
-    const user = useSelector(state => state.userData.user)
-
-
-    useEffect(() => {
-        setName(user.name);
-        setEmail(user.email);
-        setNumber(user.number)
-    }, [])
-
-    const [otpTab,setOtpTab]=useState(false)
-    
-    const changeProfileDetails = async (e) => {
-        e.preventDefault()
-        console.log(email, number, name);
+    const changeProfileDetails = async () => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/update`, {
                 userId: user._id,
@@ -44,17 +28,16 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                 name
             })
             console.log(response);
-            if (response.status === 201) {
-                console.log("ooo");
-                console.log(otpTab);
-                setOtpTab(!otpTab)
-                console.log(otpTab);
+            if (response.status == 201) {
+                console.log("if");
+                console.log(otpMenu)
+                setOtpMenu(true)
+                console.log(otpMenu)
                 setNewAddress(response.data.newDetails)
-                console.log("kk");
 
             } else {
                 // add redux 
-                console.log("ooo");
+                console.log("else");
                 dispatch(userData(response.data.user))
                 swal("Profile updated successfully", "", "success");
 
@@ -67,6 +50,25 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
             }
         }
     }
+
+    const [newAddress, setNewAddress] = useState({})
+    const [otp, setOtp] = useState('')
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const user = useSelector(state => state.userData.user)
+
+
+    useEffect(() => {
+        if(user!=null){
+        setName(user.name);
+        setEmail(user.email);
+        setNumber(user.number)
+        }
+    }, [])
+
+    
+  
 
     const handleName = (e) => {
         setName(e.target.value)
@@ -108,8 +110,9 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
             return (
                 <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                     onClick={(e) => {
+                        e.preventDefault()
                         setupdateProfile(false)
-                        changeProfileDetails(e);
+                        changeProfileDetails();
                     }}>
                     Save Update
                 </button>
@@ -118,8 +121,9 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
             return (
                 <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                     onClick={(e) => {
+                        e.preventDefault()
                         setupdateProfile(false)
-                        changeProfileDetails(e);
+                        changeProfileDetails();
                     }} disabled>
                     Save Update
                 </button>
@@ -152,13 +156,64 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
 
     return (
         <>
+
+               {/* otp component  */}
+            {otpMenu && (
+                <>
+                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                            <div className="border-0 px-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                    <h3 className="text-xl font-semibold">Enter your OTP</h3>
+                                    <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                        onClick={(e) =>{e.preventDefault(); setOtpMenu(!otpMenu)}}>
+                                        <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                            X
+                                        </span>
+                                    </button>
+                                </div>
+                                <div className="relative p-6 flex-auto space-x-4">
+                                    <form className='flex flex-col'>
+                                        <label htmlFor='otp'>Enter your OTP</label>
+                                        <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
+                                            <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                                <i className="fas fa-user"></i>
+                                            </span>
+                                            <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} id='otp' placeholder="Enter Your OTP" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                                {/*footer*/}
+                                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                    <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                                        onClick={(e) => {e.preventDefault(); setOtpMenu(!otpMenu)}}>
+                                        Close
+                                    </button>
+                                    <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                                        onClick={(e) => {
+                                            e.preventDefault()
+                                            setOtpMenu(!otpMenu)
+                                            otpSubmit(e);
+                                        }}>
+                                        Submit OTP
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            )}
+
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                     <div className="border-0 px-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                             <h3 className="text-xl font-semibold">Update Your Profile</h3>
                             <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                onClick={() => setupdateProfile(false)}>
+                                onClick={(e) =>{e.preventDefault(); setupdateProfile(false)}}>
                                 <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                                     X
                                 </span>
@@ -196,7 +251,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                             <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                onClick={() => setupdateProfile(false)}>
+                                onClick={(e) =>{e.preventDefault(); setupdateProfile(false)}}>
                                 Close
                             </button>
                             {SubmitButton()}
@@ -207,54 +262,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
 
 
-            {/* otp component  */}
-            {otpTab && (
-                <>
-                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                            <div className="border-0 px-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                    <h3 className="text-xl font-semibold">Enter your OTP</h3>
-                                    <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                        onClick={() => setOtpTab(!otpTab)}>
-                                        <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                            X
-                                        </span>
-                                    </button>
-                                </div>
-                                <div className="relative p-6 flex-auto space-x-4">
-                                    <form className='flex flex-col'>
-                                        <label htmlFor='otp'>Enter your OTP</label>
-                                        <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
-                                            <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                                                <i className="fas fa-user"></i>
-                                            </span>
-                                            <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} id='otp' placeholder="Enter Your OTP" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10" />
-
-                                        </div>
-
-                                    </form>
-                                </div>
-                                {/*footer*/}
-                                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                    <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                        onClick={() => setOtpTab(!otpTab)}>
-                                        Close
-                                    </button>
-                                    <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
-                                        onClick={(e) => {
-                                            setOtpTab(!otpTab)
-                                            otpSubmit(e);
-                                        }}>
-                                        Submit OTP
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-                </>
-            )}
+          
         </>
     )
 }
