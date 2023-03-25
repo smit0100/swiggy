@@ -25,7 +25,21 @@ export default function GetDeliveryBoy() {
   const [number, setNumber] = useState("");
   const [userId, setUserId] = useState("");
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [isValid, setIsValid] = useState(false);
 
+  useEffect(() => {
+    if (
+      userId != "" &&
+      number != "" &&
+      names != "" &&
+      descr != "" &&
+      checked != ""
+    ) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [userId, names, descr, checked]);
   useEffect(() => {
     GetRequests(tabs[activeTabIndex].label);
     document.title = "Admin - Delivery Boy Request";
@@ -122,15 +136,17 @@ export default function GetDeliveryBoy() {
       });
   };
   const handleDelete = (id) => {
-    DeliveryBoy.deleteDeliveryBoy(id).then((response) => {
-      if (response?.messag) {
-        toast.success("⭐ Delivery boy deleted successfully");
-        GetRequests(tabs[activeTabIndex].label);
-      }
-    }).catch((e)=>{
-      console.log("==e",e);
-      toast.error("☹️ Something went wrong,Please try again");
-    })
+    DeliveryBoy.deleteDeliveryBoy(id)
+      .then((response) => {
+        if (response?.messag) {
+          toast.success("⭐ Delivery boy deleted successfully");
+          GetRequests(tabs[activeTabIndex].label);
+        }
+      })
+      .catch((e) => {
+        console.log("==e", e);
+        toast.error("☹️ Something went wrong,Please try again");
+      });
   };
   const handleSubmit = (req, id) => {
     if (req == "reject" || req == "Delete") {
@@ -168,13 +184,13 @@ export default function GetDeliveryBoy() {
                 Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Available
+                Status
               </th>
               <th scope="col" className="px-6 py-3">
                 Mobile
               </th>
               <th scope="col" className="px-6 py-3">
-                Status
+                Request
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
@@ -465,7 +481,7 @@ export default function GetDeliveryBoy() {
               </div>
               <div className="flex py-2 items-center justify-center">
                 <Button
-                  // disabled={isDisabled}
+                  disabled={isValid}
                   color="white"
                   bgColor={currentColor}
                   text={"Save"}

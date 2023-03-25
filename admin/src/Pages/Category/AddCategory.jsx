@@ -33,16 +33,24 @@ export default function AddCategory() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [activeTabIndexs, setActiveTabIndexs] = useState(0);
+  const [isValid, setIsValid] = useState(false);
+  useEffect(() => {
+    if (editUser?._id != "" && names != "" && descr != "" && checked != "") {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [editUser, names, descr, checked]);
 
   useEffect(() => {
     getCategory();
     document.title = "Admin - Category";
   }, []);
-  
+
   useEffect(() => {
     getSubCategory(subTabs[activeTabIndexs].label);
-  }, [currentPage,activeTabIndexs])
-  
+  }, [currentPage, activeTabIndexs]);
+
   const getCategory = () => {
     Category.getAllCategory().then((result) => {
       console.log("===getAllCategory", result);
@@ -58,7 +66,7 @@ export default function AddCategory() {
     } else if (label == "Deactive") {
       object = "false";
     }
-    Category.getAllSubCategory(currentPage,10,object).then((result) => {
+    Category.getAllSubCategory(currentPage, 10, object).then((result) => {
       console.log("===getAllSubbbCategory", result);
       if (result?.response) {
         setSubCategory(result?.response);
@@ -146,6 +154,7 @@ export default function AddCategory() {
     let data = [];
     if (type == "main") {
       data = [...mainCategory];
+      setIsSub(false);
     } else {
       data = [...subCategory];
       setIsSub(true);
@@ -305,42 +314,42 @@ export default function AddCategory() {
             <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
               &bull; Sub Category
             </h1>
-            <div>              
-          <Tabs
-            tabs={subTabs}
-            activeTabIndex={activeTabIndexs}
-            setActiveTabIndex={(index) => {
-              setActiveTabIndexs(index);
-            }}
-          />
-        </div>
+            <div>
+              <Tabs
+                tabs={subTabs}
+                activeTabIndex={activeTabIndexs}
+                setActiveTabIndex={(index) => {
+                  setActiveTabIndexs(index);
+                }}
+              />
+            </div>
           </div>
           <ProductTable data={subCategory} type="sub" />
           <div className="mt-4 justify-center items-center flex mb-10">
-          <button
-            disabled={currentPage > 1 ? false : true}
-            onClick={() => handlePageChange(currentPage - 1)}
-            className={`inline-flex items-center px-4 py-2 ${
-              currentPage > 1
-                ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
-                : ""
-            }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
-          >
-            Previous
-          </button>
+            <button
+              disabled={currentPage > 1 ? false : true}
+              onClick={() => handlePageChange(currentPage - 1)}
+              className={`inline-flex items-center px-4 py-2 ${
+                currentPage > 1
+                  ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+                  : ""
+              }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+            >
+              Previous
+            </button>
 
-          <button
-            disabled={subCategory?.length == 10 ? false : true}
-            onClick={() => handlePageChange(currentPage + 1)}
-            className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
-              subCategory?.length == 9
-                ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
-                : "bg-white"
-            }`}
-          >
-            Next
-          </button>
-        </div>
+            <button
+              disabled={subCategory?.length == 10 ? false : true}
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
+                subCategory?.length == 9
+                  ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+                  : "bg-white"
+              }`}
+            >
+              Next
+            </button>
+          </div>
         </>
       ) : (
         <>
@@ -587,7 +596,7 @@ export default function AddCategory() {
               {/* <!-- Modal header --> */}
               <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Edit Category
+                  {`Edit ${isSub ? 'Sub' : ""} Category`}
                 </h3>
                 <button
                   type="button"
@@ -672,7 +681,7 @@ export default function AddCategory() {
               </div>
               <div className="flex py-2 items-center justify-center">
                 <Button
-                  // disabled={isDisabled}
+                  disabled={isValid}
                   color="white"
                   bgColor={currentColor}
                   text={"Save"}

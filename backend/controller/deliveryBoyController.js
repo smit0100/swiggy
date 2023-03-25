@@ -52,13 +52,18 @@ const verify = async (req, res, next) => {
       userID: id,
       token: otp,
     });
-
+    console.log("==token",token);
     if (!token) return res.status(401).json({ message: "otp wrong" });
 
     user.isVerified = true;
     await user.save();
     await token.remove();
-
+    const admin = User.findOne({type:"admin"});
+    let data = {
+      title: "👋 Request!",
+      body: "A new delivery boy joined us.",
+    };
+    sendNotification(admin?.fcmToken,data)
     res.status(200).json({ message: "user veruified", user });
   } catch (e) {
     res.status(500).json({ message: "somehting went wrong" });
