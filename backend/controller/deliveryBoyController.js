@@ -58,14 +58,14 @@ const verify = async (req, res, next) => {
     user.isVerified = true;
     await user.save();
     await token.remove();
-    const admin = User.findOne({ type: "admin" });
-    if (admin?.fcmToken != "") {
-      let data = {
-        title: "👋 Request!",
-        body: "A new delivery boy joined us.",
-      };
-      sendNotification(admin?.fcmToken, data);
-    }
+    // const admin = User.findOne({ type: "admin" });
+    // if (admin?.fcmToken != "") {
+    //   let data = {
+    //     title: "👋 Request!",
+    //     body: "A new delivery boy joined us.",
+    //   };
+    //   sendNotification(admin?.fcmToken, data);
+    // }
     res.status(200).json({ message: "user veruified", user });
   } catch (e) {
     res.status(500).json({ message: "somehting went wrong" });

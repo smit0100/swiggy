@@ -158,14 +158,6 @@ const verfiyResturant = async (req, res, next) => {
 
     await Resturant.updateOne({ _id: rest._id }, { registerVerfied: true });
     await token.remove();
-    const admin = User.findOne({ type: "admin" });
-    if (admin?.fcmToken != "") {
-      let data = {
-        title: "👋 Request!",
-        body: "A new restaurant joined with us.",
-      };
-      sendNotification(admin?.fcmToken, data);
-    }
     res.status(200).json({ messag: "resturant verfied", rest });
   } catch (e) {
     console.log(e);
@@ -520,6 +512,19 @@ const getAllReview = async (req, res) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 };
+const deleteRestaurant = async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    console.log("====id",id);
+    const data = await Resturant.findByIdAndDelete(id);
+
+    if (!data) return res.status(400).json({ message: "Resturant not founded" });
+
+    res.status(200).json({ message: "Resturant deleted" });
+  } catch (e) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -541,4 +546,5 @@ module.exports = {
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
   getAllReview,
+  deleteRestaurant
 };

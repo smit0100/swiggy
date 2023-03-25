@@ -144,13 +144,13 @@ const OwnerProfile = () => {
                   </ul>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user != null && user.bankDetails.ACnumber}
+                      {user != null && user?.bankDetails?.ACnumber}
                     </li>
                     <li className=" text-lg font-normal">
-                      {user != null && user.bankDetails.IFSC}
+                      {user != null && user?.bankDetails?.IFSC}
                     </li>
                     <li className="py-3 text-lg font-normal">
-                      {user != null && user.bankDetails.actype}
+                      {user != null && user?.bankDetails?.actype}
                     </li>
                   </ul>
                 </div>
@@ -164,10 +164,10 @@ const OwnerProfile = () => {
                   </ul>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user != null && user.panCard.holderName}
+                      {user != null && user?.panCard?.holderName}
                     </li>
                     <li className="py-3 text-lg font-normal">
-                      {user != null && user.panCard.number}
+                      {user != null && user?.panCard?.number}
                     </li>
                   </ul>
                 </div>
@@ -207,7 +207,7 @@ const OwnerProfile = () => {
                       {user != null && user.name}
                     </li>
                     <li className=" text-lg font-normal">{user != null && user.email}</li>
-                    <li className="py-3 text-lg font-normal">{`${user != null && user.address.street} ${user != null && user.address.area} ${user != null && user.address.city} ${user != null && user.address.state}-${user != null && user.address.pincode}`}</li>
+                    <li className="py-3 text-lg font-normal">{`${user != null && user.address?.street} ${user != null && user.address?.area} ${user != null && user.address?.city} ${user != null && user.address?.state}-${user != null && user.address?.pincode}`}</li>
                   </ul>
                 </div>
               </div>

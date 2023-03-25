@@ -34,6 +34,12 @@ const Otp = () => {
       );
       console.log(response.data.user);
       dispatch(userData(response.data.user));
+      dispatch(corierLogIn(true));
+      localStorage.setItem("isCorierLogIn", JSON.stringify(true));
+      localStorage.setItem(
+        "deliveryData",
+        JSON.stringify(response?.data?.user)
+      );
       swal("SuccessFully register", "", "success");
       setIsDisable(false);
       if (response.data.user.isApproved == "pending") {
