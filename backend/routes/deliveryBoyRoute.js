@@ -15,11 +15,10 @@ router.get('/fetchpending', deliveryBoyController.fetchPending);
 router.get('/fetchaccepted',deliveryBoyController.fetchAllAccepted)
 router.get('/fetchrejected',deliveryBoyController.fetchAllRejected)
 router.post('/addReview', deliveryBoyController.addReview);
-router.post('/location', deliveryBoyController.addLocation);
 router.delete('/delete', deliveryBoyController.deleteDeliveryBoy);
 router.post('/forgotpassword', deliveryBoyController.forgotPasswordForSentEmail);
 router.post('/verfiyotp', deliveryBoyController.forgotPasswordForSetNewPassword);
-
+router.put('/edit',deliveryBoyController.editDeliveryBoy);
 
 
 module.exports = router

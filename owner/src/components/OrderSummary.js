@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import OrderSummaryFoodCard from "./OrderSummaryFoodCard";
 import InlineButtonLoader from "./InlineButtonLoader";
 import Loader from "./Loader";
-
+import { toast } from "react-toastify";
 // import io from 'socket.io-client';
 // const socket = io("http://localhost:4000");
 
@@ -13,6 +13,7 @@ const OrderSummary = () => {
   const { state } = useLocation();
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -26,28 +27,23 @@ const OrderSummary = () => {
     })();
   }, []);
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    console.log("===", lat1, lon1, lat2, lon2);
-    const R = 6371; // Radius of the earth in km
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in km
-    return distance.toFixed(2);
-  };
-
   const handleOrder = async () => {
-    const response = await axios.get(
-      `http://localhost:4000/order/acceptOrder?id=${state}`
-    );
-    console.log(response);
-    setSummaryData(response.data.response);
+    setIsDisable(true);
+    axios
+      .get(`http://localhost:4000/order/acceptOrder?id=${state}`)
+      .then((response) => {
+        console.log("=====>>>", response);
+        if (response?.data?.response) {
+          setIsDisable(false);
+          toast.success("🔥 Order successfully accepted.");
+          setSummaryData(response?.data?.response);
+        }
+      })
+      .catch((e) => {
+        console.log("===e", e)
+        setIsDisable(false);
+        toast.error("☹️ Something went wrong,Please try again");
+      });
   };
 
   let qty = 0;
@@ -99,12 +95,12 @@ const OrderSummary = () => {
                       <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
                         {summaryData != null
                           ? summaryData.customer.address[0].area +
-                          " " +
-                          summaryData.customer.address[0].city +
-                          " " +
-                          summaryData.customer.address[0].state +
-                          "-" +
-                          summaryData.customer.address[0].pincode
+                            " " +
+                            summaryData.customer.address[0].city +
+                            " " +
+                            summaryData.customer.address[0].state +
+                            "-" +
+                            summaryData.customer.address[0].pincode
                           : ""}
                       </td>
                     </tr>
@@ -136,7 +132,9 @@ const OrderSummary = () => {
                           Name
                         </td>
                         <td className="text-black capitalize bg-white w-screen bg-opacity-20 pl-2 rounded ">
-                          {summaryData != null && summaryData.deliveryBoy != null && summaryData.deliveryBoy.name}
+                          {summaryData != null &&
+                            summaryData.deliveryBoy != null &&
+                            summaryData.deliveryBoy.name}
                         </td>
                       </tr>
                       <tr>
@@ -144,7 +142,9 @@ const OrderSummary = () => {
                           Mobile No.
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                          {summaryData != null && summaryData.deliveryBoy != null && summaryData.deliveryBoy.number}
+                          {summaryData != null &&
+                            summaryData.deliveryBoy != null &&
+                            summaryData.deliveryBoy.number}
                         </td>
                       </tr>
                       <tr>
@@ -152,7 +152,9 @@ const OrderSummary = () => {
                           E-mail
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                          {summaryData != null && summaryData.deliveryBoy != null && summaryData.deliveryBoy.email}
+                          {summaryData != null &&
+                            summaryData.deliveryBoy != null &&
+                            summaryData.deliveryBoy.email}
                         </td>
                       </tr>
                       <tr>
@@ -160,7 +162,7 @@ const OrderSummary = () => {
                           Address
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                        {/* {summaryData != null && summaryData.deliveryBoy != null &&  summaryData.deliveryBoy.address[0].area +
+                          {/* {summaryData != null && summaryData.deliveryBoy != null &&  summaryData.deliveryBoy.address[0].area +
                           " " +
                           summaryData.deliveryBoy.address[0].city +
                           " " +
@@ -216,24 +218,6 @@ const OrderSummary = () => {
                         {summaryData != null ? summaryData.total + 50 : 0}
                       </div>
                     </div>
-                    {summaryData?.customer?.latitude &&
-                      summaryData?.customer?.longitude &&
-                      summaryData?.resturant?.latitude &&
-                      summaryData?.resturant?.longitude && (
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="text-black  text-lg font-semibold text-semibold">
-                            Total Distance
-                          </div>
-                          <div className="text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded">
-                            {getDistance(
-                              summaryData?.customer?.latitude,
-                              summaryData?.customer?.longitude,
-                              summaryData?.resturant?.latitude,
-                              summaryData?.resturant?.longitude
-                            ) + " km"}
-                          </div>
-                        </div>
-                      )}
                   </div>
                   <div className="pt-5">
                     {summaryData !== null && summaryData.courierBoyotpNumber ? (
@@ -255,9 +239,14 @@ const OrderSummary = () => {
                     ) : (
                       <button
                         onClick={handleOrder}
-                        className="inline-block mt-3 bg-transparent hover:text-white hover:bg-emerald-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-emerald-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-emereld-500"
+                        disabled={isDisable}
+                        className={`inline-block mt-3    ${
+                          isDisable
+                            ? "bg-emerald-600 text-white"
+                            : " hover:bg-emerald-600 duration-150 hover:shadow-xl bg-transparent hover:text-white"
+                        } -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase `}
                       >
-                        Accept Order
+                        {isDisable ? <InlineButtonLoader /> : "Accept Order"}
                       </button>
                     )}
                   </div>

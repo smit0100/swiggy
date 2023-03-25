@@ -32,7 +32,7 @@ export default function Product(props) {
         </li>
         <li className="flex flex-col">
           <span className="font-bold">Review</span>{" "}
-          <p className="dark:text-gray-400">4.7/5</p>
+          <p className="dark:text-gray-400">3.5/5</p>
         </li>
       </ul>
       <div className="text-center">

@@ -164,13 +164,10 @@ const fetchOnlyOneUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  const { email, password, fcmToken,coordinates } = req.body;
+  const { email, password, fcmToken } = req.body;
   let user = await User.findOneAndUpdate(
     { email },
-    { fcmToken,      
-      latitude: coordinates?.latitude,
-      longitude: coordinates?.longitude,
-    },
+    { fcmToken },
     { new: true }
   );
 
@@ -256,41 +253,47 @@ const deleteUserAddress = async (req, res, next) => {
 };
 
 const updateAddress = async (req, res, next) => {
-  const { userId, name, number, email } = req.body;
+  try {
+    const { userId, name, number, email } = req.body;
 
-  let user = await User.findById(userId);
-  if (user.email === email) {
-    user = await User.findByIdAndUpdate(
-      userId,
-      { name, number },
-      {
-        new: true,
+    console.log(req.body);
+    let user = await User.findById(userId);
+    if (user.email === email) {
+      user = await User.findByIdAndUpdate(
+        userId,
+        { name, number },
+        {
+          new: true,
+        }
+      );
+
+      return res.status(200).json({ message: "updated", user });
+    } else {
+      const emailExist = await User.find({ email });
+      console.log(emailExist);
+      if (emailExist.length != 0)
+        return res.status(409).json({ message: "email id already exist" });
+      else {
+        const otpNumber = Math.floor(100000 + Math.random() * 900000);
+        const token = await new Token({
+          userID: userId,
+          token: otpNumber,
+        }).save();
+
+        const url = otpNumber;
+        console.log("this is url", url);
+        // await sendEmail(email, "Verify Email", String(url));
+
+        res.status(201).json({
+          message: "otp sent",
+          user,
+          newDetails: { name, number, email },
+        });
       }
-    );
-
-    return res.status(200).json({ message: "updated", user });
-  } else {
-    const emailExist = await User.find({ email });
-    console.log(emailExist);
-    if (emailExist.length != 0)
-      return res.status(409).json({ message: "email id already exist" });
-    else {
-      const otpNumber = Math.floor(100000 + Math.random() * 900000);
-      const token = await new Token({
-        userID: userId,
-        token: otpNumber,
-      }).save();
-
-      const url = otpNumber;
-      console.log("this is url", url);
-      await sendEmail(email, "Verify Email", String(url));
-
-      res.status(201).json({
-        message: "otp sent",
-        user,
-        newDetails: { name, number, email },
-      });
     }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ messag: "something went wrong" });
   }
 };
 
@@ -508,7 +511,7 @@ const makeAdmin = async (req, res) => {
 const forgotAdminPassword = async (req, res) => {
   const { oldPass, newPass } = req.body;
   let user = await User.findOne({ type: "admin" });
-  console.log("=====",req.body,user);
+  console.log("=====", req.body, user);
   const pass = await bcrypt.compareSync(oldPass, user.password);
   console.log(pass);
   if (!pass) {
@@ -519,6 +522,30 @@ const forgotAdminPassword = async (req, res) => {
     const encryptedPass = await bcrypt.hash(newPass, 10);
     await user.updateOne({ password: encryptedPass });
     return res.status(200).json({ messag: "Admin password updated" });
+  }
+};
+const editUser = async (req, res, next) => {
+  try {
+    const { _id, names, descr, checked, number } = req.body;
+    console.log("====req", req.body);
+    const response = await User.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        name: names,
+        type: checked == "customer" ? "customer" : "admin",
+        email: descr,
+        number: number,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json({ message: "edited User successfully", response });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "something went wrong" });
   }
 };
 
@@ -542,4 +569,5 @@ module.exports = {
   loginAsAdmin,
   makeAdmin,
   forgotAdminPassword,
+  editUser,
 };

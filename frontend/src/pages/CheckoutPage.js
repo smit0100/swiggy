@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../redux/user/userSlice";
 import StripeCheckout from "react-stripe-checkout";
@@ -14,11 +14,19 @@ const CheckoutPage = () => {
   const [stateError, setStateError] = useState("");
   const [pincode, setPincode] = useState("");
   const [pincodeError, setPincodeError] = useState("");
+  const [selectedAddress,setSelectedAddress] = useState('');
 
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.userData.user);
   const cart = useSelector(state => state.cartData.cart)
+
+  useEffect(() => {
+    
+    console.log(selectedAddress)
+  
+  },[selectedAddress])
+  
 
   const makePayment = async (token) => {
     console.log("this is token", token);
@@ -27,11 +35,8 @@ const CheckoutPage = () => {
     };
     try {
       axios.post(`${process.env.REACT_APP_BASEURL}/payment`, {
-        token,
-        product: {
-          name: "first product",
-          price: 1000,
-        },
+        customer:user._id,
+        addressId:selectedAddress
       }).then((response) => {
         handleDelivery(address)
         console.log("=====payment res:::", response);
@@ -201,6 +206,9 @@ const CheckoutPage = () => {
                         >
                           <button
                             className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                            onClick={() => {
+                              setSelectedAddress(address._id)
+                            }}
                           >
                             deliver here
                           </button>

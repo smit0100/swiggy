@@ -33,7 +33,7 @@ export default function Restaurants() {
               return (
                 <RestroCard
                   key={index}
-                  image={resto}
+                  image={item?.bgImageUrl[0] ? item?.bgImageUrl[0] : resto}
                   title={item?.name}
                   restaurantId={item?._id}
                   item={item}

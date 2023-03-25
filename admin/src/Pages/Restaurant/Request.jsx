@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Restaurants from "../../Apis/Restaurants";
 import swal from "sweetalert";
 import { Card } from "../../Components";
+import resto from "../../Assets/resto.jpg";
 
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
@@ -95,6 +96,8 @@ export default function Request() {
                 name={item.name}
                 restaurantId={item._id}
                 items={item}
+                // image={item?.bgImageUrl[0] ? item?.bgImageUrl[0] : resto}
+                image={resto}
                 isApproved={item?.isApproved}
                 handleSubmit={(e) => handleSubmit(e, item._id)}
               />

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Category from "../../Apis/Category";
 import { Button, Tabs } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
@@ -11,29 +11,72 @@ export default function AddCategory() {
   const [subDescription, setSubDescription] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const [mainCategory, setMainCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
   const [name, setName] = useState("");
   const [editUser, setEditUser] = useState({});
   const [subName, setSubName] = useState("");
   const [edit, setEdit] = useState(false);
+  const [isSub, setIsSub] = useState(false);
   const [checked, setChecked] = useState("");
   const [names, setNames] = useState("");
   const [descr, setDescr] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [tabs, setTabs] = useState([
     { label: "All", badge: null },
     { label: "Add Category", badge: null },
   ]);
+  const [subTabs, setSubTabs] = useState([
+    { label: "All", badge: null },
+    { label: "Active", badge: null },
+    { label: "Deactive", badge: null },
+  ]);
   const [isVisible, setIsVisible] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [activeTabIndexs, setActiveTabIndexs] = useState(0);
+  const [isValid, setIsValid] = useState(false);
+  useEffect(() => {
+    if (editUser?._id != "" && names != "" && descr != "" && checked != "") {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [editUser, names, descr, checked]);
 
   useEffect(() => {
     getCategory();
     document.title = "Admin - Category";
   }, []);
+
+  useEffect(() => {
+    getSubCategory(subTabs[activeTabIndexs].label);
+  }, [currentPage, activeTabIndexs]);
+
   const getCategory = () => {
     Category.getAllCategory().then((result) => {
       console.log("===getAllCategory", result);
       if (result?.response) {
         setMainCategory(result?.response);
+      }
+    });
+  };
+  const getSubCategory = (label) => {
+    let object = "";
+    if (label == "Active") {
+      object = "true";
+    } else if (label == "Deactive") {
+      object = "false";
+    }
+    Category.getAllSubCategory(currentPage, 10, object).then((result) => {
+      console.log("===getAllSubbbCategory", result);
+      if (result?.response) {
+        setSubCategory(result?.response);
+      }
+      if (result?.totalCount) {
+        let data = [...subTabs];
+        data[0].badge = result?.totalCount;
+        data[1].badge = result?.totalActive;
+        data[2].badge = result?.totalDeactive;
+        setSubTabs(data);
       }
     });
   };
@@ -99,9 +142,24 @@ export default function AddCategory() {
       }
     });
   };
-  const handleModal = (id) => {
-    let data = [...mainCategory];
-    let item = data.find((item) => item?._id == id);
+  const deleteSubCategory = (id) => {
+    Category.deleteSubCategory(id).then((response) => {
+      if (response?.messag == "Sub category deleted") {
+        toast.success("⭐ Sub category deleted successfully");
+        getSubCategory(subTabs[activeTabIndexs].label);
+      }
+    });
+  };
+  const handleModal = (id, type) => {
+    let data = [];
+    if (type == "main") {
+      data = [...mainCategory];
+      setIsSub(false);
+    } else {
+      data = [...subCategory];
+      setIsSub(true);
+    }
+    let item = data?.find((item) => item?._id == id);
     if (item) {
       setEditUser(item);
       setChecked(item.isActive ? "checked" : "unchecked");
@@ -110,16 +168,22 @@ export default function AddCategory() {
       setIsVisible(true);
     }
   };
-  const handleDelete = (id) => {
+  const handleDelete = (id, type) => {
     swal({
       title: "Are you sure?",
-      text: `Are you sure! you want to delete this category?`,
+      text: `Are you sure! you want to delete this ${
+        type == "main" ? "category" : "sub category"
+      } ?`,
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((e) => {
       if (e) {
-        deleteCategory(id);
+        if (type == "main") {
+          deleteCategory(id);
+        } else {
+          deleteSubCategory(id);
+        }
       }
     });
   };
@@ -130,20 +194,36 @@ export default function AddCategory() {
       descr,
       checked,
     };
-    Category.editCategory(JSON.stringify(data))
-      .then((res) => {
-        console.log("===res", res);
-        if (res?.response) {
-        toast.success("⭐ Category edited successfully");
-          setIsVisible(false);
-          getCategory();
-        }
-      })
-      .catch((e) => console.log("=====e", e));
+    if (isSub) {
+      Category.editSubCategory(JSON.stringify(data))
+        .then((res) => {
+          console.log("===res", res);
+          if (res?.response) {
+            toast.success("⭐Sub category edited successfully");
+            setIsVisible(false);
+            getSubCategory(subTabs[activeTabIndexs].label);
+          }
+        })
+        .catch((e) => console.log("=====e", e));
+    } else {
+      Category.editCategory(JSON.stringify(data))
+        .then((res) => {
+          console.log("===res", res);
+          if (res?.response) {
+            toast.success("⭐ Category edited successfully");
+            setIsVisible(false);
+            getCategory();
+          }
+        })
+        .catch((e) => console.log("=====e", e));
+    }
   };
-  const ProductTable = () => {
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const ProductTable = ({ data, type }) => {
     return (
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:m-20 m-5">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:mx-20 md:mt-12 m-5">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -165,7 +245,7 @@ export default function AddCategory() {
             </tr>
           </thead>
           <tbody>
-            {mainCategory?.map((item, index) => (
+            {data?.map((item, index) => (
               <tr
                 key={index}
                 className={`${
@@ -192,13 +272,13 @@ export default function AddCategory() {
                 <td className="px-6 py-4 flex gap-3">
                   <button
                     className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
-                    onClick={() => handleModal(item?._id)}
+                    onClick={() => handleModal(item?._id, type)}
                   >
                     Edit
                   </button>
                   <button
                     className="font-medium border-red-500 border-1 text-red-500 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white duration-150"
-                    onClick={() => handleDelete(item?._id)}
+                    onClick={() => handleDelete(item?._id, type)}
                   >
                     Delete
                   </button>
@@ -215,7 +295,7 @@ export default function AddCategory() {
     <>
       <div className="flex flex-wrap bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
         <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
-          &bull; Category
+          &bull; Main Category
         </h1>
         <div>
           <Tabs
@@ -228,7 +308,49 @@ export default function AddCategory() {
         </div>
       </div>
       {activeTabIndex == 0 ? (
-        <ProductTable />
+        <>
+          <ProductTable data={mainCategory} type="main" />
+          <div className="flex flex-wrap mt-10 bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
+            <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
+              &bull; Sub Category
+            </h1>
+            <div>
+              <Tabs
+                tabs={subTabs}
+                activeTabIndex={activeTabIndexs}
+                setActiveTabIndex={(index) => {
+                  setActiveTabIndexs(index);
+                }}
+              />
+            </div>
+          </div>
+          <ProductTable data={subCategory} type="sub" />
+          <div className="mt-4 justify-center items-center flex mb-10">
+            <button
+              disabled={currentPage > 1 ? false : true}
+              onClick={() => handlePageChange(currentPage - 1)}
+              className={`inline-flex items-center px-4 py-2 ${
+                currentPage > 1
+                  ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+                  : ""
+              }  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+            >
+              Previous
+            </button>
+
+            <button
+              disabled={subCategory?.length == 10 ? false : true}
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 border border-gray-300 rounded-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${
+                subCategory?.length == 9
+                  ? "hover:shadow-lg hover:text-gray-700 hover:bg-gray-100"
+                  : "bg-white"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        </>
       ) : (
         <>
           <form className="lg:p-16 p-5 bg-slate-200 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
@@ -474,7 +596,7 @@ export default function AddCategory() {
               {/* <!-- Modal header --> */}
               <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Edit Category
+                  {`Edit ${isSub ? 'Sub' : ""} Category`}
                 </h3>
                 <button
                   type="button"
@@ -559,7 +681,7 @@ export default function AddCategory() {
               </div>
               <div className="flex py-2 items-center justify-center">
                 <Button
-                  // disabled={isDisabled}
+                  disabled={isValid}
                   color="white"
                   bgColor={currentColor}
                   text={"Save"}

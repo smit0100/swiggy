@@ -4,7 +4,7 @@ import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { corierLogIn } from "../redux/user/userSlice";
+import { corierLogIn, userData } from "../redux/user/userSlice";
 import { toast } from "react-toastify";
 
 const UserProfile = () => {
@@ -34,6 +34,7 @@ const UserProfile = () => {
   const handleLogOut = () => {
     localStorage.clear();
     dispatch(corierLogIn(false));
+    dispatch(userData(null));
     history("/");
   };
 

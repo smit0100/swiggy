@@ -57,12 +57,14 @@ function Dashboard(props) {
       User.GetAllUsers()
         .then((res) => {
           console.log("response", res);
-          const filteredData = res?.data?.sort(
-            (a, b) => b.createdAt - a.createdAt
-          );
-          const data = filteredData.splice(0, 5);
-          console.log("========", data);
-          setDatas(data);
+          if (res?.data) {
+            const filteredData = res?.data?.sort(
+              (a, b) => b.createdAt - a.createdAt
+            );
+            const data = filteredData?.splice(0, 5);
+            console.log("========", data);
+            setDatas(data);
+          }
         })
         .catch((e) => console.log("====ee", e));
     })();
@@ -76,7 +78,7 @@ function Dashboard(props) {
     Restaurants.GetCounts()
       .then((res) => {
         console.log("===res", res);
-        if (res) {
+        if (res?.message == "finded counts") {
           let temp = [...earningData];
           temp[0].amount = res?.userCount;
           temp[1].amount = res?.resCount;
@@ -90,6 +92,7 @@ function Dashboard(props) {
         console.log("==getCounts error::", e);
       });
   };
+  console.log("===item?.amount", earningData);
   return (
     <div className="mt-24">
       <div className="flex flex-wrap lg:flex-nowrap justify-center bg-slate-300 rounded-2xl">
@@ -107,7 +110,9 @@ function Dashboard(props) {
                 {item.icon}
               </button>
               <p className="mt-3">
-                <span className="text-lg font-semibold">{item.amount}</span>
+                <span className="text-lg font-semibold">
+                  {item?.amount != undefined ? item?.amount : 0}
+                </span>
                 <span className={`text-sm text-${item.pcColor} ml-2`}>
                   {item.percentage}
                 </span>

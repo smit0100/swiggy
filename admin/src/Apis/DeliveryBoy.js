@@ -1,12 +1,12 @@
 import Api from "./Api";
 
-function GetRequests(startNum,endNum,data) {
+function GetRequests(startNum, endNum, data) {
   return Api({
     url: `/courier/fetchpending?pageNumber=${startNum}&pageSize=${endNum}&extraField=${data}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    }
+    },
   });
 }
 
@@ -37,8 +37,8 @@ function deleteDeliveryBoy(id) {
     },
   });
 }
-function handleRequest(id,req) {
-  console.log("==id,req",id,req);
+function handleRequest(id, req) {
+  console.log("==id,req", id, req);
   return Api({
     url: `/courier/${req}?id=${id}`,
     method: "PATCH",
@@ -47,7 +47,21 @@ function handleRequest(id,req) {
     },
   });
 }
-
-export default {
-    GetRequests,getOneProduct,handleRequest,GetApprovedRestaurant,deleteDeliveryBoy
+function editDeliveryBoy(data) {
+  return Api({
+    url: `/courier/edit`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
+  });
 }
+export default {
+  GetRequests,
+  getOneProduct,
+  handleRequest,
+  GetApprovedRestaurant,
+  deleteDeliveryBoy,
+  editDeliveryBoy,
+};

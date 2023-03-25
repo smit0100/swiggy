@@ -68,16 +68,15 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       setLoading(true)
-      const response = await axios.post('http://localhost:4000/courier/forgotpassword', {
+      const response = await axios.post('http://localhost:4000/resturant/forgotpassword', {
         email
       })
-      console.log(response);
       if (response.status === 205) {
-        console.log('something wrong');
+        console.log('something wrogn');
         setLoading(false)
       } else {
         console.log(response);
-        setId(response.data.user._id);
+        setId(response.data.rest._id);
         setOtpShow(true)
         setLoading(false)
       }
@@ -90,18 +89,18 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
     setLoading(true)
-      const response = await axios.post('http://localhost:4000/courier/verfiyotp', {
+      const response = await axios.post('http://localhost:4000/resturant/verfiyotp', {
         id,
         otp,
         newPassword: pass
       });
-      console.log(response);
+      // console.log(response);
       if (response.status === 205) {
         swal(`wrong otp`, "", "error");
         setLoading(false)
       } else {
         swal("SuccessFully Forget Password", "", "success");
-        navigate("/login")
+        navigate("/")
       }
     } catch (err) {
       swal(`something error`, "", "error");

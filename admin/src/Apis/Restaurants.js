@@ -37,6 +37,15 @@ function getOneProduct(id) {
     },
   });
 }
+function getAllReviews(id) {
+  return Api({
+    url: `/resturant/getallreview/?id=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function handleRequest(id, req) {
   console.log("==id,req", id, req);
   return Api({
@@ -54,4 +63,5 @@ export default {
   handleRequest,
   GetApprovedRestaurant,
   GetCounts,
+  getAllReviews
 };

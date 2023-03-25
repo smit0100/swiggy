@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import User from "../../Apis/User";
 import { Images } from "../../Assets";
-import avatar from "../../Assets/avatar.jpg";
+import { toast } from "react-toastify";
 import { Button } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
+import swal from "sweetalert";
 
 export default function GetUser() {
   const [action, setAction] = useState(false);
@@ -22,24 +23,37 @@ export default function GetUser() {
   const [number, setNumber] = useState("");
 
   useEffect(() => {
-    (async () => {
-      User.GetAllUsers(currentPage, 10)
-        .then((res) => {
-          console.log("response", res);
-          if (res?.data?.length > 0 && res?.status != 404) {
-            setDatas(res?.data);
-          }
-        })
-        .catch((e) => console.log("====ee", e));
-    })();
+    getAllUser();
     document.title = "Admin - Customers";
   }, [currentPage]);
-
+  const getAllUser = () => {
+    User.GetAllUsers(currentPage, 10)
+      .then((res) => {
+        console.log("response", res);
+        if (res?.data?.length > 0 && res?.status != 404) {
+          setDatas(res?.data);
+        }
+      })
+      .catch((e) => console.log("====ee", e));
+  };
   const handleSelection = (e) => {
-    setselectedFilter(e);
+    if (selectedFilter == e) {
+      setselectedFilter("Filter");
+      if (e == "Order") {
+        getAllUser()
+      }
+    }else{
+      setselectedFilter(e);
+      if (e == "Order") {
+        let temp = [...datas]
+        const sortedData = temp.sort((a, b) => b.order.length - a.order.length);
+        setDatas(sortedData)
+      }
+    }
     setAction(false);
   };
 
+  
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -62,10 +76,79 @@ export default function GetUser() {
       setEditUser(item);
       setIsVisible(true);
       setChecked(item?.type);
-      setNames(item?.name)
-      setDescr(item?.email)
-      setNumber(item?.number)
+      if (item?.name) {
+        setNames(item?.name);
+      } else {
+        setNames(item?.name);
+      }
+      if (item?.email) {
+        setDescr(item?.email);
+      } else {
+        setDescr("");
+      }
+      if (item?.number) {
+        setNumber(item?.number);
+      } else {
+        setNumber("");
+      }
     }
+  };
+  const handleSave = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    console.log("==descr?.trim() == ", descr);
+    if (names?.trim() == "") {
+      toast.error("🤨 name is required");
+    } else if (descr?.trim() == "") {
+      toast.error("🤨 Email is required!");
+    } else if (!regex.test(descr)) {
+      toast.error("🤨 This is not a valid email format!");
+    } else if (number?.trim() == "") {
+      toast.error("🤨 Mobile number is required!");
+    } else if (isNaN(number)) {
+      toast.error("🤨 Mobile number must be number!");
+    } else if (number.length != 10) {
+      toast.error("🤨 Mobile number is not valid!");
+    } else {
+      let data = {
+        _id: editUser._id,
+        names,
+        descr,
+        number,
+        checked,
+      };
+      console.log("===data", data);
+      User.editUser(JSON.stringify(data))
+        .then((res) => {
+          console.log("===res", res);
+          if (res?.response) {
+            toast.success("⭐ User edited successfully");
+            setIsVisible(false);
+            getAllUser();
+          }
+        })
+        .catch((e) => console.log("=====e", e));
+    }
+  };
+  const deleteUser = (id) => {
+    User.deleteUser(id).then((response) => {
+      if (response?.messag) {
+        toast.success("⭐ User deleted successfully", { theme: "dark" });
+        getAllUser();
+      }
+    });
+  };
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: `Are you sure! you want to delete this User?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((e) => {
+      if (e) {
+        deleteUser(id);
+      }
+    });
   };
   const dataTable = (data) =>
     data?.map((item, index) => {
@@ -74,7 +157,7 @@ export default function GetUser() {
           key={index}
           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
-          <td className="w-4 p-4">
+          {/* <td className="w-4 p-4">
             <div className="flex items-center">
               <input
                 id="checkbox-table-search-1"
@@ -83,7 +166,7 @@ export default function GetUser() {
               />
               <label className="sr-only">checkbox</label>
             </div>
-          </td>
+          </td> */}
           <th
             scope="row"
             className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
@@ -112,15 +195,19 @@ export default function GetUser() {
               <span>{item.type}</span>
             </div>
           </td>
-          <td className="px-6 py-4">
-            {/* <!-- Modal toggle --> */}
-            <a
+          <td className="px-6 py-4 flex gap-3">
+            <button
+              className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
               onClick={() => handleModal(item?._id)}
-              type="button"
-              className="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >
-              Edit user
-            </a>
+              Edit
+            </button>
+            <button
+              className="font-medium border-red-500 border-1 text-red-500 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white duration-150"
+              onClick={() => handleDelete(item?._id)}
+            >
+              Delete
+            </button>
           </td>
         </tr>
       );
@@ -159,31 +246,11 @@ export default function GetUser() {
                 <li>
                   <a
                     onClick={() => {
-                      handleSelection("Name");
-                    }}
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Name
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => {
-                      handleSelection("Position");
+                      handleSelection("Order");
                     }}
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     Orders
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => {
-                      handleSelection("status");
-                    }}
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Email
                   </a>
                 </li>
               </ul>
@@ -216,14 +283,14 @@ export default function GetUser() {
             value={search}
             onChange={(e) => handleSearch(e.target.value)}
             className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 shadow-sm hover:shadow-md dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search for users"
+            placeholder="Search user"
           />
         </div>
       </div>
       <table className=" w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="p-4">
+            {/* <th scope="col" className="p-4">
               <div className="flex items-center">
                 <input
                   id="checkbox-all-search"
@@ -232,7 +299,7 @@ export default function GetUser() {
                 />
                 <label className="sr-only">checkbox</label>
               </div>
-            </th>
+            </th> */}
             <th scope="col" className="px-6 py-3">
               Name
             </th>
@@ -289,7 +356,7 @@ export default function GetUser() {
               {/* <!-- Modal header --> */}
               <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  Edit user
+                  Edit {editUser?.name}
                 </h3>
                 <button
                   type="button"
@@ -323,9 +390,9 @@ export default function GetUser() {
                       name="first-name"
                       id="first-name"
                       value={names}
-                      onChange={(e)=>setNames(e.target.value)}
+                      onChange={(e) => setNames(e.target.value)}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Bonnie"
+                      placeholder="Enter name"
                       required=""
                     />
                   </div>
@@ -353,28 +420,27 @@ export default function GetUser() {
                       name="email"
                       id="email"
                       value={descr}
-                      onChange={(e)=>setDescr(e.target.value)}
+                      onChange={(e) => setDescr(e.target.value)}
                       className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="example@company.com"
                       required=""
                     />
                   </div>
-                  {editUser?.number && (
-                    <div className="col-span-6 sm:col-span-3">
-                      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Phone Number
-                      </label>
-                      <input
-                        name="phone-number"
-                        id="phone-number"
-                        value={number}
-                      onChange={(e)=>setNumber(e.target.value)}
-                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="e.g. +(12)3456 789"
-                        required=""
-                      />
-                    </div>
-                  )}
+                  <div className="col-span-6 sm:col-span-3">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Phone Number
+                    </label>
+                    <input
+                      name="phone-number"
+                      id="phone-number"
+                      value={number}
+                      onChange={(e) => setNumber(e.target.value)}
+                      className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Enter mobile number"
+                      required=""
+                      maxLength={10}
+                    />
+                  </div>
                   {/* <div className="col-span-6 sm:col-span-3">
                             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                             <input type="text" name="department" id="department" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required=""/>
@@ -434,7 +500,7 @@ export default function GetUser() {
                   text={"Save"}
                   borderRadius="10px"
                   width={"64"}
-                  onClick={() => setIsVisible(false)}
+                  onClick={handleSave}
                 />
               </div>
               {/* <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">

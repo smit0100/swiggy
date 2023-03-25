@@ -23,6 +23,7 @@ import Otp from "./components/Otp";
 import CheckoutPage from "./pages/CheckoutPage";
 import Payment from "./components/StripeComponent";
 import StripeComponent from "./components/StripeComponent";
+import PrivacyPolicy from "./components/PrivacyPolicy"
 import ResturantPage from "./pages/ResturantPage";
 import UserProfile from "./pages/UserProfile";
 import OrderDetails from "./pages/OrderDetails";
@@ -31,7 +32,6 @@ import StripeCheckout from "react-stripe-checkout";
 import Notification from "./components/Notification";
 import { requestForToken } from "./firebase";
 import ContactUs from "./pages/ContactUs";
-import PrivacyPolicy from "./components/PrivacyPolicy";
 
 const stripePromise = loadStripe(
   "pk_test_51MTNlMSCDtK5iouBSvzN781pJDRfpPgm1nv9yDY4YgX2WcxSFPlz3cBJNN7ywPw1nBikAckdFmNAoc1r0q1ezjNq00rlfYIMca"
@@ -61,6 +61,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="otp" element={<Otp />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
+        <Route path="privacypolicy" element={<PrivacyPolicy/>}/>
 
         {/* {user!=null ?<> */}
         <Route path="cart" element={<CartPage />} />
@@ -78,7 +79,7 @@ function App() {
   );
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer theme="dark" pauseOnHover={true}/>
       <RouterProvider router={router} />
       <Notification />
     </div>

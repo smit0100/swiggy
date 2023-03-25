@@ -20,6 +20,8 @@ import ListOfProducts from "./components/ListOfProducts";
 import OwnerProfile from "./pages/OwnerProfile";
 import PageNotFound from "./components/PageNotFound";
 import Notification from "./components/Notification";
+import ForgotPassword from "./components/ForgotPassword";
+import ContactUs from "./components/ContactUs";
 import { requestForToken } from "./firebase";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -27,12 +29,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
-import ContactUs from "./pages/ContactUs";
 
 function App() {
   const dispatch = useDispatch()
   const owner = useSelector((state) => state.userData.isOwnerLogIn);
-  console.log("===owner",owner);
+  // console.log("===owner",owner);
   const [tokenFound, setTokenFound] = useState(false);
   useEffect(() => {
     const temp = localStorage.getItem("isOwnerLogIn");
@@ -63,6 +64,8 @@ function App() {
           <Route path="/otp" element={<Otp />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/*" element={<PageNotFound />} />
+          <Route path="/forgotpassword" element={<ForgotPassword/>} />
+
         </Route>
       ) : (
         <Route path="/" element={<Home />}>
@@ -74,7 +77,7 @@ function App() {
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/resturantRegister" element={<RestaurantRegister />} />
           <Route path="/ownerprofile" element={<OwnerProfile />} />
-          <Route path="contactus" element={<ContactUs />} />
+          <Route path="/contactus" element={<ContactUs />} />
 
           <Route path="/*" element={<PageNotFound />} />
         </Route>
@@ -84,7 +87,7 @@ function App() {
 
   return (
     <div className="App">
-      <ToastContainer />
+      <ToastContainer theme="dark" pauseOnHover={true}/>
       <RouterProvider router={router} />
       <Notification />
     </div>

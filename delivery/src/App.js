@@ -23,31 +23,30 @@ import Notification from "./components/Notification";
 import { requestForToken } from "./firebase";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LiveLocation from "./pages/LiveLocation";
 import ContactUs from "./pages/ContactUs";
 
 function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const isLogIn = useSelector((state) => state.userData.isCorierLogIn);
   const [tokenFound, setTokenFound] = useState(false);
 
   useEffect(() => {
     const temp = localStorage.getItem("isCorierLogIn");
     if (temp != undefined && temp != null) {
-      dispatch(corierLogIn(JSON.parse(temp)))
+      dispatch(corierLogIn(JSON.parse(temp)));
     }
     const deliveryData = localStorage.getItem("deliveryData");
     if (deliveryData != undefined && deliveryData != null) {
-      dispatch(userData(JSON.parse(deliveryData)))
+      dispatch(userData(JSON.parse(deliveryData)));
     }
   }, []);
-  
+
   useEffect(() => {
     getFcmToken();
   }, []);
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmTokenDelivery");
-    console.log("===tempp",temp);
+    console.log("===tempp", temp);
     if (temp == null) {
       requestForToken(setTokenFound);
     }
@@ -55,36 +54,33 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       isLogIn ? (
-
-      <Route path="/" element={<Home />}>
-        <Route index element={<Directory />} />
-        <Route path="status" element={<Status />} />
-        <Route path="help" element={<LiveLocation />} />
-        <Route path="profile" element={<UserProfile />} />
-        <Route path="orderdetails" element={<OrderDetail />} />
-        <Route path="ordersummary" element={<OrderSummary />} />
-        <Route path="contactus" element={<ContactUs />} />
-        <Route path="/*" element={<PageNotFound />} />
-      </Route>
-      ):(
-      <Route path="/" element={<Home />}>
-        <Route index element={<Directory />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="forgotpassword" element={<ForgotPassword />} />
-        <Route path="otp" element={<Otp />} />
-        <Route path="/*" element={<PageNotFound />} />
-      </Route>
-
+        <Route path="/" element={<Home />}>
+          <Route index element={<Directory />} />
+          <Route path="status" element={<Status />} />
+          <Route path="profile" element={<UserProfile />} />
+          <Route path="orderdetails" element={<OrderDetail />} />
+          <Route path="ordersummary" element={<OrderSummary />} />
+          <Route path="contactus" element={<ContactUs />} />
+          <Route path="/*" element={<PageNotFound />} />
+        </Route>
+      ) : (
+        <Route path="/" element={<Home />}>
+          <Route index element={<Directory />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgotpassword" element={<ForgotPassword />} />
+          <Route path="otp" element={<Otp />} />
+          <Route path="/*" element={<PageNotFound />} />
+        </Route>
       )
     )
   );
 
   return (
     <>
-      <ToastContainer/>
+      <ToastContainer theme="dark" pauseOnHover={true} />
       <RouterProvider router={router} />
-      <Notification/>
+      <Notification />
     </>
   );
 }

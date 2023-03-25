@@ -23,15 +23,18 @@ const OrderSummary = () => {
   console.log(state);
   useEffect(() => {
     (async () => {
-      const response = await axios.get(
-        `http://localhost:4000/order/fetchOneOrder?id=${state}`
-      );
-      console.log(response);
-      setUserData(response.data.order);
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/order/fetchOneOrder?id=${state}`
+        );
+        console.log(response);
+        setUserData(response.data.order);
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, [resturanthandle, customerhandle]);
   // acceptfromresturant
-
   const handleResturantOtp = async (e) => {
     if (resturantOtp == null) {
       toast.error("OTP is required 😡", { theme: "dark", autoClose: 2000 });
@@ -88,6 +91,7 @@ const OrderSummary = () => {
           id: userData != null ? userData._id : 0,
           otp: customerOtp,
           ownerfcmToken: userData?.resturant?.fcmToken,
+          deleveryBoyId: userData?.deliveryBoy?._id,
         })
         .then((res) => {
           if (res?.data?.order) {
@@ -103,7 +107,7 @@ const OrderSummary = () => {
         .catch((e) => {
           console.log("===eee", e);
         });
-  }
+    }
   };
 
   return (
