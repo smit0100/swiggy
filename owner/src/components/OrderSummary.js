@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import OrderSummaryFoodCard from "./OrderSummaryFoodCard";
 import InlineButtonLoader from "./InlineButtonLoader";
 import Loader from "./Loader";
-
+import { toast } from "react-toastify";
 // import io from 'socket.io-client';
 // const socket = io("http://localhost:4000");
 
@@ -13,6 +13,7 @@ const OrderSummary = () => {
   const { state } = useLocation();
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -27,15 +28,22 @@ const OrderSummary = () => {
   }, []);
 
   const handleOrder = async () => {
+    setIsDisable(true);
     axios
       .get(`http://localhost:4000/order/acceptOrder?id=${state}`)
       .then((response) => {
-        console.log("=====>>>",response);
-        if (response?.data?.response) { 
+        console.log("=====>>>", response);
+        if (response?.data?.response) {
+          setIsDisable(false);
+          toast.success("🔥 Order successfully accepted.");
           setSummaryData(response?.data?.response);
         }
       })
-      .catch((e) => console.log("===e", e));
+      .catch((e) => {
+        console.log("===e", e)
+        setIsDisable(false);
+        toast.error("☹️ Something went wrong,Please try again");
+      });
   };
 
   let qty = 0;
@@ -231,9 +239,14 @@ const OrderSummary = () => {
                     ) : (
                       <button
                         onClick={handleOrder}
-                        className="inline-block mt-3 bg-transparent hover:text-white hover:bg-emerald-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-emerald-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-emereld-500"
+                        disabled={isDisable}
+                        className={`inline-block mt-3    ${
+                          isDisable
+                            ? "bg-emerald-600 text-white"
+                            : " hover:bg-emerald-600 duration-150 hover:shadow-xl bg-transparent hover:text-white"
+                        } -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase `}
                       >
-                        Accept Order
+                        {isDisable ? <InlineButtonLoader /> : "Accept Order"}
                       </button>
                     )}
                   </div>

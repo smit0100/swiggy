@@ -379,6 +379,31 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 };
+
+const editDeliveryBoy = async (req, res, next) => {
+  try {
+    const { _id, names, descr, checked , number } = req.body;
+    console.log("====req", req.body);
+    const response = await DeliveryBoy.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        name: names,
+        isApproved: checked,
+        email: descr,
+        number
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json({ message: "edited delivery boy", response });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   register,
   login,
@@ -396,4 +421,5 @@ module.exports = {
   deleteDeliveryBoy,
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
+  editDeliveryBoy
 };

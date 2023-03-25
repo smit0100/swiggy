@@ -87,7 +87,7 @@ function App() {
 
   return (
     <div className="App">
-      <ToastContainer />
+      <ToastContainer theme="dark" pauseOnHover={true}/>
       <RouterProvider router={router} />
       <Notification />
     </div>

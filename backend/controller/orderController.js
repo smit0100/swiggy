@@ -248,7 +248,7 @@ const acceptOrder = async (req, res, next) => {
         body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,
       }
       console.log(courierBoys);
-      // sendNotification(courierBoys?.fcmToken, datas)
+      sendNotification(courierBoys?.fcmToken, datas)
       console.log(response);
       res.status(200).json({ message: "order status update", response });
     }

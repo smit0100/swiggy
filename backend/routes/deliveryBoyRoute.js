@@ -18,7 +18,7 @@ router.post('/addReview', deliveryBoyController.addReview);
 router.delete('/delete', deliveryBoyController.deleteDeliveryBoy);
 router.post('/forgotpassword', deliveryBoyController.forgotPasswordForSentEmail);
 router.post('/verfiyotp', deliveryBoyController.forgotPasswordForSetNewPassword);
-
+router.put('/edit',deliveryBoyController.editDeliveryBoy);
 
 
 module.exports = router
