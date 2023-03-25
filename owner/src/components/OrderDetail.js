@@ -71,7 +71,7 @@ const OrderDetail = () => {
                           className={`border-b border-gray-200 hover:bg-gray-100`}
                           onClick={() => { navigate('/ordersummary', { state: order._id }); setSelectedOrderId(order.id) }}>
                           <td className="py-3 px-6 text-left">{order._id}</td>
-                          <td className="py-3 px-6 text-left">{order.customer.name}</td>
+                          {/* <td className="py-3 px-6 text-left">{order.customer.name}</td> */}
                           <td className="py-3 px-6 text-left">₹{order.total}</td>
                           <td className="py-3 px-6 text-left">{dateFormat(order.createdAt, "mmmm dS, yyyy")}</td>
                           <td className="py-3 px-6 text-left">
