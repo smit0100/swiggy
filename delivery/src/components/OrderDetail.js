@@ -15,11 +15,6 @@ const OrderDetail = () => {
   const [orderStatus, setOrderStatus] = useState('not define')
   const [orderData,setOrderData]=useState(null)
   const user=useSelector(state=>state.userData.user)
-  const [coordinates, setCoordinates] = useState({
-    latitude: null,
-    longitude: null,
-  });
-  
 
   useEffect(() => {
     if(user!=null){
@@ -32,42 +27,6 @@ const OrderDetail = () => {
     )();
     }
   }, [])
-
-
-
-  useEffect(() => {
-    getLocation();
-  }, []);
-  useEffect(() => {
-    if (coordinates.latitude != null && coordinates.longitude != null) {
-      setLocation()
-    }
-  }, [coordinates])
-  
-  const getLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) =>
-        setCoordinates({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }),
-      (error) => console.error(error)
-    );
-  };
-  const setLocation = () => {
-    axios
-      .post(`${process.env.REACT_APP_BASEURL}/courier/location`, {
-        coordinates,
-        id:user?._id
-      })
-      .then((res) => {
-        console.log("==res", res);
-      })
-      .catch((error) => {
-        console.log("===location not set err::", error);
-      });
-  };
-  console.log("==cords", coordinates);
 
   return (
     <>

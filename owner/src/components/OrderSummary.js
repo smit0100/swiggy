@@ -26,22 +26,6 @@ const OrderSummary = () => {
     })();
   }, []);
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    console.log("===", lat1, lon1, lat2, lon2);
-    const R = 6371; // Radius of the earth in km
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) *
-        Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in km
-    return distance.toFixed(2);
-  };
-
   const handleOrder = async () => {
     axios
       .get(`http://localhost:4000/order/acceptOrder?id=${state}`)
@@ -226,24 +210,6 @@ const OrderSummary = () => {
                         {summaryData != null ? summaryData.total + 50 : 0}
                       </div>
                     </div>
-                    {summaryData?.customer?.latitude &&
-                      summaryData?.customer?.longitude &&
-                      summaryData?.resturant?.latitude &&
-                      summaryData?.resturant?.longitude && (
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="text-black  text-lg font-semibold text-semibold">
-                            Total Distance
-                          </div>
-                          <div className="text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded">
-                            {getDistance(
-                              summaryData?.customer?.latitude,
-                              summaryData?.customer?.longitude,
-                              summaryData?.resturant?.latitude,
-                              summaryData?.resturant?.longitude
-                            ) + " km"}
-                          </div>
-                        </div>
-                      )}
                   </div>
                   <div className="pt-5">
                     {summaryData !== null && summaryData.courierBoyotpNumber ? (

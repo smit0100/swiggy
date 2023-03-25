@@ -23,7 +23,6 @@ import Notification from "./components/Notification";
 import { requestForToken } from "./firebase";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LiveLocation from "./pages/LiveLocation";
 import ContactUs from "./pages/ContactUs";
 
 function App() {
@@ -59,7 +58,6 @@ function App() {
       <Route path="/" element={<Home />}>
         <Route index element={<Directory />} />
         <Route path="status" element={<Status />} />
-        <Route path="help" element={<LiveLocation />} />
         <Route path="profile" element={<UserProfile />} />
         <Route path="orderdetails" element={<OrderDetail />} />
         <Route path="ordersummary" element={<OrderSummary />} />

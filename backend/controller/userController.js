@@ -164,13 +164,10 @@ const fetchOnlyOneUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  const { email, password, fcmToken,coordinates } = req.body;
+  const { email, password, fcmToken } = req.body;
   let user = await User.findOneAndUpdate(
     { email },
-    { fcmToken,      
-      latitude: coordinates?.latitude,
-      longitude: coordinates?.longitude,
-    },
+    { fcmToken },
     { new: true }
   );
 
@@ -256,7 +253,7 @@ const deleteUserAddress = async (req, res, next) => {
 };
 
 const updateAddress = async (req, res, next) => {
-  try{
+  try {
     const { userId, name, number, email } = req.body;
 
     console.log(req.body);
@@ -269,7 +266,7 @@ const updateAddress = async (req, res, next) => {
           new: true,
         }
       );
-  
+
       return res.status(200).json({ message: "updated", user });
     } else {
       const emailExist = await User.find({ email });
@@ -282,11 +279,11 @@ const updateAddress = async (req, res, next) => {
           userID: userId,
           token: otpNumber,
         }).save();
-  
+
         const url = otpNumber;
         console.log("this is url", url);
         // await sendEmail(email, "Verify Email", String(url));
-  
+
         res.status(201).json({
           message: "otp sent",
           user,
@@ -294,12 +291,10 @@ const updateAddress = async (req, res, next) => {
         });
       }
     }
-  } catch(e) {
-   
-    console.log(e)
-    res.status(500).json({messag:'something went wrong'});
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ messag: "something went wrong" });
   }
- 
 };
 
 const changePassword = async (req, res, next) => {
@@ -516,7 +511,7 @@ const makeAdmin = async (req, res) => {
 const forgotAdminPassword = async (req, res) => {
   const { oldPass, newPass } = req.body;
   let user = await User.findOne({ type: "admin" });
-  console.log("=====",req.body,user);
+  console.log("=====", req.body, user);
   const pass = await bcrypt.compareSync(oldPass, user.password);
   console.log(pass);
   if (!pass) {
@@ -531,7 +526,7 @@ const forgotAdminPassword = async (req, res) => {
 };
 const editUser = async (req, res, next) => {
   try {
-    const { _id, names, descr, checked,number } = req.body;
+    const { _id, names, descr, checked, number } = req.body;
     console.log("====req", req.body);
     const response = await User.findOneAndUpdate(
       {
@@ -541,7 +536,7 @@ const editUser = async (req, res, next) => {
         name: names,
         type: checked == "customer" ? "customer" : "admin",
         email: descr,
-        number:number
+        number: number,
       },
       {
         new: true,
@@ -574,5 +569,5 @@ module.exports = {
   loginAsAdmin,
   makeAdmin,
   forgotAdminPassword,
-  editUser
+  editUser,
 };

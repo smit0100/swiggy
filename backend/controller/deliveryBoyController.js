@@ -5,7 +5,6 @@ const Order = require("../module/OrderModel");
 const DeliveryBoy = require("../module/DeliveryBoyModel");
 const User = require("../module/UserModel");
 const Courier = require("../module/DeliveryBoyModel");
-const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
 const { sendNotification } = require("../utils/PushNotification");
 const TokenModel = require("../module/TokenModel");
 
@@ -319,19 +318,6 @@ const addReview = async (req, res, next) => {
     res.status(400).json({ message: "something went wrong" });
   }
 };
-const addLocation = async (req, res, next) => {
-  try {
-    const { id, coordinates } = req.body;
-    console.log("===id", req.body);
-    const courierBoy = await DeliveryBoy.findByIdAndUpdate(id, {
-      lattitute: coordinates?.latitude,
-      longitute: coordinates?.longitude,
-    });
-    res.status(200).json({ message: "courier boy location added", courierBoy });
-  } catch (e) {
-    res.status(500).json({ message: "something went wrong" });
-  }
-};
 
 const forgotPasswordForSentEmail = async (req, res, next) => {
   try {
@@ -408,7 +394,6 @@ module.exports = {
   fetchAllAccepted,
   addReview,
   deleteDeliveryBoy,
-  addLocation,
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
 };

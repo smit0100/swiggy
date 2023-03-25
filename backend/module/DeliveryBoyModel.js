@@ -56,12 +56,6 @@ const DeliveryBoy = new Schema({
     fcmToken: {
         type:String
     },
-    lattitute: {
-        type:String
-    },
-    longitute: {
-        type:String
-    }
 })
 
 module.exports = mongoose.model('DeliverBoy',DeliveryBoy)

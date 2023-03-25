@@ -5,7 +5,6 @@ const MongoClient = require("mongodb").MongoClient;
 const Courier = require("../module/DeliveryBoyModel");
 const sendEmail = require("../utils/sendEmail");
 const { sendNotification } = require("../utils/PushNotification");
-const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
 require("dotenv").config();
 const uri = process.env.MONGOOSE_URL;
 
@@ -213,20 +212,6 @@ const acceptOrder = async (req, res, next) => {
         model: "User",
       },
     ]);
-    // const dataResponse = await Courier.find({ isAvilable: true });
-    // let nearestDeliveryBoy
-    // if (dataResponse) {
-    //   const restaurantLocation = {
-    //     latitude: response?.resturant?.latitude || 21.1910656,
-    //     longitude: response?.resturant?.longitude || 72.8399872
-    //   }
-    //   nearestDeliveryBoy = getNearestDeliveryBoy(
-    //     dataResponse,
-    //     restaurantLocation
-    //   );
-
-    //   console.log("nearestDeliveryBoy", nearestDeliveryBoy);
-    // }
     let courierBoys = await Courier.findOne({ isAvilable: true });
     courierBoys.isAvilable = false
 

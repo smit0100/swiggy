@@ -20,25 +20,8 @@ export default function OwnerRegister() {
   const [check, SetCheck] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [coordinates, setCoordinates] = useState({
-    latitude: null,
-    longitude: null,
-  });
 
   const navigate = useNavigate();
-  useEffect(() => {
-    getLocation();
-  }, []);
-  const getLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) =>
-        setCoordinates({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }),
-      (error) => console.error(error)
-    );
-  };
   const handledisable = () => {
     if (
       nameError.length === 0 &&
@@ -173,7 +156,6 @@ export default function OwnerRegister() {
           email,
           password: pass,
           number,
-          coordinates,
           fcmToken
         }
       );
