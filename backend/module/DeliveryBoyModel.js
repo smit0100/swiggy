@@ -10,10 +10,7 @@ const DeliveryBoy = new Schema({
     number: {
         type:String
     },
-    bankDetails: {
-        type: mongoose.Types.ObjectId,
-        ref:'BankDetails'
-    },
+ 
     password: {
         type:String
     },
