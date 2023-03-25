@@ -52,18 +52,20 @@ const verify = async (req, res, next) => {
       userID: id,
       token: otp,
     });
-    console.log("==token",token);
+    console.log("==token", token);
     if (!token) return res.status(401).json({ message: "otp wrong" });
 
     user.isVerified = true;
     await user.save();
     await token.remove();
-    const admin = User.findOne({type:"admin"});
-    let data = {
-      title: "👋 Request!",
-      body: "A new delivery boy joined us.",
-    };
-    sendNotification(admin?.fcmToken,data)
+    const admin = User.findOne({ type: "admin" });
+    if (admin?.fcmToken != "") {
+      let data = {
+        title: "👋 Request!",
+        body: "A new delivery boy joined us.",
+      };
+      sendNotification(admin?.fcmToken, data);
+    }
     res.status(200).json({ message: "user veruified", user });
   } catch (e) {
     res.status(500).json({ message: "somehting went wrong" });
@@ -211,11 +213,13 @@ const receiveFoodFromResturant = async (req, res, next) => {
     } else {
       order.status = "on the way";
       await order.save();
-      let data = {
-        title: "👋 Hurray!",
-        body: "Delivery boy picked your order from restaurant",
-      };
-      sendNotification(userfcmToken, data);
+      if (userfcmToken != "") {
+        let data = {
+          title: "👋 Hurray!",
+          body: "Delivery boy picked your order from restaurant",
+        };
+        sendNotification(userfcmToken, data);
+      }
       return res.status(200).json({ message: "order on the way", order });
     }
   } catch (e) {
@@ -236,11 +240,13 @@ const deliverFoodForCustomer = async (req, res, next) => {
       order.status = "delivered";
       await order.save();
       await courierBoys.save();
-      let data = {
-        title: "👋 Hurray!",
-        body: "Your order delivered successfully 🍟",
-      };
-      sendNotification(ownerfcmToken, data);
+      if (ownerfcmToken != "") {
+        let data = {
+          title: "👋 Hurray!",
+          body: "Your order delivered successfully 🍟",
+        };
+        sendNotification(ownerfcmToken, data);
+      }
       return res.status(200).json({ message: "order delivered", order });
     }
   } catch (e) {
@@ -313,11 +319,13 @@ const addReview = async (req, res, next) => {
 
     await response.save();
     console.log(response);
-    let payload = {
-      title: "👋 Review!",
-      body: `A customer give ${star} ⭐ to you.🔥`,
-    };
-    sendNotification(fcmToken, payload);
+    if (fcmToken != "") {
+      let payload = {
+        title: "👋 Review!",
+        body: `A customer give ${star} ⭐ to you.🔥`,
+      };
+      sendNotification(fcmToken, payload);
+    }
     res.status(200).json({ message: "review added", response });
   } catch (e) {
     res.status(400).json({ message: "something went wrong" });
@@ -387,7 +395,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
 
 const editDeliveryBoy = async (req, res, next) => {
   try {
-    const { _id, names, descr, checked , number } = req.body;
+    const { _id, names, descr, checked, number } = req.body;
     console.log("====req", req.body);
     const response = await DeliveryBoy.findOneAndUpdate(
       {
@@ -397,7 +405,7 @@ const editDeliveryBoy = async (req, res, next) => {
         name: names,
         isApproved: checked,
         email: descr,
-        number
+        number,
       },
       {
         new: true,
@@ -426,5 +434,5 @@ module.exports = {
   deleteDeliveryBoy,
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
-  editDeliveryBoy
+  editDeliveryBoy,
 };

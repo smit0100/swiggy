@@ -159,11 +159,13 @@ const verfiyResturant = async (req, res, next) => {
     await Resturant.updateOne({ _id: rest._id }, { registerVerfied: true });
     await token.remove();
     const admin = User.findOne({ type: "admin" });
-    let data = {
-      title: "👋 Request!",
-      body: "A new restaurant joined with us.",
-    };
-    sendNotification(admin?.fcmToken, data);
+    if (admin?.fcmToken != "") {
+      let data = {
+        title: "👋 Request!",
+        body: "A new restaurant joined with us.",
+      };
+      sendNotification(admin?.fcmToken, data);
+    }
     res.status(200).json({ messag: "resturant verfied", rest });
   } catch (e) {
     console.log(e);

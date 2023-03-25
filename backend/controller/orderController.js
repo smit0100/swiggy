@@ -51,11 +51,13 @@ const createOrder = async (req, res, next) => {
       },
       { new: true }
     );
-    let datas = {
-    title: "🔥Order",
-    body: "🍟New order recieved..🍔",
+    if (rest?.fcmToken != "") {
+      let datas = {
+        title: "🔥Order",
+        body: "🍟New order recieved..🍔",
+      };
+      sendNotification(rest?.fcmToken, datas);
     }
-    sendNotification(rest?.fcmToken,datas)
     const response = await User.findByIdAndUpdate(customer, {
       "cart.products": [],
       "cart.total": 0,
@@ -90,10 +92,10 @@ const fetchOneOrder = async (req, res, next) => {
         path: "deliveryBoy",
         module: "DeliverBoy",
       },
-     {
-        path:'review',
-        module:"Review"
-    }
+      {
+        path: "review",
+        module: "Review",
+      },
     ]);
 
     if (!order) return res.status(404).json({ message: "order not found" });
@@ -113,7 +115,7 @@ const fetchAllOrder = async (req, res, next) => {
     // calculate the number of pages
 
     const totalPages = Math.ceil(totalCount / pageSize);
-    
+
     // retrieve the blog posts based on the page number and page size
     const response = await Order.find()
       .skip((pageNumber - 1) * pageSize)
@@ -213,7 +215,7 @@ const acceptOrder = async (req, res, next) => {
       },
     ]);
     let courierBoys = await Courier.findOne({ isAvilable: true });
-    courierBoys.isAvilable = false
+    courierBoys.isAvilable = false;
 
     if (!courierBoys) {
       return res.status(205).json({ message: "courier boy is not avilable " });
@@ -243,17 +245,18 @@ const acceptOrder = async (req, res, next) => {
         module: "DeliverBoy",
       });
       await response.save();
-      let datas = {
-        title: "🔥New Order!",
-        body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,
+      if (courierBoys?.fcmToken != "") {
+        let datas = {
+          title: "🔥New Order!",
+          body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,
+        };
+        console.log(courierBoys);
+        sendNotification(courierBoys?.fcmToken, datas);
       }
-      console.log(courierBoys);
-      sendNotification(courierBoys?.fcmToken, datas)
       console.log(response);
       res.status(200).json({ message: "order status update", response });
     }
   } catch (e) {
-
     console.log(e);
     res.status(500).json({ message: "something went wrong" });
   }
