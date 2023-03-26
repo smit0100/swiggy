@@ -54,7 +54,11 @@ const Sidebar = () => {
                 {item.links.map((link) => (
                   <NavLink
                     to={`/${
-                      link.name == "delivery parter" ? "deliveryboy" : link.name
+                      link.name == "delivery parter"
+                        ? "deliveryboy"
+                        : link.name == "contact us"
+                        ? "contactus"
+                        : link.name
                     }`}
                     key={link.name}
                     onClick={handleCloseSideBar}

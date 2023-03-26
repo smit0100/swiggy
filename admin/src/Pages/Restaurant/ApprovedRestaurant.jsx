@@ -147,11 +147,11 @@ export default function ApprovedRestaurant() {
               </div>
             </div>
           </div>
-          <div className="text-center">
+          {/* <div className="text-center">
             <button className="inline-block w-full md:w-auto h-full py-4 px-10 leading-8 font-heading font-medium tracking-tighter text-xl text-white bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-xl">
               See all
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
     );
