@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Button } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
 import swal from "sweetalert";
+import { Blocks } from "react-loader-spinner";
 
 export default function GetUser() {
   const [action, setAction] = useState(false);
@@ -21,49 +22,63 @@ export default function GetUser() {
   const [names, setNames] = useState("");
   const [descr, setDescr] = useState("");
   const [number, setNumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getAllUser();
+    getUsers();
     document.title = "Admin - Customers";
   }, [currentPage]);
+  const getUsers = () => {
+    setIsLoading(true);
+    getAllUser();
+  };
   const getAllUser = () => {
     User.GetAllUsers(currentPage, 10)
       .then((res) => {
         console.log("response", res);
         if (res?.data?.length > 0 && res?.status != 404) {
           setDatas(res?.data);
+          setIsLoading(false);
         }
       })
-      .catch((e) => console.log("====ee", e));
+      .catch((e) => {
+        setIsLoading(false);
+        console.log("====ee", e);
+      });
   };
   const handleSelection = (e) => {
     if (selectedFilter == e) {
       setselectedFilter("Filter");
       if (e == "Order") {
-        getAllUser()
+        getAllUser();
       }
-    }else{
+    } else {
       setselectedFilter(e);
       if (e == "Order") {
-        let temp = [...datas]
+        let temp = [...datas];
         const sortedData = temp.sort((a, b) => b.order.length - a.order.length);
-        setDatas(sortedData)
+        setDatas(sortedData);
       }
     }
     setAction(false);
   };
 
-  
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleSearch = (value) => {
+    if (value.trim() == "") {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
     setsearch(value);
     const temp = [...datas];
     const data = temp.filter((item) => item?.name == value);
     if (data.length > 0) {
       setfilterDatas(data);
+      setIsLoading(false);
     }
     if (search == "") {
       setfilterDatas([]);
@@ -315,9 +330,25 @@ export default function GetUser() {
           </tr>
         </thead>
         <tbody>
-          {search?.length > 0 ? dataTable(filterDatas) : dataTable(datas)}
+          {!isLoading && (
+            <>
+              {search?.length > 0 ? dataTable(filterDatas) : dataTable(datas)}
+            </>
+          )}
         </tbody>
       </table>
+      {isLoading && (
+        <div className="w-full flex items-center justify-center">
+          <Blocks
+            visible={isLoading}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+          />
+        </div>
+      )}
       <div className="mt-4">
         <button
           disabled={currentPage > 1 ? false : true}
