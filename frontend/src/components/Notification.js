@@ -50,9 +50,9 @@ const Notification = () => {
   useEffect(() => {
     if (notification?.title ){
      notify()
-     document.title = "Frontend - 1 new notification"
+     document.title = "Food Point - 1 new notification"
      setTimeout(() => {
-     document.title = "Frontend"
+     document.title = "Food Point"
      }, 2000);
     }
   }, [notification])

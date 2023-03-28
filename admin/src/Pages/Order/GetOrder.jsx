@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import pizza from "../../Assets/pizza.jpg";
-
+import { Blocks } from "react-loader-spinner";
 import Order from "../../Apis/Order";
 import { Images } from "../../Assets";
 export default function GetOrder() {
   const [datas, setDatas] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [filterDatas, setfilterDatas] = useState([]);
@@ -18,29 +19,36 @@ export default function GetOrder() {
   }, [currentPage]);
   const rowsPerPage = 10;
   const getOrders = () => {
+    setIsLoading(true);
     Order.GetOrders(currentPage)
       .then((res) => {
         console.log("response====", res);
-        setDatas(res?.results);
+        if (res?.results) {
+          setDatas(res?.results);
+          setIsLoading(false);
+        }
       })
-      .catch((e) => console.log("====ee", e));
+      .catch((e) => {
+        setIsLoading(false);
+        console.log("====ee", e);
+      });
   };
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const rows = datas?.slice(startIndex, endIndex);
-  
+
   const handleSelection = (e) => {
     if (selectedFilter == e) {
       setselectedFilter("Filter");
       if (e == "Order") {
-        getOrders()
+        getOrders();
       }
-    }else{
+    } else {
       setselectedFilter(e);
       if (e == "Order") {
-        let temp = [...datas]
+        let temp = [...datas];
         const sortedData = temp.sort((a, b) => b.total - a.total);
-        setDatas(sortedData)
+        setDatas(sortedData);
       }
     }
     setAction(false);
@@ -183,7 +191,7 @@ export default function GetOrder() {
         {/* </div> */}
       </div>
       <table className=" w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
               User
@@ -202,12 +210,20 @@ export default function GetOrder() {
             </th>
           </tr>
         </thead>
-        <tbody>
-          {/* {search?.length > 0 ? dataTable(filterDatas) :  */}
-          {dataTable(datas)}
-          {/* } */}
-        </tbody>
+        <tbody>{!isLoading && dataTable(datas)}</tbody>
       </table>
+      {isLoading && (
+        <div className="w-full flex items-center justify-center">
+          <Blocks
+            visible={isLoading}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+          />
+        </div>
+      )}
       <div className="mt-4">
         <button
           disabled={currentPage > 1 ? false : true}

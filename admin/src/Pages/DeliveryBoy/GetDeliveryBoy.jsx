@@ -8,10 +8,13 @@ import { Button, DeliveryBoyCard, Tabs } from "../../Components";
 import { ImTable } from "react-icons/im";
 import { toast } from "react-toastify";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { Blocks } from "react-loader-spinner";
+
 export default function GetDeliveryBoy() {
   const { currentColor } = useStateContext();
   const [datas, setDatas] = useState([]);
   const [isTable, setIsTable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [tabs, setTabs] = useState([
     { label: "All", badge: null },
@@ -41,10 +44,13 @@ export default function GetDeliveryBoy() {
     }
   }, [userId, names, descr, checked]);
   useEffect(() => {
-    GetRequests(tabs[activeTabIndex].label);
+    getAllRequests();
     document.title = "Admin - Delivery Boy Request";
   }, [currentPage, activeTabIndex]);
-
+  const getAllRequests = () => {
+    setIsLoading(true);
+    GetRequests(tabs[activeTabIndex].label);
+  };
   const GetRequests = async (label) => {
     let object = "";
     if (label == "Approved") {
@@ -57,6 +63,8 @@ export default function GetDeliveryBoy() {
         console.log("===fetchall", res);
         if (res?.response) {
           setDatas(res?.response);
+          setIsLoading(false);
+
           if (res?.totalCount) {
             let data = [...tabs];
             data[0].badge = res?.totalCount;
@@ -66,7 +74,10 @@ export default function GetDeliveryBoy() {
           }
         }
       })
-      .catch((e) => console.log("====ee", e));
+      .catch((e) => {
+        setIsLoading(false);
+        console.log("====ee", e);
+      });
   };
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -314,7 +325,18 @@ export default function GetDeliveryBoy() {
           })}
         </div>
       )}
-      {datas?.length > 0 ? (
+      {isLoading ? (
+        <div className="w-full flex items-center justify-center">
+          <Blocks
+            visible={isLoading}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+          />
+        </div>
+      ) : datas?.length > 0 ? (
         <div className="mt-4 justify-center items-center flex mb-10">
           <button
             disabled={currentPage > 1 ? false : true}

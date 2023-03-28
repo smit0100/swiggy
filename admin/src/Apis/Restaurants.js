@@ -56,12 +56,21 @@ function handleRequest(id, req) {
     },
   });
 }
-
+function deleteRestaurant(id) {
+  return Api({
+    url: `/resturant/delete?id=${id}`,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 export default {
   GetRequests,
   getOneProduct,
   handleRequest,
   GetApprovedRestaurant,
   GetCounts,
-  getAllReviews
+  getAllReviews,
+  deleteRestaurant
 };

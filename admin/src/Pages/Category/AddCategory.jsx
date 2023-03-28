@@ -4,6 +4,8 @@ import { Button, Tabs } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
 import swal from "sweetalert";
 import { toast } from "react-toastify";
+import { Blocks } from "react-loader-spinner";
+
 export default function AddCategory() {
   const { currentColor } = useStateContext();
   const [isDisabled, setIsDisabled] = useState(false);
@@ -34,6 +36,9 @@ export default function AddCategory() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [activeTabIndexs, setActiveTabIndexs] = useState(0);
   const [isValid, setIsValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingSub, setIsLoadingSub] = useState(false);
+
   useEffect(() => {
     if (editUser?._id != "" && names != "" && descr != "" && checked != "") {
       setIsValid(false);
@@ -43,21 +48,33 @@ export default function AddCategory() {
   }, [editUser, names, descr, checked]);
 
   useEffect(() => {
-    getCategory();
+    getMainCategory();
     document.title = "Admin - Category";
   }, []);
 
   useEffect(() => {
-    getSubCategory(subTabs[activeTabIndexs].label);
+    getAllSubCategory();
   }, [currentPage, activeTabIndexs]);
-
+  const getMainCategory = () => {
+    setIsLoading(true);
+    getCategory();
+  };
+  const getAllSubCategory = () => {
+    setIsLoadingSub(true);
+    getSubCategory(subTabs[activeTabIndexs].label);
+  };
   const getCategory = () => {
-    Category.getAllCategory().then((result) => {
-      console.log("===getAllCategory", result);
-      if (result?.response) {
-        setMainCategory(result?.response);
-      }
-    });
+    Category.getAllCategory()
+      .then((result) => {
+        console.log("===getAllCategory", result);
+        if (result?.response) {
+          setIsLoading(false);
+          setMainCategory(result?.response);
+        }
+      })
+      .catch((e) => {
+        setIsLoading(false);
+      });
   };
   const getSubCategory = (label) => {
     let object = "";
@@ -66,19 +83,24 @@ export default function AddCategory() {
     } else if (label == "Deactive") {
       object = "false";
     }
-    Category.getAllSubCategory(currentPage, 10, object).then((result) => {
-      console.log("===getAllSubbbCategory", result);
-      if (result?.response) {
-        setSubCategory(result?.response);
-      }
-      if (result?.totalCount) {
-        let data = [...subTabs];
-        data[0].badge = result?.totalCount;
-        data[1].badge = result?.totalActive;
-        data[2].badge = result?.totalDeactive;
-        setSubTabs(data);
-      }
-    });
+    Category.getAllSubCategory(currentPage, 10, object)
+      .then((result) => {
+        console.log("===getAllSubbbCategory", result);
+        if (result?.response) {
+          setSubCategory(result?.response);
+          setIsLoadingSub(false);
+        }
+        if (result?.totalCount) {
+          let data = [...subTabs];
+          data[0].badge = result?.totalCount;
+          data[1].badge = result?.totalActive;
+          data[2].badge = result?.totalDeactive;
+          setSubTabs(data);
+        }
+      })
+      .catch((e) => {
+        setIsLoadingSub(false);
+      });
   };
   const addMainCategory = () => {
     if (name.trim() != "" && description.trim() != "") {
@@ -309,7 +331,20 @@ export default function AddCategory() {
       </div>
       {activeTabIndex == 0 ? (
         <>
-          <ProductTable data={mainCategory} type="main" />
+          {isLoading ? (
+            <div className="w-full flex mt-5 items-center justify-center">
+              <Blocks
+                visible={isLoading}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+              />
+            </div>
+          ) : (
+            <ProductTable data={mainCategory} type="main" />
+          )}
           <div className="flex flex-wrap mt-10 bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
             <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
               &bull; Sub Category
@@ -324,7 +359,20 @@ export default function AddCategory() {
               />
             </div>
           </div>
-          <ProductTable data={subCategory} type="sub" />
+          {isLoadingSub ? (
+            <div className="w-full mt-4 flex items-center justify-center">
+              <Blocks
+                visible={isLoadingSub}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+              />
+            </div>
+          ) : (
+            <ProductTable data={subCategory} type="sub" />
+          )}
           <div className="mt-4 justify-center items-center flex mb-10">
             <button
               disabled={currentPage > 1 ? false : true}
@@ -596,7 +644,7 @@ export default function AddCategory() {
               {/* <!-- Modal header --> */}
               <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  {`Edit ${isSub ? 'Sub' : ""} Category`}
+                  {`Edit ${isSub ? "Sub" : ""} Category`}
                 </h3>
                 <button
                   type="button"

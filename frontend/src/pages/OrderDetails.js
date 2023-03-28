@@ -98,7 +98,7 @@ const OrderDetails = () => {
               </div>
               <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                 <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-                  <div className="flex flex-col justify-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+                  <div className="flex flex-col justify-start items-start bg-white/30 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
                     <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
                       Customer’s Order
                     </p>
@@ -116,7 +116,7 @@ const OrderDetails = () => {
                       : ""}
                   </div>
                   <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-                    <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
+                    <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-white/30 space-y-6   ">
                       <h3 className="text-xl font-semibold leading-5 text-gray-800">
                         Summary
                       </h3>
@@ -155,7 +155,7 @@ const OrderDetails = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 space-y-6   ">
+                    <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-white/30 space-y-6   ">
                       <h3 className="text-xl font-semibold leading-5 text-gray-800">
                         Shipping
                       </h3>
@@ -235,7 +235,7 @@ const OrderDetails = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col ">
+                <div className="bg-white/30 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col ">
                   <h3 className="text-xl font-semibold leading-5 text-gray-800 text-center w-full">
                     Customer
                   </h3>
@@ -243,7 +243,7 @@ const OrderDetails = () => {
                     <div className="flex flex-col justify-start items-start flex-shrink-0">
                       <div className="flex justify-center flex-col gap-5  w-full items-center py-8 border-b border-gray-200">
                         <img
-                          src="https://i.ibb.co/5TSg7f6/Rectangle-18.png"
+                          src="https://i.ibb.co/NxZH2Zg/avatar.png"
                           alt="avatar"
                           className="rounded-full grid place-items-center w-40 h-40"
                         />
