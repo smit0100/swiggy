@@ -77,7 +77,7 @@ const createProduct = async (req, res, next) => {
 }
 
 const fetchProduct = async (req, res, next) => {
-    const product = await Product.find({isActive:true});
+    const product = await Product.find();
     return res.status(200).json({ message: 'product fetched', product });
 }
 
@@ -85,7 +85,7 @@ const allResturantProduct = async (req, res, next) => {
     try {
         const { id } = req.query;
 
-        const resturantExist = await Resturant.findById(id).populate({path:'product',match:{isActive:true}});
+        const resturantExist = await Resturant.findById(id).populate({path:'product'});
         if (!resturantExist) return res.status(400).json({ message: 'resturant not found' });
 
         res.status(200).json({ message: 'resturant product founded', resturantExist });
@@ -102,7 +102,7 @@ const findProduct = async (req, res, next) => {
     const { id } = req.params;
 
     if (!id) return res.status(400).json({ message: 'product not found' });
-
+    const product = await Product.findById(id);
     return res.status(200).json({ message: 'product founded', product });
 }
 
