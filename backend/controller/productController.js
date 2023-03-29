@@ -108,7 +108,7 @@ const findProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { price, name, description, id, category, subCategory } = req.body;
+        const { price, name, description, id, category, subCategory,resturant } = req.body;
         console.log(req.body);
         
         if (req.files) {
@@ -123,9 +123,9 @@ const updateProduct = async (req, res) => {
                     height:250
                 })
 
-                const product = await Product.findByIdAndUpdate(id, { name, price, description, category, subCategory, imageUrl: result.url }, { new: true });
-                console.log(product);
-                // http://res.cloudinary.com/drwhuxvlk/image/upload/v1678687241/productImage/e2kukvlf1z8sgbbqno45.jpg
+                let product = await Product.findByIdAndUpdate(id, { name, price, description, category, subCategory, imageUrl: result.url }, { new: true });
+                product = await Product.find({ resturnat: resturant });
+                
                 res.status(200).json({ message: 'product updated', product });
             } catch (e) {
                 console.log(e);
@@ -143,6 +143,7 @@ const updateProduct = async (req, res) => {
 
 const fetchAllProduct = async (req, res, next) => {
     const searchQuery = req.query.q;
+ 
     const regex = new RegExp(searchQuery, 'i');
 
     const pageNumber = parseInt(req.query.pageNumber) || 1;
@@ -152,11 +153,12 @@ const fetchAllProduct = async (req, res, next) => {
     try {
         
 
-        const totalCount = await Product.find({ name: regex,isActive:true }).countDocuments();
+        const totalCount = await Product.find({ name: regex }).countDocuments();
+    
         const totalPages = Math.ceil(totalCount / pageSize);        
 
-        const response = await Product.find({ name: regex,isActive:true }).skip((pageNumber - 1) * pageSize).limit(pageSize);
-
+        const response = await Product.find({ name: regex }).skip((pageNumber - 1) * pageSize).limit(pageSize);
+            console.log(response)
         return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
         pageSize: pageSize,
         totalCount: totalCount});    
@@ -168,10 +170,11 @@ const fetchAllProduct = async (req, res, next) => {
 
 const isActive = async (req, res, next) => {
     try {
-        const { id } = req.query;
-        const product = await Product.findByIdAndUpdate(id, { isActive: false }, {
+        const { id,resturant } = req.query;
+        let product = await Product.findByIdAndUpdate(id, { isActive: false }, {
             new:true
         })
+        product = await Product.find({ resturnat: resturant });
         res.status(200).json({ message: 'deactivated product', product });
 
     } catch (e) {
