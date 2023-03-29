@@ -132,7 +132,8 @@ const updateProduct = async (req, res) => {
                 return res.status(500).json({ message: 'product upload failed' });
             }
         } else {
-            const product = await Product.findByIdAndUpdate(id, { name, price, description,category,subCategory });
+            let product = await Product.findByIdAndUpdate(id, { name, price, description,category,subCategory });
+            product = await Product.find({ resturnat: resturant });
             res.status(200).json({ message: 'product updated', product });    
         }
         
