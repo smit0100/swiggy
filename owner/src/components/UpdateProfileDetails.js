@@ -26,9 +26,9 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     const user = useSelector(state => state.userData.user)
 
     useEffect(() => {
-        setName(user.ownerName);
-        setEmail(user.email);
-        setNumber(user.number)
+        setName(user?.name);
+        setEmail(user?.email);
+        setNumber(user?.number)
     }, [])
 
     const handleName = (e) => {
