@@ -259,7 +259,7 @@ const ForgotPassword = () => {
                   <div className="text-center">
                     <Link
                       className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                      to="/register"
+                      to="/ownerregister"
                     >
                       Create an Account!
                     </Link>
@@ -267,7 +267,7 @@ const ForgotPassword = () => {
                   <div className="text-center">
                     <Link
                       className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                      to="/login"
+                      to="/"
                     >
                       Already have an account? Login!
                     </Link>

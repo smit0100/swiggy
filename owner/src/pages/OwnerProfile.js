@@ -81,6 +81,14 @@ const OwnerProfile = () => {
               >
                 Your Restaurant{" "}
               </li>
+              <li className="text-lg border-b-2 cursor-pointer">
+                <button
+                  onClick={handleLogOut}
+                  className="inline-block bg-inherit hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
+                >
+                  Logout
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -173,13 +181,13 @@ const OwnerProfile = () => {
                 </div>
               </div>
             </div>
-            <Link
+            {/* <Link
               to="/"
               className={`px-2 flex py-2 flex-1 justify-center items-center font-semibold text-xl text-white rounded-md shadow-lg hover:pr-10 duration-500 bg-blue-400 w-36`}
               onClick={handleLogOut}
             >
               Log out
-            </Link>
+            </Link> */}
           </div>
 
           {/* your restaurant  */}
