@@ -29,7 +29,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
-import ForgotPassword from './components/ForgotPassword'
 // import ContectUs from './components/c'
 
 function App() {

@@ -69,14 +69,14 @@ const OrderDetail = () => {
                           key={order && order._id}
                           //  ${selectedOrderId === order._id ? "bg-blue-100" : ""}`
                           className={`border-b border-gray-200 hover:bg-gray-100`}
-                          onClick={() => { navigate('/ordersummary', { state: order._id }); setSelectedOrderId(order.id) }}>
-                          <td className="py-3 px-6 text-left">{order._id}</td>
-                          <td className="py-3 px-6 text-left">{order.customer.name}</td>
-                          <td className="py-3 px-6 text-left">₹{order.total}</td>
-                          <td className="py-3 px-6 text-left">{dateFormat(order.createdAt, "mmmm dS, yyyy")}</td>
+                          onClick={() => { navigate('/ordersummary', { state: order.length!=0 && order?._id }); setSelectedOrderId(order.id) }}>
+                          <td className="py-3 px-6 text-left">{order.length!=0 && order._id}</td>
+                          <td className="py-3 px-6 text-left">{order.length!=0 && order?.customer?.name}</td>
+                          <td className="py-3 px-6 text-left">₹{order.length!=0 && order?.total}</td>
+                          <td className="py-3 px-6 text-left">{dateFormat(order.length!=0 && order?.createdAt, "mmmm dS, yyyy")}</td>
                           <td className="py-3 px-6 text-left">
-                            <span className={`py-1 px-3 rounded-full text-xs ${order.status === "Delivered" ? "bg-green-200 text-green-600" : order.status === "Preparing" ? "bg-yellow-200 text-yellow-600" : "bg-amber-200 text-amber-600"}`}>
-                              {order.status}
+                            <span className={`py-1 px-3 rounded-full text-xs ${order.length!=0 && order?.status === "Delivered" ? "bg-green-200 text-green-600" : order.status === "Preparing" ? "bg-yellow-200 text-yellow-600" : "bg-amber-200 text-amber-600"}`}>
+                              {order.length!=0 && order?.status}
                             </span>
                           </td>
                         </tr>
