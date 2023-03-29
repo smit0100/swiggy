@@ -111,7 +111,7 @@ const createResturnat = async (req, res, next) => {
 
 const register = async (req, res, next) => {
   try {
-    const { name, email, password, number, coordinates, fcmToken } = req.body;
+    const { name, email, password, number, fcmToken } = req.body;
 
     const emailExist = await Resturant.find({ email });
 
@@ -126,8 +126,6 @@ const register = async (req, res, next) => {
       email,
       number,
       password: encryptedPass,
-      latitude: coordinates?.latitude,
-      longitude: coordinates?.longitude,
       fcmToken,
     }).save();
 
@@ -160,7 +158,6 @@ const verfiyResturant = async (req, res, next) => {
 
     await Resturant.updateOne({ _id: rest._id }, { registerVerfied: true });
     await token.remove();
-
     res.status(200).json({ messag: "resturant verfied", rest });
   } catch (e) {
     console.log(e);
@@ -170,7 +167,7 @@ const verfiyResturant = async (req, res, next) => {
 
 const loginResturant = async (req, res, next) => {
   try {
-    console.log("hey===",req.body);
+    console.log("hey===", req.body);
     const { email, password, fcmToken } = req.body;
     const rest = await Resturant.findOneAndUpdate(
       { email },
@@ -276,16 +273,14 @@ const getAllResturant = async (req, res) => {
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
     console.log(response);
-    res
-      .status(200)
-      .json({
-        messag: "resturnat fetched",
-        results: response,
-        page: pageNumber,
-        totalPages: totalPages,
-        pageSize: pageSize,
-        totalCount: totalCount,
-      });
+    res.status(200).json({
+      messag: "resturnat fetched",
+      results: response,
+      page: pageNumber,
+      totalPages: totalPages,
+      pageSize: pageSize,
+      totalCount: totalCount,
+    });
   } catch (e) {
     res.status(500).json({ messag: "something went wrong" });
   }
@@ -445,7 +440,6 @@ const getDashboardCount = async (req, res) => {
   }
 };
 
-
 const forgotPasswordForSentEmail = async (req, res) => {
   try {
     const { email } = req.body;
@@ -454,7 +448,7 @@ const forgotPasswordForSentEmail = async (req, res) => {
     console.log(rest);
 
     if (rest === null) {
-      return res.status(205).json({ message: 'resturant not exist' });
+      return res.status(205).json({ message: "resturant not exist" });
     } else {
       const otpNumber = Math.floor(100000 + Math.random() * 900000);
 
@@ -468,9 +462,9 @@ const forgotPasswordForSentEmail = async (req, res) => {
       res.status(200).json({ messag: "otop sent", rest });
     }
   } catch (e) {
-    res.status(500).json({message:'something went wrong'})
+    res.status(500).json({ message: "something went wrong" });
   }
-}
+};
 
 const forgotPasswordForSetNewPassword = async (req, res, next) => {
   try {
@@ -504,19 +498,33 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
   } catch (e) {
     res.status(500).json({ messag: "something went wrong" });
   }
-}
+};
 
 const getAllReview = async (req, res) => {
   try {
     const { id } = req.query;
-    const review = await Resturant.findById(id, { review: 1 }).populate('review');
+    const review = await Resturant.findById(id, { review: 1 }).populate(
+      "review"
+    );
     console.log(review);
-    return res.status(200).json({ message: 'fetched all review', review });
-
+    return res.status(200).json({ message: "fetched all review", review });
   } catch (e) {
-    res.status(500).json({ messag: 'something went wrong' });
+    res.status(500).json({ messag: "something went wrong" });
   }
-}
+};
+const deleteRestaurant = async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    console.log("====id",id);
+    const data = await Resturant.findByIdAndDelete(id);
+
+    if (!data) return res.status(400).json({ message: "Resturant not founded" });
+
+    res.status(200).json({ message: "Resturant deleted" });
+  } catch (e) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -537,5 +545,6 @@ module.exports = {
   getDashboardCount,
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
-  getAllReview
+  getAllReview,
+  deleteRestaurant
 };

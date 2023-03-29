@@ -80,7 +80,7 @@ const UserProfile = () => {
             <img
               className="rounded-full w-40 h-40 sm:w-52 sm:h-52 object-cover"
               alt="user pic"
-              src="./avatar.png"
+              src="https://i.ibb.co/NxZH2Zg/avatar.png"
             />
           </div>
 
@@ -106,7 +106,7 @@ const UserProfile = () => {
               <li className="text-lg border-b-2 cursor-pointer">
                 <button
                   onClick={logout}
-                  className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
+                  className="inline-block bg-inherit hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
                 >
                   Logout
                 </button>
@@ -148,13 +148,13 @@ const UserProfile = () => {
                       onClick={() => setChangePassword(true)}
                       id="password"
                       value="Change Password"
-                      className="inline-block mr-2 bg-white hover:text-white hover:bg-blue-400 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400"
+                      className="inline-block mr-2 bg-inherit hover:text-white hover:bg-blue-400 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400"
                     >
                       <i className="fas fa-repeat"></i> Change Password
                     </button>
                     <button
                       onClick={() => setupdateProfile(true)}
-                      className="inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+                      className="inline-block bg-inherit hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
                     >
                       Update Profile{" "}
                     </button>
@@ -232,7 +232,7 @@ export const OrderDetailsCard = ({ items }) => {
         </div>
         <Link to={`/orderDetails/${items._id}`}>
           <div className="relative group -mt-16 px-4 hover:skew-x-1 transition-all duration-500">
-            <div className="rounded-lg bg-white p-5 shadow-lg">
+            <div className="rounded-lg bg-orange-200 p-5 shadow-lg">
               <div className="flex items-baseline">
                 <div className="text-xs font-semibold uppercase tracking-wider text-gray-600">
                   {dateFormat(items.createdAt, "dd")} &bull;{" "}

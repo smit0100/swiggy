@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BiBed } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link ,useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 import resto from "../../Assets/resto.jpg";
 import avatar from "../../Assets/avatar.jpg";
 import { BsWifi } from "react-icons/bs";
@@ -15,6 +15,7 @@ import Restaurants from "../../Apis/Restaurants";
 import { Images } from "../../Assets";
 
 export default function RestaurantDetail() {
+  const navigate = useNavigate();
   const { rupee, currentColor } = useStateContext();
   const { restaurantId } = useParams();
   console.log("userIDuserIDuserIDuserID", restaurantId);
@@ -62,6 +63,29 @@ export default function RestaurantDetail() {
           icon: "error",
         });
       });
+  };
+  const handleDelete = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Are you sure! you want to delete this restaurant?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((e) => {
+      if (e) {
+        Restaurants.deleteRestaurant(restaurantId)
+          .then((res) => {
+            if (res?.message == "Resturant deleted") {
+              toast.success("👌 restaurant deleted successfully.");
+              navigate("/request");
+            }
+          })
+          .catch((re) => {
+            console.log("===re", re);
+            toast.error("☹️ Something went wrong,try again");
+          });
+      }
+    });
   };
   const handleSubmit = (req) => {
     if (req == "reject") {
@@ -309,7 +333,7 @@ export default function RestaurantDetail() {
                   >
                     {data?.isApproved != "Accepted" ? "Approve" : "Approved"}
                   </button>
-                  <span className="w-10" />
+                  <span className="w-2" />
                   <button
                     disabled={data?.isApproved != "Rejected" ? false : true}
                     onClick={() => {
@@ -322,6 +346,15 @@ export default function RestaurantDetail() {
                     } `}
                   >
                     {data?.isApproved != "Rejected" ? "Reject" : "Rejected"}
+                  </button>
+                  <span className="w-2" />
+                  <button
+                    onClick={() => {
+                      handleDelete();
+                    }}
+                    className={`flex-1 px-3 py-2 text-sm font-medium text-center rounded-lg border-2 border-purple-700 text-purple-700 hover:bg-purple-700 hover:text-white `}
+                  >
+                    {"Delete"}
                   </button>
                 </div>
               </div>

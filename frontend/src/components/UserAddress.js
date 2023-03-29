@@ -161,7 +161,7 @@ const UserAddress = () => {
 
         {user !== null && user.address && user.address.length !== 0 ?
           user.address.map((address, i) =>
-            <div className=" w-full md:w-[32%] sm:w-[49%] flex shadow-black hover:shadow-xl anim bg-white p-3 rounded-sm">
+            <div className=" w-full md:w-[32%] sm:w-[49%] flex shadow-black hover:shadow-xl anim bg-orange-200 p-3 rounded-sm">
               <div className="flex flex-row w-full sm:block justify-between">
                 <div className='flex flex-col'>
                   <HiOutlineLocationMarker className='text-center' />
@@ -186,7 +186,7 @@ const UserAddress = () => {
         }
 
         {/* add new address component  */}
-        <div className="w-full md:w-[32%] sm::w-[49%] flex shadow-black hover:shadow-xl anim bg-white p-3 rounded-sm">
+        <div className="w-full md:w-[32%] sm::w-[49%] flex shadow-black hover:shadow-xl anim bg-orange-200 p-3 rounded-sm">
           <div>
             <div className="py-2">
               <HiOutlineLocationMarker className='text-center' />

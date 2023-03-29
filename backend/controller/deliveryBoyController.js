@@ -4,7 +4,7 @@ const sendEmail = require("../utils/sendEmail");
 const Order = require("../module/OrderModel");
 const DeliveryBoy = require("../module/DeliveryBoyModel");
 const User = require("../module/UserModel");
-const { getNearestDeliveryBoy } = require("../utils/GetDeliveryBoy");
+const Courier = require("../module/DeliveryBoyModel");
 const { sendNotification } = require("../utils/PushNotification");
 const TokenModel = require("../module/TokenModel");
 
@@ -52,13 +52,20 @@ const verify = async (req, res, next) => {
       userID: id,
       token: otp,
     });
-
+    console.log("==token", token);
     if (!token) return res.status(401).json({ message: "otp wrong" });
 
     user.isVerified = true;
     await user.save();
     await token.remove();
-
+    // const admin = User.findOne({ type: "admin" });
+    // if (admin?.fcmToken != "") {
+    //   let data = {
+    //     title: "👋 Request!",
+    //     body: "A new delivery boy joined us.",
+    //   };
+    //   sendNotification(admin?.fcmToken, data);
+    // }
     res.status(200).json({ message: "user veruified", user });
   } catch (e) {
     res.status(500).json({ message: "somehting went wrong" });
@@ -206,11 +213,13 @@ const receiveFoodFromResturant = async (req, res, next) => {
     } else {
       order.status = "on the way";
       await order.save();
-      let data = {
-        title: "👋 Hurray!",
-        body: "Delivery boy picked your order from restaurant",
-      };
-      sendNotification(userfcmToken, data);
+      if (userfcmToken != "") {
+        let data = {
+          title: "👋 Hurray!",
+          body: "Delivery boy picked your order from restaurant",
+        };
+        sendNotification(userfcmToken, data);
+      }
       return res.status(200).json({ message: "order on the way", order });
     }
   } catch (e) {
@@ -220,19 +229,24 @@ const receiveFoodFromResturant = async (req, res, next) => {
 
 const deliverFoodForCustomer = async (req, res, next) => {
   try {
-    const { id, otp, ownerfcmToken } = req.body;
+    const { id, otp, ownerfcmToken, deleveryBoyId } = req.body;
 
     const order = await Order.findOne({ _id: id, customerOtpNumber: otp });
+    let courierBoys = await Courier.findOne({ _id: deleveryBoyId });
     if (!order) {
       return res.status(209).json({ message: "please check ones otp" });
     } else {
+      courierBoys.isAvilable = true;
       order.status = "delivered";
       await order.save();
-      let data = {
-        title: "👋 Hurray!",
-        body: "Your order delivered successfully 🍟",
-      };
-      sendNotification(ownerfcmToken, data);
+      await courierBoys.save();
+      if (ownerfcmToken != "") {
+        let data = {
+          title: "👋 Hurray!",
+          body: "Your order delivered successfully 🍟",
+        };
+        sendNotification(ownerfcmToken, data);
+      }
       return res.status(200).json({ message: "order delivered", order });
     }
   } catch (e) {
@@ -305,30 +319,18 @@ const addReview = async (req, res, next) => {
 
     await response.save();
     console.log(response);
-    let payload = {
-      title: "👋 Review!",
-      body: `A customer give ${star} ⭐ to you.🔥`,
-    };
-    sendNotification(fcmToken, payload);
+    if (fcmToken != "") {
+      let payload = {
+        title: "👋 Review!",
+        body: `A customer give ${star} ⭐ to you.🔥`,
+      };
+      sendNotification(fcmToken, payload);
+    }
     res.status(200).json({ message: "review added", response });
   } catch (e) {
     res.status(400).json({ message: "something went wrong" });
   }
 };
-const addLocation = async (req, res, next) => {
-  try {
-    const { id, coordinates } = req.body;
-    console.log("===id", req.body);
-    const courierBoy = await DeliveryBoy.findByIdAndUpdate(id, {
-      lattitute: coordinates?.latitude,
-      longitute: coordinates?.longitude,
-    });
-    res.status(200).json({ message: "courier boy location added", courierBoy });
-  } catch (e) {
-    res.status(500).json({ message: "something went wrong" });
-  }
-};
-
 
 const forgotPasswordForSentEmail = async (req, res, next) => {
   try {
@@ -390,6 +392,31 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 };
+
+const editDeliveryBoy = async (req, res, next) => {
+  try {
+    const { _id, names, descr, checked, number } = req.body;
+    console.log("====req", req.body);
+    const response = await DeliveryBoy.findOneAndUpdate(
+      {
+        _id,
+      },
+      {
+        name: names,
+        isApproved: checked,
+        email: descr,
+        number,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json({ message: "edited delivery boy", response });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   register,
   login,
@@ -405,7 +432,7 @@ module.exports = {
   fetchAllAccepted,
   addReview,
   deleteDeliveryBoy,
-  addLocation,
   forgotPasswordForSetNewPassword,
-  forgotPasswordForSentEmail
+  forgotPasswordForSentEmail,
+  editDeliveryBoy,
 };

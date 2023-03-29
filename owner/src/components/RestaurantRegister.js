@@ -269,9 +269,9 @@ const RestaurantRegister = () => {
     }
 
     const bankDetails = {
-      ACnumber: bankNpan.accountno,
-      IFSC: bankNpan.ifsc,
-      actype: bankNpan.acType
+      ACnumber: bankNpan?.accountno,
+      IFSC: bankNpan?.ifsc,
+      actype: bankNpan?.acType
     }
 
     const pancardDetail = {

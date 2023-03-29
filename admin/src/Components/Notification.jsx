@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import toast, { Toaster } from 'react-hot-toast';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { onMessageListener } from "../firebase";
 const Notification = () => {
   const [notification, setNotification] = useState({
@@ -23,7 +22,7 @@ const Notification = () => {
           </div>
         )}
         <div className="p-2">
-          <h3 className="font-bold text-black">{title}</h3>
+          <h3 className="font-bold dark:text-black text-white">{title}</h3>
           <p className="text-sm text-gray-500">{body}</p>
         </div>
       </div>
@@ -59,11 +58,6 @@ const Notification = () => {
       });
     })
     .catch((err) => console.log("failed: ", err));
-
-  return (
-    <ToastContainer closeButton={false} position="top-right" />
-    //  <Toaster position='top-right'/>
-  );
 };
 
 export default Notification;

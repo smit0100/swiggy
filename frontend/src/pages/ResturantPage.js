@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { cartData } from "../redux/cart/cartSlice";
 import swal from "sweetalert"
 import { AiTwotoneStar } from 'react-icons/ai'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import UserReviewCard from "../components/UserReviewCard";
  
 const ResturantPage = () => {
@@ -114,7 +114,7 @@ const ResturantPage = () => {
   }
   let bgReview = "bg-green-600";
 
-  if (data.length != 0) {
+  if (data.length !== 0) {
     if (+data.resturant.rating <= 1.5) {
       bgReview = "bg-red-600"
     }
@@ -138,32 +138,31 @@ const ResturantPage = () => {
         {/* link */}
         <div className='w-full'>
           <div className=" w-full relative">
-            <div className='sticky  top-0 z-30 bg-white'>
+            <div className='sticky  top-0 z-30 bg-orange-100'>
               <div className='text-3xl uppercase'>{data.resturant ? data.resturant.name : ''}</div>
               <div className='text-lg capitalize text-slate-600'>pizza,south indian,chinese</div>
               <div className='text-md text-slate-500 capitalize'>{data.resturant && data.resturant.address ? data.resturant.address.street + " " + data.resturant.address.area + " " + data.resturant.address.city + '-' + data.resturant.address.pincode : ''}</div>
-              <div className='text-md'><span className='text-orange-300'>Open now</span> - <span className='text-slate-700'>10am - 11.30pm</span></div>
-              <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{data.length != 0 && data.resturant.rating} &nbsp; <AiTwotoneStar /></div>
+              <div className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>{data.length !== 0 && data.resturant.rating} &nbsp; <AiTwotoneStar /></div>
               <ul className="flex space-x-2 relative">
-                <li><button onClick={() => { setOpenTab(1); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow " >
+                <li><button onClick={() => { setOpenTab(1); HandleClick() }} className="inline-block px-4 py-2 bg-orange-200 rounded shadow " >
                   Order Online</button></li>
-                <li><button onClick={() => { setOpenTab(2); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow">
+                <li><button onClick={() => { setOpenTab(2); HandleClick() }} className="inline-block px-4 py-2 bg-orange-200 rounded shadow">
                   Reviews</button></li>
-                <li><button onClick={() => { setOpenTab(3); HandleClick() }} className="inline-block px-4 py-2 text-gray-600 bg-white rounded shadow">
+                <li><button onClick={() => { setOpenTab(3); HandleClick() }} className="inline-block px-4 py-2 bg-orange-200 rounded shadow">
                   Photos</button></li>
               </ul>
               <div className='border-[1.5px] border-black mb-2'></div>
 
             </div>
-            <div className="p-3 mt-6 bg-white border">
+            <div className="p-3 mt-6 bg-inherit border">
               <div className={openTab === 1 ? "block" : "hidden"}>
                 <div className='row overflow-auto'>
-                  <div className='block w-full sm:w-2/6 p-4 bg-black/10  overflow-hidden'>
+                  <div className='block w-full sm:w-2/6 p-4 bg-orange-200  overflow-hidden'>
                     <ul className="space-y-2">
                       {
                         category != null && category.map(item => <li>
                           <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
-                          <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-white border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
+                          <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-inherit border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
                             <div className="block">
                               <div className="w-full text-lg font-semibold">{item.name}</div>
                             </div>
@@ -390,7 +389,7 @@ export const RestroCategoryCard = ({ item }) => {
       if (!isUser) {
         navigate('/login')
       } else {
-        if (cartItemData != null && cartItemData.products.length == 0) {
+        if (cartItemData !== null && cartItemData.products.length === 0) {
           const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
             productId: id,
             userId: isUser._id,
@@ -401,7 +400,7 @@ export const RestroCategoryCard = ({ item }) => {
           toastElement()
         }
         else {
-          if (cartItemData.resturant != restaurantId) {
+          if (cartItemData.resturant !== restaurantId) {
             swal({
               title: "Items already in cart",
               text: "Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?",

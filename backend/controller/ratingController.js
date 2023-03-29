@@ -45,7 +45,6 @@ const addReview = async (req, res) => {
       model: "Review",
     });
 
-
     resturantUpdate.review.map((item) => {
       console.log(item.star + "this is item star");
       TotalRatingStar = TotalRatingStar + Number(item.star);
@@ -66,12 +65,14 @@ const addReview = async (req, res) => {
     );
 
     await data.save();
-    console.log("===data",data);
-    let payload = {
-      title: "👋 Review!",
-      body: `A customer give ${star} ⭐ to your restuarant.🔥`,
-    };
-    sendNotification(ownerFcmToken, payload);
+    console.log("===data", data);
+    if (ownerFcmToken != "") {
+      let payload = {
+        title: "👋 Review!",
+        body: `A customer give ${star} ⭐ to your restuarant.🔥`,
+      };
+      sendNotification(ownerFcmToken, payload);
+    }
     return res.status(200).json({ message: "review added", data });
   } catch (e) {
     console.log(e);

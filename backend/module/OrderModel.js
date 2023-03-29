@@ -51,10 +51,10 @@ const Order = new Schema({
             }
     },
     courierBoyotpNumber: {
-        type:Number
+        type:String
     },
     customerOtpNumber: {
-      type:Number  
+      type:String  
     },
     review: {
         type: mongoose.Types.ObjectId,

@@ -71,12 +71,11 @@ const Navbar = () => {
                 }`}
             >
               <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                <li className="text-gray-600 hover:text-blue-600">
-                  {/* <Link to="javascript:void(0)">Location</Link> */}
+                {/* <li className="text-gray-600 hover:text-blue-600">
                   <button className='flex items-center gap-1'>
                     <HiOutlineLocationMarker /> Location
                   </button>
-                </li>
+                </li> */}
 
                 <li className="text-gray-600 hover:text-blue-600">
                   <Link to="/search" className='flex items-center gap-1'>

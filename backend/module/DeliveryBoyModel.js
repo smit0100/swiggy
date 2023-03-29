@@ -10,10 +10,7 @@ const DeliveryBoy = new Schema({
     number: {
         type:String
     },
-    bankDetails: {
-        type: mongoose.Types.ObjectId,
-        ref:'BankDetails'
-    },
+ 
     password: {
         type:String
     },
@@ -56,12 +53,6 @@ const DeliveryBoy = new Schema({
     fcmToken: {
         type:String
     },
-    lattitute: {
-        type:String
-    },
-    longitute: {
-        type:String
-    }
 })
 
 module.exports = mongoose.model('DeliverBoy',DeliveryBoy)

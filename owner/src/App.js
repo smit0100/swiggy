@@ -29,7 +29,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
-// import ContectUs from './components/c'
 
 function App() {
   const dispatch = useDispatch()
@@ -88,7 +87,7 @@ function App() {
 
   return (
     <div className="App">
-      <ToastContainer />
+      <ToastContainer theme="dark" pauseOnHover={true}/>
       <RouterProvider router={router} />
       <Notification />
     </div>

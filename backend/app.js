@@ -33,7 +33,7 @@ const passportSetup = require('./utils/passport')
 const facebookSetup = require('./utils/facebook')
 const orderRoute = require('./routes/orderRoutes');
 const outletRoute = require('./routes/outletRoutes');
- 
+const contactRoute = require('./routes/contactUsRoutes');
 const cloudinary = require('cloudinary')
 const deliveryBoyRoute = require('./routes/deliveryBoyRoute');
 const reviewRoutes = require('./routes/reviewRoutes');
@@ -135,7 +135,7 @@ app.use('/outlet', outletRoute);
 app.use('/subcategory', subCategoryRoute);
 app.use('/review', reviewRoutes)
 app.use('/courier',deliveryBoyRoute)
-
+app.use('/contact', contactRoute);
 app.get('/google', passport.authenticate("google", ["profile", "email"]))
 app.get('/auth/facebook', passport.authenticate('facebook'));
 

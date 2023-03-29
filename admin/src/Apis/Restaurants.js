@@ -37,6 +37,15 @@ function getOneProduct(id) {
     },
   });
 }
+function getAllReviews(id) {
+  return Api({
+    url: `/resturant/getallreview/?id=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function handleRequest(id, req) {
   console.log("==id,req", id, req);
   return Api({
@@ -47,11 +56,21 @@ function handleRequest(id, req) {
     },
   });
 }
-
+function deleteRestaurant(id) {
+  return Api({
+    url: `/resturant/delete?id=${id}`,
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 export default {
   GetRequests,
   getOneProduct,
   handleRequest,
   GetApprovedRestaurant,
   GetCounts,
+  getAllReviews,
+  deleteRestaurant
 };

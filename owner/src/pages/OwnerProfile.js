@@ -52,7 +52,7 @@ const OwnerProfile = () => {
             <img
               className="rounded-full w-40 h-40 sm:w-52 sm:h-52 object-cover"
               alt="user pic"
-              src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+              src="https://i.ibb.co/NxZH2Zg/avatar.png"
             />
           </div>
           {/* <div className="flex justify-center gap-44 relative -top-5">
@@ -144,13 +144,13 @@ const OwnerProfile = () => {
                   </ul>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user != null && user.bankDetails.ACnumber}
+                      {user != null && user?.bankDetails?.ACnumber}
                     </li>
                     <li className=" text-lg font-normal">
-                      {user != null && user.bankDetails.IFSC}
+                      {user != null && user?.bankDetails?.IFSC}
                     </li>
                     <li className="py-3 text-lg font-normal">
-                      {user != null && user.bankDetails.actype}
+                      {user != null && user?.bankDetails?.actype}
                     </li>
                   </ul>
                 </div>
@@ -164,10 +164,10 @@ const OwnerProfile = () => {
                   </ul>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user != null && user.panCard.holderName}
+                      {user != null && user?.panCard?.holderName}
                     </li>
                     <li className="py-3 text-lg font-normal">
-                      {user != null && user.panCard.number}
+                      {user != null && user?.panCard?.number}
                     </li>
                   </ul>
                 </div>
@@ -207,7 +207,7 @@ const OwnerProfile = () => {
                       {user != null && user.name}
                     </li>
                     <li className=" text-lg font-normal">{user != null && user.email}</li>
-                    <li className="py-3 text-lg font-normal">{`${user != null && user.address.street} ${user != null && user.address.area} ${user != null && user.address.city} ${user != null && user.address.state}-${user != null && user.address.pincode}`}</li>
+                    <li className="py-3 text-lg font-normal">{`${user != null && user.address?.street} ${user != null && user.address?.area} ${user != null && user.address?.city} ${user != null && user.address?.state}-${user != null && user.address?.pincode}`}</li>
                   </ul>
                 </div>
               </div>

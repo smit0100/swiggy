@@ -15,28 +15,9 @@ export default function Login() {
   const [emailError, setEmailError] = useState("");
   const [passError, setPassError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [coordinates, setCoordinates] = useState({
-    latitude: 21.19215,
-    longitude: 72.88799,
-  });
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getLocation();
-  }, []);
-
-  const getLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) =>
-        setCoordinates({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }),
-      (error) => console.error(error)
-    );
-  };
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -105,7 +86,6 @@ export default function Login() {
           email,
           password: pass,
           fcmToken,
-          coordinates,
         }
       );
       let expires = new Date();
