@@ -4,8 +4,9 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import OrderSummaryFoodCard from "./OrderSummaryFoodCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 // import io from 'socket.io-client';
 // const socket = io("http://localhost:4000");
@@ -21,6 +22,10 @@ const OrderSummary = () => {
   const [customerhandle, setcustomerhandle] = useState(null);
 
   console.log(state);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCurrentColor("black"))
+  }, [])
   useEffect(() => {
     (async () => {
       try {

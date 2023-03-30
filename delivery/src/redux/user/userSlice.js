@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   isCorierLogIn: false,
+  currentColor: "slate-800",
 };
 
 const userslice = createSlice({
@@ -15,8 +16,11 @@ const userslice = createSlice({
     corierLogIn: (state, action) => {
       state.isCorierLogIn = action.payload;
     },
+    setCurrentColor: (state, action) => {
+      state.currentColor = action.payload;
+    },
   },
 });
 
-export const { userData, corierLogIn } = userslice.actions;
+export const { userData, corierLogIn, setCurrentColor } = userslice.actions;
 export default userslice.reducer;

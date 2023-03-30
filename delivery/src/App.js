@@ -66,6 +66,7 @@ function App() {
       ) : (
         <Route path="/" element={<Home />}>
           <Route index element={<Directory />} />
+          <Route path="contactus" element={<ContactUs />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgotpassword" element={<ForgotPassword />} />

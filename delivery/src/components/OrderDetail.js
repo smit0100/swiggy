@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import dateFormat from 'dateformat';
 import Loader from './Loader';
+import { setCurrentColor } from '../redux/user/userSlice';
 
 const OrderDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -15,7 +16,10 @@ const OrderDetail = () => {
   const [orderStatus, setOrderStatus] = useState('not define')
   const [orderData,setOrderData]=useState(null)
   const user=useSelector(state=>state.userData.user)
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCurrentColor("black"))
+  }, [])
   useEffect(() => {
     if(user!=null){
     (
@@ -33,7 +37,7 @@ const OrderDetail = () => {
       {
         isLoading ? <Loader /> : <>
           {
-            <div className='mx-5'>
+            <div className='mx-5 pt-24'>
               <div className='p-5 shadow-md'>
                 <h1 className="text-3xl font-bold mb-4">Order Summary</h1>
                 <div className="overflow-x-auto">

@@ -54,7 +54,7 @@ const verify = async (req, res, next) => {
     });
     console.log("==token", token);
     if (!token) return res.status(401).json({ message: "otp wrong" });
-
+    console.log("=====calledddd");
     user.isVerified = true;
     await user.save();
     await token.remove();
