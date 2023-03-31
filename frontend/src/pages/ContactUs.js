@@ -53,23 +53,46 @@ const ContactUs = () => {
       setMessageError("");
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name != "" && email != "" && number != "" && message != "") {
-      setLoading(true)
-      axios.post(
-        `${process.env.REACT_APP_BASEURL}/contact/contact`,
-        {
-          name,
-          email,
-          number,
-          message,
-        }
-      ).then((res)=>{
-        console.log("===res",res);
-      })
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (name != "" && email != "" && number != "" && message != "") {
+  //     setLoading(true)
+  //     axios.post(
+  //       `${process.env.REACT_APP_BASEURL}/contact/contact`,
+  //       {
+  //         name,
+  //         email,
+  //         number,
+  //         message,
+  //       }
+  //     ).then((res)=>{
+  //       console.log("===res",res);
+  //     })
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true);
+    console.log(name,email,number,message);
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/contact/contact`,{name,email,number,message});
+      setLoading(false);
+// console.log(response,'contactUS')
+      setName('')
+      setEmail('')
+      setNumber('')
+      setMessage('')
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.status === 500) {
+        swal(`${err?.response?.data?.message}`, "", "error");
+        setLoading(false);
+        return;
+      }
     }
   };
+
   function SubmitButton() {
     if (
       name &&
@@ -85,6 +108,7 @@ const ContactUs = () => {
         <button
           type="submit"
           className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90"
+          onClick={handleSubmit}
         >
           {loading ? <InlineButtonLoader /> : "Send Message"}
         </button>
@@ -94,7 +118,7 @@ const ContactUs = () => {
         <button
           type="submit"
           className="bg-blue-700 border-blue-700 w-full rounded-xl border p-3 text-white transition hover:bg-opacity-90"
-          onClick={handleSubmit}
+          disabled
         >
           Send Message
         </button>

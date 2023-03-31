@@ -21,7 +21,7 @@ import OwnerProfile from "./pages/OwnerProfile";
 import PageNotFound from "./components/PageNotFound";
 import Notification from "./components/Notification";
 import ForgotPassword from "./components/ForgotPassword";
-import ContactUs from "./components/ContactUs";
+import ContactUs from "./pages/ContactUs";
 import { requestForToken } from "./firebase";
 import { useState } from "react";
 import { useEffect } from "react";

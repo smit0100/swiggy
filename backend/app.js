@@ -136,6 +136,8 @@ app.use('/subcategory', subCategoryRoute);
 app.use('/review', reviewRoutes)
 app.use('/courier',deliveryBoyRoute)
 app.use('/contact', contactRoute);
+// router.post("/contact", contactController.fillForm);
+// /contact/contact
 app.get('/google', passport.authenticate("google", ["profile", "email"]))
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
