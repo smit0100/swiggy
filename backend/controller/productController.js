@@ -124,7 +124,7 @@ const updateProduct = async (req, res) => {
                 })
 
                 let product = await Product.findByIdAndUpdate(id, { name, price, description, category, subCategory, imageUrl: result.url }, { new: true });
-                product = await Product.find({ resturnat: resturant });
+                product = await Product.find({ resturnat: resturant }).populate('category');
                 
                 res.status(200).json({ message: 'product updated', product });
             } catch (e) {
