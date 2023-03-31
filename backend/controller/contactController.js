@@ -5,7 +5,7 @@ const sendEmail = require("../utils/sendEmail");
 const fillForm = async (req, res) => {
     try {
         const { name, email, number, message } = req.body;
-
+        console.log(req.body);
         const contanct =await new ContactUsModel({
             name, email, number, message
         }).save();

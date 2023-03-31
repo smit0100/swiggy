@@ -315,7 +315,7 @@ const fetchResturantAllProduct = async (req, res, next) => {
 
   let product;
   if (categories.length === 0) {
-    product = await Product.find({ resturnat: id ,isActive:{$ne:false}});
+    product = await Product.find({ resturnat: id ,isActive:{$ne:false}}).populate('category');
   } else {
     categories = categories
       .split(",")
@@ -325,7 +325,7 @@ const fetchResturantAllProduct = async (req, res, next) => {
       resturnat: id,
       category: { $in: categories },
       isActive:{$ne:false}
-    });
+    }).populate('category');
   }
   res.status(200).json({ message: "product finded", product, resturant });
 };

@@ -20,7 +20,7 @@ export default function ContactUs() {
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
-
+  const [data,setData] = useState([])
   useEffect(() => {
     getContactUs();
   }, []);
@@ -28,6 +28,7 @@ export default function ContactUs() {
     Contactus.GetContactUs()
       .then((res) => {
         console.log("===res", res);
+        setData(res.data);
       })
       .catch((e) => console.log("====e", e));
   };

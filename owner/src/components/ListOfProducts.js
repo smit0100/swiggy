@@ -8,13 +8,16 @@ const ListOfProducts = () => {
   const user = useSelector(state => state.userData.user)
   const [load, setLoad] = useState(false)
   const [data, setData] = useState(null)
+  const [category, setCategory] = useState(null)
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
     (async () => {
       setLoad(true)
       try {
         const response = await axios.get(`http://localhost:4000/resturant/allProduct?id=${user._id}`);
         setData(response.data.result)
-        console.log(response.data)
+        console.log(response.data,'this is data')
         setLoad(false)
       }
       catch (err) {
@@ -23,6 +26,45 @@ const ListOfProducts = () => {
     })()
   }, [])
 
+  const handleCategoryChange = (event) => {
+    const category = event.target.value;
+
+    if (event.target.checked) {
+      setCategories([...categories, category]);
+    } else {
+      setCategories(categories.filter(c => c !== category));
+    }
+  };
+
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoad(true)
+        const ct = categories.map(id => id.toString()).join(',');
+        console.log("this is ct log");
+        console.log(typeof (ct));
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${user._id}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
+        console.log(response.data,'dataaaaaa')
+        setData(response.data.product)
+        setLoad(false)
+      } catch (err) {
+        console.log(err);
+      }
+    })()
+  }, [categories])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
+        console.log(response.data,'category response');
+        setCategory(response.data.response)
+      } catch (err) {
+        console.log(err);
+      }
+    })()
+  }, [])
   return (
     <>
       <div className='flex flex-wrap'>
@@ -30,9 +72,17 @@ const ListOfProducts = () => {
           <h1 className='text-2xl font-semibold py-4'>List of Products</h1>
 
           <ul className="space-y-2">
-            {menuItems.map((menu, index) => {
-              return <MenuItems items={menu} key={index} />;
-            })}
+             {
+              category != null && category.map(item => <li>
+                <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
+                <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-inherit border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">{item.name}</div>
+                  </div>
+                </label>
+
+              </li>)
+            } 
           </ul>
 
         </div>
@@ -47,7 +97,7 @@ const ListOfProducts = () => {
             :
             <div className="flex flex-wrap gap-4 justify-evenly">
               {
-                data != null && data.map(item => <ListOfProductCard item={item} setData={setData}/>)
+                data != null && data.map(item => <ListOfProductCard item={item} setData={setData} />)
               }
             </div>
           }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import InlineButtonLoader from '../components/InlineButtonLoader'
 import { setCurrentColor } from '../redux/user/userSlice';
+import axios from 'axios'
 
 const ContactUs = () => {
 
@@ -62,11 +63,30 @@ const ContactUs = () => {
 
   function SubmitButton() {
     if (name && email && number && message && nameError.length === 0 && emailError.length === 0 && numberError.length === 0 && messageError.length === 0) {
-      return (<button type="submit" className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90">{loading ? <InlineButtonLoader /> : "Send Message"}</button>);
+        return (<button onClick={handleSubmit} type="submit" className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90">{loading ? <InlineButtonLoader /> : "Send Message"}</button>);
     } else {
       return (<button type="submit" className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90" disabled>Send Message</button>);
     }
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true);
+    console.log(name,email,number,message);
+    try {
+      const response = await axios.post("http://localhost:4000/contact/contact",{name,email,number,message});
+      setLoading(false);
+console.log(response,'contactUS')
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.status === 500) {
+        swal(`${err?.response?.data?.message}`, "", "error");
+        setLoading(false);
+        return;
+      }
+    }
+  };
+  
 
 
   return (
