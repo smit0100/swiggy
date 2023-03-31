@@ -4,7 +4,8 @@ import UpdateProductPopup from './UpdateProductPopup';
 import axios from 'axios'
 import swal from 'sweetalert'
 
-const ListOfProductCard = ({ item }) => {
+const ListOfProductCard = ({ item,setData}) => {
+    // console.log(item);
     const [showModal, setShowModal] = useState(false);
     
     const deleteProduct = async (e) => {
@@ -34,6 +35,7 @@ const ListOfProductCard = ({ item }) => {
         //     console.log(err);
         // }
     }
+
     return (
         <div className='relative mb-20'>
             <img src={`${item.imageUrl}`} alt=" random imgee" className="w-72 h-72 rounded-lg object-cover  shadow-md transition-all duration-300" />
@@ -74,7 +76,7 @@ const ListOfProductCard = ({ item }) => {
             </div>
 
             {showModal ? (
-                <UpdateProductPopup setShowModal={setShowModal} id={item?._id} price={item?.price} name={item?.name} description={item?.description} cat={item?.category?.name} catId={item?.category?._id} subCatId={item?.subCategory}/>
+                <UpdateProductPopup setShowModal={setShowModal} id={item?._id} price={item?.price} name={item?.name} description={item?.description} cat={item?.category?.name} catId={item?.category?._id} subCatId={item?.subCategory} setData={setData}/>
             ) : null}
         </div>
     )

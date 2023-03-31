@@ -102,12 +102,13 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         e.preventDefault()
         console.log(email, number, name);
         try {
-            const response = await axios.post(`http://localhost:4000/user/update`, {
-                userId: user._id,
+            const response = await axios.post(`http://localhost:4000/resturant/updateProfile`, {
+                id: user._id,
                 email,
                 number,
                 name
             })
+            console.log(response);
             if (response.status === 201) {
                 console.log("ooo");
                 setotpTab(true);

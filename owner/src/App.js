@@ -29,6 +29,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ownerLogIn, userData } from "./redux/user/userSlice";
 import { useDispatch } from 'react-redux';
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   const dispatch = useDispatch()
@@ -48,6 +49,7 @@ function App() {
   useEffect(() => {
     getFcmToken();
   }, []);
+
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmTokenOwner");
     console.log("===temp",temp);
@@ -55,6 +57,7 @@ function App() {
       requestForToken(setTokenFound);
     }
   };
+  
   const router = createBrowserRouter(
     createRoutesFromElements(
       !owner ? (
@@ -63,8 +66,8 @@ function App() {
           <Route path="/ownerRegister" element={<OwnerRegister />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-          <Route path="/*" element={<PageNotFound />} />
           <Route path="/forgotpassword" element={<ForgotPassword/>} />
+          <Route path="/*" element={<PageNotFound />} />
 
         </Route>
       ) : (
@@ -78,8 +81,8 @@ function App() {
           <Route path="/resturantRegister" element={<RestaurantRegister />} />
           <Route path="/ownerprofile" element={<OwnerProfile />} />
           <Route path="/contactus" element={<ContactUs />} />
-
-          <Route path="/*" element={<PageNotFound />} />
+          <Route path="/search" element={<SearchPage/>}/>
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       )
     )

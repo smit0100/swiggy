@@ -535,14 +535,14 @@ const searchProduct = async (req, res, next) => {
 
   const pageNumber = parseInt(req.query.pageNumber) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
-    
+    console.log(req.query)
   
     try {
         const totalCount = await Product.find({name: regex,resturnat:req.query.id }).countDocuments();
     
         const totalPages = Math.ceil(totalCount / pageSize);        
   
-        const response = await Product.find({ name: regex }).skip((pageNumber - 1) * pageSize).limit(pageSize);
+        const response = await Product.find({ name: regex,resturnat:req.query.id  }).skip((pageNumber - 1) * pageSize).limit(pageSize);
             console.log(response)
         return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
         pageSize: pageSize,
@@ -551,30 +551,46 @@ const searchProduct = async (req, res, next) => {
         res.status(400).json({ message: 'something went wrong' });
     }
 }
-// const fetchAllProduct = async (req, res, next) => {
-//   const searchQuery = req.query.q;
 
-//   const regex = new RegExp(searchQuery, 'i');
 
-//   const pageNumber = parseInt(req.query.pageNumber) || 1;
-//   const pageSize = parseInt(req.query.pageSize) || 10;
-  
+const updateProfile = async (req,res,next) => {
+  try {
+    const {id,name,number,email} = req.body;
+    let user = await Resturant.findById(id);
+    console.log(user);
+    if (user.email === email) {
+      user = await Resturant.findByIdAndUpdate(id,{
+        ownerName:name,
+        number
+      },{
+        new:true
+      })
 
-//   try {
-//       const totalCount = await Product.find({ name: regex }).countDocuments();
-  
-//       const totalPages = Math.ceil(totalCount / pageSize);        
-
-//       const response = await Product.find({ name: regex }).skip((pageNumber - 1) * pageSize).limit(pageSize);
-//           console.log(response)
-//       return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
-//       pageSize: pageSize,
-//       totalCount: totalCount});    
-//   } catch (e) {
-//       res.status(400).json({ message: 'something went wrong' });
-//   }
-  
-// }
+      return res.status(200).json({message:"updated",user})
+    } else {
+      const emailExist = await Resturant.find({email});
+      if (emailExist.length != 0) {
+        return res.status(409).json({messag:'email id already exist'})
+      }else {
+        const otpNumber = Math.floor(100000 + Math.random() * 900000);
+        const token = await new Token({
+          userID: id, 
+          token: otpNumber,
+        }).save();
+       
+        const url = otpNumber;
+        console.log("this is url", url);
+        res.status(201).json({
+          message: "otp sent",
+          user,
+          newDetails: { name, number, email },
+        });
+      }
+    }
+  } catch (e) {
+    res.status(500).json({message:"something went wrong"});
+  }
+}
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -597,5 +613,6 @@ module.exports = {
   forgotPasswordForSentEmail,
   getAllReview,
   deleteRestaurant,
-  searchProduct
+  searchProduct,
+  updateProfile
 };

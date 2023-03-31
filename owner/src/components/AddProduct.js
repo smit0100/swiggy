@@ -10,8 +10,8 @@ import Loader from './Loader';
 
 const AddProduct = () => {
   const [categoryArray, setCategoryArray] = useState([]);
-  const [category, setCategory] = useState("select your category");
-  const [subCategory, setSubCategory] = useState('');
+  const [category, setCategory] = useState(null);
+  const [subCategory, setSubCategory] = useState(null);
   const [subCategoryArray, setSubCategoryArray] = useState([]);
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState('')
@@ -25,6 +25,7 @@ const AddProduct = () => {
   const navigate=useNavigate()
 
   const owner = useSelector(state => state.userData.user);
+
   const handleName = (e) => {
     setName(e.target.value)
     var regex = /^[\sA-Za-z]+$/;
@@ -64,6 +65,7 @@ const AddProduct = () => {
       const res = await axios.get("http://localhost:4000/category/all")
       console.log(res.data.response);
       setCategoryArray(res.data.response);
+      setCategory(res.data.response[0]._id)
     })();
 
   }, [])
@@ -75,7 +77,7 @@ const AddProduct = () => {
       const res = await axios.get(`http://localhost:4000/subcategory/all?id=${category}`);
       console.log(res.data.response);
       setSubCategoryArray(res.data.response);
-
+      setSubCategory(res.data.response[0]._id)
     })();
 
   }, [category])
@@ -109,6 +111,7 @@ const AddProduct = () => {
     )();
    
   }
+
 
   return (
     <>{

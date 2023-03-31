@@ -28,6 +28,8 @@ const OrderSummary = () => {
   }, []);
 
   const handleOrder = async () => {
+    
+    console.log("hello");
     setIsDisable(true);
     axios
       .get(`http://localhost:4000/order/acceptOrder?id=${state}`)

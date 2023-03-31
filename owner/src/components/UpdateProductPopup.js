@@ -3,8 +3,9 @@ import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { BiRupee } from "react-icons/bi"
 import { AiOutlineAlignCenter } from 'react-icons/ai'
 import axios from 'axios'
+import { useSelector } from "react-redux";
 
-const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,subCatId}) => {
+const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,subCatId,setData}) => {
 
   const [productData, setProductData] = useState({
     name: name,
@@ -16,6 +17,7 @@ const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,s
 
   const [category, setCategory] = useState(catId);
   const [subCategory, setSubCategory] = useState(subCatId)
+  const owner = useSelector(state=>state.userData.user)
 
 
   const handlechange = (e) => {
@@ -52,15 +54,17 @@ const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,s
   const productUpdate=async()=>{
     console.log(subCatId);
     try {
-      if (category != null) {
+      if (category != null && owner!=null) {
         const res = await axios.put(`http://localhost:4000/product/update`,{
           price:productData.price,
           name:productData.name,
           description:productData.description,
           id:id,
           category:category,
-          subCategory:subCategory  
+          subCategory:subCategory,
+          resturant:owner._id
         });
+        setData(res.data.product)
         console.log(res);
       }
     } catch (err) {

@@ -47,7 +47,7 @@ const ListOfProducts = () => {
             :
             <div className="flex flex-wrap gap-4 justify-evenly">
               {
-                data != null && data.map(item => <ListOfProductCard item={item} />)
+                data != null && data.map(item => <ListOfProductCard item={item} setData={setData}/>)
               }
             </div>
           }

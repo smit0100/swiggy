@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import InlineButtonLoader from "./InlineButtonLoader";
-import { userData } from "../redux/user/userSlice";
+import { corierLogIn, userData } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 const Otp = () => {

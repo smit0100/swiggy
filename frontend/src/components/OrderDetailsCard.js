@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect  } from "react";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { BsArrowRightCircle } from "react-icons/bs";
@@ -6,17 +6,24 @@ import { AiTwotoneStar } from "react-icons/ai";
 
 const OrderDetailsCard = ({ items }) => {
   console.log(items);
-  let bgReview = "bg-green-600";
+  const [bgReview,setBgReview] = useState("bg-green-600")
 
-  if (items != null) {
-    if (+items.resturant.rating <= 1.5) {
-      bgReview = "bg-red-600";
-    } else if (+items.resturant.rating > 1.5 && items.resturant.rating < 3.5) {
-      bgReview = "bg-orange-600";
-    } else {
-      bgReview = "bg-green-600";
+  useEffect(() => {
+    if (items != null && items.resturant!=null && items.resturant.rating!=null) {
+      if (+items?.resturant.rating <= 1.5) {
+        setBgReview("bg-red-600") 
+      } else if (+items.resturant.rating > 1.5 && items.resturant.rating < 3.5) {
+        setBgReview("bg-orange-600") 
+      } else {
+        setBgReview("bg-green-600") 
+      }
     }
-  }
+    
+    
+  }, [])
+  
+
+ 
   return (
     <div className="flex w-[32%] relative  text-gray-900 antialiased">
       <div>
@@ -49,7 +56,7 @@ const OrderDetailsCard = ({ items }) => {
                   <div
                     className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}
                   >
-                    {items != null && items.resturant.rating} &nbsp;{" "}
+                    {/* {items != null && items.resturant.rating} &nbsp;{" "} */}
                     <AiTwotoneStar />
                   </div>
                 </span>

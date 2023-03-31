@@ -29,6 +29,7 @@ router.post('/verfiyotp', resturantController.forgotPasswordForSetNewPassword);
 router.get('/getallreview', resturantController.getAllReview);
 router.delete('/delete',resturantController.deleteRestaurant);
 router.get('/search', resturantController.searchProduct);
+router.post('/updateProfile',resturantController.updateProfile)
 
 
 
