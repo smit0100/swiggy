@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import InlineButtonLoader from '../components/InlineButtonLoader'
+import { setCurrentColor } from '../redux/user/userSlice';
 
 const ContactUs = () => {
 
@@ -12,7 +14,11 @@ const ContactUs = () => {
   const [message, setMessage] = useState('')
   const [messageError, setMessageError] = useState('')
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(setCurrentColor("black"))
+  }, [])
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;

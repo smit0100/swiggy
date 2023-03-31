@@ -4,7 +4,7 @@ import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { corierLogIn, userData } from "../redux/user/userSlice";
+import { corierLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
 import { toast } from "react-toastify";
 
 const UserProfile = () => {
@@ -17,7 +17,9 @@ const UserProfile = () => {
   const user = useSelector((state) => state.userData.user);
   const history = useNavigate();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    dispatch(setCurrentColor("black"))
+  }, [])
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -40,7 +42,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto px-6 py-3 rounded-md ">
+      <div className="max-w-screen-xl mx-auto pt-24 px-6 py-3 rounded-md ">
         <h1 className="text-3xl font-semibold">My Profile </h1>
         {/* profile image  */}
         <div>
@@ -53,7 +55,7 @@ const UserProfile = () => {
           </div>
           <div className="flex justify-center gap-44 relative -top-5">
             <button className="inline-block bg-white hover:text-white hover:bg-green-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-            onClick={()=>toast.success("done")}
+            // onClick={()=>toast.success("done")}
             >
               Add New
             </button>

@@ -17,7 +17,7 @@ const OwnerProfile = () => {
   const [isLoading, setIsLoading] = useState(null);
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
-
+  console.log("===user",user);
   useEffect(() => {
     (async () => {
       if (user != null) {
@@ -112,7 +112,7 @@ const OwnerProfile = () => {
                 <div>
                   <ul className="border-l-2 pl-5">
                     <li className="py-3 text-lg font-normal capitalize">
-                      {user != null && user.ownerName}
+                      {user != null && user.name}
                     </li>
                     <li className=" text-lg font-normal">{user != null && user.number}</li>
                     <li className="py-3 text-lg font-normal">{user != null && user.email}</li>

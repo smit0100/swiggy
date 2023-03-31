@@ -51,7 +51,7 @@ function LogIn() {
       User.AdminLogIn(JSON.stringify(data))
         .then((result) => {
           console.log("==result", result);
-          if (result?.messag && result?.response) {
+          if (result?.response) {
             clearLogInState();
             localStorage.setItem("isLogIn", JSON.stringify(true));
             let data = {
