@@ -4,23 +4,15 @@ import { Button } from "../../Components";
 import { toast } from "react-toastify";
 import { useStateContext } from "../../contexts/ContextProvider";
 import swal from "sweetalert";
-const data = [
-  {
-    name: "rohit kajavadra",
-    email: "aa@test.com",
-    number: "9988774455",
-    message:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it",
-      _id:"00"
-  },
-];
+import { IoIosAddCircleOutline } from "react-icons/io";
+
 export default function ContactUs() {
   const { currentColor } = useStateContext();
   const [isVisible, setIsVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
-  const [data,setData] = useState([])
+  const [data, setData] = useState([]);
   useEffect(() => {
     getContactUs();
   }, []);
@@ -28,9 +20,14 @@ export default function ContactUs() {
     Contactus.GetContactUs()
       .then((res) => {
         console.log("===res", res);
-        setData(res.data);
+        if (res?.data?.length > 0) {
+          setData(res.data);
+        }
       })
-      .catch((e) => console.log("====e", e));
+      .catch((e) => {
+        console.log("====e", e);
+        toast.error("☹️ Something went wrong, try again.");
+      });
   };
   const handleModal = (id) => {
     let item = data?.find((item) => item?._id == id);
@@ -52,9 +49,10 @@ export default function ContactUs() {
     Contactus.SendResponse(data)
       .then((res) => {
         console.log("===res", res);
-        if (res?.data?.message == "response sended") {
+        if (res?.message == "response sended") {
           setIsVisible(false);
           toast.success("⭐ response send successfully.");
+          setEmail("");
         } else {
           toast.error("☹️ Something went wrong, try again.");
         }
@@ -77,9 +75,11 @@ export default function ContactUs() {
       if (e) {
         Contactus.deleteInquiry(id)
           .then((res) => {
+            console.log("===res", res);
             if (res?.message == "Inquiry deleted") {
               toast.success("👌 inquiry deleted successfully.");
-              return
+              getContactUs();
+              return;
             }
             toast.error("☹️ Something went wrong,try again");
           })
@@ -138,7 +138,7 @@ export default function ContactUs() {
                 <td className="px-6 py-4 flex gap-3">
                   <button
                     className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
-                    onClick={()=>handleModal(item?._id)}
+                    onClick={() => handleModal(item?._id)}
                   >
                     Response
                   </button>
