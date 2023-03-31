@@ -124,7 +124,9 @@ const updateProduct = async (req, res) => {
                 })
 
                 let product = await Product.findByIdAndUpdate(id, { name, price, description, category, subCategory, imageUrl: result.url }, { new: true });
-                product = await Product.find({ resturnat: resturant }).populate('category');
+                product = await Product.find({ resturnat: resturant,isActive:{$ne:false}}).populate({
+                    path:'category'
+                });
                 
                 res.status(200).json({ message: 'product updated', product });
             } catch (e) {
@@ -133,7 +135,7 @@ const updateProduct = async (req, res) => {
             }
         } else {
             let product = await Product.findByIdAndUpdate(id, { name, price, description,category,subCategory });
-            product = await Product.find({ resturnat: resturant });
+            product = await Product.find({ resturnat: resturant,isActive:{$ne:false} }).populate('category');
             res.status(200).json({ message: 'product updated', product });    
         }
         
@@ -172,10 +174,16 @@ const fetchAllProduct = async (req, res, next) => {
 const isActive = async (req, res, next) => {
     try {
         const { id,resturant } = req.query;
-        let product = await Product.findByIdAndUpdate(id, { isActive: false }, {
-            new:true
-        })
-        product = await Product.find({ resturnat: resturant });
+        console.log(req.query);
+        let product = await Product.findByIdAndUpdate(id, { isActive:false })
+        // let product
+     
+    //    let product = await Product.find({$and:[{resturant:resturant},{isActive:true}]});
+      product = await Product.find({isActive:{$ne:false}, resturnat:resturant}).populate('category')
+
+       
+        console.log(product);
+        // 640eb56eb4a028c59c83748c
         res.status(200).json({ message: 'deactivated product', product });
 
     } catch (e) {

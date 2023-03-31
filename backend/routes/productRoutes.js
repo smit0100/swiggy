@@ -6,7 +6,7 @@ router.post('/add', productController.createProduct);
 router.get('/fetchAll', productController.fetchAllProduct);
 router.get('/allResturantProduct', productController.allResturantProduct);
 router.put('/update', productController.updateProduct);
-router.delete('/proudct',productController.isActive)
+router.get('/deleteProduct',productController.isActive)
 
 
 module.exports = router

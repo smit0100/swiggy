@@ -3,37 +3,42 @@ import { FcLike } from 'react-icons/fc'
 import UpdateProductPopup from './UpdateProductPopup';
 import axios from 'axios'
 import swal from 'sweetalert'
+import { useSelector } from 'react-redux';
 
 const ListOfProductCard = ({ item,setData}) => {
     // console.log(item);
     const [showModal, setShowModal] = useState(false);
+    const owner=useSelector(state=>state.userData.user)
     
     const deleteProduct = async (e) => {
         e.preventDefault()
-        // try {
-        //     swal({
-        //         title: "Are you sure !",
-        //         text: "Your product delete permanent",
-        //         icon: "warning",
-        //         buttons: ["NO", "YES"],
-        //         cancelButtonColor: "#DD6B55",
-        //         confirmButtonColor: "#DD6B55",
-        //         dangerMode: true,
-        //     })
-        //         .then(async (willDelete) => {
-        //             if (willDelete) {
-        //                 const res = await axios.delete(`http://localhost:4000/product/product/?id=${item._id}`)
-        //                 console.log(res);
-        //                 swal("your product removed from list ", {
-        //                     icon: "success",
-        //                 });
-        //             } else {
-        //                 swal("Your product still in list");
-        //             }
-        //         });
-        // } catch (err) {
-        //     console.log(err);
-        // }
+        if(owner!=null){
+        try {
+            swal({
+                title: "Are you sure !",
+                text: "Your product delete permanent",
+                icon: "warning",
+                buttons: ["NO", "YES"],
+                cancelButtonColor: "#DD6B55",
+                confirmButtonColor: "#DD6B55",
+                dangerMode: true,
+            })
+                .then(async (willDelete) => {
+                    if (willDelete) {
+                        const res = await axios.get(`http://localhost:4000/product/deleteProduct/?id=${item._id}&resturant=${owner._id}`)
+                        console.log(res);
+                        setData(res.data.product)
+                        swal("your product removed from list ", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your product still in list");
+                    }
+                });
+        } catch (err) {
+            console.log(err);
+        }
+    }
     }
 
     return (

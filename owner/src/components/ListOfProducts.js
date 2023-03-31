@@ -13,8 +13,8 @@ const ListOfProducts = () => {
       setLoad(true)
       try {
         const response = await axios.get(`http://localhost:4000/resturant/allProduct?id=${user._id}`);
-        setData(response.data.result.product)
-        console.log(response.data.result.product)
+        setData(response.data.result)
+        console.log(response.data)
         setLoad(false)
       }
       catch (err) {

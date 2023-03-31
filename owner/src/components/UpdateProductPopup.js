@@ -5,7 +5,9 @@ import { AiOutlineAlignCenter } from 'react-icons/ai'
 import axios from 'axios'
 import { useSelector } from "react-redux";
 
-const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,subCatId,setData}) => {
+const UpdateProductPopup = ({ setShowModal,id,price,name,description,catId,subCatId,setData}) => {
+
+  console.log(catId,subCatId);
 
   const [productData, setProductData] = useState({
     name: name,
@@ -23,6 +25,7 @@ const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,s
   const handlechange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value })
   }
+
   useEffect(() => {
     (async () => {
       try {
@@ -94,7 +97,7 @@ const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,s
                   <label htmlFor='category'>Category</label>
                   <select onChange={e => setCategory(e.target.value)}  id='category' data-te-select-init className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">;
                     {
-                      CategoryArray != null && CategoryArray.map(category => <option value={category._id} selected={cat==category.name}>{category.name}</option>)
+                      CategoryArray != null && CategoryArray.map(category => <option value={category._id} selected={catId==category._id}>{category.name}</option>)
                     }
                   </select>
                 </div>
@@ -102,7 +105,7 @@ const UpdateProductPopup = ({ setShowModal,id,price,name,description,cat,catId,s
                   <label htmlFor='SubCategory'>Sub-Category</label>
                   <select onChange={e => setSubCategory(e.target.value)} id='SubCategory' data-te-select-init className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">;
                   {
-                        subCategoryArray!=null && subCategoryArray.map(item => <option value={item._id} key={item.name}>{item.name}</option>) 
+                        subCategoryArray!=null && subCategoryArray.map(item => <option value={item._id} key={item.name} selected={subCatId==item._id}>{item.name}</option>) 
                   }
                   </select>
                 </div>

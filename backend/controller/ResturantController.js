@@ -315,7 +315,7 @@ const fetchResturantAllProduct = async (req, res, next) => {
 
   let product;
   if (categories.length === 0) {
-    product = await Product.find({ resturnat: id });
+    product = await Product.find({ resturnat: id ,isActive:{$ne:false}});
   } else {
     categories = categories
       .split(",")
@@ -324,6 +324,7 @@ const fetchResturantAllProduct = async (req, res, next) => {
     product = await Product.find({
       resturnat: id,
       category: { $in: categories },
+      isActive:{$ne:false}
     });
   }
   res.status(200).json({ message: "product finded", product, resturant });
@@ -390,19 +391,23 @@ const acceptOrder = async (req, res, next) => {
 const fetchAllProduct = async (req, res, next) => {
   try {
     const { id } = req.query;
-    const result = await Resturant.findById(id).populate([
-      {
-        path: "product",
-        module: "Product",
-      },
-      {
-        path: "product",
-        populate: {
-          path: "category",
-          module: "Category",
-        },
-      },
-    ]);
+    // const result = await Resturant.findById(id).populate([
+    //   {
+    //     path: "product",
+    //     module: "Product",
+    //     matchAll:{isActive:{$ne:false}}
+    //   },
+    //   {
+    //     path: "product",
+    //     populate: {
+    //       path: "category",
+    //       module: "Category"
+       
+    //     },
+    //   },
+    // ]).exec();
+    const result = await Product.find({resturnat:id,isActive:{$ne:false}}).populate('category')
+    console.log('checkt his');
     console.log(result);
     return res.status(200).json({ message: "product founded", result });
   } catch (e) {

@@ -9,10 +9,12 @@ import Loader from './Loader';
 
 
 const AddProduct = () => {
+
   const [categoryArray, setCategoryArray] = useState([]);
   const [category, setCategory] = useState(null);
   const [subCategory, setSubCategory] = useState(null);
   const [subCategoryArray, setSubCategoryArray] = useState([]);
+  
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState('')
   const [price, setPrice] = useState('')
