@@ -10,7 +10,11 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ownerLogIn, userData } from "../../redux/user/userSlice";
+import {
+  ownerLogIn,
+  setCurrentColor,
+  userData,
+} from "../../redux/user/userSlice";
 import swal from "sweetalert";
 const MainNav = () => {
   const currentColor = useSelector((state) => state.userData.currentColor);
@@ -43,7 +47,7 @@ const MainNav = () => {
     <header className="w-screen fixed z-50 bg-cardOverlay backdrop-blur-md md:p-3 md:px-4 lg:p-4 lg:px-16">
       {/* Tablet and Desktop */}
       <div className="hidden md:flex w-full justify-between items-center">
-        <Link to={"/"}>
+        <Link to={"/"} onClick={() => dispatch(setCurrentColor("white"))}>
           <motion.div
             whileHover={{ scale: 1.1 }}
             className="flex items-center gap-2 cursor-pointer"
@@ -78,10 +82,10 @@ const MainNav = () => {
                 <RiArrowDropDownLine />
               </p>
             </motion.div>
-            <DropDown user={user} handleLogOut={()=>handleLogOut()} />
+            <DropDown user={user} handleLogOut={() => handleLogOut()} />
           </div>
         ) : (
-          <LoginAction text={"Login"} currentColor={currentColor}/>
+          <LoginAction text={"Login"} currentColor={currentColor} />
         )}
       </div>
 
@@ -98,11 +102,14 @@ const MainNav = () => {
             <motion.div
               whileTap={{ scale: 0.9 }}
               className=" flex items-center justify-center"
-              onClick={() => setIsOpenMobileNav(!isOpenMobileNav)}
+              onClick={() => {
+                setIsOpenMobileNav(!isOpenMobileNav)
+                // dispatch(setCurrentColor("white"))
+              }}
             >
               <HiOutlineMenuAlt2 className={`text-${currentColor} text-4xl`} />
             </motion.div>
-            <Link to={"/"}>
+            <Link to={"/"} onClick={() => dispatch(setCurrentColor("white"))}>
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 className="flex items-center gap-2 cursor-pointer"
@@ -112,7 +119,9 @@ const MainNav = () => {
                   alt="Logo"
                   className="w-8 object-cover"
                 />
-                <p className={`text-${currentColor} text-xl font-bold`}>FoodPoint</p>
+                <p className={`text-${currentColor} text-xl font-bold`}>
+                  FoodPoint
+                </p>
               </motion.div>
             </Link>
             {user ? (
@@ -133,12 +142,12 @@ const MainNav = () => {
                     <RiArrowDropDownLine />
                   </p>
                   {isOpen && (
-                    <DropDown user={user} handleLogOut={()=>handleLogOut()} />
+                    <DropDown user={user} handleLogOut={() => handleLogOut()} />
                   )}
                 </motion.div>
               </div>
             ) : (
-              <LoginAction mobile currentColor={currentColor}/>
+              <LoginAction mobile currentColor={currentColor} />
             )}
           </div>
         )}

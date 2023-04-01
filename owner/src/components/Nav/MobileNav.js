@@ -20,7 +20,6 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
           className="relative flex items-center justify-center text-textColor"
           onClick={() => {
             setIsOpen(!isOpen);
-            dispatch(setCurrentColor("slate-800"));
           }}
         >
           <MdOutlineRestaurantMenu className="text-headingColor text-4xl" />
