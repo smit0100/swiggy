@@ -121,7 +121,7 @@ const AddProduct = () => {
       <div className='bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100'>
 
         <div className='mx-10'>
-          <div className='m-5 '>
+          <div className='pt-24 '>
             <h1 className='text-3xl font-semibold py-5 pl-2 border-b-2 border-black'>Add Product</h1>
             <div className='flex flex-wrap py-3'>
 

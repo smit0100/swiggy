@@ -57,7 +57,7 @@ const OrderSummary = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 ">
+        <div className="pt-24 bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 ">
           <div className="flex flex-wrap mx-5">
             <div className="w-full sm:w-2/3 p-5">
               <div className="mb-2 shadow-md rounded bg-white bg-opacity-40 p-3">

@@ -67,7 +67,7 @@ const ListOfProducts = () => {
   }, [])
   return (
     <>
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap pt-24'>
         <div className=' w-full sm:w-3/12 p-4 top-0 bg-black/10 left-0 overflow-hidden relative'>
           <h1 className='text-2xl font-semibold py-4'>List of Products</h1>
 

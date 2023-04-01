@@ -5,14 +5,10 @@ import { Images } from "../../Assets/index";
 
 import { motion } from "framer-motion";
 
-const MobileNav = ({
-  isOpen,
-  setIsOpen,
-}) => {
+const MobileNav = ({ isOpen, setIsOpen, isLogedIn = false }) => {
   return (
     <div className="flex flex-col bg-cardOverlay backdrop-blur-sm items-start justify-start gap-16 w-screen h-screen  overflow-y-hidden  z-50 overflow-hidden ">
       <motion.div className="flex items-center justify-between w-screen h-24  px-10">
-        
         <motion.div
           whileTap={{ scale: 0.9 }}
           initial={{ opacity: 0, x: 200 }}
@@ -27,18 +23,38 @@ const MobileNav = ({
       <div
         className={`flex items-center justify-center w-full  h-72 gap-10 flex-col`}
       >
-        <Link onClick={() => setIsOpen(!isOpen)} to={'/'} className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10">
+        <Link
+          onClick={() => setIsOpen(!isOpen)}
+          to={"/"}
+          className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+        >
           Home
         </Link>
-        <Link onClick={() => setIsOpen(!isOpen)} to={'/orderdetails'} className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10">
-          Order List
-        </Link>
-        <Link onClick={() => setIsOpen(!isOpen)} to={'/contactus'} className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10">
+        {isLogedIn && (
+          <Link
+            onClick={() => setIsOpen(!isOpen)}
+            to={"/orderdetails"}
+            className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+          >
+            Order List
+          </Link>
+        )}
+        <Link
+          onClick={() => setIsOpen(!isOpen)}
+          to={"/contactus"}
+          className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+        >
           Contact us
         </Link>
-        <Link onClick={() => setIsOpen(!isOpen)} to={'/profile'} className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10">
-          Profile
-        </Link>
+        {isLogedIn && (
+          <Link
+            onClick={() => setIsOpen(!isOpen)}
+            to={"/profile"}
+            className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+          >
+            Profile
+          </Link>
+        )}
       </div>
 
       <Link

@@ -44,7 +44,7 @@ const OwnerProfile = () => {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto px-6 py-3 rounded-md ">
+      <div className="max-w-screen-xl mx-auto px-6 py-3 rounded-md pt-24">
         <h1 className="text-3xl font-semibold">My Profile </h1>
         {/* profile image  */}
         <div>
