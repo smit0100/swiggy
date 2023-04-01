@@ -8,19 +8,30 @@ import { toast } from "react-toastify";
 import { Images } from "../Assets";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import { requestForToken } from "../firebase";
 
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [tokenFound, setTokenFound] = useState(false);
 
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(setCurrentColor("white"))
+    getFcmToken();
   }, [])
+  
+  const getFcmToken = () => {
+    const temp = localStorage.getItem("fcmTokenDelivery");
+    console.log("===tempp", temp);
+    if (temp == null) {
+      requestForToken(setTokenFound);
+    }
+  };
   
   const handleLogIn = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;

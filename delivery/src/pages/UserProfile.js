@@ -39,7 +39,6 @@ const UserProfile = () => {
     dispatch(userData(null));
     history("/");
   };
-
   return (
     <>
       <div className="max-w-screen-xl mx-auto pt-24 px-6 py-3 rounded-md ">

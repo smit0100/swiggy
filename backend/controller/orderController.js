@@ -51,13 +51,13 @@ const createOrder = async (req, res, next) => {
       },
       { new: true }
     );
-    if (rest?.fcmToken != "") {
-      let datas = {
-        title: "🔥Order",
-        body: "🍟New order recieved..🍔",
-      };
-      sendNotification(rest?.fcmToken, datas);
-    }
+    // if (rest?.fcmToken != "") {
+    //   let datas = {
+    //     title: "🔥Order",
+    //     body: "🍟New order recieved..🍔",
+    //   };
+    //   sendNotification(rest?.fcmToken, datas);
+    // }
     const response = await User.findByIdAndUpdate(customer, {
       "cart.products": [],
       "cart.total": 0,
@@ -247,7 +247,7 @@ const acceptOrder = async (req, res, next) => {
         module: "DeliverBoy",
       });
       await response.save();
-      if (courierBoys?.fcmToken != "") {
+      if (courierBoys?.fcmToken != "" && courierBoys != null) {
         let datas = {
           title: "🔥New Order!",
           body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,

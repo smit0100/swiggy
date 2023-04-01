@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ownerLogIn, userData } from "../redux/user/userSlice";
@@ -9,6 +9,7 @@ import swal from "sweetalert";
 import { Images } from "../Assets";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
+import { requestForToken } from "../firebase";
 
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 
@@ -17,13 +18,24 @@ export default function OwnerLogin() {
   const [pass, setPass] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passError, setPassError] = useState("");
-  
+  const [tokenFound, setTokenFound] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    getFcmToken();
+  }, []);
+
+  const getFcmToken = () => {
+    const temp = localStorage.getItem("fcmTokenOwner");
+    console.log("===temp",temp);
+    if (temp == null) {
+      requestForToken(setTokenFound);
+    }
+  };
   const handleLogIn = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (email == "") {

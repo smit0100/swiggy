@@ -80,7 +80,7 @@ export default function OrderDetail() {
                       <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5">
                         E-mail
                       </td>
-                      <td className="text-slate-500 font-semibold capitalize bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      <td className="text-slate-500 font-semibold bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
                         {summaryData != null
                           ? summaryData?.customer?.email
                           : ""}
@@ -154,7 +154,7 @@ export default function OrderDetail() {
                         <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5">
                           E-mail
                         </td>
-                        <td className="text-slate-500 font-semibold capitalize bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                        <td className="text-slate-500 font-semibold bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
                           {summaryData != null
                             ? summaryData?.deliveryBoy?.email
                             : ""}

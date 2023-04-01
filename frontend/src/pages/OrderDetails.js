@@ -77,8 +77,7 @@ const OrderDetails = () => {
       // dispatch(getOrderItem(userId));
       setModel(false);
       navigate("/order");
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
@@ -111,8 +110,8 @@ const OrderDetails = () => {
 
                     {orderData
                       ? orderData.products.map((item) => (
-                        <CustomerOrderCard items={item} />
-                      ))
+                          <CustomerOrderCard items={item} />
+                        ))
                       : ""}
                   </div>
                   <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
@@ -211,16 +210,17 @@ const OrderDetails = () => {
                         </div>
                         <p className="text-lg font-semibold leading-6 text-gray-800"></p>
                       </div>
-                      <div className="flex flex-col justify-start ">
-                        <p className="text-lg leading-6 font-semibold text-gray-800">
-                          Status
-                        </p>
-                        <h1 className="text-lg p-1 ">{orderData?.status}</h1>
-
-                      </div>
 
                       {orderData?.status !== "delivered" ? (
                         <>
+                          <div className="flex flex-col justify-start ">
+                            <p className="text-lg leading-6 font-semibold text-gray-800">
+                              Order status
+                            </p>
+                            <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1 self-start mt-2">
+                              {orderData?.status}
+                            </h1>
+                          </div>
                           <h3 className="text-xl font-semibold leading-5 text-gray-800">
                             Customer OTP
                           </h3>
@@ -305,18 +305,18 @@ const OrderDetails = () => {
                           <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                             {orderData &&
                               orderData.resturant?.address?.area +
-                              "," +
-                              orderData.resturant?.address?.city +
-                              "," +
-                              orderData.resturant?.address?.pincode +
-                              ","}
+                                "," +
+                                orderData.resturant?.address?.city +
+                                "," +
+                                orderData.resturant?.address?.pincode +
+                                ","}
                           </p>
                         </div>
                         {orderData !== null &&
-                          orderData.status === "delivered" ? (
+                        orderData.status === "delivered" ? (
                           <div className="mt-4 flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
                             {isDeliveryButton != true &&
-                              isResturantButton != true ? (
+                            isResturantButton != true ? (
                               <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
                                 Review
                               </p>
@@ -324,11 +324,11 @@ const OrderDetails = () => {
                               ""
                             )}
 
-                            <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
+                            <p className="w-full text-center md:text-left text-sm leading-5 text-gray-600">
                               {isResturantButton != true && (
                                 <button
                                   onClick={(e) => setRestroReview(true)}
-                                  className="inline-block mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-2 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+                                  className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 backdrop-blur-sm"
                                 >
                                   Review for Restaurant
                                 </button>
@@ -336,7 +336,7 @@ const OrderDetails = () => {
                               {isDeliveryButton != true && (
                                 <button
                                   onClick={(e) => setDeliveryReview(true)}
-                                  className="inline-block mt-3 bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-2 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+                                  className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-orange-100 hover:text-black hover:border duration-200 border border-gray-300 backdrop-blur-sm"
                                 >
                                   Review for Delivery Boy
                                 </button>

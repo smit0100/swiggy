@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert'
 import Loader from '../components/Loader';
+import { setCurrentColor } from '../redux/user/userSlice';
 const SearchPage = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
@@ -16,6 +17,9 @@ const SearchPage = () => {
   const dispatch = useDispatch()
   const owner = useSelector(state => state.userData.user);
 
+  useEffect(() => {
+    dispatch(setCurrentColor("white"))
+  }, [])
   useEffect(() => {
     (async () => {
       try {

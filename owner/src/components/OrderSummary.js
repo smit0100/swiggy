@@ -28,7 +28,6 @@ const OrderSummary = () => {
   }, []);
 
   const handleOrder = async () => {
-    
     console.log("hello");
     setIsDisable(true);
     axios
@@ -42,7 +41,7 @@ const OrderSummary = () => {
         }
       })
       .catch((e) => {
-        console.log("===e", e)
+        console.log("===e", e);
         setIsDisable(false);
         toast.error("☹️ Something went wrong,Please try again");
       });
@@ -86,7 +85,7 @@ const OrderSummary = () => {
                       <td className="text-slate-700 text-lg text-semibold pr-5">
                         E-mail
                       </td>
-                      <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
+                      <td className="text-black bg-white w-full bg-opacity-20 pl-2 rounded">
                         {summaryData != null ? summaryData.customer.email : ""}
                       </td>
                     </tr>
@@ -153,7 +152,7 @@ const OrderSummary = () => {
                         <td className="text-slate-700 text-lg text-semibold pr-5">
                           E-mail
                         </td>
-                        <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
+                        <td className="text-black bg-white w-full bg-opacity-20 pl-2 rounded">
                           {summaryData != null &&
                             summaryData.deliveryBoy != null &&
                             summaryData.deliveryBoy.email}
@@ -226,9 +225,24 @@ const OrderSummary = () => {
                       loading ? (
                         <InlineButtonLoader />
                       ) : summaryData.status === "delivered" ? (
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
-                          delivered Successfully
-                        </span>
+                        <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
+                            delivered Successfully
+                          </span>
+                        </>
+                      ) : summaryData.status === "on the way" ? (
+                        <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
+                            On the Way
+                          </span>
+                        </>
                       ) : (
                         <div>
                           Courier-Boy OTP :
@@ -240,13 +254,14 @@ const OrderSummary = () => {
                       )
                     ) : (
                       <button
-                        onClick={handleOrder}
+                        type="button"
                         disabled={isDisable}
-                        className={`inline-block mt-3    ${
+                        className={`${
                           isDisable
-                            ? "bg-emerald-600 text-white"
-                            : " hover:bg-emerald-600 duration-150 hover:shadow-xl bg-transparent hover:text-white"
-                        } -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase `}
+                            ? "bg-black"
+                            : "hover:bg-white hover:text-black"
+                        } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                        onClick={handleOrder}
                       >
                         {isDisable ? <InlineButtonLoader /> : "Accept Order"}
                       </button>

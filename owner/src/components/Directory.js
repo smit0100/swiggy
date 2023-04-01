@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 const Directory = () => {
   const navigate = useNavigate();
   const owner = useSelector((state) => state.userData.user);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(setCurrentColor("white"))
+  }, [])
   const checkMark = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,8 +49,6 @@ const Directory = () => {
       ></path>
     </svg>
   );
-  useEffect(() => {}, []);
-  //   localhost:4000/resturant/status?id=63fdc41ed1b1daa66c87fcf3
 
   return (
     <div className="relative h-screen w-screen">

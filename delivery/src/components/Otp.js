@@ -69,10 +69,10 @@ const Otp = () => {
         `${process.env.REACT_APP_BASEURL}/courier/verify`,
         {
           id,
-          otp:otp.join(""),
+          otp: otp.join(""),
         }
       );
-      console.log("======resss",response.data.user);
+      console.log("======resss", response.data.user);
       dispatch(userData(response.data.user));
       dispatch(corierLogIn(true));
       localStorage.setItem("isCorierLogIn", JSON.stringify(true));

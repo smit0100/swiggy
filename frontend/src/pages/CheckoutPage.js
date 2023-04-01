@@ -6,6 +6,7 @@ import StripeCheckout from "react-stripe-checkout";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineLocationMarker } from 'react-icons/hi'
+import { cartData } from "../redux/cart/cartSlice";
 
 
 
@@ -28,12 +29,7 @@ const CheckoutPage = () => {
   const user = useSelector((state) => state.userData.user);
   const cart = useSelector(state => state.cartData.cart)
 
-  useEffect(() => {
-    
-    console.log(selectedAddress)
-  
-  },[selectedAddress])
-  
+ 
 
   const makePayment = async (token) => {
     console.log("this is token", token);
@@ -49,6 +45,7 @@ const CheckoutPage = () => {
         console.log("=====payment res:::", response);
         swal("Order place successfully..", "", "success");
         navigate("/")
+        dispatch(cartData(null))
       }).catch((e) => {
         handleDelivery(address)
         console.log("===error payment:::", e);
@@ -207,7 +204,8 @@ const CheckoutPage = () => {
                           stripeKey={process.env.REACT_APP_PUBLIC_KEY_PAYMENT}
                           token={makePayment}
                           namee="buy product"
-                          amount={100000}
+                          amount={String(Number(cart?.total) * 100)}
+                          currency="INR"
                         >
                           <button
                             className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"

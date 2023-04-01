@@ -39,7 +39,6 @@ router.post('/', async (req, res) => {
                 new: true,
               }
             );
-        
             //add in resturant
             const rest = await Resturant.findByIdAndUpdate(
               resturant,
@@ -48,11 +47,14 @@ router.post('/', async (req, res) => {
               },
               { new: true }
             );
-            let datas = {
-            title: "🔥Order",
-            body: "🍟New order recieved..🍔",
+            console.log("=====rest++fcmmmm",rest);
+            if (rest != null && rest?.fcmToken != "") {
+              let datas = {
+              title: "🔥Order",
+              body: "🍟New order recieved..🍔",
+              }
+              sendNotification(rest?.fcmToken,datas)
             }
-            // sendNotification(rest?.fcmToken,datas)
             const response = await User.findByIdAndUpdate(customer, {
               "cart.products": [],
               "cart.total": 0,

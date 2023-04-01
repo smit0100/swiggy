@@ -11,5 +11,4 @@ const InlineButtonLoader = () => {
         </div>
     )
 }
-// https://play.tailwindcss.com/ULwT6MTmWI
 export default InlineButtonLoader

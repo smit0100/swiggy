@@ -207,19 +207,18 @@ const receiveFoodFromResturant = async (req, res, next) => {
   try {
     const { id, otp, userfcmToken } = req.body;
     const order = await Order.findOne({ _id: id, courierBoyotpNumber: otp });
-
     if (!order) {
       return res.status(209).json({ message: "please check ones otp" });
     } else {
       order.status = "on the way";
       await order.save();
-      // if (userfcmToken != "") {
-      //   let data = {
-      //     title: "👋 Hurray!",
-      //     body: "Delivery boy picked your order from restaurant",
-      //   };
-      //   sendNotification(userfcmToken, data);
-      // }
+      if (userfcmToken != "") {
+        let data = {
+          title: "👋 Hurray!",
+          body: "Delivery boy picked your order from restaurant",
+        };
+        sendNotification(userfcmToken, data);
+      }
       return res.status(200).json({ message: "order on the way", order });
     }
   } catch (e) {

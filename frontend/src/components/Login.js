@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
 import { useCookies } from "react-cookie";
+import { requestForToken } from "../firebase";
 
 export default function Login() {
   const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
@@ -15,10 +16,19 @@ export default function Login() {
   const [emailError, setEmailError] = useState("");
   const [passError, setPassError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [tokenFound, setTokenFound] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    getFcmToken();
+  }, []);
+  const getFcmToken = () => {
+    const temp = localStorage.getItem("fcmToken");
+    if (temp == null) {
+      requestForToken(setTokenFound);
+    }
+  };
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -100,8 +110,7 @@ export default function Login() {
       swal("SuccessFully Login", "", "success");
       setLoading(false);
       navigate("/");
-    } 
-    catch ({ response }) {
+    } catch ({ response }) {
       // console.log("===error", response);
       if (
         response?.status === 400 ||
@@ -133,7 +142,6 @@ export default function Login() {
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
-                 
                   <button
                     className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                     type="button"
@@ -146,7 +154,6 @@ export default function Login() {
                     />
                     Google
                   </button>
-                   
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
@@ -190,11 +197,8 @@ export default function Login() {
                     />
                     <div className="text-sm text-red-500">{passError}</div>
                   </div>
-                 
-                  <div className="text-center mt-6">
-                   
-                    {SubmitButton()}
-                  </div>
+
+                  <div className="text-center mt-6">{SubmitButton()}</div>
                 </form>
               </div>
             </div>
