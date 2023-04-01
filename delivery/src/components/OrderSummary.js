@@ -41,6 +41,8 @@ const OrderSummary = () => {
   }, [resturanthandle, customerhandle]);
   // acceptfromresturant
   const handleResturantOtp = async (e) => {
+    e.preventDefault()
+    console.log("/sd,fds,fsf,")
     if (resturantOtp == null) {
       toast.error("OTP is required 😡", { theme: "dark", autoClose: 2000 });
     } else if (resturantOtp.trim().length == 0) {
