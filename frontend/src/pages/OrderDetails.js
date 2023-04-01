@@ -211,7 +211,9 @@ const OrderDetails = () => {
                         </div>
                         <p className="text-lg font-semibold leading-6 text-gray-800"></p>
                       </div>
-                      {orderData?.status !== "delivered" ? (
+                      <h1>{orderData?.status}</h1>
+
+                      {orderData?.status == "accept" ? (
                         <>
                           <h3 className="text-xl font-semibold leading-5 text-gray-800">
                             Customer OTP
