@@ -5,6 +5,8 @@ import { userData } from "../redux/user/userSlice";
 import StripeCheckout from "react-stripe-checkout";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineLocationMarker } from 'react-icons/hi'
+
 
 
 const CheckoutPage = () => {
@@ -163,7 +165,7 @@ const CheckoutPage = () => {
           <div className="w-full h-full  px-14 flex flex-col justify-center shadow-lg space-y-3">
             <div className="flex space-x-3">
               <p className="font-bold text-lg">Logged in</p>
-              <img src="./svg/github.svg" className="w-7 h-7" alt="temp" />
+              {/* <img src="./svg/github.svg" className="w-7 h-7" alt="temp" /> */}
             </div>
             <div className="flex space-x-5">
               <p className="font-semibold text-lg">{user != null && user.name}</p>{" "}
@@ -185,11 +187,7 @@ const CheckoutPage = () => {
                   <div className="p-3 w-full sm:w-6/12 flex ">
                     <div className="shadow-black hover:shadow-xl anim bg-white p-3">
                       <div>
-                        <img
-                          src="./svg/github.svg"
-                          alt="temp"
-                          className="w-10 h-10"
-                        />
+                      <HiOutlineLocationMarker className='text-center' />
                       </div>
                       <div className="py-2">
                         <p className="font-semibold text-xl">Address {i + 1}</p>
@@ -241,11 +239,8 @@ const CheckoutPage = () => {
               <div className="p-3 w-full sm:w-6/12 flex ">
                 <div className="shadow-black hover:shadow-xl bg-white p-3">
                   <div>
-                    <img
-                      src="./svg/github.svg"
-                      alt="temp"
-                      className="w-10 h-10"
-                    />
+                  <HiOutlineLocationMarker className='text-center' />
+
                   </div>
                   <div className="py-2">
                     <p className="font-semibold text-xl">Add New Address</p>
