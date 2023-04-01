@@ -55,7 +55,6 @@ const OrderSummary = () => {
         autoClose: 2000,
       });
     } else {
-      e.preventDefault();
       axios
         .post(`http://localhost:4000/courier/acceptfromresturant`, {
           id: userData != null ? userData._id : 0,
@@ -289,7 +288,7 @@ const OrderSummary = () => {
                       placeholder="Enter Resturant Otp.."
                       className="inline-block mt-3  rounded border border-current px-4 py-[6px] text-xs uppercase   transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring mr-1"
                     />
-                    <button type="button" onClick={handleResturantOtp}>
+                    <button type="button"  onClick={handleResturantOtp}>
                       Go
                     </button>
                   </div>
