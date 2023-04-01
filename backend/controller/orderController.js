@@ -214,10 +214,12 @@ const acceptOrder = async (req, res, next) => {
         model: "User",
       },
     ]);
-    let courierBoys = await Courier.findOne({ isAvilable: true });
-    courierBoys.isAvilable = false;
+    
+    let courierBoys = await Courier.findOne();
+    console.log(courierBoys);
+    // courierBoys.isAvilable = false;
 
-    if (!courierBoys) {
+    if (courierBoys === null) {
       return res.status(205).json({ message: "courier boy is not avilable " });
     } else {
       courierBoys.order.push(id);
