@@ -52,33 +52,33 @@ const OrderDetails = () => {
 
   useEffect(() => {
     (async () => {
-      try{
+      try {
         setIsLoading(true);
         const response = await axios(
-        `${process.env.REACT_APP_BASEURL}/order/fetchOneOrder/?id=${orderId}`
-      );
-      console.log("hello");
-      console.log(response.data.order);
-      setOrderData(response.data.order);
-      setIsResturantButton(response.data.order.isreviewGiven.forResturant);
-      setIsDeliveryButton(response.data.order.isreviewGiven.forDeliveryBoy);
-      setIsLoading(false);
-    }catch(err){
-      console.log(err);
-    }
+          `${process.env.REACT_APP_BASEURL}/order/fetchOneOrder/?id=${orderId}`
+        );
+        console.log("hello");
+        console.log(response.data.order);
+        setOrderData(response.data.order);
+        setIsResturantButton(response.data.order.isreviewGiven.forResturant);
+        setIsDeliveryButton(response.data.order.isreviewGiven.forDeliveryBoy);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
 
   const handleDelete = async (id) => {
-    try{
-      console.log(id); 
+    try {
+      console.log(id);
       const data = await axios.delete(`http://localhost:5000/order/${id}`);
       console.log(data);
       // dispatch(getOrderItem(userId));
       setModel(false);
       navigate("/order");
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   };
@@ -111,8 +111,8 @@ const OrderDetails = () => {
 
                     {orderData
                       ? orderData.products.map((item) => (
-                          <CustomerOrderCard items={item} />
-                        ))
+                        <CustomerOrderCard items={item} />
+                      ))
                       : ""}
                   </div>
                   <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
@@ -211,9 +211,15 @@ const OrderDetails = () => {
                         </div>
                         <p className="text-lg font-semibold leading-6 text-gray-800"></p>
                       </div>
-                      <h1>{orderData?.status}</h1>
+                      <div className="flex flex-col justify-start ">
+                        <p className="text-lg leading-6 font-semibold text-gray-800">
+                          Status
+                        </p>
+                        <h1 className="text-lg p-1 bg-slate-100">{orderData?.status}</h1>
 
-                      {orderData?.status == "accept" ? (
+                      </div>
+
+                      {orderData?.status !== "delivered" ? (
                         <>
                           <h3 className="text-xl font-semibold leading-5 text-gray-800">
                             Customer OTP
@@ -299,18 +305,18 @@ const OrderDetails = () => {
                           <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                             {orderData &&
                               orderData.resturant?.address?.area +
-                                "," +
-                                orderData.resturant?.address?.city +
-                                "," +
-                                orderData.resturant?.address?.pincode +
-                                ","}
+                              "," +
+                              orderData.resturant?.address?.city +
+                              "," +
+                              orderData.resturant?.address?.pincode +
+                              ","}
                           </p>
                         </div>
                         {orderData !== null &&
-                        orderData.status === "delivered" ? (
+                          orderData.status === "delivered" ? (
                           <div className="mt-4 flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
                             {isDeliveryButton != true &&
-                            isResturantButton != true ? (
+                              isResturantButton != true ? (
                               <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
                                 Review
                               </p>
