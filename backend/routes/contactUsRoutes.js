@@ -7,7 +7,7 @@ const contactController = require('../controller/contactController');
 router.post("/contact", contactController.fillForm);
 router.get('/getallform',contactController.getallform)
 router.post("/response", contactController.responseBack);
-router.post("/delete", contactController.deleteInquiry);
+router.delete("/delete", contactController.deleteInquiry);
 
 
 module.exports = router

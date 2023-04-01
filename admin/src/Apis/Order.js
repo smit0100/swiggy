@@ -9,6 +9,15 @@ function GetOrders(num) {
     },
   });
 }
+function GetOneOrder(id) {
+  return Api({
+    url: `order/fetchOneOrder?id=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function GetUserOrders(id) {
   return Api({
     url: "order/user",
@@ -20,5 +29,5 @@ function GetUserOrders(id) {
   });
 }
 export default {
-    GetOrders,GetUserOrders
+    GetOrders,GetUserOrders,GetOneOrder
 }

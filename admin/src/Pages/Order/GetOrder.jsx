@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import pizza from "../../Assets/pizza.jpg";
 import { Blocks } from "react-loader-spinner";
 import Order from "../../Apis/Order";
 import { Images } from "../../Assets";
+import { useDispatch } from "react-redux";
+import { setActiveMenu } from "../../redux/shop/shopslice";
 export default function GetOrder() {
   const [datas, setDatas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +15,17 @@ export default function GetOrder() {
   const [action, setAction] = useState(false);
   const [search, setsearch] = useState("");
   const [selectedFilter, setselectedFilter] = useState("Filter");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     getOrders();
     document.title = "Admin - Orders";
   }, [currentPage]);
+  useEffect(() => {
+    dispatch(setActiveMenu(true));
+  }, [])
+  
   const rowsPerPage = 10;
   const getOrders = () => {
     setIsLoading(true);
@@ -105,7 +114,10 @@ export default function GetOrder() {
           <td className="px-6 py-4">
             {/* <!-- Modal toggle --> */}
             <a
-              // onClick={() => handleModal(item?._id)}
+              onClick={() => {
+                dispatch(setActiveMenu(false));
+                navigate("/orderdetail", { state: item?._id });
+              }}
               type="button"
               className="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
             >

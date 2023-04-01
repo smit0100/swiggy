@@ -18,6 +18,7 @@ import {
   ApprovedRestaurant,
   GetDeliveryBoy,
   ContactUs,
+  OrderDetail,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
@@ -118,6 +119,7 @@ function App() {
                   <Route path="/customers/:id" element={<UserDetail />} />
                   <Route path="/orders" element={<GetOrder />} />
                   <Route path="/restaurants" element={<Restaurants />} />
+                  <Route path="/orderdetail" element={<OrderDetail />} />
                   <Route path="/contactus" element={<ContactUs />} />
                   <Route
                     path="/restaurants/:id"

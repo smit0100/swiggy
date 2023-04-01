@@ -8,3 +8,4 @@ export { default as Categories } from './Categories';
 export { default as DeliveryBoyCard } from './DeliveryBoyCard';
 export { default as Product } from './Product';
 export { default as Tabs } from './Tabs';
+export { default as FoodCard } from './FoodCard';
