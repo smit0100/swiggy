@@ -3,6 +3,9 @@ import React, { useState ,useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../redux/user/userSlice";
 import StripeCheckout from "react-stripe-checkout";
+import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+
 
 const CheckoutPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +18,8 @@ const CheckoutPage = () => {
   const [pincode, setPincode] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [selectedAddress,setSelectedAddress] = useState('');
+
+  const navigate=useNavigate()
 
   const dispatch = useDispatch();
 
@@ -40,6 +45,8 @@ const CheckoutPage = () => {
       }).then((response) => {
         handleDelivery(address)
         console.log("=====payment res:::", response);
+        swal("Order place successfully..", "", "success");
+        navigate("/")
       }).catch((e) => {
         handleDelivery(address)
         console.log("===error payment:::", e);

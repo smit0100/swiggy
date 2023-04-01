@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import InlineButtonLoader from "../components/InlineButtonLoader";
+import swal from 'sweetalert'
 
 const ContactUs = () => {
   const [name, setName] = useState("");
