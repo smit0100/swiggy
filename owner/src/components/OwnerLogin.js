@@ -6,17 +6,40 @@ import { ownerLogIn, userData } from "../redux/user/userSlice";
 import InlineButtonLoader from "./InlineButtonLoader";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
+import { Images } from "../Assets";
+import { toast } from "react-toastify";
+import { FcGoogle } from "react-icons/fc";
+
+const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 
 export default function OwnerLogin() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passError, setPassError] = useState("");
+  
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+  const handleLogIn = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (email == "") {
+      toast.error("Email is required!", { duration: 1000 });
+    } else if (!regex.test(email)) {
+      toast.error("This is not a valid email format!", { duration: 1000 });
+    } else if (password == "") {
+      toast.error("Password is required", { duration: 1000 });
+    } else if (password.length < 5) {
+      toast.error("Password must be more than 4 characters", {
+        duration: 1000,
+      });
+    } else {
+      handleSubmit();
+    }
+  };
 
   const googleAuth = () => {
     window.open("http://localhost:4000/auth/google/callback", "self");
@@ -77,7 +100,7 @@ export default function OwnerLogin() {
         "http://localhost:4000/resturant/login",
         {
           email,
-          password: pass,
+          password,
           fcmToken,
         }
       );
@@ -99,13 +122,11 @@ export default function OwnerLogin() {
         err?.response?.status === 401 ||
         err?.response?.status === 402
       ) {
-        swal(
+        toast.error(
           `${err?.response?.status === 402
             ? err?.response?.data?.message
             : err?.response?.data?.message
-          }`,
-          "",
-          "error"
+          }`
         );
         setLoading(false);
         return;
@@ -113,111 +134,96 @@ export default function OwnerLogin() {
     }
   };
   return (
-    <>
-      <div className="relative h-screen w-screen">
-        <img
-          src="https://i.ibb.co/dL8GQvF/4.png"
-          className="absolute w-[98.5vw] h-screen blur-[3px]"
-          alt="background"
-        />
-        <div className="flex content-center items-center justify-center h-full w-screen ">
-          <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
-            <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
-              <div className="rounded-t mb-0 px-6 py-6">
-                <div className="text-center mb-3">
-                  <h6 className="text-blueGray-500 text-sm font-bold">
-                    Sign in with
-                  </h6>
-                </div>
-                <div className="btn-wrapper text-center">
-                  
-                  <button
-                    className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    <img
-                      alt="google"
-                      className="w-5 mr-1"
-                      src="./svg/google.svg"
-                      onClick={googleAuth}
-                    />
-                    Google
-                  </button>
-                 
-                </div>
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-              </div>
-              <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <div className="text-blueGray-400 text-center mb-3 font-bold">
-                  <small>Or sign in with credentials</small>
-                </div>
-                <form>
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
-                      value={email}
-                      onChange={handleEmail}
-                      onBlur={handleEmail}
-                    />
-                    <div className="text-sm text-red-500">{emailError}</div>
-                  </div>
-
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
-                      value={pass}
-                      onChange={handlePassword}
-                      onBlur={handlePassword}
-                    />
-                    <div className="text-sm text-red-500">{passError}</div>
-                  </div>
-                  
-                  <div className="text-center mt-6">
-                    
-                    {SubmitButton()}
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap mt-6 relative">
-              <div className="w-1/2">
-                <a
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  className="text-blueGray-200"
-                >
-                  <Link to="/forgotpassword">
-                    <small className="text-white">Forgot password?</small>
-                  </Link>
-                </a>
-              </div>
-              <div className="w-1/2 text-right">
-                <Link to="/ownerRegister" className="text-blueGray-200">
-                  <small className="text-white">Create new account</small>
-                </Link>
-              </div>
-            </div>
-          </div>
+    <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
+    <img
+      src={BgImages[1]}
+      className="w-full h-full object-cover absolute mix-blend-overlay"
+    />
+    <div className="relative flex flex-col m-6 mt-24 space-y-8 bg-white shadow-md rounded-2xl md:flex-row md:space-y-0">
+      <div className="flex flex-col justify-center p-8 md:p-14">
+        <span className="mb-3 text-4xl font-bold">Log in</span>
+        <span className="font-light text-gray-400 mb-8">
+          {`Welcom back! ,Please enter your details`}
+        </span>
+        <div className="py-4">
+          <span className="mb-2 text-md">Email</span>
+          <input
+            type="text"
+            className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
+            name="email"
+            value={email}
+            placeholder="email"
+            id="email"
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+        <div className="py-4">
+          <span className="mb-2 text-md">Password</span>
+          <input
+            type="password"
+            name="pass"
+            placeholder="password"
+            id="pass"
+            value={password}
+            className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+        <div className="flex justify-between w-full pt-4">
+          <div className="mr-24 w-40" />
+          <Link
+            to={"/forgotpassword"}
+            className="font-bold text-md cursor-pointer hover:underline"
+          >
+            Forgot password
+          </Link>
+        </div>
+        <button
+          className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
+          onClick={handleLogIn}
+        >
+          Sign in
+        </button>
+        <Link
+          to="/ownerRegister"
+          className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
+          // onClick={() => {
+          //   clearState();
+          // }}
+        >
+          Sign up
+        </Link>
+        <span className="w-full text-center mt-2 text-gray-500">or</span>
+        <div className="flex mt-3">
+          {/* <button className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center">
+            <BsFacebook className="w-5 mr-1" color="blue"/>
+            Facebook
+          </button>
+          <div style={{ width: "10%" }} /> */}
+          <button
+            className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center"
+            onClick={googleAuth}
+          >
+            <FcGoogle className="w-5 mr-1"/>
+            Google
+          </button>
         </div>
       </div>
-    </>
+      <div className="relative">
+        <img
+          src={Images.Product1}
+          alt="img"
+          className="w-[400px] h-full hidden rounded-r-2xl md:block object-cover"
+        />
+        <div className="absolute hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block">
+          <span className="text-white text-xl">
+            Our aim is not just to serve meal, it's a journey through taste
+            and ambiance.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
   );
 }
 

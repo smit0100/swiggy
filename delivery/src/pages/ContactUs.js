@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import InlineButtonLoader from '../components/InlineButtonLoader'
 import { setCurrentColor } from '../redux/user/userSlice';
 import axios from 'axios'
-
+import swal from 'sweetalert'
 const ContactUs = () => {
 
   const [name, setName] = useState('');
