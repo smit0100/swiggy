@@ -215,7 +215,7 @@ const OrderDetails = () => {
                         <p className="text-lg leading-6 font-semibold text-gray-800">
                           Status
                         </p>
-                        <h1 className="text-lg p-1 bg-slate-100">{orderData?.status}</h1>
+                        <h1 className="text-lg p-1 ">{orderData?.status}</h1>
 
                       </div>
 
