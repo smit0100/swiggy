@@ -213,16 +213,17 @@ const receiveFoodFromResturant = async (req, res, next) => {
     } else {
       order.status = "on the way";
       await order.save();
-      if (userfcmToken != "") {
-        let data = {
-          title: "👋 Hurray!",
-          body: "Delivery boy picked your order from restaurant",
-        };
-        sendNotification(userfcmToken, data);
-      }
+      // if (userfcmToken != "") {
+      //   let data = {
+      //     title: "👋 Hurray!",
+      //     body: "Delivery boy picked your order from restaurant",
+      //   };
+      //   sendNotification(userfcmToken, data);
+      // }
       return res.status(200).json({ message: "order on the way", order });
     }
   } catch (e) {
+    console.log(e);
     res.status(500).json({ message: "something went wrong" });
   }
 };
