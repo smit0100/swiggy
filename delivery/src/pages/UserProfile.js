@@ -94,7 +94,7 @@ const UserProfile = () => {
             <h1 className="text-xl font-semibold pb-5 capitalize">
               your profile
             </h1>
-            <div className="flex gap-7 ">
+            <div className="flex gap-7">
               <div>
                 <ul className="">
                   <li className="py-3 text-lg font-extralight">Name</li>
@@ -115,13 +115,13 @@ const UserProfile = () => {
                       onClick={() => setChangePassword(true)}
                       id="password"
                       value="Change Password"
-                      className="inline-block mr-2 bg-white hover:text-white hover:bg-blue-400 -bottom-4 font-bold  rounded border border-current px-4 py-[6px] text-xs uppercase  text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400"
+                      className="w-full mt-3 hover:bg-black text-center text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
                     >
                       <i className="fas fa-repeat"></i> Change Password
                     </button>
                     <button
                       onClick={() => setupdateProfile(true)}
-                      className="inline-block bg-white hover:text-white hover:bg-blue-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+                      className="w-full mt-3 hover:bg-black text-center text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
                     >
                       Update Profile{" "}
                     </button>
