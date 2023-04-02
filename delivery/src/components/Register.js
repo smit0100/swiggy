@@ -6,8 +6,10 @@ import InlineButtonLoader from "./InlineButtonLoader";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import swal from "sweetalert";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Images } from "../Assets";
+import { setCurrentColor } from "../redux/user/userSlice";
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 
 export default function Register() {
@@ -28,7 +30,10 @@ export default function Register() {
   // const user = useSelector(state => state.userData.user);
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCurrentColor("white"))
+  }, [])
   const handledisable = () => {
     if (
       nameError.length === 0 &&
@@ -267,6 +272,7 @@ export default function Register() {
                 <Link
                   to="/privacyPolicy"
                   className="text-blue-500 border-b-[1px] border-blue-500"
+                  onClick={()=>dispatch(setCurrentColor("slate-800"))}
                 >
                   Privacy Policy
                 </Link>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 // import { useSelector } from 'react-redux';
@@ -9,6 +9,8 @@ import swal from "sweetalert";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { Images } from "../Assets";
+import { setCurrentColor } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 export default function Register() {
   const [name, setName] = useState("");
@@ -24,9 +26,12 @@ export default function Register() {
   const [check, SetCheck] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    dispatch(setCurrentColor("white"))
+  }, [])
+  
   const handledisable = () => {
     if (
       nameError.length === 0 &&
@@ -474,13 +479,16 @@ export default function Register() {
                 id="ch"
                 className="mr-2"
                 checked={check}
-                onChange={(e) => SetCheck(!check)}
+                onChange={(e) => {
+                  SetCheck(!check)
+                }}
               />
               <span className="ml-2 text-sm font-semibold text-blueGray-600">
                 I agree with the{" "}
                 <Link
                   to="/privacyPolicy"
                   className="text-blue-500 border-b-[1px] border-blue-500"
+                  onClick={()=>dispatch(setCurrentColor("slate-800"))}
                 >
                   Privacy Policy
                 </Link>

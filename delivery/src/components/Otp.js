@@ -3,7 +3,11 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import InlineButtonLoader from "./InlineButtonLoader";
-import { corierLogIn, userData } from "../redux/user/userSlice";
+import {
+  corierLogIn,
+  setCurrentColor,
+  userData,
+} from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 import { Images } from "../Assets";
@@ -39,9 +43,8 @@ const Otp = () => {
   useEffect(() => {
     setBgIndex(getRandomIndex());
     setIsTimerRunning(true);
-  }, []);
-  useEffect(() => {
     refs[0]?.current?.focus();
+    dispatch(setCurrentColor("white"));
   }, []);
   const handleChange = (event, index) => {
     const value = event.target.value;

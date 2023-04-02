@@ -1,7 +1,14 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { setCurrentColor } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const PageNotFound = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCurrentColor("white"));
+  }, []);
   return (
     <>
       <main className="relative h-screen overflow-hidden bg-white">
@@ -11,19 +18,21 @@ const PageNotFound = () => {
               <h1 className="mt-12 font-sans text-5xl font-light text-center text-gray-300 lg:text-left lg:text-8xl md:mt-0">
                 Sorry, this page isn&#x27;t found.
               </h1>
-              <Link to='/' className="px-2 py-2 mt-28 top-10 relative text-lg font-normal duration-500 hover:rounded-r-2xl hover:border-black border-2 border-white w-36 text-white  hover:bg-yellow-300 hover:px-5">
+              <Link
+                to="/"
+                className="px-2 py-2 mt-28 top-10 relative text-lg font-normal duration-500 hover:rounded-r-2xl hover:border-black border-2 border-white w-36 text-white  hover:bg-yellow-300 hover:px-5"
+              >
                 Go back home
               </Link>
             </div>
             <div className="relative block w-full max-w-md mx-auto md:mt-0 lg:max-w-2xl">
-              <img src="./svg/pagenotfound.svg" alt='404' />
+              <img src="./svg/pagenotfound.svg" alt="404" />
             </div>
           </div>
         </div>
       </main>
-
     </>
-  )
-}
+  );
+};
 
-export default PageNotFound
+export default PageNotFound;

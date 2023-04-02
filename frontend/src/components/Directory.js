@@ -43,8 +43,8 @@ const Directory = () => {
 
   return (
     <>
-      <div className='relative w-[98.70vw] h-4/5  flex flex-col content-center justify-center' >
-        <img alt='pic' src='./svg/bgVector.svg' className=' blur-[2px] w-full h-[500px] object-cover' />
+      <div className='relative w-[98.70vw] h-4/5 flex flex-col content-center justify-center' >
+        <img alt='pic' src='./svg/bgVector.svg' className='blur-[2px] w-full h-[500px] object-cover' />
         <div className='w-full absolute left-0 '>
           <p className='text-3xl md:text-5xl lg:text-7xl text-white transition-all z-20 duration-300 align-middle text-center'>FOODPOINT</p>
           <p className='text-2xl md:text-3xl lg:text-5xl text-white transition-all duration-300 align-middle text-center capitalize'>Discover the <span class="before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 relative inline-block">

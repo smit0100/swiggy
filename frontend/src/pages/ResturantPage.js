@@ -7,6 +7,7 @@ import swal from "sweetalert"
 import { AiTwotoneStar } from 'react-icons/ai'
 import toast from 'react-hot-toast'
 import UserReviewCard from "../components/UserReviewCard";
+import { setCurrentColor } from "../redux/user/userSlice";
  
 const ResturantPage = () => {
 
@@ -53,6 +54,7 @@ const ResturantPage = () => {
         console.log(err);
       }
     })()
+    dispatch(setCurrentColor("slate-800"));
   }, [categories])
 
   useEffect(() => {
@@ -92,7 +94,7 @@ const ResturantPage = () => {
     'https://picsum.photos/id/37/200/300'
   ];
   const HandleClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
 
@@ -129,7 +131,7 @@ const ResturantPage = () => {
   return (
     <>
       {/* image */}
-      <div className=''>
+      <div className='pt-24'>
         <div className="md:mx-28 top-60 mx-10 bg-cover bg-scale bg-no-repeat  box-border  flex justify-center items-center" >
           <img className="w-full h-[600px] object-cover" src={`${data.length !== 0 ? data.resturant.bgImageUrl[0] : 'https://picsum.photos/200'}`} alt="REstro  pic" />
         </div>

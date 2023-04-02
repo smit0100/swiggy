@@ -165,7 +165,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <div className="containerr mt-28 mb-10 h-fit shadow-black shadow-md backdrop-blur-md rounded-md">
+      <div className="containerr pt-28 mb-10 shadow-black shadow-md backdrop-blur-md rounded-md">
         <div className="grid grid-cols-1 grid-rows-3 gap-5">
           <div className="w-full h-full  px-14 flex flex-col justify-center shadow-lg space-y-3">
             <div className="flex space-x-3">

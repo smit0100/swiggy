@@ -24,6 +24,7 @@ import { requestForToken } from "./firebase";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContactUs from "./pages/ContactUs";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ function App() {
           <Route path="orderdetails" element={<OrderDetail />} />
           <Route path="ordersummary" element={<OrderSummary />} />
           <Route path="contactus" element={<ContactUs />} />
+          <Route path="privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
       ) : (
@@ -69,6 +71,7 @@ function App() {
           <Route path="contactus" element={<ContactUs />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="forgotpassword" element={<ForgotPassword />} />
           <Route path="otp" element={<Otp />} />
           <Route path="/*" element={<PageNotFound />} />

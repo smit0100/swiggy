@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
-import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { Images } from "../Assets";
+import { setCurrentColor } from "../redux/user/userSlice";
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 export default function OwnerRegister() {
   const [name, setName] = useState("");
@@ -25,6 +25,10 @@ export default function OwnerRegister() {
   const [disabled, setDisabled] = useState(true);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    setCurrentColor("white");
+  }, []);
+
   const handledisable = () => {
     if (
       nameError.length === 0 &&
@@ -458,7 +462,9 @@ export default function OwnerRegister() {
                 id="ch"
                 className="mr-2"
                 checked={check}
-                onChange={(e) => SetCheck(!check)}
+                onChange={(e) => {
+                  SetCheck(!check);
+                }}
               />
               <span className="ml-2 text-sm font-semibold text-blueGray-600">
                 I agree with the{" "}

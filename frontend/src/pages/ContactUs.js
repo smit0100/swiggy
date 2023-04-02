@@ -129,7 +129,7 @@ const ContactUs = () => {
 
   return (
     <>
-      <section className="relative z-10 overflow-hidden bg-inherit py-20 lg:py-[120px]">
+      <section className="relative z-10 overflow-hidden bg-inherit py-24 lg:py-[140px]">
         <div className="container mx-auto">
           <div className="-mx-4 flex flex-wrap lg:justify-center">
             <div className="w-full px-4 lg:w-1/2 xl:w-6/12">

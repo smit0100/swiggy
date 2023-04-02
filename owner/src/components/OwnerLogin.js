@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ownerLogIn, userData } from "../redux/user/userSlice";
+import { ownerLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
 import InlineButtonLoader from "./InlineButtonLoader";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
@@ -27,6 +27,7 @@ export default function OwnerLogin() {
   const dispatch = useDispatch();
   useEffect(() => {
     getFcmToken();
+    setCurrentColor("white");
   }, []);
 
   const getFcmToken = () => {

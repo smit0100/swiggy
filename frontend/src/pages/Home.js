@@ -7,6 +7,7 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 
 import { cartData } from "../redux/cart/cartSlice";
+import MainNav from '../components/Nav/MainNav'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Home = () => {
   return (
     <>
     <div className='bg-orange-100'>
-      <Navbar />
+      <MainNav />
       <Outlet />
       <Footer />
     </div>

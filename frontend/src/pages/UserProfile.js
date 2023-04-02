@@ -65,7 +65,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="containerr rounded-md ">
+      <div className="containerr rounded-md pt-24">
         <h1 className="text-3xl font-semibold">My Profile </h1>
         {/* profile image  */}
         <div>

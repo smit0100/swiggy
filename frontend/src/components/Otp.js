@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { userData, userLogIn } from "../redux/user/userSlice";
+import { setCurrentColor, userData, userLogIn } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 import { Images } from "../Assets";
@@ -43,6 +43,7 @@ const Otp = () => {
     setBgIndex(getRandomIndex());
     setIsTimerRunning(true);
     refs[0]?.current?.focus();
+    dispatch(setCurrentColor("white"));
   }, []);
   const handleChange = (event, index) => {
     const value = event.target.value;
