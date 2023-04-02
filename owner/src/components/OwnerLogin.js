@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ownerLogIn, userData } from "../redux/user/userSlice";
@@ -31,7 +31,7 @@ export default function OwnerLogin() {
 
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmTokenOwner");
-    console.log("===temp",temp);
+    console.log("===temp", temp);
     if (temp == null) {
       requestForToken(setTokenFound);
     }
@@ -123,7 +123,7 @@ export default function OwnerLogin() {
       localStorage.setItem("ownerData", JSON.stringify(response?.data?.rest));
       swal("SuccessFully Login", "", "success", {
         buttons: false,
-        timer: 1000
+        timer: 1000,
       });
       setLoading(false);
       navigate("/");
@@ -135,9 +135,10 @@ export default function OwnerLogin() {
         err?.response?.status === 402
       ) {
         toast.error(
-          `${err?.response?.status === 402
-            ? err?.response?.data?.message
-            : err?.response?.data?.message
+          `${
+            err?.response?.status === 402
+              ? err?.response?.data?.message
+              : err?.response?.data?.message
           }`
         );
         setLoading(false);
@@ -147,95 +148,94 @@ export default function OwnerLogin() {
   };
   return (
     <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
-    <img
-      src={BgImages[1]}
-      className="w-full h-full object-cover absolute mix-blend-overlay"
-    />
-    <div className="relative flex flex-col m-6 mt-24 space-y-8 bg-white shadow-md rounded-2xl md:flex-row md:space-y-0">
-      <div className="flex flex-col justify-center p-8 md:p-14">
-        <span className="mb-3 text-4xl font-bold">Log in</span>
-        <span className="font-light text-gray-400 mb-8">
-          {`Welcom back! ,Please enter your details`}
-        </span>
-        <div className="py-4">
-          <span className="mb-2 text-md">Email</span>
-          <input
-            type="text"
-            className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
-            name="email"
-            value={email}
-            placeholder="email"
-            id="email"
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
-        <div className="py-4">
-          <span className="mb-2 text-md">Password</span>
-          <input
-            type="password"
-            name="pass"
-            placeholder="password"
-            id="pass"
-            value={password}
-            className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
-        <div className="flex justify-between w-full pt-4">
-          <div className="mr-24 w-40" />
-          <Link
-            to={"/forgotpassword"}
-            className="font-bold text-md cursor-pointer hover:underline"
+      <img
+        src={BgImages[1]}
+        className="w-full h-full object-cover absolute mix-blend-overlay"
+      />
+      <div className="relative flex flex-col m-6 mt-24 space-y-8 bg-white shadow-md rounded-2xl md:flex-row md:space-y-0">
+        <div className="flex flex-col justify-center p-8 md:p-14">
+          <span className="mb-3 text-4xl font-bold">Log in</span>
+          <span className="font-light text-gray-400 mb-8">
+            {`Welcom back! ,Please enter your details`}
+          </span>
+          <div className="py-4">
+            <span className="mb-2 text-md">Email</span>
+            <input
+              type="text"
+              className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
+              name="email"
+              value={email}
+              placeholder="email"
+              id="email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+          <div className="py-4">
+            <span className="mb-2 text-md">Password</span>
+            <input
+              type="password"
+              name="pass"
+              placeholder="password"
+              id="pass"
+              value={password}
+              className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          <div className="flex justify-between w-full pt-4">
+            <div className="mr-24 w-40" />
+            <Link
+              to={"/forgotpassword"}
+              className="font-bold text-md cursor-pointer hover:underline"
+            >
+              Forgot password
+            </Link>
+          </div>
+          <button
+            className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
+            onClick={handleLogIn}
           >
-            Forgot password
+            Sign in
+          </button>
+          <Link
+            to="/ownerRegister"
+            className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
+            // onClick={() => {
+            //   clearState();
+            // }}
+          >
+            Sign up
           </Link>
-        </div>
-        <button
-          className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
-          onClick={handleLogIn}
-        >
-          Sign in
-        </button>
-        <Link
-          to="/ownerRegister"
-          className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-          // onClick={() => {
-          //   clearState();
-          // }}
-        >
-          Sign up
-        </Link>
-        <span className="w-full text-center mt-2 text-gray-500">or</span>
-        <div className="flex mt-3">
-          {/* <button className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center">
+          <span className="w-full text-center mt-2 text-gray-500">or</span>
+          <div className="flex mt-3">
+            {/* <button className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center">
             <BsFacebook className="w-5 mr-1" color="blue"/>
             Facebook
           </button>
           <div style={{ width: "10%" }} /> */}
-          <button
-            className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center"
-            onClick={googleAuth}
-          >
-            <FcGoogle className="w-5 mr-1"/>
-            Google
-          </button>
+            <button
+              className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center"
+              onClick={googleAuth}
+            >
+              <FcGoogle className="w-5 mr-1" />
+              Google
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="relative">
-        <img
-          src={Images.Product1}
-          alt="img"
-          className="w-[400px] h-full hidden rounded-r-2xl md:block object-cover"
-        />
-        <div className="absolute hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block">
-          <span className="text-white text-xl">
-            Our aim is not just to serve meal, it's a journey through taste
-            and ambiance.
-          </span>
+        <div className="relative">
+          <img
+            src={Images.Product1}
+            alt="img"
+            className="w-[400px] h-full hidden rounded-r-2xl md:block object-cover"
+          />
+          <div className="absolute hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block">
+            <span className="text-white text-xl">
+              Our aim is not just to serve meal, it's a journey through taste
+              and ambiance.
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   );
 }
-

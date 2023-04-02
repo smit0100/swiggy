@@ -22,9 +22,9 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
   const user = useSelector((state) => state.userData.user);
 
   useEffect(() => {
-    setName(user.name);
-    setEmail(user.email);
-    setNumber(user.number);
+    setName(user?.name);
+    setEmail(user?.email);
+    setNumber(user?.number);
   }, []);
 
   const [otpTab, setOtpTab] = useState(false);
@@ -44,16 +44,12 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
       );
       console.log(response);
       if (response.status === 201) {
-        console.log("ooo");
-        console.log(otpTab);
         setOtpTab(!otpTab);
-        console.log(otpTab);
         setNewAddress(response.data.newDetails);
-        console.log("kk");
       } else {
         // add redux
-        console.log("ooo");
         dispatch(userData(response.data.user));
+        localStorage.setItem("userData", JSON.stringify(response?.data?.user));
         swal("Profile updated successfully", "", "success");
       }
     } catch (err) {

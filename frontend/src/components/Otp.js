@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios';
 import { useState } from 'react';
 
-import { userData } from '../redux/user/userSlice';
+import { userData, userLogIn } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import swal from 'sweetalert'
 const Otp = () => {
@@ -27,7 +27,11 @@ const Otp = () => {
                 otp
             })
             // console.log(response.data.user);
-            dispatch(userData(response.data.user))
+            dispatch(userData(response?.data?.user))
+      
+            dispatch(userLogIn(true));
+            localStorage.setItem("isUserLogIn", JSON.stringify(true));
+            localStorage.setItem("userData", JSON.stringify(response?.data?.user));
             swal("SuccessFully register", "", "success");
             navigate('/')
         } catch (err) {

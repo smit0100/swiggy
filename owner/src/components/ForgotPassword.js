@@ -100,7 +100,7 @@ const ForgotPassword = () => {
     setLoading(true)
       const response = await axios.post('http://localhost:4000/resturant/verfiyotp', {
         id,
-        otp,
+        otp:otp.join(""),
         newPassword: pass
       });
       // console.log(response);

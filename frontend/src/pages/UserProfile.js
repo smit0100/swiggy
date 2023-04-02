@@ -8,8 +8,8 @@ import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
 
 import { useCookies } from "react-cookie";
-import { userData } from "../redux/user/userSlice";
-import swal from "sweetalert"
+import { userData, userLogIn } from "../redux/user/userSlice";
+import swal from "sweetalert";
 
 import OrderDetailsCard from "../components/OrderDetailsCard";
 
@@ -22,10 +22,6 @@ const UserProfile = () => {
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
 
-  const [cookies, setCookies, removeCookie] = useCookies([
-    "access_token",
-    "refresh_token",
-  ]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -56,10 +52,9 @@ const UserProfile = () => {
       dangerMode: true,
     }).then(async (willDelete) => {
       if (willDelete) {
-        removeCookie("access_token");
-        removeCookie("refresh_token");
-        // removeCookie('connect.sid')
         dispatch(userData(null));
+        localStorage.clear();
+        dispatch(userLogIn(false));
         swal("Successfully logout", {
           icon: "success",
         });
@@ -88,16 +83,38 @@ const UserProfile = () => {
         <div className="row ">
           <div className="w-full sm:w-1/5 p-5">
             <ul className="space-y-3">
-            <li className="text-lg border-b-2 cursor-pointer" onClick={() => setOpenTab(1)} > Profile </li>
-            <li className="text-lg border-b-2 cursor-pointer" onClick={() => setOpenTab(2)} > Your Orders </li>
-            <li className="text-lg border-b-2 cursor-pointer">
-              <button onClick={logout} className="inline-block bg-inherit hover:text-white hover:bg-red-600 font-bold rounded px-4 py-[6px] text-xs uppercase text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500" > Logout </button>
-            </li>
+              <li
+                className="text-lg border-b-2 cursor-pointer"
+                onClick={() => setOpenTab(1)}
+              >
+                {" "}
+                Profile{" "}
+              </li>
+              <li
+                className="text-lg border-b-2 cursor-pointer"
+                onClick={() => setOpenTab(2)}
+              >
+                {" "}
+                Your Orders{" "}
+              </li>
+              <li className="text-lg border-b-2 cursor-pointer">
+                <button
+                  onClick={logout}
+                  className="inline-block bg-inherit hover:text-white hover:bg-red-600 font-bold rounded px-4 py-[6px] text-xs uppercase text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
+                >
+                  {" "}
+                  Logout{" "}
+                </button>
+              </li>
             </ul>
           </div>
 
           {/* profile module  */}
-          <div className={`${openTab === 1 ? "block" : "hidden" } w-full sm:w-4/5 p-5`} >
+          <div
+            className={`${
+              openTab === 1 ? "block" : "hidden"
+            } w-full sm:w-4/5 p-5`}
+          >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               your profile
             </h1>
@@ -121,8 +138,23 @@ const UserProfile = () => {
                     {user != null && user.email}
                   </li>
                   <li className="py-3 text-lg font-normal">
-                  <button type="button" onClick={() => setChangePassword(true)} id="password" value="Change Password" className="inline-block mr-2 bg-inherit hover:text-white hover:bg-blue-400 -bottom-4 font-bold rounded border border-current px-4 py-[6px] text-xs uppercase text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400" > <i className="fas fa-repeat"></i> Change Password </button> 
-                  <button onClick={() => setupdateProfile(true)} className="inline-block bg-inherit hover:text-white hover:bg-blue-600 -bottom-4 font-bold rounded border border-current px-8 py-[6px] text-xs uppercase text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500" > Update Profile{" "} </button>
+                    <button
+                      type="button"
+                      onClick={() => setChangePassword(true)}
+                      id="password"
+                      value="Change Password"
+                      className="inline-block mr-2 bg-inherit hover:text-white hover:bg-blue-400 -bottom-4 font-bold rounded border border-current px-4 py-[6px] text-xs uppercase text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400"
+                    >
+                      {" "}
+                      <i className="fas fa-repeat"></i> Change Password{" "}
+                    </button>
+                    <button
+                      onClick={() => setupdateProfile(true)}
+                      className="inline-block bg-inherit hover:text-white hover:bg-blue-600 -bottom-4 font-bold rounded border border-current px-8 py-[6px] text-xs uppercase text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+                    >
+                      {" "}
+                      Update Profile{" "}
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -135,15 +167,19 @@ const UserProfile = () => {
             <UserAddress />
           </div>
           {/* order module  */}
-          <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
+          <div
+            className={`${
+              openTab === 2 ? "block" : "hidden"
+            } w-full sm:w-4/5 p-5`}
+          >
             <h1 className="text-xl font-semibold pb-5 capitalize">
               Order Detail
             </h1>
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
               {order
                 ? order.map((item) => {
-                  return <OrderDetailsCard items={item} />;
-                })
+                    return <OrderDetailsCard items={item} />;
+                  })
                 : ""}
             </div>
           </div>
@@ -164,4 +200,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-

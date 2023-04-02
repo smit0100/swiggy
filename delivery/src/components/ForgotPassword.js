@@ -106,7 +106,7 @@ const ForgotPassword = () => {
         "http://localhost:4000/courier/verfiyotp",
         {
           id,
-          otp,
+          otp: otp.join(""),
           newPassword: pass,
         }
       );
