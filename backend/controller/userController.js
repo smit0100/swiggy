@@ -63,7 +63,8 @@ const createUser = async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
   try {
-    let user = await User.findOne({ _id: req.body.id });
+    const { id } = req.body;
+    let user = await User.findOne({ _id: id });
     console.log(user + "this data");
     if (!user) return res.status(404).send({ message: "user not found" });
 
@@ -72,7 +73,8 @@ const verifyUser = async (req, res, next) => {
       token: req.body.otp,
     });
 
-    if (!token) return res.status(401).json({ message: "wrong otp" });
+    if (!token)
+      return res.status(401).json({ message: "OTP is wrong,check again" });
 
     await User.updateOne({ _id: user._id }, { verified: true });
     console.log("hello hello");
