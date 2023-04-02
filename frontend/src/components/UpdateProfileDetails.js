@@ -155,6 +155,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         }
       );
       dispatch(userData(response.data.user));
+      localStorage.setItem("userData", JSON.stringify(response?.data?.user));
       console.log(response);
     } catch (err) {
       console.log(err);

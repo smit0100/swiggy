@@ -1,14 +1,12 @@
 import axios from "axios";
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../redux/user/userSlice";
 import StripeCheckout from "react-stripe-checkout";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { HiOutlineLocationMarker } from 'react-icons/hi'
+import { HiOutlineLocationMarker } from "react-icons/hi";
 import { cartData } from "../redux/cart/cartSlice";
-
-
 
 const CheckoutPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,16 +18,14 @@ const CheckoutPage = () => {
   const [stateError, setStateError] = useState("");
   const [pincode, setPincode] = useState("");
   const [pincodeError, setPincodeError] = useState("");
-  const [selectedAddress,setSelectedAddress] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState("");
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.userData.user);
-  const cart = useSelector(state => state.cartData.cart)
-
- 
+  const cart = useSelector((state) => state.cartData.cart);
 
   const makePayment = async (token) => {
     console.log("this is token", token);
@@ -37,19 +33,22 @@ const CheckoutPage = () => {
       "Content-Type": "application/json",
     };
     try {
-      axios.post(`${process.env.REACT_APP_BASEURL}/payment`, {
-        customer:user._id,
-        addressId:selectedAddress
-      }).then((response) => {
-        handleDelivery(address)
-        console.log("=====payment res:::", response);
-        swal("Order place successfully..", "", "success");
-        navigate("/")
-        dispatch(cartData(null))
-      }).catch((e) => {
-        handleDelivery(address)
-        console.log("===error payment:::", e);
-      })
+      axios
+        .post(`${process.env.REACT_APP_BASEURL}/payment`, {
+          customer: user._id,
+          addressId: selectedAddress,
+        })
+        .then((response) => {
+          handleDelivery(address);
+          console.log("=====payment res:::", response);
+          swal("Order place successfully..", "", "success");
+          navigate("/");
+          dispatch(cartData(null));
+        })
+        .catch((e) => {
+          handleDelivery(address);
+          console.log("===error payment:::", e);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -57,12 +56,14 @@ const CheckoutPage = () => {
 
   const handleDelivery = async (address) => {
     console.log("hello how are you");
-    let pr = cart != null && cart.product.map((item) => {
-      return {
-        product: item.product._id,
-        quantity: item.quantity,
-      };
-    });
+    let pr =
+      cart != null &&
+      cart.product.map((item) => {
+        return {
+          product: item.product._id,
+          quantity: item.quantity,
+        };
+      });
 
     if (user != null && cart != null) {
       try {
@@ -80,7 +81,6 @@ const CheckoutPage = () => {
         console.log(err);
       }
     }
-
   };
 
   const handleAddress = (e) => {
@@ -116,43 +116,51 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASEURL}/user/addAddress`,
-      {
-        userId: user._id,
-        area: address,
-        city: city,
-        state: state,
-        pincode: pincode,
-      }
-    );
-    console.log(response.data.response);
-    dispatch(userData(response.data.response));
-  }catch(err){
-    console.log(err);
-  }
+        {
+          userId: user._id,
+          area: address,
+          city: city,
+          state: state,
+          pincode: pincode,
+        }
+      );
+      console.log(response.data.response);
+      dispatch(userData(response.data.response));
+      localStorage.setItem(
+        "userData",
+        JSON.stringify(response?.data?.response)
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handlePayment = async () => {
-    try{
+    try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASEURL}/payment/create-checkout-session`
-        );
-      }catch(err){
-        console.log(err);
-      }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const addressDelete = async (id) => {
-    try{
+    try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`
-        ); 
-        dispatch(userData(response.data.response));
-      }catch(err){
-        console.log(err);
-      }
+      );
+      dispatch(userData(response.data.response));
+      localStorage.setItem(
+        "userData",
+        JSON.stringify(response?.data?.response)
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -165,9 +173,13 @@ const CheckoutPage = () => {
               {/* <img src="./svg/github.svg" className="w-7 h-7" alt="temp" /> */}
             </div>
             <div className="flex space-x-5">
-              <p className="font-semibold text-lg">{user != null && user.name}</p>{" "}
+              <p className="font-semibold text-lg">
+                {user != null && user.name}
+              </p>{" "}
               &nbsp;&nbsp;&nbsp; |
-              <p className="font-semibold text-lg">{user != null && user.number}</p>
+              <p className="font-semibold text-lg">
+                {user != null && user.number}
+              </p>
             </div>
           </div>
 
@@ -184,7 +196,7 @@ const CheckoutPage = () => {
                   <div className="p-3 w-full sm:w-6/12 flex ">
                     <div className="shadow-black hover:shadow-xl anim bg-white p-3">
                       <div>
-                      <HiOutlineLocationMarker className='text-center' />
+                        <HiOutlineLocationMarker className="text-center" />
                       </div>
                       <div className="py-2">
                         <p className="font-semibold text-xl">Address {i + 1}</p>
@@ -210,7 +222,7 @@ const CheckoutPage = () => {
                           <button
                             className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                             onClick={() => {
-                              setSelectedAddress(address._id)
+                              setSelectedAddress(address._id);
                             }}
                           >
                             deliver here
@@ -237,8 +249,7 @@ const CheckoutPage = () => {
               <div className="p-3 w-full sm:w-6/12 flex ">
                 <div className="shadow-black hover:shadow-xl bg-white p-3">
                   <div>
-                  <HiOutlineLocationMarker className='text-center' />
-
+                    <HiOutlineLocationMarker className="text-center" />
                   </div>
                   <div className="py-2">
                     <p className="font-semibold text-xl">Add New Address</p>

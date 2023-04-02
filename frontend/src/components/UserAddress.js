@@ -91,6 +91,7 @@ const UserAddress = () => {
       })
       console.log(response.data.response);
       dispatch(userData(response.data.response))
+      localStorage.setItem("userData", JSON.stringify(response?.data?.response));
       setaddress("")
       setCity("")
       setState("")
@@ -113,6 +114,7 @@ const UserAddress = () => {
       })
       console.log(response.data);
       dispatch(userData(response.data.response))
+      localStorage.setItem("userData", JSON.stringify(response?.data?.response));
       setaddress("")
       setCity("")
       setState("")
@@ -132,6 +134,7 @@ const UserAddress = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`)
       dispatch(userData(response.data.response))
+      localStorage.setItem("userData", JSON.stringify(response?.data?.response));
       swal("Deleted successfully", "", "success");
     } catch (err) {
       if (err) {
