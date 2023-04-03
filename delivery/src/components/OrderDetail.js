@@ -8,12 +8,10 @@ import { setCurrentColor } from '../redux/user/userSlice';
 
 const OrderDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [order, setOrder] = useState([])
+  // const [order, setOrder] = useState([])
   const owner = useSelector(state => state.userData.user)
   const navigate = useNavigate()
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const [showOrderDetail, setShowOrderDetail] = useState(false)
-  const [orderStatus, setOrderStatus] = useState('not define')
+
   const [orderData,setOrderData]=useState(null)
   const user=useSelector(state=>state.userData.user)
   const dispatch = useDispatch();
@@ -24,9 +22,11 @@ const OrderDetail = () => {
     if(user!=null){
     (
       async () => {
+        setIsLoading(true)
         const response = await axios.get(`http://localhost:4000/courier/fetchall/?id=${user._id}`)
         console.log(response.data);
         setOrderData(response.data.courierBoy);
+        setIsLoading(false)
       }
     )();
     }
@@ -58,13 +58,13 @@ const OrderDetail = () => {
                           key={order && order._id}
                           //  ${selectedOrderId === order._id ? "bg-blue-100" : ""}`
                           className={`border-b border-gray-200 hover:bg-gray-100`}
-                          onClick={() => { navigate('/ordersummary', { state: order._id }); setSelectedOrderId(order.id) }}>
+                          onClick={() => { navigate('/ordersummary', { state: order._id });  }}>
                           <td className="py-3 px-6 text-left">{order?._id}</td>
                           <td className="py-3 px-6 text-left">{order?.customer.name}</td>
                           <td className="py-3 px-6 text-left">₹{order?.total}</td>
                           {/* <td className="py-3 px-6 text-left">{order?.orderDate}</td> */}
                           <td className="py-3 px-6 text-left">
-                            <span className={`py-1 px-3 rounded-full text-xs ${order.status === "Delivered" ? "bg-green-200 text-green-600" : order.status === "Preparing" ? "bg-yellow-200 text-yellow-600" : "bg-amber-200 text-amber-600"}`}>
+                          <span className={`py-1 px-3 rounded-full text-xs ${order !== null && order?.status === "delivered" ? "bg-green-200 text-green-600" : order?.status === "accept" ? "bg-orange-200 text-orange-600" : "bg-amber-200 text-amber-600"}`}>
                               {order?.status}
                             </span>
                           </td>

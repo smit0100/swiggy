@@ -72,13 +72,13 @@ const OrderDetail = () => {
                           //  ${selectedOrderId === order._id ? "bg-blue-100" : ""}`
                           className={`border-b border-gray-200 hover:bg-gray-100`}
                           onClick={() => { navigate('/ordersummary', { state: order._id }); }}>
-                          <td className="py-3 px-6 text-left">{order !== null && order._id}</td>
+                          <td className="py-3 px-6 text-left">{order !== null && order?._id}</td>
                           <td className="py-3 px-6 text-left">{order !== null && order.customer?.name}</td>
                           <td className="py-3 px-6 text-left">₹{order !== null && order?.total}</td>
                           <td className="py-3 px-6 text-left">{dateFormat(order.createdAt, "mmmm dS, yyyy")}</td>
                           <td className="py-3 px-6 text-left">
-                            <span className={`py-1 px-3 rounded-full text-xs ${order !== null && order?.status === "delivered" ? "bg-green-200 text-green-600" : order.status === "accept" ? "bg-orange-200 text-orange-600" : "bg-amber-200 text-amber-600"}`}>
-                              {order.status}
+                            <span className={`py-1 px-3 rounded-full text-xs ${order !== null && order?.status === "delivered" ? "bg-green-200 text-green-600" : order?.status === "accept" ? "bg-orange-200 text-orange-600" : "bg-amber-200 text-amber-600"}`}>
+                              {order?.status}
                             </span>
                           </td>
                         </tr>
