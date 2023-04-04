@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setCurrentColor } from "../redux/user/userSlice";
 import InlineButtonLoader from "./InlineButtonLoader";
+import UserReviewCard from "./UserReviewCard";
 
 // import io from 'socket.io-client';
 // const socket = io("http://localhost:4000");
@@ -408,6 +409,11 @@ const OrderSummary = () => {
                   <></>
                 )}
               </div>
+              {
+                  userData?.status === "delivered" ?
+                    <UserReviewCard /> : <></>
+                  
+                }
             </div>
           </div>
         </div>

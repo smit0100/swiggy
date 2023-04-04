@@ -6,12 +6,14 @@ import OrderSummaryFoodCard from "./OrderSummaryFoodCard";
 import InlineButtonLoader from "./InlineButtonLoader";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
+import UserReviewCard from "./UserReviewCard";
 // import io from 'socket.io-client';
 // const socket = io("http://localhost:4000");
 
 const OrderSummary = () => {
   const { state } = useLocation();
   const [summaryData, setSummaryData] = useState(null);
+  const [reviewData, setReviewData] = useState(null)
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
 
@@ -26,6 +28,15 @@ const OrderSummary = () => {
       setLoading(false);
     })();
   }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await axios.get(
+  //       `http://localhost:4000/resturant/getallreview?id=${summaryData?.customer._id}`
+  //     );
+  //     console.log(response);
+  //     // setReviewData(response.data.order);
+  //   })();
+  // }, []);
 
   const handleOrder = async () => {
     console.log("hello");
@@ -96,12 +107,12 @@ const OrderSummary = () => {
                       <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
                         {summaryData != null
                           ? summaryData.customer.address[0].area +
-                            " " +
-                            summaryData.customer.address[0].city +
-                            " " +
-                            summaryData.customer.address[0].state +
-                            "-" +
-                            summaryData.customer.address[0].pincode
+                          " " +
+                          summaryData.customer.address[0].city +
+                          " " +
+                          summaryData.customer.address[0].state +
+                          "-" +
+                          summaryData.customer.address[0].pincode
                           : ""}
                       </td>
                     </tr>
@@ -256,11 +267,10 @@ const OrderSummary = () => {
                       <button
                         type="button"
                         disabled={isDisable}
-                        className={`${
-                          isDisable
-                            ? "bg-black"
-                            : "hover:bg-white hover:text-black"
-                        } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                        className={`${isDisable
+                          ? "bg-black"
+                          : "hover:bg-white hover:text-black"
+                          } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
                         onClick={handleOrder}
                       >
                         {isDisable ? <InlineButtonLoader /> : "Accept Order"}
@@ -268,7 +278,13 @@ const OrderSummary = () => {
                     )}
                   </div>
                 </div>
+                {
+                  summaryData?.status === "delivered" ?
+                    <UserReviewCard /> : <></>
+                }
+
               </div>
+
             </div>
           </div>
         </div>
