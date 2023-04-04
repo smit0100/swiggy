@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BiBed } from "react-icons/bi";
-import { Link ,useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import resto from "../../Assets/resto.jpg";
 import avatar from "../../Assets/avatar.jpg";
 import { BsWifi } from "react-icons/bs";
@@ -18,6 +18,8 @@ export default function RestaurantDetail() {
   const navigate = useNavigate();
   const { rupee, currentColor } = useStateContext();
   const { restaurantId } = useParams();
+  const [isOpen, setIsOpen] = useState("");
+
   console.log("userIDuserIDuserIDuserID", restaurantId);
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -104,6 +106,9 @@ export default function RestaurantDetail() {
       handleApicall(req);
     }
   };
+  const handleClick = (value) => {
+    setIsOpen(value);
+  };
   const item = {
     name: "Ganesha chiness",
     address: "18,ring road, surat.",
@@ -155,13 +160,14 @@ export default function RestaurantDetail() {
             </div>
             <div className="flex flex-col items-start gap-8 lg:flex-row">
               <div className="max-w-[768px]">
-                <div className="mb-8">
+                <div className="mb-8 md:min-w-[700px]">
                   <img
                     src={
-                      item.imageLg
-                      // data?.bgImageUrl?.length > 0 ? data?.bgImageUrl[0] : item.imageLg
+                      data?.bgImageUrl?.length > 0
+                        ? data?.bgImageUrl[0]
+                        : item.imageLg
                     }
-                    className="rounded-2xl"
+                    className="rounded-2xl w-full md:h-[520px]"
                     alt="restaurant image"
                   />
                 </div>
@@ -419,10 +425,26 @@ export default function RestaurantDetail() {
                   <img
                     src={`${data.bankURL ? data?.bankURL : ""}`}
                     alt="Bank Passbook"
-                    className="w-full h-64 object-cover rounded-2xl hover:shadow-md"
+                    className="w-full h-64 object-cover rounded-2xl hover:shadow-md cursor-pointer"
+                    onClick={()=>handleClick(data?.bankURL)}
                   />
                 </div>
               )}
+            {isOpen !=""  && (
+              <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-50 bg-black/50">
+                <div className="bg-gray-900 text-white rounded-lg overflow-hidden relative">
+                  <img
+                    src={isOpen}
+                    className="w-[400px] h-[250px] sm:w-[600px]  sm:h-[350px] object-cover"
+                    alt="backbone"
+                  />
+                </div>
+                <div
+                  className="absolute inset-0 h-screen cursor-pointer w-screen bg-black/50 -z-10"
+                  onClick={() => setIsOpen("")}
+                ></div>
+              </div>
+            )}
             <div className="w-10 h-10" />
             {data?.panCard?.holderName && data?.panCard && (
               <div className="flex-1 sm:w-1/2 p-4 border-2 rounded-lg shadow-lg dark:hover:shadow-gray-500 dark:hover:shadow-sm dark:border-gray-700">
@@ -460,7 +482,8 @@ export default function RestaurantDetail() {
                 <img
                   src={`${data.pancardURL ? data?.pancardURL : ""}`}
                   alt="PAN Card"
-                  className="w-full h-64 object-cover rounded-2xl hover:shadow-md"
+                  className="w-full h-64 object-cover rounded-2xl cursor-pointer hover:shadow-md"
+                  onClick={()=>handleClick(data?.pancardURL)}
                 />
               </div>
             )}

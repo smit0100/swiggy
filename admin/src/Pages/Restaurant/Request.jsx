@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import { Card } from "../../Components";
 import resto from "../../Assets/resto.jpg";
 import { Blocks } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
@@ -94,7 +95,7 @@ export default function Request() {
   };
   const ProductTable = (data) => {
     return (
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:mx-20 md:mt-12 m-5">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:mx-10 md:mt-12 m-5">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -131,12 +132,25 @@ export default function Request() {
                   scope="row"
                   className="flex items-center py-4 text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  <div className="pl-3">
-                    <div className="text-base font-semibold">{item?.name}</div>
-                    <div className="font-normal text-gray-500">
-                      {item?.email}
+                  {item?.bgImageUrl?.length > 0 ? (
+                    <Link to={`/request/${item?._id}`} className="pl-3">
+                      <div className="text-base font-semibold">
+                        {item?.name}
+                      </div>
+                      <div className="font-normal text-gray-500">
+                        {item?.email ? item?.email : "__"}
+                      </div>
+                    </Link>
+                  ) : (
+                    <div className="px-3">
+                      <div className="text-base font-semibold">
+                        {item?.name}
+                      </div>
+                      <div className="font-normal text-gray-500">
+                        {item?.email ? item?.email : "__"}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </th>
                 <td className="px-6 py-4">
                   {item?.ownerName ? item?.ownerName : "___"}
