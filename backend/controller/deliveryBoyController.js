@@ -7,6 +7,7 @@ const User = require("../module/UserModel");
 const Courier = require("../module/DeliveryBoyModel");
 const { sendNotification } = require("../utils/PushNotification");
 const TokenModel = require("../module/TokenModel");
+const Review = require('../module/ReviewModel');
 
 const register = async (req, res, next) => {
   try {
@@ -283,23 +284,37 @@ const addReview = async (req, res, next) => {
     console.log(req.body);
     const { deliveryboyId, user, description, star, orderId, fcmToken } =
       req.body;
+    // console.log(req.body)
+    const review = await new Review({
+      userId: user,
+      orderId,
+      review: description,
+      star,
+      deliveryBoyId: deliveryboyId,
+      itsFor: 'Delivery'
+    }).save();
 
+    // console.log(review);
+    
     let response = await DeliveryBoy.findByIdAndUpdate(
       deliveryboyId,
       {
-        $push: {
-          review: {
-            user: user,
-            description,
-            star,
-          },
-        },
+        $push: {review:review._id}
       },
       {
         new: true,
       }
-    );
-
+    ).populate('review');
+    console.log('its id');
+    console.log(review._id);
+    const order = await Order.findByIdAndUpdate(orderId, {
+      deliveryBoyReview: review._id,
+      
+      
+    }, {
+      new:true
+    }).populate('deliveryBoyReview')
+    console.log(order);
     let ratingCount = 0;
 
     response.review.map((item) => {
@@ -326,8 +341,11 @@ const addReview = async (req, res, next) => {
       };
       sendNotification(fcmToken, payload);
     }
+    console.log(response);
     res.status(200).json({ message: "review added", response });
+
   } catch (e) {
+    console.log(e);
     res.status(400).json({ message: "something went wrong" });
   }
 };

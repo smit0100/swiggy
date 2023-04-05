@@ -26,7 +26,7 @@ const addReview = async (req, res) => {
     }).save();
 
     const order = await Order.findByIdAndUpdate(orderId, {
-      review: response._id,
+      resturantReview : response._id,
     });
 
     const resturantUpdate = await Resturant.findByIdAndUpdate(
@@ -35,7 +35,7 @@ const addReview = async (req, res) => {
       {
         new: true,
       }
-    );
+    ).populate('review');
 
     const numberOfRating = resturantUpdate.review.length;
 

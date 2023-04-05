@@ -22,21 +22,29 @@ const DeliveryBoy = new Schema({
         type: Boolean,
         default:false
     },
-    review: [
-        {
-            user: {
+    review: 
+        [
+            {
                 type: mongoose.Types.ObjectId,
-                ref:'User'
-            },
-            description: {
-                type:String
-            },
-            star: {
-                type:String
-            }
-        }
-    ],
-    averageRating: {
+                ref:'Review'
+            }    
+        ]
+    
+    // review: [
+    //     {
+    //         user: {
+    //             type: mongoose.Types.ObjectId,
+    //             ref:'User'
+    //         },
+    //         description: {
+    //             type:String
+    //         },
+    //         star: {
+    //             type:String
+    //         }
+    //     }
+    // ],
+    ,averageRating: {
         type: String,
         default:0
     },
