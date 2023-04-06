@@ -67,9 +67,9 @@ export default function GetDeliveryBoy() {
 
           if (res?.totalCount) {
             let data = [...tabs];
-            data[0].badge = res?.totalCount;
-            data[1].badge = res?.totalAccepted;
-            data[2].badge = res?.totalRejected;
+            data[0].badge = res?.totalCount == 0 ? null : res?.totalCount;
+            data[1].badge = res?.totalAccepted == 0 ? null : res?.totalAccepted;
+            data[2].badge = res?.totalRejected == 0 ? null : res?.totalRejected;
             setTabs(data);
           }
         }

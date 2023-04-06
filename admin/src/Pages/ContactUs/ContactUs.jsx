@@ -163,7 +163,15 @@ export default function ContactUs() {
           &bull; Contact Us
         </h1>
       </div>
-      <ProductTable data={data} />
+      {data.length > 0 ? (
+        <ProductTable data={data} />
+      ) : (
+        <div className="my-10">
+          <h1 className="text-center font-bold dark:text-white">
+            No inquiry here
+          </h1>
+        </div>
+      )}
       {isVisible && (
         <div
           tabIndex="-1"

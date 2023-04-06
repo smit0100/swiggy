@@ -4,7 +4,7 @@ import { FiShoppingBag } from "react-icons/fi";
 import { BiRestaurant } from "react-icons/bi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { RiContactsLine,RiContactsBookLine } from "react-icons/ri";
-import { MdOutlineSupervisorAccount, MdOutlineFastfood } from "react-icons/md";
+import { MdOutlineNotificationAdd, MdOutlineFastfood } from "react-icons/md";
 
 
 export const themeColors = [
@@ -74,6 +74,10 @@ export const links = [
       {
         name: "contact us",
         icon: <RiContactsBookLine />,
+      },
+      {
+        name: "notification",
+        icon: <MdOutlineNotificationAdd />,
       },
     ],
   },

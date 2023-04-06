@@ -92,9 +92,10 @@ export default function AddCategory() {
         }
         if (result?.totalCount) {
           let data = [...subTabs];
-          data[0].badge = result?.totalCount;
-          data[1].badge = result?.totalActive;
-          data[2].badge = result?.totalDeactive;
+          data[0].badge = result?.totalCount == 0 ? null : result?.totalCount;
+          data[1].badge = result?.totalActive == 0 ? null : result?.totalActive;
+          data[2].badge =
+            result?.totalDeactive == 0 ? null : result?.totalDeactive;
           setSubTabs(data);
         }
       })

@@ -85,11 +85,7 @@ const Otp = () => {
       );
       swal("SuccessFully register", "", "success");
       setIsDisable(false);
-      if (response.data.user.isApproved == "pending") {
-        navigate("/status");
-      } else {
-        navigate("/");
-      }
+      navigate("/");
     } catch (err) {
       console.log(err);
       if (err?.response?.status === 401 || err?.response?.status === 404) {

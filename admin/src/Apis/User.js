@@ -56,11 +56,22 @@ function deleteUser(id) {
     },
   });
 }
+function sendNotificationToAll(data) {
+  return Api({
+    url: `/user/notification`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data
+  });
+}
 export default {
   GetAllUsers,
   GetOneUser,
   AdminLogIn,
   ForgotPasswords,
   editUser,
-  deleteUser
+  deleteUser,
+  sendNotificationToAll
 };

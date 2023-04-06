@@ -1,4 +1,6 @@
 const User = require("../module/UserModel");
+const DeliveryBoy = require("../module/DeliveryBoyModel");
+const Resturant = require("../module/ResturantModel");
 const Token = require("../module/TokenModel");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
@@ -11,7 +13,10 @@ const localStorage = new LocalStorage("./localStorage");
 require("dotenv").config();
 
 const { sign } = require("jsonwebtoken");
-const { sendNotification } = require("../utils/PushNotification");
+const {
+  sendNotification,
+  sendNotificationToAll,
+} = require("../utils/PushNotification");
 
 const createUser = async (req, res, next) => {
   const { name, email, number, password, fcmToken } = req.body;
@@ -506,7 +511,40 @@ const editUser = async (req, res, next) => {
     res.status(500).json({ message: "something went wrong" });
   }
 };
+const handleSendNotification = async (req, res, next) => {
+  try {
+    const { to, title, body } = req.body;
+    let response;
+    if (to == "Users") {
+      response = await User.find({ fcmToken: { $exists: true } });
+    } else if (to == "Delivery Boy") {
+      response = await DeliveryBoy.find({
+        fcmToken: { $exists: true, $ne: "" },
+      });
+    } else if (to == "Restaurants") {
+      response = await Resturant.find({ fcmToken: { $exists: true } });
+    }
+    console.log("=====res", response);
+    let data = [];
 
+    if (response != null) {
+      for (const iterator of response) {
+        if (iterator?.fcmToken != "") {
+          data.push(iterator?.fcmToken);
+        }
+      }
+      let datass = {
+        title: title,
+        body: body,
+      };
+      sendNotificationToAll(data, datass);
+    }
+    res.status(201).json({ message: "Found successfully", data });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   createUser,
   verifyUser,
@@ -527,4 +565,5 @@ module.exports = {
   makeAdmin,
   forgotAdminPassword,
   editUser,
+  handleSendNotification,
 };
