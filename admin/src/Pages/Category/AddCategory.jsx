@@ -70,6 +70,7 @@ export default function AddCategory() {
         if (result?.response) {
           setIsLoading(false);
           setMainCategory(result?.response);
+          setSelectedOption(result?.response[0]._id)
         }
       })
       .catch((e) => {

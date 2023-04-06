@@ -203,8 +203,8 @@ export default function OwnerRegister() {
       navigate({
         pathname: "/otp",
         search: createSearchParams({
-          id: "response.data.restuarnt._id",
-          email: "response.data.restuarnt.email",
+          id: response.data.restuarnt._id,
+          email: response.data.restuarnt.email,
         }).toString(),
       });
     } catch (err) {

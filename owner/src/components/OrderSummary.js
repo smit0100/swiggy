@@ -23,7 +23,7 @@ const OrderSummary = () => {
       const response = await axios.get(
         `http://localhost:4000/order/fetchOneOrder?id=${state}`
       );
-      console.log(response);
+      console.log(response.data.order);
       setSummaryData(response.data.order);
       setLoading(false);
     })();
@@ -279,8 +279,8 @@ const OrderSummary = () => {
                   </div>
                 </div>
                 {
-                  summaryData?.status === "delivered" ?
-                    <UserReviewCard /> : <></>
+                  summaryData?.isreviewGiven.forResturant === true ?
+                    <UserReviewCard review={summaryData.review} /> : <></>
                 }
 
               </div>

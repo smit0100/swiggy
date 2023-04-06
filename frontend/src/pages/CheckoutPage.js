@@ -193,8 +193,8 @@ const CheckoutPage = () => {
             <div className="flex flex-wrap">
               {user !== null && user.address.length !== 0 ? (
                 user.address.map((address, i) => (
-                  <div className="p-3 w-full sm:w-6/12 flex ">
-                    <div className="shadow-black hover:shadow-xl anim bg-white p-3">
+                  <div className="p-3 w-full sm:w-4/12 flex ">
+                    <div className="shadow-black hover:shadow-xl w-full anim bg-orange-200 p-3">
                       <div>
                         <HiOutlineLocationMarker className="text-center" />
                       </div>
@@ -220,7 +220,7 @@ const CheckoutPage = () => {
                           currency="INR"
                         >
                           <button
-                            className="inline-block bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                            className="inline-block bg-white/30 hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                             onClick={() => {
                               setSelectedAddress(address._id);
                             }}
@@ -230,7 +230,7 @@ const CheckoutPage = () => {
                         </StripeCheckout>
 
                         <button
-                          className="ml-4 inline-block bg-white hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
+                          className="ml-4 inline-block bg-white/30 hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
                           onClick={() => {
                             addressDelete(address._id);
                           }}
@@ -246,8 +246,8 @@ const CheckoutPage = () => {
                 <></>
               )}
 
-              <div className="p-3 w-full sm:w-6/12 flex ">
-                <div className="shadow-black hover:shadow-xl bg-white p-3">
+              <div className="p-3 w-full sm:w-4/12 flex ">
+                <div className="shadow-black hover:shadow-xl w-full flex justify-center flex-col bg-orange-200 p-3">
                   <div>
                     <HiOutlineLocationMarker className="text-center" />
                   </div>
@@ -255,7 +255,7 @@ const CheckoutPage = () => {
                     <p className="font-semibold text-xl">Add New Address</p>
                     <p className="w-10/12 font-[350] text-slate-500"></p>
                     <button
-                      className="inline-block mt-7 bg-white hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                      className="inline-block mt-7 bg-white/30 hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
                       type="button"
                       onClick={() => setShowModal(true)}
                     >
