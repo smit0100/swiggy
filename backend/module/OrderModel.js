@@ -56,10 +56,11 @@ const Order = new Schema({
     customerOtpNumber: {
       type:String  
     },
-    review: {
+    resturanteview: {
         type: mongoose.Types.ObjectId,
         ref:"Review"
-    }, createdAt: {
+    }
+    , createdAt: {
         type: Date,
         default: Date.now
       },

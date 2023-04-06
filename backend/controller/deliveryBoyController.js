@@ -7,6 +7,7 @@ const User = require("../module/UserModel");
 const Courier = require("../module/DeliveryBoyModel");
 const { sendNotification } = require("../utils/PushNotification");
 const TokenModel = require("../module/TokenModel");
+const Review = require('../module/ReviewModel')
 
 const register = async (req, res, next) => {
   try {
@@ -283,6 +284,12 @@ const addReview = async (req, res, next) => {
     console.log(req.body);
     const { deliveryboyId, user, description, star, orderId, fcmToken } =
       req.body;
+
+
+    const review = new Review({ userId:user,resturant,deliveryBoyId,orderId,review:description,star,itsFor:'curierboy' }).save();
+
+
+    
 
     let response = await DeliveryBoy.findByIdAndUpdate(
       deliveryboyId,

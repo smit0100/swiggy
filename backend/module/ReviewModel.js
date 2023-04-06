@@ -12,6 +12,10 @@ const Review = new Schema({
         type: mongoose.Types.ObjectId,
         ref:'Resturant'
     },
+    deliveryBoyId:{
+        type:mongoose.Types.ObjectId,
+        ref:'DeliverBoy'
+    },
     orderId: {
         type: mongoose.Types.ObjectId,
         ref:"Order"
@@ -20,6 +24,9 @@ const Review = new Schema({
         type:String
     },
     star: {
+        type:String
+    },
+    itsFor:{
         type:String
     }
 })

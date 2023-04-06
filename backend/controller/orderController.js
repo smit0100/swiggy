@@ -93,7 +93,7 @@ const fetchOneOrder = async (req, res, next) => {
         module: "DeliverBoy",
       },
       {
-        path: "review",
+        path: "resturanteview",
         module: "Review",
       },
     ]);

@@ -159,7 +159,7 @@ const ResturantPage = () => {
             <div className="p-3 mt-6 bg-inherit border">
               <div className={openTab === 1 ? "block" : "hidden"}>
                 <div className='row overflow-auto'>
-                  <div className='block w-full sm:w-2/6 p-4 bg-orange-200  overflow-hidden'>
+                  <div className='sticky left-0 top-0 w-full sm:w-2/6 p-4 bg-orange-200 '>
                     <ul className="space-y-2">
                       {
                         category != null && category.map(item => <li>
@@ -188,6 +188,7 @@ const ResturantPage = () => {
                           </div>
                         </div>
                     }
+                    
                   </div>
                 </div>
               </div>

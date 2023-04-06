@@ -23,19 +23,17 @@ const DeliveryBoy = new Schema({
         default:false
     },
     review: [
-        {
-            user: {
+        [
+            {
                 type: mongoose.Types.ObjectId,
-                ref:'User'
-            },
-            description: {
-                type:String
-            },
-            star: {
-                type:String
+                ref:'Review'
             }
-        }
+        ]
     ],
+    rating: {
+        type: String,
+        default:0
+    },
     averageRating: {
         type: String,
         default:0
