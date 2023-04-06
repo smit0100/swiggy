@@ -26,7 +26,11 @@ const Review = new Schema({
     star: {
         type:String
     },
-    itsFor:{
+    deliveryBoyId: {
+        type: mongoose.Types.ObjectId,
+        ref:"DeliverBoy"
+    },
+    itsFor: {
         type:String
     }
 })

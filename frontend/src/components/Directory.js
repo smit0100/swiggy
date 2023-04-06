@@ -56,36 +56,31 @@ const Directory = () => {
 
       <div className='bg-orange-200 my-9 skew-y-[2deg]'>
 
-      <div className='containerr -skew-y-3'>
-        <h1 className='text-4xl font-semibold tracking-[2px] text-center my-5 border-b-4 pb-3 text-[rgba(246,147,18,255)] border-b-orange-500 uppercase'>Restaurant</h1>
-        <div className='row'>
-          {
-            load === true ? (
-              <Loader />
-            ) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
-          }
-          <div className="flex w-full justify-center">
-            <a href="#a" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-              &laquo;
-            </a>
-            <a href="#a" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
-              Pre
-            </a>
-            <span href="#a" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
-              {pageNumber}
+        <div className='containerr -skew-y-3'>
+          <h1 className='text-4xl font-semibold tracking-[2px] text-center my-5 border-b-4 pb-3 text-[rgba(246,147,18,255)] border-b-orange-500 uppercase'>Restaurant</h1>
+          <div className='row'>
+            {
+              load === true ? (
+                <Loader />
+              ) : data.map(restaurant => <div className='column'><Restaurant restaurant={restaurant} /></div>)
+            }
+            {
 
-            </span>
-            <button className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
-              Next
-            </button>
-
-            <a href="#a" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-              &raquo;
-            </a>
+              pageNumber === 1 ? <></> :
+                <div className="flex w-full justify-center">
+                  <button className="text-xl bg-white/5 backdrop-blur-sm rounded-sm hover:bg-white/40 text-gray-800 font-extrabold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
+                    {'<'}
+                  </button>
+                  <span className="bg-white/5 backdrop-blur-sm  text-gray-800 font-bold py-2 px-4">
+                    {pageNumber}
+                  </span>
+                  <button className="text-xl bg-white/5 backdrop-blur-sm rounded-sm hover:bg-white/40 text-gray-800 font-extrabold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
+                    {'>'}
+                  </button>
+                </div>
+            }
           </div>
-
         </div>
-      </div>
       </div>
 
       {/* <div className='containerr'>
