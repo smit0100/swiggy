@@ -28,13 +28,13 @@ const CartPage = () => {
   }, [])
 
   return (
-    <div>
-      <div className="h-full bg-gray-100 pt-24">
+    <div className="mb-4">
+      <div className="h-full bg-inherit pt-24">
         <h1 className="mb-10 text-center text-2xl font-bold uppercase"> {cart != null ? cart.products.length === 0 ? "your cart is empty" : "cart items " : ''}</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
             {
-              cart != null ? cart.products.length === 0 ? <> <img className="p-12" src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/2xempty_cart_yfxml0" />    </> : '' : ''
+              cart != null ? cart.products.length === 0 ? <> <img className="p-12" alt="img" src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/2xempty_cart_yfxml0" />    </> : '' : ''
             }
             {
               cart != null ? cart.products.map(item => <CartPageItem item={item} />) : ""
@@ -42,16 +42,16 @@ const CartPage = () => {
 
           </div>
           {cart != null && cart.products.length === 0 ? <></> :
-            <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+            <div className="mt-6 h-full rounded-lg border bg-orange-200 p-6  shadow-md md:mt-0 md:w-1/3">
               <div className="mb-2 flex justify-between">
                 <p className="text-gray-700">Subtotal</p>
                 <p className="text-gray-700">₹{cart != null ? cart.total : ''}</p>
               </div>
               <div className="flex justify-between">
                 <p className="text-gray-700">Shipping charges</p>
-                <p className="text-gray-700">₹50</p>
+                <p className="text-gray-700">₹0</p>
               </div>
-              <hr className="my-4" />
+              <hr className="my-4 border-black" />
               <div className="flex justify-between">
                 <p className="text-lg font-bold">Total</p>
                 <div className="">
