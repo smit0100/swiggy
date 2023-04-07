@@ -58,6 +58,26 @@ const OrderSummary = () => {
       });
   };
 
+  const handleReject=async()=>{
+    console.log("hello");
+    setIsDisable(true);
+    axios
+      .get(`http://localhost:4000/resturant/rejectorder?id=${state}`)
+      .then((response) => {
+        console.log("=====>>>", response);
+        if (response?.data?.response) {
+          setIsDisable(false);
+          toast.success("🔥 Order successfully accepted.");
+          setSummaryData(response?.data?.response);
+        }
+      })
+      .catch((e) => {
+        console.log("===e", e);
+        setIsDisable(false);
+        toast.error("☹️ Something went wrong,Please try again");
+      });
+  }
+
   let qty = 0;
   if (summaryData != null) {
     summaryData.products.map((product) => (qty += product.quantity));
@@ -264,23 +284,36 @@ const OrderSummary = () => {
                         </div>
                       )
                     ) : (
-                      <button
-                        type="button"
-                        disabled={isDisable}
-                        className={`${isDisable
-                          ? "bg-black"
-                          : "hover:bg-white hover:text-black"
-                          } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
-                        onClick={handleOrder}
-                      >
-                        {isDisable ? <InlineButtonLoader /> : "Accept Order"}
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          disabled={isDisable}
+                          className={`${isDisable
+                            ? "bg-black"
+                            : "hover:bg-white hover:text-black"
+                            } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                          onClick={handleOrder}
+                        >
+                          {isDisable ? <InlineButtonLoader /> : "Accept Order"}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={isDisable}
+                          className={`${isDisable
+                            ? "bg-black"
+                            : "hover:bg-white hover:text-black"
+                            } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                          onClick={handleReject}
+                        >
+                          {isDisable ? <InlineButtonLoader /> : "Reject Order"}
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
                 {
                   summaryData?.isreviewGiven.forResturant === true ?
-                    <UserReviewCard review={summaryData.review} /> : <></>
+                    <UserReviewCard review={summaryData.resturantReview} /> : <></>
                 }
 
               </div>

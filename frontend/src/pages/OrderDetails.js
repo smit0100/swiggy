@@ -92,7 +92,7 @@ const OrderDetails = () => {
             <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
               <div className="flex justify-start item-start space-y-2 flex-col mt-5">
                 <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
-                 Your Order ID : <span className='text-xl md:text-2xl'>{orderData && orderData._id}</span> 
+                  Your Order ID : <span className='text-xl md:text-2xl'>{orderData && orderData._id}</span>
                 </h1>
               </div>
               <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
@@ -110,8 +110,8 @@ const OrderDetails = () => {
 
                     {orderData
                       ? orderData.products.map((item) => (
-                          <CustomerOrderCard items={item} />
-                        ))
+                        <CustomerOrderCard items={item} />
+                      ))
                       : ""}
                   </div>
                   <div className="flex justify-center md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
@@ -156,30 +156,6 @@ const OrderDetails = () => {
                     </div>
                     <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-white/30 space-y-6   ">
                       <h3 className="text-xl font-semibold leading-5 text-gray-800">
-                        Shipping
-                      </h3>
-                      <div className="flex justify-between items-start w-full">
-                        <div className="flex justify-center items-center space-x-4">
-                          <div className="w-8 h-8">
-                            <img
-                              className="w-full h-full"
-                              alt="logo"
-                              src="https://i.ibb.co/L8KSdNQ/image-3.png"
-                            />
-                          </div>
-                          <div className="flex flex-col justify-start items-center">
-                            <p className="text-lg leading-6 font-semibold text-gray-800">
-                              DPD Delivery
-                              <br />
-                              <span className="font-normal mt-4">
-                                {/* {new Date(orderData.createdAt).setDate(orderData.createdAt.getDate() + 3)} */}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                        <p className="text-lg font-semibold leading-6 text-gray-800"></p>
-                      </div>
-                      <h3 className="text-xl font-semibold leading-5 text-gray-800">
                         Payment Method
                       </h3>
                       <div className="flex justify-between items-start w-full">
@@ -204,42 +180,75 @@ const OrderDetails = () => {
                           </div>
                           <div className="flex flex-col justify-start items-center">
                             <p className="text-lg leading-6 font-semibold text-gray-800">
-                              Cash on Delivery
+                              Card
                             </p>
                           </div>
                         </div>
                         <p className="text-lg font-semibold leading-6 text-gray-800"></p>
                       </div>
 
-                      {orderData?.status !== "delivered" ? (
-                        <>
-                          <div className="flex flex-col justify-start ">
+                      <h3 className="text-xl font-semibold leading-5 text-gray-800">
+                        Order Status
+                      </h3>
+                      <div className="flex justify-between items-start w-full">
+                        <div className="flex justify-center items-center space-x-4">
+                          <div className="w-8 h-8">
+                            <img
+                              className="w-full h-full"
+                              alt="logo"
+                              src="https://i.ibb.co/L8KSdNQ/image-3.png"
+                            />
+                          </div>
+                          <div className="flex flex-col justify-start items-center">
                             <p className="text-lg leading-6 font-semibold text-gray-800">
-                              Order status
+
+                              {orderData?.status == "delivered" &&
+                                <div className="flex flex-col justify-start ">
+                                  <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1 self-start mt-2">
+                                    {orderData?.status}
+                                  </h1>
+                                </div>
+                              }
+
+                              {(orderData?.status == "on the way" || orderData?.status == "accepted") &&
+                                <>
+                                  <div className="flex flex-col justify-start ">
+                                    <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1 self-start mt-2">
+                                      {orderData?.status}
+                                    </h1>
+                                  </div>
+                                  <h3 className="text-xl font-semibold leading-5 text-gray-800">
+                                    Customer OTP
+                                  </h3>
+                                  <div className="flex justify-start items-start">
+                                    <p className="text-lg leading-6 font-bold text-gray-800">
+                                      {orderData?.customerOtpNumber}
+                                    </p>
+                                  </div>
+                                  <button>Cancel Order</button>
+                                </>
+                              }
+
+                              {
+                                (orderData.status == "rejected" || orderData.status == "cancel") && <div className="flex flex-col justify-start ">
+                                  <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1 self-start mt-2">
+                                    {orderData?.status}
+                                  </h1>
+                                </div>
+                              }
+
+
+                              <br />
+                              <span className="font-normal mt-4">
+                                {/* {new Date(orderData.createdAt).setDate(orderData.createdAt.getDate() + 3)} */}
+                              </span>
                             </p>
-                            <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1 self-start mt-2">
-                              {orderData?.status}
-                            </h1>
                           </div>
-                          <h3 className="text-xl font-semibold leading-5 text-gray-800">
-                            Customer OTP
-                          </h3>
-                          <div className="flex justify-start items-start">
-                            <p className="text-lg leading-6 font-bold text-gray-800">
-                              {orderData?.customerOtpNumber}
-                            </p>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <h3 className="text-xl font-semibold leading-5 text-gray-800">
-                            Order status
-                          </h3>
-                          <span className="text-xs font-semibold w-24 justify-center items-center flex py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
-                            Delivered
-                          </span>
-                        </>
-                      )}
+                        </div>
+                        <p className="text-lg font-semibold leading-6 text-gray-800"></p>
+                      </div>
+
+
                     </div>
                   </div>
                 </div>
@@ -305,18 +314,18 @@ const OrderDetails = () => {
                           <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
                             {orderData &&
                               orderData.resturant?.address?.area +
-                                "," +
-                                orderData.resturant?.address?.city +
-                                "," +
-                                orderData.resturant?.address?.pincode +
-                                ","}
+                              "," +
+                              orderData.resturant?.address?.city +
+                              "," +
+                              orderData.resturant?.address?.pincode +
+                              ","}
                           </p>
                         </div>
                         {orderData !== null &&
-                        orderData.status === "delivered" ? (
+                          orderData.status === "delivered" ? (
                           <div className="mt-4 flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
                             {isDeliveryButton != true &&
-                            isResturantButton != true ? (
+                              isResturantButton != true ? (
                               <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
                                 Review
                               </p>

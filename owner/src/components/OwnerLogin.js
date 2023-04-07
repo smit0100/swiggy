@@ -136,10 +136,9 @@ export default function OwnerLogin() {
         err?.response?.status === 402
       ) {
         toast.error(
-          `${
-            err?.response?.status === 402
-              ? err?.response?.data?.message
-              : err?.response?.data?.message
+          `${err?.response?.status === 402
+            ? err?.response?.data?.message
+            : err?.response?.data?.message
           }`
         );
         setLoading(false);
@@ -201,27 +200,13 @@ export default function OwnerLogin() {
           <Link
             to="/ownerRegister"
             className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-            // onClick={() => {
-            //   clearState();
-            // }}
+          // onClick={() => {
+          //   clearState();
+          // }}
           >
             Sign up
           </Link>
-          <span className="w-full text-center mt-2 text-gray-500">or</span>
-          <div className="flex mt-3">
-            {/* <button className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center">
-            <BsFacebook className="w-5 mr-1" color="blue"/>
-            Facebook
-          </button>
-          <div style={{ width: "10%" }} /> */}
-            <button
-              className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center"
-              onClick={googleAuth}
-            >
-              <FcGoogle className="w-5 mr-1" />
-              Google
-            </button>
-          </div>
+
         </div>
         <div className="relative">
           <img

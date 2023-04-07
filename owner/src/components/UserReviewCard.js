@@ -1,7 +1,7 @@
 import React from 'react'
 
 const UserReviewCard = ({review}) => {
-
+console.log(review);
     let Array = []
     for (let i = 1; i <= +review.star; i++) {
       Array.push(<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">

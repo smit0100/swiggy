@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,8 +17,7 @@ const RestaurantRegister = () => {
     state: "",
     pincode: "",
     ownerName: "",
-    email: "",
-    number: "",
+
   });
 
   const [bankNpan, setBankNpan] = useState({
@@ -38,6 +37,8 @@ const RestaurantRegister = () => {
     panholdername: "",
   });
 
+
+
   const {
     restaurantName,
     restaurantAddress,
@@ -46,36 +47,17 @@ const RestaurantRegister = () => {
     state,
     pincode,
     ownerName,
-    email,
-    number,
+
   } = restaurant;
 
-  const [opentime, setOpentime] = useState("");
-  const [closetime, setClosetime] = useState("");
-
   const [tabOpen, setTabOpen] = useState(1);
-  const [selectOutletType, setSelectOutletType] = useState([]);
-  const [selectCuisinesType, setSelectCuisinesType] = useState([]);
-  const [restaurantType, setRestaurantType] = useState("");
   const [pancardPhoto, setPanCardPhoto] = useState(null);
   const [bankDetailsPhoto, setBankDetailsPhoto] = useState(null);
   const [bg1, setBg1] = useState(null);
   const [bg2, setBg2] = useState(null);
   const [bg3, setBg3] = useState(null);
-  const [category, setCategory] = useState([]);
 
   const [loading, setLoading] = useState(false);
-
-  const [outletType, setOutletType] = useState(null);
-  // const outletType = ['Bakery', 'Bar', 'Beverage Shop', 'Bhojanalya', 'Butcher Shop', 'Cafe', 'Casual Dining', 'Club', 'Cocktail Bar', 'Confectionery', 'Desser Parlour', 'Dhaba', 'Fine Dining', 'Food Court', 'Food Truck', 'Irani Cafe', 'Kiosk', 'Lounge', 'Mess', 'Microbrewery', 'Paan Shop', 'Pub', 'Quick Bites', 'Shack', 'Sweet Shop']
-  const cuisinesType = [
-    "South Indian",
-    "Indian",
-    "Chinese",
-    "Mexican",
-    "Italian",
-    "Korean",
-  ];
 
   // error handling section
   const [errorHandle, setErrorHandle] = useState({
@@ -86,8 +68,6 @@ const RestaurantRegister = () => {
     state: "",
     pincode: "",
     ownerName: "",
-    email: "",
-    number: "",
   });
 
   const handleRestaurantName = (e) => {
@@ -167,34 +147,10 @@ const RestaurantRegister = () => {
       setErrorHandle({ ...errorHandle, [e.target.name]: "" });
     }
   };
-  const handleNumber = (e) => {
-    setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
-    const regex = /^[789]\d{9}$/;
-    if (!regex.test(e.target.value)) {
-      setErrorHandle({
-        ...errorHandle,
-        [e.target.name]: "Enter correct number",
-      });
-    } else {
-      setErrorHandle({ ...errorHandle, [e.target.name]: "" });
-    }
-  };
-  const handleEmail = (e) => {
-    setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
-    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if (!regex.test(e.target.value)) {
-      setErrorHandle({
-        ...errorHandle,
-        [e.target.name]: "Enter valid email address",
-      });
-    } else {
-      setErrorHandle({ ...errorHandle, [e.target.name]: "" });
-    }
-  };
 
   const handleACno = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
-    var regex = /^\d{9,18}$/;
+    var regex = /^\d{11,18}$/;
     if (!regex.test(e.target.value)) {
       setBanknpanError({
         ...banknpanError,
@@ -203,25 +159,35 @@ const RestaurantRegister = () => {
     } else {
       setBanknpanError({ ...banknpanError, [e.target.name]: "" });
     }
+
   };
+
+  const handleConfirmACno = (e) => {
+    setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
+    console.log(e.target.value,bankNpan.confirmAccountno);
+    var regex = /^\d{11,18}$/;
+    if (!regex.test(e.target.value)) {
+      setBanknpanError({
+        ...banknpanError,
+        [e.target.name]: "Please enter your account no",
+      });
+    }
+    else if (e.target.value != bankNpan.accountno) {
+      setBanknpanError({ ...banknpanError, [e.target.name]: "please enter same account number" });
+    }
+    else {
+      setBanknpanError({ ...banknpanError, [e.target.name]: "" });
+    }
+
+  };
+  console.log(banknpanError);
 
   const handleAcType = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
     console.log(e.target.value);
     console.log(bankNpan);
   };
-  const handleConfirmACno = (e) => {
-    setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
-    var regex = /^\d{9,18}$/;
-    if (!regex.test(e.target.value)) {
-      setBanknpanError({
-        ...banknpanError,
-        [e.target.name]: "Please enter your account no",
-      });
-    } else {
-      setBanknpanError({ ...banknpanError, [e.target.name]: "" });
-    }
-  };
+
   const handleifsc = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
     var regex = /^[A-Za-z]{4}\d{7}$/;
@@ -247,9 +213,7 @@ const RestaurantRegister = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(selectCuisinesType);
-  }, [selectCuisinesType]);
+
   const handlepanholder = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
     var regex = /^[\sA-Za-z]+$/;
@@ -302,31 +266,32 @@ const RestaurantRegister = () => {
     }
   }
 
-  function handelchange(e) {
-    e.preventDefault();
-    setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
-  }
-  console.log(restaurant);
 
-  function handleOutletType(e) {
-    if (e.target.checked) {
-      setSelectOutletType([...selectOutletType, e.target.value]);
+  function saveUpdate() {
+    if (bankNpan.accountno && bankNpan.confirmAccountno && bankNpan.acType && bankNpan.ifsc && bankNpan.panno && bankNpan.panholdername && banknpanError.accountno === 0 && banknpanError.confirmAccountno === 0 && banknpanError.ifsc === 0 && banknpanError.panno === 0 && banknpanError.panholdername === 0) {
+      return (<button className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
+        onClick={handleUpload}>
+        Save Update
+      </button>)
     } else {
-      setSelectOutletType(
-        selectOutletType.filter((option) => option !== e.target.value)
-      );
+      return (
+        <button className="bg-emerald-300 w-full my-2  text-white active:bg-emerald-200 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleUpload} disabled>
+          Save Update
+        </button>)
     }
   }
 
-  function handleCuisinesType(e) {
-    if (e.target.checked) {
-      setSelectCuisinesType([...selectCuisinesType, e.target.value]);
-    } else {
-      setSelectCuisinesType(
-        selectCuisinesType.filter((option) => option !== e.target.value)
-      );
-    }
-  }
+
+  // function handelchange(e) {
+  //   e.preventDefault();
+  //   setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
+  // }
+  // console.log(restaurant);
+
+
 
   async function handleUpload(e) {
     e.preventDefault();
@@ -355,10 +320,6 @@ const RestaurantRegister = () => {
     formData.append("bank", bankDetailsPhoto);
     formData.append("pancard", pancardPhoto);
     formData.append("address", JSON.stringify(address));
-    formData.append("email", restaurant.email);
-    formData.append("number", restaurant.number);
-    formData.append("category", selectCuisinesType);
-    formData.append("outLetType", selectOutletType);
     formData.append("name", restaurantName);
     formData.append("ownerName", ownerName);
     formData.append("bg1", bg1);
@@ -461,17 +422,7 @@ const RestaurantRegister = () => {
   //     await axios.post("http://localhost:4000/resturant/add",formData)
   //   }
 
-  useEffect(() => {
-    (async () => {
-      const response = await axios.get(`http://localhost:4000/outlet/all`);
-      console.log(response);
-      setOutletType(response.data.response);
 
-      const data = await axios.get("http://localhost:4000/category/all");
-      setCategory(data.data.response);
-      console.log(data.data.response);
-    })();
-  }, []);
 
   return (
     <>
@@ -498,17 +449,9 @@ const RestaurantRegister = () => {
                 Restaurant name,address,contact no.,owner details
               </span>
             </li>
+
             <li
               onClick={() => setTabOpen(2)}
-              className="text-lg font-normal cursor-pointer "
-            >
-              Restaurant Type & Timing <br />{" "}
-              <span className="text-sm text-slate-500">
-                Establishment & cruisine type. opening hours
-              </span>
-            </li>
-            <li
-              onClick={() => setTabOpen(3)}
               className="text-lg font-normal cursor-pointer"
             >
               Upload Images <br />{" "}
@@ -675,180 +618,10 @@ const RestaurantRegister = () => {
           <></>
         )}
 
-        {/* Restaurant type & timing  */}
-        {tabOpen === 2 ? (
-          <div className="w-full sm:w-3/4">
-            <h2 className="text-4xl font-normal pb-10">
-              Restaurant Type & Timings
-            </h2>
 
-            <form>
-              <div className="shadow-md p-5">
-                <h2 className="text-2xl font-medium">Establishment type</h2>
-                <h3 className="text-slate-500">
-                  Select most relevant category for your restaurant type
-                </h3>
-                {/* radio button  */}
-                <div className="space-y-4 pt-3">
-                  <div>
-                    <input
-                      type="radio"
-                      name="establishment"
-                      checked={restaurantType === "deliveryANDdine-in"}
-                      onClick={() => setRestaurantType("deliveryANDdine-in")}
-                      value="deliveryANDdine-in"
-                      id="option1"
-                      className="peer hidden"
-                    />
-                    <label
-                      htmlFor="option1"
-                      className="flex cursor-pointer items-center flex-col rounded-lg border border-gray-100 p-4  font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                    >
-                      <p className="text-gray-700 text-md">
-                        Both, delivery and dine-in available
-                      </p>
-                      <p className="text-gray-400 text-xs">
-                        Select this option when you have a place for customers
-                        to dine-in and also want to activate online ordering for
-                        your restaurant
-                      </p>
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      name="establishment"
-                      checked={restaurantType === "dine-in"}
-                      onClick={() => setRestaurantType("dine-in")}
-                      value="dine-in"
-                      id="option2"
-                      className="peer hidden"
-                    />
-                    <label
-                      htmlFor="option2"
-                      className="flex cursor-pointer items-center flex-col rounded-lg border border-gray-100 p-4  font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                    >
-                      <p className="text-gray-700 text-md">Dine-in only</p>
-                      <p className="text-gray-400 text-xs">
-                        Select when you don't want to register for online
-                        ordering
-                      </p>
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      name="establishment"
-                      checked={restaurantType === "delivery"}
-                      onClick={() => setRestaurantType("delivery")}
-                      value="delivery"
-                      id="option3"
-                      className="peer hidden"
-                    />
-                    <label
-                      htmlFor="option3"
-                      className="flex cursor-pointer items-center flex-col rounded-lg border border-gray-100 p-4  font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                    >
-                      <p className="text-gray-700 text-md">Delivery only</p>
-                      <p className="text-gray-400 text-xs">
-                        Select when you don't have a facility for customers to
-                        dine-in (like delivery kitchens)
-                      </p>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="pt-8">
-                  <h1 className="text-md font-normal text-slate-600">
-                    Select options which best describe your outlet
-                  </h1>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 pt-4">
-                    {outletType != null &&
-                      outletType.map((opt, index) => (
-                        <label key={index} className="p-1">
-                          <input
-                            type="checkbox"
-                            value={opt.name}
-                            checked={selectOutletType.includes(opt.name)}
-                            onChange={handleOutletType}
-                            className=""
-                          />
-                          &nbsp;{opt.name}
-                        </label>
-                      ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="shadow-md p-5 mt-3">
-                <h2 className="text-2xl font-medium">Category</h2>
-                <h3 className="text-slate-500">
-                  Select options which best describe food your serve
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 pt-4">
-                  {category &&
-                    category.map((item) => (
-                      <div>
-                        <label key={item._id} className="p-1">
-                          <input
-                            type="checkbox"
-                            value={item._id}
-                            // checked={selectCuisinesType.includes(opt)}
-                            onChange={handleCuisinesType}
-                            className=""
-                          />
-                          &nbsp;{item.name}
-                        </label>
-                      </div>
-                    ))}
-                </div>
-                <div className="flex justify-end pt-12">
-                  <button
-                    onClick={() => setTabOpen(3)}
-                    className="inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
-                  >
-                    Next {">"}
-                  </button>
-                </div>
-              </div>
-
-              {/* <div className='shadow-md p-5 mt-3'>
-                  <h2 className='text-2xl font-medium'>Restaurant operational hours</h2>
-                  <h3 className='text-slate-500'>Mark restaurant opening and closing hours</h3>
-                  <div className='flex pt-8 justify-evenly'>
-                    <div className="flex justify-center">
-                      <div className="timepicker relative form-floating mb-3 xl:w-40">
-                        <input type="time"
-                          value={opentime}
-                          onChange={e => setOpentime(e.target.value)}
-                          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder="Select a date" />
-                        <label for="floatingInput" className="text-gray-700">Open at</label>
-                      </div>
-                    </div>
-                    <div className="flex justify-center">
-                      <div className="timepicker relative form-floating mb-3 xl:w-40">
-                        <input type="time"
-                          value={closetime}
-                          onChange={e => setClosetime(e.target.value)}
-                          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          placeholder="Select a date" />
-                        <label for="floatingInput" className="text-gray-700">Close at</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex justify-end pt-12'>
-                    <button onClick={() => setTabOpen(3)} className='inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Next {'>'}</button>
-                  </div>
-                </div> */}
-            </form>
-          </div>
-        ) : (
-          <></>
-        )}
 
         {/* Upload images  */}
-        {tabOpen === 3 ? (
+        {tabOpen === 2 ? (
           <div className="w-full sm:w-3/4 p-5">
             <form>
               <div className="shadow-md p-5">
@@ -878,7 +651,13 @@ const RestaurantRegister = () => {
                         name="confirmAccountno"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
                         placeholder="Re-enter account number"
+                        onChange={handleConfirmACno}
+                        onBlur={handleConfirmACno}
                       />
+                      <br />
+                      <span className="text-sm text-red-500">
+                        {banknpanError.confirmAccountno}
+                      </span>
                     </div>
                   </div>
                   <div className="gap-5 flex">
@@ -989,14 +768,7 @@ const RestaurantRegister = () => {
                   Let us know how your restaurant looks like
                 </h3>
                 <div className="flex items-center justify-center w-full">
-                  {/* <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" className="hidden" />
-                  </label> */}
+
                 </div>
                 <input
                   className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -1022,13 +794,7 @@ const RestaurantRegister = () => {
                   onChange={(e) => setBg3(e.target.files[0])}
                 />
               </div>
-              <button
-                className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={handleUpload}
-              >
-                Save Update
-              </button>
+              {saveUpdate()}
             </form>
           </div>
         ) : (

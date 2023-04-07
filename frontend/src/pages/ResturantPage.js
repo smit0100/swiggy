@@ -46,7 +46,7 @@ const ResturantPage = () => {
         const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${restaurantId}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
         const review = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/getallreview/?id=${response.data.resturant._id}`);
         // const response = await axios.get(`http://localhost:4000/resturant/products?id=${restaurantId}&categories=${categories.join(',')}`)
-        // console.log(review);
+        console.log(response);
         setUserReview(review.data.review.review)
         setData(response.data)
         setLoad(false)
@@ -84,15 +84,7 @@ const ResturantPage = () => {
   }, [])
 
 
-  const images = [
-    'https://picsum.photos/id/27/200/300',
-    'https://picsum.photos/id/237/200/300',
-    'https://picsum.photos/id/217/200/300',
-    'https://picsum.photos/id/327/200/300',
-    'https://picsum.photos/id/537/200/300',
-    'https://picsum.photos/id/47/200/300',
-    'https://picsum.photos/id/37/200/300'
-  ];
+
   const HandleClick = () => {
     // window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -108,11 +100,15 @@ const ResturantPage = () => {
   }
 
   const handlePrev = () => {
-    setImageIndex((imageIndex + images.length - 1) % images.length);
+    if(data.length !== 0){
+    setImageIndex((imageIndex + data?.product?.length - 1) % data?.product?.length);
+    }
   }
 
   const handleNext = () => {
-    setImageIndex((imageIndex + 1) % images.length);
+    if(data.length !== 0){
+    setImageIndex((imageIndex + 1) % data?.product?.length);
+    }
   }
   let bgReview = "bg-green-600";
 
@@ -199,13 +195,6 @@ const ResturantPage = () => {
                       <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
                         Read trusted reviews from our customers
                       </h2>
-
-                      <p className="text-md ring-offset-warm-gray-500 mx-auto mt-4 max-w-lg">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
-                        praesentium natus sapiente commodi. Aliquid sunt tempore iste
-                        repellendus explicabo dignissimos placeat, autem harum dolore
-                        reprehenderit quis! Quo totam dignissimos earum.
-                      </p>
                     </div>
 
                     <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-16 lg:grid-cols-3">
@@ -221,21 +210,21 @@ const ResturantPage = () => {
               <div className={openTab === 3 ? "block" : "hidden"}>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
 
-                  {images.map((image, index) => (
+                  {data.length !== 0 && data?.product?.map((image, index) => (
                     <div className='overflow-hidden'>
                       <img
                         key={image}
-                        src={image}
+                        src={image.imageUrl}
                         className="w-[300px] h-[250px] object-cover rounded-sm transition-all duration-400 hover:scale-110 cursor-pointer z-40"
                         onClick={() => handleClick(index)}
                         alt="backbone of text"
                       />
                     </div>
                   ))}
-                  {isOpen && (
+                  {isOpen && data.length !== 0 && (
                     <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-50 bg-black/50" >
                       <div className="bg-gray-900 text-white rounded-lg overflow-hidden relative">
-                        <img src={images[imageIndex]} className="w-[400px] h-[250px] sm:w-[500px]  sm:h-[350px] object-cover" alt='backbone' />
+                        <img src={data?.product[imageIndex]?.imageUrl} className="w-[400px] h-[250px] sm:w-[500px]  sm:h-[350px] object-cover" alt='backbone' />
                         <button className="hover:bg-black/50 text-white p-2 absolute top-0 left-0 h-full w-[40px]" onClick={handlePrev}>
                           &lt;
                         </button>

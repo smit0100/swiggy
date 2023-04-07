@@ -411,7 +411,7 @@ const OrderSummary = () => {
               </div>
               {
                   userData?.isreviewGiven.forDeliveryBoy === true ?
-                    <UserReviewCard review={userData?.review}/> : <></>
+                    <UserReviewCard review={userData?.deliveryBoyReview}/> : <></>
                   
                 }
             </div>
