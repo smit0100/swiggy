@@ -8,7 +8,7 @@ router.get('/allOrder', orderController.fetchAllOrder);
 router.get('/customer', orderController.fetchUserOrder);
 router.get('/fetchOneOrder', orderController.fetchOneOrder)
 router.get('/acceptOrder', orderController.acceptOrder);
-
+router.delete('/deleteOrder', orderController.createOrder);
 
 
 

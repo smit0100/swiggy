@@ -382,6 +382,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
     const { id, newPassword } = req.body;
     let user = await DeliveryBoy.findById(id);
 
+    console.log("its user",user);
     if (!user)
       return res.status(404).send({
         messag: "user not found",
@@ -392,7 +393,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
       token: req.body.otp,
     });
 
-    console.log(token);
+    console.log("its token",token);
 
     if (!token) {
       return res.status(205).json({ messag: "wrong otp" });
@@ -400,13 +401,15 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
       await token.remove();
       const saltGen = await bcrypt.genSalt(10);
       const encryptedPass = await bcrypt.hash(newPassword, saltGen);
-      await User.findByIdAndUpdate(id, {
+      console.log(encryptedPass);
+      await DeliveryBoy.findByIdAndUpdate(id, {
         password: encryptedPass,
       });
 
       res.status(200).json({ messag: "password changes" });
     }
   } catch (e) {
+    console.log(e);
     res.status(500).json({ messag: "something went wrong" });
   }
 };
@@ -453,6 +456,19 @@ const changePassword = async (req, res, next) => {
     res.status(500).json({ messag: 'something went wrong' });
   }
 }
+
+const makeAnAvilable = async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const response = await DeliveryBoy.findByIdAndUpdate(id, {
+      isAvilable:false
+    })
+    res.status(200).json({ messag: 'status chage', response });
+  } catch (e) {
+    res.status(500).json({ messag: 'something went wrong' });
+  }
+}
 module.exports = {
   register,
   login,
@@ -471,5 +487,6 @@ module.exports = {
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
   editDeliveryBoy,
-  changePassword
+  changePassword,
+  makeAnAvilable
 };

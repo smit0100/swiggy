@@ -9,6 +9,7 @@ const Token = require("../module/TokenModel");
 const sendEmail = require("../utils/sendEmail");
 const User = require("../module/UserModel");
 const { sendNotification } = require("../utils/PushNotification");
+const OrderModel = require("../module/OrderModel");
 
 
 const createResturnat = async (req, res, next) => {
@@ -616,6 +617,18 @@ const changePassword = async (req, res, next) => {
     res.status(500).json({messag:'something wetn wrong'})
   }
 }
+
+const rejectOrder = async (req,res,next) => {
+  try {
+    const { id } = req.body;
+    const response = await OrderModel.findByIdAndUpdate(id, {
+      status:'rejected'
+    })
+    res.status(200).json({ messag: 'order rejected',response });
+  } catch (e) {
+    res.status(500).json({ messag: 'something went  wrong' });
+  }
+}
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -640,5 +653,7 @@ module.exports = {
   deleteRestaurant,
   searchProduct,
   updateProfile,
-  changePassword
+  changePassword,
+  rejectOrder
+
 };
