@@ -69,18 +69,31 @@ const OrderDetails = () => {
     })();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      console.log(id);
-      const data = await axios.delete(`http://localhost:5000/order/${id}`);
-      console.log(data);
-      // dispatch(getOrderItem(userId));
-      setModel(false);
-      navigate("/order");
-    } catch (err) {
-      console.log(err);
+  // const handleDelete = async (id) => {
+  //   try {
+  //     console.log(id);
+  //     const data = await axios.delete(`http://localhost:5000/order/${id}`);
+  //     console.log(data);
+  //     // dispatch(getOrderItem(userId));
+  //     setModel(false);
+  //     navigate("/order");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  const handleCancel = async (e) => {
+    e.preventDefault()
+    console.log("hello");
+    if (orderData != null) {
+      try {
+        const data = await axios.get(`http://localhost:4000/order/cancelOrder/?id=${orderData._id}`);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  };
+  }
 
   return (
     <>
@@ -209,6 +222,14 @@ const OrderDetails = () => {
                                   </h1>
                                 </div>
                               }
+                              {orderData?.status == "process" &&
+                                <div className="flex flex-col justify-start ">
+                                  <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1 self-start mt-2">
+                                    {orderData?.status}
+                                  </h1>
+                                  <button onClick={handleCancel}  className="w-full mt-5 text-center hover:bg-red-600 text-red-600 hover:text-white p-2 rounded-lg duration-200 border border-gray-300 backdrop-blur-sm">Cancle Order</button>
+                                </div>
+                              }
 
                               {(orderData?.status == "on the way" || orderData?.status == "accepted") &&
                                 <>
@@ -225,7 +246,7 @@ const OrderDetails = () => {
                                       {orderData?.customerOtpNumber}
                                     </p>
                                   </div>
-                                  <button>Cancel Order</button>
+                                  <button onClick={handleCancel}  className="w-full mt-5 text-center hover:bg-red-600 text-red-600 hover:text-white p-2 rounded-lg duration-200 border border-gray-300 backdrop-blur-sm">Cancel Order</button>
                                 </>
                               }
 

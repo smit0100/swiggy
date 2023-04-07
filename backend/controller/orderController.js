@@ -271,6 +271,7 @@ const acceptOrder = async (req, res, next) => {
 const cancelOrder = async (req, res, next) => {
   try {
     const { id } = req.query;
+    console.log("oo");
     const response = await Order.findByIdAndUpdate(id, {
       status: 'cancel'
     })

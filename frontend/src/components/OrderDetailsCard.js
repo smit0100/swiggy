@@ -54,8 +54,8 @@ const OrderDetailsCard = ({ items }) => {
                   <div
                     className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}
                   >
-                    {/* {items != null && items.resturant.rating} &nbsp;{" "} */}
-                    {/* <AiTwotoneStar /> */}
+                    {items != null && items.resturant.rating} &nbsp;{" "}
+                    <AiTwotoneStar />
                   </div>
                 </span>
                 <BsArrowRightCircle className="text-xl group-hover:translate-x-3 transition-all duration-500" />
