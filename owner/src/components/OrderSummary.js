@@ -279,22 +279,22 @@ const OrderSummary = () => {
                             On the Way
                           </span>
                         </>
-                      ) : summaryData.status === "rejected" ? <>
+                      ) : summaryData.status === "rejected" ? (<>
                         <h2 className="text-lg font-medium my-1">
                           Order Status
                         </h2>
                         <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
                           Order Rejected
                         </span>
-                      </> :
-                        summaryData.status == "cancel" ? <>
+                      </>) :
+                        summaryData.status == "cancel" ? (<>
                           <h2 className="text-lg font-medium my-1">
                             Order Status
                           </h2>
                           <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
                             Order Cancelled
                           </span>
-                        </>
+                        </>)
                           : (
                             <div>
                               Courier-Boy OTP :
