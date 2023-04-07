@@ -16,7 +16,7 @@ const OrderSummary = () => {
   const [reviewData, setReviewData] = useState(null)
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
-
+  console.log('hety');
   useEffect(() => {
     console.log('sjdljfklsjkdlfjksldflkjfkjsklfdk;ofs');
     (async () => {
@@ -26,7 +26,7 @@ const OrderSummary = () => {
         `http://localhost:4000/order/fetchOneOrder?id=${state}`
       );
       console.log(response.data.order);
-      console.log(response);
+      
       setSummaryData(response.data.order);
       setLoading(false);
     })();
@@ -87,6 +87,8 @@ const OrderSummary = () => {
   if (summaryData != null) {
     summaryData.products.map((product) => (qty += product.quantity));
   }
+
+  
   return (
     <>
       {loading ? (
