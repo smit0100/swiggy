@@ -259,11 +259,9 @@ const OrderSummary = () => {
                     </div>
                   </div>
                   <div className="pt-5">
-                    {summaryData !== null && summaryData.courierBoyotpNumber ? (
-                      loading ? (
-                        <InlineButtonLoader />
-                      ) : summaryData.status === "delivered" ? (
-                        <>
+                    {
+                      summaryData!=null && summaryData.status === "delivered" &&
+                      <>
                           <h2 className="text-lg font-medium my-1">
                             Order Status
                           </h2>
@@ -272,8 +270,10 @@ const OrderSummary = () => {
                             delivered Successfully
                           </span>
                         </>
-                      ) : summaryData.status === "on the way" ? (
-                        <>
+                    }
+                    {
+                       summaryData!=null && summaryData.status === "on the way" &&
+                       <>
                           <h2 className="text-lg font-medium my-1">
                             Order Status
                           </h2>
@@ -281,50 +281,43 @@ const OrderSummary = () => {
                             On the Way
                           </span>
                         </>
-                      ) : summaryData.status === "rejected" ? (<>
+                    }
+                    {
+                     summaryData!=null && summaryData.status === "rejected" &&
+                     <>
                         <h2 className="text-lg font-medium my-1">
                           Order Status
                         </h2>
                         <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
                           Order Rejected
                         </span>
-                      </>) :
-                        summaryData.status == "cancel" ? (<>
-                          <h2 className="text-lg font-medium my-1">
-                            Order Status
-                          </h2>
-                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
-                            Order Cancelled
-                          </span>
-                        </>)
-                          : (
-                            <div>
+                      </>
+                    }
+                    {
+                     summaryData!=null && summaryData.status === "cancel" && 
+                     <>
+                      <h2 className="text-lg font-medium my-1">
+                        Order Status
+                      </h2>
+                      <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
+                        Order Cancelled
+                      </span>
+                    </>
+                    }
+                    {
+                      summaryData!=null && summaryData.status ==="accept" &&
+                      <div>
                               Courier-Boy OTP :
                               <span className="font-semibold text-lg">
                                 {" "}
                                 {summaryData.courierBoyotpNumber}
                               </span>
                             </div>
-                          )
-                    ) : (
-                      summaryData.status === "rejected" ? <>
-                        <h2 className="text-lg font-medium my-1">
-                          Order Status
-                        </h2>
-                        <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
-                          Order Rejected
-                        </span>
-                      </> :
-                        summaryData.status == "cancel" ? <>
-                          <h2 className="text-lg font-medium my-1">
-                            Order Status
-                          </h2>
-                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
-                            Order Cancelled
-                          </span>
-                        </>
-                          :
-                          <>
+
+                    }
+                    {
+                      summaryData!=null && summaryData.status === "process" &&  
+                      <>
                             <button
                               type="button"
                               disabled={isDisable}
@@ -348,7 +341,36 @@ const OrderSummary = () => {
                               {isDisable ? <InlineButtonLoader /> : "Reject Order"}
                             </button>
                           </>
-                    )}
+                    }
+
+                    {/* {summaryData !== null && summaryData.courierBoyotpNumber && (
+                      loading ? (
+                        <InlineButtonLoader />
+                      ) : summaryData.status === "delivered" ? (
+                        <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1">
+                            delivered Successfully
+                          </span>
+                        </>
+                      ) : summaryData.status === "on the way" ? (
+                        <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
+                            On the Way
+                          </span>
+                        </>
+                      ) 
+                          : (
+                            
+                          )
+                    )  */}
+                    
                   </div>
                 </div>
                 {
