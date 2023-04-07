@@ -614,13 +614,40 @@ const changePassword = async (req, res, next) => {
 }
 
 const rejectOrder = async (req,res,next) => {
+  console.log('hey');
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const response = await OrderModel.findByIdAndUpdate(id, {
       status:'rejected'
-    })
+    }).populate([
+      {
+        path: "products.product",
+        model: "Product",
+      },
+      {
+        path: "resturant",
+        model: "Resturant",
+      },
+      {
+        path: "customer",
+        model: "User",
+      },
+      {
+        path: "deliveryBoy",
+        module: "DeliverBoy",
+      },
+      {
+        path: "resturantReview",
+        module: "Review",
+      },
+      {
+        path: 'deliveryBoyReview',
+        module:'Review'
+      }
+    ]);
     res.status(200).json({ messag: 'order rejected',response });
   } catch (e) {
+    
     res.status(500).json({ messag: 'something went  wrong' });
   }
 }
