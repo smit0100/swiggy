@@ -17,12 +17,10 @@ const createResturnat = async (req, res, next) => {
     address,
     name,
     ownerName,
-    number,
     panCard,
-    outLetType,
     bankDetails,
-    id,
-    category,
+    id
+ 
   } = req.body;
   console.log(req.body);
   // console.log(typeof(outLetType));
@@ -87,14 +85,11 @@ const createResturnat = async (req, res, next) => {
         address,
         panCard,
         bankDetails,
-        number,
-        outLetType,
         pancardURL: panUrl.url,
         bankURL: result.url,
         bgImageUrl: bgimageUrl,
         panCard,
         isApproved: "pending",
-        category,
       },
       {
         new: true,
