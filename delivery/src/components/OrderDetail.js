@@ -37,7 +37,7 @@ const OrderDetail = () => {
       {
         isLoading ? <Loader /> : <>
           {
-            <div className='mx-5 pt-24'>
+            <div className='mx-5 pt-24 '>
               <div className='p-5 shadow-md'>
                 <h1 className="text-3xl font-bold mb-4">Order Summary</h1>
                 <div className="overflow-x-auto">

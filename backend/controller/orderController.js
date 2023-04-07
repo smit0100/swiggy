@@ -196,14 +196,8 @@ const fetchAllResturantOrder = async (req, res, next) => {
 const acceptOrder = async (req, res, next) => {
   try {
     const { id } = req.query;
-    let response = await Order.findByIdAndUpdate(
+    let response = await Order.findById(
       id,
-      {
-        status: "accept",
-      },
-      {
-        new: true,
-      }
     ).populate([
       {
         path: "products.product",
@@ -221,11 +215,14 @@ const acceptOrder = async (req, res, next) => {
     
     let courierBoys = await Courier.findOne({ isAvilable: { $ne: false } });
     console.log(courierBoys);
-    courierBoys.isAvilable = false;
+   
 
-    if (courierBoys === null) {
-      return res.status(205).json({ message: "courier boy is not avilable " });
+    if (courierBoys == null) {
+      return res.status(200).json({ message: "courier boy is not avilable " });
     } else {
+      response.status = "accept";
+      response.save();
+      courierBoys.isAvilable = false;
       courierBoys.order.push(id);
       await courierBoys.save();
       console.log(courierBoys);
@@ -263,6 +260,7 @@ const acceptOrder = async (req, res, next) => {
       res.status(200).json({ message: "order status update", response });
     }
   } catch (e) {
+    
     console.log(e);
     res.status(500).json({ message: "something went wrong" });
   }
@@ -274,7 +272,34 @@ const cancelOrder = async (req, res, next) => {
     console.log("oo");
     const response = await Order.findByIdAndUpdate(id, {
       status: 'cancel'
-    })
+    }, {
+      new:true
+    }).populate([
+      {
+        path: "products.product",
+        model: "Product",
+      },
+      {
+        path: "resturant",
+        model: "Resturant",
+      },
+      {
+        path: "customer",
+        model: "User",
+      },
+      {
+        path: "deliveryBoy",
+        module: "DeliverBoy",
+      },
+      {
+        path: "resturantReview",
+        module: "Review",
+      },
+      {
+        path: 'deliveryBoyReview',
+        module:'Review'
+      }
+    ])
     res.status(200).json({message:'order canceled',response})
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });

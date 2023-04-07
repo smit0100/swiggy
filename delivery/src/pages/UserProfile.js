@@ -52,16 +52,7 @@ const UserProfile = () => {
               src="https://i.ibb.co/NxZH2Zg/avatar.png"
             />
           </div>
-          <div className="flex justify-center gap-44 relative -top-5">
-            <button className="inline-block bg-white hover:text-white hover:bg-green-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-            // onClick={()=>toast.success("done")}
-            >
-              Add New
-            </button>
-            <button className="inline-block bg-white hover:text-white hover:bg-red-600 font-bold  rounded  px-4  py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500">
-              Remove
-            </button>
-          </div>
+          
           <div className="border-b-2 border-black/30"></div>
         </div>
 

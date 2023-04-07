@@ -209,9 +209,7 @@ const CheckoutPage = () => {
                             "-" +
                             address.pincode}
                         </p>
-                        <p className="font-semibold text-sm uppercase py-5 ">
-                          16 mins
-                        </p>
+                     
                         <StripeCheckout
                           stripeKey={process.env.REACT_APP_PUBLIC_KEY_PAYMENT}
                           token={makePayment}

@@ -619,6 +619,8 @@ const rejectOrder = async (req,res,next) => {
     const { id } = req.query;
     const response = await OrderModel.findByIdAndUpdate(id, {
       status:'rejected'
+    }, {
+      new:true
     }).populate([
       {
         path: "products.product",
