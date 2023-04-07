@@ -37,6 +37,15 @@ function getOneProduct(id) {
     },
   });
 }
+// function getAllReviews(id,startNum,endNum) {
+//   return Api({
+//     url: `/resturant/getreview/?id=${id}&pageNumber=${startNum}&pageSize=${endNum}`,
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+// }
 function getAllReviews(id) {
   return Api({
     url: `/resturant/getallreview/?id=${id}`,

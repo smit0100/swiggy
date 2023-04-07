@@ -37,6 +37,16 @@ function ForgotPasswords(data) {
     data,
   });
 }
+function ChangePasswords(data) {
+  return Api({
+    url: `/user/changePass`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
+  });
+}
 function editUser(data) {
   return Api({
     url: `/user/edit`,
@@ -73,5 +83,6 @@ export default {
   ForgotPasswords,
   editUser,
   deleteUser,
-  sendNotificationToAll
+  sendNotificationToAll,
+  ChangePasswords
 };

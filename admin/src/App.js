@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./App.css";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./contexts/ContextProvider";
@@ -20,6 +20,7 @@ import {
   ContactUs,
   OrderDetail,
   Notifications,
+  ChangePassword,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
@@ -41,7 +42,7 @@ function App() {
   } = useStateContext();
   const activeMenu = useSelector((state) => state.setActiveMenu.activeMenu);
   const [tokenFound, setTokenFound] = useState(false);
-
+  const [changePassword, setChangePassword] = useState(false);
   useEffect(() => {
     const currentThemeColor = localStorage.getItem("colorMode");
     const currentThemeMode = localStorage.getItem("themeMode");
@@ -61,13 +62,16 @@ function App() {
   }, []);
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmToken");
-    console.log("===tempp",temp);
+    console.log("===tempp", temp);
     if (temp == null) {
       requestForToken(setTokenFound);
     }
   };
   return (
-    <div className={currentMode === "Dark" ? "dark" : ""} style={{overflowX:'hidden'}}>
+    <div
+      className={currentMode === "Dark" ? "dark" : ""}
+      style={{ overflowX: "hidden" }}
+    >
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           {isLogIn ? (
@@ -102,8 +106,11 @@ function App() {
                 }
               >
                 <div className="sticky top-0 z-30 backdrop-blur-xl dark:bg-main-dark-bg navbar w-full ">
-                  <ToastContainer pauseOnHover={false} theme={currentMode === "Dark" ? "light" : "dark"}/>
-                  <Navbar />
+                  <ToastContainer
+                    pauseOnHover={false}
+                    theme={currentMode === "Dark" ? "light" : "dark"}
+                  />
+                  <Navbar setChangePassword={setChangePassword}/>
                 </div>
                 {themeSettings && <ThemeSettings />}
                 <Routes>
@@ -140,7 +147,10 @@ function App() {
           )}
         </div>
       </BrowserRouter>
-      <Notification/>
+      <Notification />
+      {changePassword ? (
+        <ChangePassword currentColor={currentColor} setChangePassword={setChangePassword} />
+      ) : null}
     </div>
   );
 }

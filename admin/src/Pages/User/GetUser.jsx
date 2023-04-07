@@ -448,7 +448,7 @@ export default function GetUser() {
                       required=""
                     />
                   </div> */}
-                    <div className="col-span-6 sm:col-span-3">
+                    {/* <div className="col-span-6 sm:col-span-3">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Email
                       </label>
@@ -462,7 +462,7 @@ export default function GetUser() {
                         placeholder="example@company.com"
                         required=""
                       />
-                    </div>
+                    </div> */}
                     <div className="col-span-6 sm:col-span-3">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Phone Number

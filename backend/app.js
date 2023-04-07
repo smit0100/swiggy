@@ -148,8 +148,7 @@ app.get('/auth/facebook/callback',
 
 
 app.get('/auth/login/success', (req, res) => {
-    console.log("this is data");
-    console.log(req.user);
+    console.log("=====>>>data",req.user);
     
     if (req.user) {
         res.status(200).json({

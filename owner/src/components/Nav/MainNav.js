@@ -19,6 +19,7 @@ import swal from "sweetalert";
 const MainNav = () => {
   const currentColor = useSelector((state) => state.userData.currentColor);
   const isOwnerLogIn = useSelector((state) => state.userData.isOwnerLogIn);
+  const userData = useSelector((state) => state.userData.user);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenMobileNav, setIsOpenMobileNav] = useState(false);
   const user = useSelector((state) => state.userData.user);
@@ -65,7 +66,11 @@ const MainNav = () => {
           </motion.div>
         </Link>
 
-        <Navigations currentColor={currentColor} isLogedIn={isOwnerLogIn} />
+        <Navigations
+          isApproved={userData?.isApproved}
+          currentColor={currentColor}
+          isLogedIn={isOwnerLogIn}
+        />
 
         {user ? (
           <div className={`group flex items-center gap-3 px-3 py-1 rounded-lg`}>
@@ -96,14 +101,19 @@ const MainNav = () => {
         exit={{ opacity: 0, x: 200 }}
       >
         {isOpenMobileNav ? (
-          <MobileNav isOpen={isOpenMobileNav} setIsOpen={setIsOpenMobileNav} />
+          <MobileNav
+            isLogedIn={isOwnerLogIn}
+            isApproved={userData?.isApproved}
+            isOpen={isOpenMobileNav}
+            setIsOpen={setIsOpenMobileNav}
+          />
         ) : (
           <div className="p-5 flex items-center justify-between w-full">
             <motion.div
               whileTap={{ scale: 0.9 }}
               className=" flex items-center justify-center"
               onClick={() => {
-                setIsOpenMobileNav(!isOpenMobileNav)
+                setIsOpenMobileNav(!isOpenMobileNav);
                 // dispatch(setCurrentColor("white"))
               }}
             >

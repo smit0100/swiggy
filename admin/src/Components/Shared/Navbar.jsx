@@ -7,6 +7,9 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { setActiveMenu } from "../../redux/shop/shopslice";
 import { Images } from "../../Assets";
+import DropDown from "../DropDown";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <button
@@ -23,12 +26,13 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   </button>
 );
 
-const Navbar = () => {
-  const { currentColor, handleClick, isClicked, setScreenSize, screenSize } =
+const Navbar = ({ setChangePassword }) => {
+  const { currentColor, handleClick, setIsLogIn, setScreenSize, screenSize } =
     useStateContext();
   const activeMenu = useSelector((state) => state.setActiveMenu.activeMenu);
   const dispatch = useDispatch();
-  const [data, setData] = useState({})
+  const history = useNavigate();
+  const [data, setData] = useState({});
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -47,16 +51,31 @@ const Navbar = () => {
     }
   }, [screenSize]);
   useEffect(() => {
-    getAdmin()
-  }, [])
-  
-  const getAdmin=()=>{
+    getAdmin();
+  }, []);
+
+  const getAdmin = () => {
     const temp = localStorage.getItem("Admin");
-    setData(JSON.parse(temp))
-  }
+    setData(JSON.parse(temp));
+  };
 
   const handleActiveMenu = () => dispatch(setActiveMenu(!activeMenu));
-
+  const handleLogOut = () => {
+    swal({
+      title: "Are you Sure !",
+      icon: "warning",
+      buttons: ["NO", "YES"],
+      cancelButtonColor: "#DD6B55",
+      confirmButtonColor: "#DD6B55",
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        localStorage.clear();
+        history("/");
+        setIsLogIn(false)
+      }
+    });
+  };
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
       <NavButton
@@ -80,7 +99,7 @@ const Navbar = () => {
           icon={<RiNotification3Line />}
         /> */}
         <div
-          className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
+          className="group flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
           onClick={() => handleClick("userProfile")}
         >
           <img
@@ -90,7 +109,14 @@ const Navbar = () => {
           />
           <p>
             <span className="text-gray-400 text-14">Hi,</span>{" "}
-            <span className="text-gray-400 font-bold ml-1 text-14">{data?.name}</span>
+            <span className="text-gray-400 font-bold ml-1 text-14">
+              {data?.name}
+            </span>
+            <DropDown
+              user={data}
+              setChangePassword={setChangePassword}
+              handleLogOut={() => handleLogOut()}
+            />
           </p>
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
         </div>

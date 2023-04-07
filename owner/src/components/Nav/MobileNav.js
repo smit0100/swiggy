@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { setCurrentColor } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
-const MobileNav = ({ isOpen, setIsOpen }) => {
+const MobileNav = ({ isOpen, setIsOpen, isApproved, isLogedIn = false }) => {
   const dispatch = useDispatch();
   return (
     <div className="flex flex-col bg-cardOverlay backdrop-blur-sm items-start justify-start gap-16 w-screen h-screen  overflow-y-hidden  z-50 overflow-hidden ">
@@ -38,46 +38,50 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
         >
           Home
         </Link>
-        <Link
-          onClick={() => {
-            setIsOpen(!isOpen);
-            dispatch(setCurrentColor("white"));
-          }}
-          to={"/search"}
-          className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
-        >
-          Search
-        </Link>
-        <Link
-          onClick={() => {
-            setIsOpen(!isOpen);
-            dispatch(setCurrentColor("slate-800"));
-          }}
-          to={"/orderdetails"}
-          className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
-        >
-          Order List
-        </Link>
-        <Link
-          onClick={() => {
-            setIsOpen(!isOpen);
-            dispatch(setCurrentColor("slate-800"));
-          }}
-          to={"/addproduct"}
-          className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
-        >
-          Add Product
-        </Link>
-        <Link
-          onClick={() => {
-            setIsOpen(!isOpen);
-            dispatch(setCurrentColor("slate-800"));
-          }}
-          to={"/listofproducts"}
-          className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
-        >
-          Your Products
-        </Link>
+        {isApproved != "Not Request" && isLogedIn && (
+          <>
+            <Link
+              onClick={() => {
+                setIsOpen(!isOpen);
+                dispatch(setCurrentColor("white"));
+              }}
+              to={"/search"}
+              className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+            >
+              Search
+            </Link>
+            <Link
+              onClick={() => {
+                setIsOpen(!isOpen);
+                dispatch(setCurrentColor("slate-800"));
+              }}
+              to={"/orderdetails"}
+              className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+            >
+              Order List
+            </Link>
+            <Link
+              onClick={() => {
+                setIsOpen(!isOpen);
+                dispatch(setCurrentColor("slate-800"));
+              }}
+              to={"/addproduct"}
+              className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+            >
+              Add Product
+            </Link>
+            <Link
+              onClick={() => {
+                setIsOpen(!isOpen);
+                dispatch(setCurrentColor("slate-800"));
+              }}
+              to={"/listofproducts"}
+              className="text-base font-mono text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out px-10"
+            >
+              Your Products
+            </Link>
+          </>
+        )}
         <Link
           onClick={() => {
             setIsOpen(!isOpen);

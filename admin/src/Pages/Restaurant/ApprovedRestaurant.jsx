@@ -17,11 +17,16 @@ export default function ApprovedRestaurant() {
   const [data, setData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
   const [allData, setAllData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     getCategory();
     getProducts();
-    getReviews();
   }, []);
+  useEffect(() => {
+    getReviews();
+  }, [currentPage]);
+
   const getCategory = () => {
     Category.getAllCategory().then((result) => {
       console.log("===getAllCategory", result);
@@ -57,9 +62,13 @@ export default function ApprovedRestaurant() {
   const handleFilter = (id) => {
     setCategory(id);
     let arrayData = [...allData];
-    let datas = arrayData?.filter((item) => item.category == id);
+    let datas = arrayData?.filter((item) => item.category._id == id);
     console.log("===data", datas);
     setData(datas);
+  };
+  
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
   const getRemainingStar = (number) => {
     let Array = [];
@@ -93,7 +102,6 @@ export default function ApprovedRestaurant() {
         </svg>
       );
     }
-    console.log("===datata", Array);
     return (
       <section className="bg-blueGray-100 rounded-t-10xl overflow-hidden">
         <div className="container px-4 mx-auto">
@@ -187,13 +195,13 @@ export default function ApprovedRestaurant() {
           );
         })}
       </div>
-      {data?.length > 0 && (
-        <>
-          <h1 className="mb-2 ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
-            &bull; Products
-          </h1>
-          <div className="flex flex-wrap py-10 gap-10 w-full rounded-2xl mb-11 items-center justify-center bg-gradient-to-bl from-violet-900 to-teal-400">
-            {data?.map((item, index) => {
+      <>
+        <h1 className="mb-2 ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
+          &bull; Products
+        </h1>
+        <div className="flex flex-wrap py-10 gap-10 w-full rounded-2xl mb-11 items-center justify-center bg-gradient-to-bl from-violet-900 to-teal-400">
+          {data?.length > 0 ? (
+            data?.map((item, index) => {
               return (
                 <Product
                   key={index}
@@ -203,10 +211,14 @@ export default function ApprovedRestaurant() {
                   description={item?.description}
                 />
               );
-            })}
-          </div>
-        </>
-      )}
+            })
+          ) : (
+            <div>
+              <h1 className="text-white">No Items found</h1>
+            </div>
+          )}
+        </div>
+      </>
       <h1 className="my-5 ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
         &bull; Reviews
       </h1>
@@ -214,6 +226,31 @@ export default function ApprovedRestaurant() {
         {reviewData.map((item, index) => {
           return <ReviewCard item={item} key={index} />;
         })}
+        {/* <div className="justify-center items-center flex">
+          <button
+            disabled={currentPage > 1 ? false : true}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className={`${
+              currentPage > 1
+                ? "hover:shadow-lg"
+                : ""
+            } inline-flex items-center px-4 py-2 ml-3 text-sm font-medium rounded-lg  dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white  text-white hover:text-black hover:border-black border-2`}
+          >
+            Previous
+          </button>
+
+          <button
+            disabled={reviewData?.length == 4 ? false : true}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className={`inline-flex items-center px-4 py-2 ml-3 text-sm font-medium rounded-lg  dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white text-white hover:text-black hover:border-black border-2 ${
+              reviewData?.length == 4
+                ? "hover:shadow-lg "
+                : "bg-white"
+            }`}
+          >
+            Next
+          </button>
+        </div> */}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import User from "../../Apis/User";
 import swal from "sweetalert";
 
@@ -50,13 +50,15 @@ function LogIn() {
       };
       User.AdminLogIn(JSON.stringify(data))
         .then((result) => {
-          console.log("==result", result);
+          
           if (result?.response) {
+            console.log("==result===", result);
             clearLogInState();
             localStorage.setItem("isLogIn", JSON.stringify(true));
             let data = {
               email: result?.response?.email,
               name: result?.response?.name,
+              id: result?.response?._id,
             };
             localStorage.setItem("Admin", JSON.stringify(data));
             setIsLogIn(true);
@@ -68,8 +70,10 @@ function LogIn() {
               buttons: false,
               timer: 3000,
             });
-          } else {
+          }
+          if (result?.data?.messag != "user founded") {
             toast.error(result?.data?.messag, { theme: "dark" });
+            return;
           }
         })
         .catch((error) => {
@@ -135,6 +139,7 @@ function LogIn() {
   };
   return (
     <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
+      <ToastContainer />
       <img
         src={BgImages[bgIndex]}
         className="w-full h-full object-cover absolute mix-blend-overlay"
@@ -142,8 +147,8 @@ function LogIn() {
       <div className="relative flex flex-col m-6 space-y-8 bg-white shadow-md rounded-2xl md:flex-row md:space-y-0">
         <div className="flex flex-col justify-center p-8 md:p-14">
           <div className="flex">
-          <img src={Images.logo} className="bg-cover h-8 w-8" />
-          <span className="mb-3 text-4xl font-bold">Food Point</span>
+            <img src={Images.logo} className="bg-cover h-8 w-8" />
+            <span className="mb-3 text-4xl font-bold">Food Point</span>
           </div>
           <span className="font-light text-gray-400 mb-8">
             {`${
@@ -243,7 +248,7 @@ function LogIn() {
           ) : (
             <button
               className="w-full bg-black text-white p-2 rounded-lg mt-10 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
-              onClick={handleLogIn}
+              onClick={() => handleLogIn()}
             >
               Sign in
             </button>
@@ -261,7 +266,8 @@ function LogIn() {
           />
           <div className="absolute hidden bottom-10 right-6 p-6 bg-white bg-opacity-30 backdrop-blur-sm rounded drop-shadow-lg md:block">
             <span className="text-white text-xl">
-              Our aim is not just to serve meal, it's a journey through taste and ambiance.
+              Our aim is not just to serve meal, it's a journey through taste
+              and ambiance.
             </span>
           </div>
         </div>

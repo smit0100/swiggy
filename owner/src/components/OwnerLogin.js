@@ -136,10 +136,7 @@ export default function OwnerLogin() {
         err?.response?.status === 402
       ) {
         toast.error(
-          `${err?.response?.status === 402
-            ? err?.response?.data?.message
-            : err?.response?.data?.message
-          }`
+          `${err?.response?.data?.messag}`
         );
         setLoading(false);
         return;

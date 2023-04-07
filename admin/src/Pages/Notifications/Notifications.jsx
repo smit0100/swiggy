@@ -145,7 +145,7 @@ export default function Notifications() {
               color="white"
               bgColor={currentColor}
               onClick={handleSendNotification}
-              text={"Submit"}
+              text={"Send"}
               borderRadius="10px"
               width={"full"}
             />
