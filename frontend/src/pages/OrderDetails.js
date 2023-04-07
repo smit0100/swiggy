@@ -87,7 +87,8 @@ const OrderDetails = () => {
     console.log("hello");
     if (orderData != null) {
       try {
-        const data = await axios.get(`http://localhost:4000/order/cancelOrder/?id=${orderData._id}`);
+        const response = await axios.get(`http://localhost:4000/order/cancelOrder/?id=${orderData._id}`);
+        setOrderData(response.data.response);
         console.log(data);
       } catch (err) {
         console.log(err);
