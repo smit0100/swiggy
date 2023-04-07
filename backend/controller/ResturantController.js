@@ -596,6 +596,26 @@ const updateProfile = async (req,res,next) => {
     res.status(500).json({message:"something went wrong"});
   }
 }
+
+const changePassword = async (req, res, next) => {
+  try {
+  const { userId, oldPass, newPass } = req.body;
+    let user = await Resturant.findById(userId);
+
+    const pass = await bcrypt.compareSync(oldPass, user.password)
+    
+    if (!pass) {
+      return res.status(401).json({messag:"your password is incorrect"})
+    } else {
+    const encryptedPass = await bcrypt.hash(newPass, 10);
+    await user.updateOne({ password: encryptedPass });
+    return res.status(200).json({ messag: "user password updated" });
+      
+    }
+  } catch (e) {
+    res.status(500).json({messag:'something wetn wrong'})
+  }
+}
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -619,5 +639,6 @@ module.exports = {
   getAllReview,
   deleteRestaurant,
   searchProduct,
-  updateProfile
+  updateProfile,
+  changePassword
 };

@@ -59,7 +59,7 @@ const ChangePasswordPopup = ({setChangePassword}) => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
     console.log(oldPassword, newPassword);
-    try{ const response = await axios.post(`${process.env.REACT_APP_BASEURL}/user/changePass`, {
+    try{ const response = await axios.post(`${process.env.REACT_APP_BASEURL}/resturant/changepassword`, {
       userId: user._id,
       oldPass: oldPassword,
       newPass: newPassword

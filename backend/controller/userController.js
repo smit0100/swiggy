@@ -300,7 +300,8 @@ const updateAddress = async (req, res, next) => {
 };
 
 const changePassword = async (req, res, next) => {
-  const { userId, oldPass, newPass } = req.body;
+  try {
+    const { userId, oldPass, newPass } = req.body;
   console.log(userId);
   let user = await User.findById(userId);
   console.log(user);
@@ -316,6 +317,10 @@ const changePassword = async (req, res, next) => {
     await user.updateOne({ password: encryptedPass });
     return res.status(200).json({ messag: "user password updated" });
   }
+  } catch (e) {
+    res.status(500).json({message:'something went wrong'})
+  }
+  
 };
 
 const deleteUser = async (req, res, next) => {

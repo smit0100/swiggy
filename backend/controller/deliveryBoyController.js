@@ -435,6 +435,24 @@ const editDeliveryBoy = async (req, res, next) => {
     res.status(500).json({ message: "something went wrong" });
   }
 };
+
+const changePassword = async (req, res, next) => {
+  try {
+    const { userId, oldPass, newPass } = req.body;
+    const user = await DeliveryBoy.findById(userId);
+    const pass = await bcrypt.compareSync(oldPass, user.password)
+    console.log(req.body);
+    if (!pass) {
+      return res.status(401).json({ messag: "your password is incorrect" })
+    } else {
+      const encryptedPass = await bcrypt.hash(newPass, 10);
+      await user.updateOne({ password: encryptedPass });
+      return res.status(200).json({ messag: "user password updated" });
+    }
+  } catch (e) {
+    res.status(500).json({ messag: 'something went wrong' });
+  }
+}
 module.exports = {
   register,
   login,
@@ -453,4 +471,5 @@ module.exports = {
   forgotPasswordForSetNewPassword,
   forgotPasswordForSentEmail,
   editDeliveryBoy,
+  changePassword
 };

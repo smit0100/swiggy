@@ -219,9 +219,9 @@ const acceptOrder = async (req, res, next) => {
       },
     ]);
     
-    let courierBoys = await Courier.findOne();
+    let courierBoys = await Courier.findOne({ isAvilable: { $ne: false } });
     console.log(courierBoys);
-    // courierBoys.isAvilable = false;
+    courierBoys.isAvilable = false;
 
     if (courierBoys === null) {
       return res.status(205).json({ message: "courier boy is not avilable " });
@@ -231,8 +231,8 @@ const acceptOrder = async (req, res, next) => {
       console.log(courierBoys);
       const otpNumberForResturant = Math.floor(100000 + Math.random() * 900000);
       const otpNUmberForCustomer = Math.floor(100000 + Math.random() * 900000);
-      console.log(response.resturant.email);
-      console.log(response.customer.email);
+      // console.log(response.resturant.email);
+      // console.log(response.customer.email);
       response.courierBoyotpNumber = otpNumberForResturant;
       await sendEmail(
         response.resturant.email,
@@ -256,7 +256,7 @@ const acceptOrder = async (req, res, next) => {
           title: "🔥New Order!",
           body: `🍟Pick up your order at ${response?.resturant?.name}🍔`,
         };
-        console.log(courierBoys);
+        // console.log(courierBoys);
         sendNotification(courierBoys?.fcmToken, datas);
       }
       console.log(response);

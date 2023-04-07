@@ -60,7 +60,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
     console.log(oldPassword, newPassword);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASEURL}/user/changePass`,
+        `${process.env.REACT_APP_BASEURL}/courier/changepassword`,
         {
           userId: user._id,
           oldPass: oldPassword,
@@ -90,6 +90,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+        {/* <h1>hello sdfdfsdfsdfsdf</h1> */}
         <div className="relative w-auto md:w-1/3 my-6 mx-auto max-w-3xl">
           <div className="border-0 px-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">

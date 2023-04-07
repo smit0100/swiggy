@@ -19,6 +19,7 @@ router.delete('/delete', deliveryBoyController.deleteDeliveryBoy);
 router.post('/forgotpassword', deliveryBoyController.forgotPasswordForSentEmail);
 router.post('/verfiyotp', deliveryBoyController.forgotPasswordForSetNewPassword);
 router.put('/edit',deliveryBoyController.editDeliveryBoy);
+router.post("/changepassword", deliveryBoyController.changePassword);
 
 
 module.exports = router
