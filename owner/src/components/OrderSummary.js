@@ -276,23 +276,31 @@ const OrderSummary = () => {
                             On the Way
                           </span>
                         </>
-                      ) : summaryData.status === "rejected" ? (<>
+                      ) : summaryData.status === "rejected" ? <>
                         <h2 className="text-lg font-medium my-1">
                           Order Status
                         </h2>
                         <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
                           Order Rejected
                         </span>
-                      </>)
-                        : (
-                          <div>
-                            Courier-Boy OTP :
-                            <span className="font-semibold text-lg">
-                              {" "}
-                              {summaryData.courierBoyotpNumber}
-                            </span>
-                          </div>
-                        )
+                      </> :
+                        summaryData.status == "cancel" ? <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
+                            Order Cancelled
+                          </span>
+                        </>
+                          : (
+                            <div>
+                              Courier-Boy OTP :
+                              <span className="font-semibold text-lg">
+                                {" "}
+                                {summaryData.courierBoyotpNumber}
+                              </span>
+                            </div>
+                          )
                     ) : (
                       summaryData.status === "rejected" ? <>
                         <h2 className="text-lg font-medium my-1">
@@ -302,30 +310,39 @@ const OrderSummary = () => {
                           Order Rejected
                         </span>
                       </> :
-                        <>
-                          <button
-                            type="button"
-                            disabled={isDisable}
-                            className={`${isDisable
-                              ? "bg-black"
-                              : "hover:bg-white hover:text-black"
-                              } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
-                            onClick={handleOrder}
-                          >
-                            {isDisable ? <InlineButtonLoader /> : "Accept Order"}
-                          </button>
-                          <button
-                            type="button"
-                            disabled={isDisable}
-                            className={`${isDisable
-                              ? "bg-black"
-                              : "hover:bg-white hover:text-black"
-                              } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
-                            onClick={handleReject}
-                          >
-                            {isDisable ? <InlineButtonLoader /> : "Reject Order"}
-                          </button>
+                        summaryData.status == "cancel" ? <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
+                            Order Cancelled
+                          </span>
                         </>
+                          :
+                          <>
+                            <button
+                              type="button"
+                              disabled={isDisable}
+                              className={`${isDisable
+                                ? "bg-black"
+                                : "hover:bg-white hover:text-black"
+                                } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                              onClick={handleOrder}
+                            >
+                              {isDisable ? <InlineButtonLoader /> : "Accept Order"}
+                            </button>
+                            <button
+                              type="button"
+                              disabled={isDisable}
+                              className={`${isDisable
+                                ? "bg-black"
+                                : "hover:bg-white hover:text-black"
+                                } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                              onClick={handleReject}
+                            >
+                              {isDisable ? <InlineButtonLoader /> : "Reject Order"}
+                            </button>
+                          </>
                     )}
                   </div>
                 </div>
