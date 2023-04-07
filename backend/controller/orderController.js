@@ -276,7 +276,32 @@ const cancelOrder = async (req, res, next) => {
       status: 'cancel'
     }, {
       new:true
-    })
+    }).populate([
+      {
+        path: "products.product",
+        model: "Product",
+      },
+      {
+        path: "resturant",
+        model: "Resturant",
+      },
+      {
+        path: "customer",
+        model: "User",
+      },
+      {
+        path: "deliveryBoy",
+        module: "DeliverBoy",
+      },
+      {
+        path: "resturantReview",
+        module: "Review",
+      },
+      {
+        path: 'deliveryBoyReview',
+        module:'Review'
+      }
+    ])
     res.status(200).json({message:'order canceled',response})
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });
