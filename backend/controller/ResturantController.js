@@ -644,7 +644,9 @@ const rejectOrder = async (req,res,next) => {
         path: 'deliveryBoyReview',
         module:'Review'
       }
-    ]);
+    ], {
+      new:true
+    });
     res.status(200).json({ messag: 'order rejected',response });
   } catch (e) {
     

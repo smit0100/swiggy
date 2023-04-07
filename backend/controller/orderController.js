@@ -274,6 +274,8 @@ const cancelOrder = async (req, res, next) => {
     console.log("oo");
     const response = await Order.findByIdAndUpdate(id, {
       status: 'cancel'
+    }, {
+      new:true
     })
     res.status(200).json({message:'order canceled',response})
   } catch (e) {
