@@ -23,5 +23,6 @@ router.post('/loginAsAdmin', userController.loginAsAdmin);
 router.get('/makeAdmin', userController.makeAdmin);
 router.post('/forgotAdmin', userController.forgotAdminPassword);
 router.put('/edit',userController.editUser);
+router.post('/notification',userController.handleSendNotification);
 
 module.exports = router

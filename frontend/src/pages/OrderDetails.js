@@ -90,9 +90,9 @@ const OrderDetails = () => {
         orderData && (
           <>
             <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-              <div className="flex justify-start item-start space-y-2 flex-col ">
+              <div className="flex justify-start item-start space-y-2 flex-col mt-5">
                 <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
-                  Order {orderData && orderData._id}
+                 Your Order ID : <span className='text-xl md:text-2xl'>{orderData && orderData._id}</span> 
                 </h1>
               </div>
               <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">

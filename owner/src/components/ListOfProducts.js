@@ -17,7 +17,7 @@ const ListOfProducts = () => {
       try {
         const response = await axios.get(`http://localhost:4000/resturant/allProduct?id=${user._id}`);
         setData(response.data.result)
-        console.log(response.data,'this is data')
+        console.log(response.data, 'this is data')
         setLoad(false)
       }
       catch (err) {
@@ -45,7 +45,7 @@ const ListOfProducts = () => {
         console.log("this is ct log");
         console.log(typeof (ct));
         const response = await axios.get(`${process.env.REACT_APP_BASEURL}/resturant/products?id=${user._id}&${categories.length > 0 ? `categories=${categories.join(',')}` : ''}`)
-        console.log(response.data,'dataaaaaa')
+        console.log(response.data, 'dataaaaaa')
         setData(response.data.product)
         setLoad(false)
       } catch (err) {
@@ -58,7 +58,7 @@ const ListOfProducts = () => {
     (async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASEURL}/category/all`)
-        console.log(response.data,'category response');
+        console.log(response.data, 'category response');
         setCategory(response.data.response)
       } catch (err) {
         console.log(err);
@@ -72,7 +72,7 @@ const ListOfProducts = () => {
           <h1 className='text-2xl font-semibold py-4'>List of Products</h1>
 
           <ul className="space-y-2">
-             {
+            {
               category != null && category.map(item => <li>
                 <input type="checkbox" id={item._id} value={item._id} onChange={handleCategoryChange} className="hidden peer" required="" />
                 <label htmlFor={item._id} className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-inherit border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
@@ -82,7 +82,7 @@ const ListOfProducts = () => {
                 </label>
 
               </li>)
-            } 
+            }
           </ul>
 
         </div>
@@ -90,9 +90,7 @@ const ListOfProducts = () => {
           <h1 className='text-3xl text-center border-b-2 border-black uppercase mb-5 pb-3'>List of Products</h1>
           {load === true ?
             <div className="flex justify-center items-center h-1/2 w-full bg-transparent">
-              <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-              </div>
+              <img src='https://s10.gifyu.com/images/loader175ba3dbc6a2636c.gif' className='w-56 ' alt='this is loader' />
             </div>
             :
             <div className="flex flex-wrap gap-4 justify-evenly">

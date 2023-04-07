@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 
 const Navigations = ({ currentColor = "", isLogedIn = false }) => {
   const dispatch = useDispatch();
+  
 
   return (
     <div className="flex items-center gap-8">

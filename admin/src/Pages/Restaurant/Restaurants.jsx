@@ -29,9 +29,11 @@ export default function Restaurants() {
   };
   return (
     <>
-      <h1 className="ml-5 max-sm:mb-4 dark:text-white font-semibold text-3xl">
-        &bull; Approved Restaurants
-      </h1>
+      <div className="flex flex-wrap bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
+        <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
+          &bull; Approved Restaurants
+        </h1>
+      </div>
       <div className="container my-12 mx-auto px-4 md:px-12 justify-center">
         <div className="flex flex-wrap -mx-1 lg:-mx-4 gap-3 justify-start max-sm:justify-center items-center">
           {isLoading?

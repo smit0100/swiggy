@@ -19,6 +19,7 @@ import {
   GetDeliveryBoy,
   ContactUs,
   OrderDetail,
+  Notifications,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
@@ -121,6 +122,7 @@ function App() {
                   <Route path="/restaurants" element={<Restaurants />} />
                   <Route path="/orderdetail" element={<OrderDetail />} />
                   <Route path="/contactus" element={<ContactUs />} />
+                  <Route path="/notification" element={<Notifications />} />
                   <Route
                     path="/restaurants/:id"
                     element={<ApprovedRestaurant />}
