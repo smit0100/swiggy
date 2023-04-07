@@ -18,12 +18,15 @@ const OrderSummary = () => {
   const [isDisable, setIsDisable] = useState(false);
 
   useEffect(() => {
+    console.log('sjdljfklsjkdlfjksldflkjfkjsklfdk;ofs');
     (async () => {
       setLoading(true);
+      console.log(state);
       const response = await axios.get(
         `http://localhost:4000/order/fetchOneOrder?id=${state}`
       );
       console.log(response.data.order);
+      console.log(response);
       setSummaryData(response.data.order);
       setLoading(false);
     })();
