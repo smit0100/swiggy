@@ -619,6 +619,8 @@ const rejectOrder = async (req,res,next) => {
     const { id } = req.query;
     const response = await OrderModel.findByIdAndUpdate(id, {
       status:'rejected'
+    }, {
+      new:true
     }).populate([
       {
         path: "products.product",
@@ -644,9 +646,7 @@ const rejectOrder = async (req,res,next) => {
         path: 'deliveryBoyReview',
         module:'Review'
       }
-    ], {
-      new:true
-    });
+    ]);
     res.status(200).json({ messag: 'order rejected',response });
   } catch (e) {
     
