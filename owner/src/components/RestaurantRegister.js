@@ -180,7 +180,6 @@ const RestaurantRegister = () => {
     }
 
   };
-  console.log(banknpanError);
 
   const handleAcType = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
@@ -266,9 +265,9 @@ const RestaurantRegister = () => {
     }
   }
 
-
+console.log(bankNpan,banknpanError);
   function saveUpdate() {
-    if (bankNpan.accountno && bankNpan.confirmAccountno && bankNpan.acType && bankNpan.ifsc && bankNpan.panno && bankNpan.panholdername && banknpanError.accountno === 0 && banknpanError.confirmAccountno === 0 && banknpanError.ifsc === 0 && banknpanError.panno === 0 && banknpanError.panholdername === 0) {
+    if (bankNpan.accountno && bankNpan.confirmAccountno && bankNpan.acType && bankNpan.ifsc && bankNpan.panno && bankNpan.panholdername && banknpanError.accountno === "" && banknpanError.confirmAccountno === "" && banknpanError.ifsc === "" && banknpanError.panno === "" && banknpanError.panholdername === "") {
       return (<button className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
         onClick={handleUpload}>
