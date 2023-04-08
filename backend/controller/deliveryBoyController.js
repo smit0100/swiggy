@@ -78,10 +78,8 @@ const login = async (req, res, next) => {
     console.log("hey");
     console.log(req.body);
     const { email, password, fcmToken } = req.body;
-    const user = await DeliveryBoy.findOneAndUpdate(
-      { email },
-      { fcmToken },
-      { new: true }
+    let user = await DeliveryBoy.findOne(
+      { email }
     );
     console.log(user);
     if (!user) return res.status(400).json({ message: "user not exist" });
@@ -92,6 +90,12 @@ const login = async (req, res, next) => {
     const pass = await bcrypt.compareSync(password, user.password);
     console.log(pass);
     if (pass) {
+      if (user?.fcmToken === undefined || user?.fcmToken !== fcmToken) {
+        // If the user doesn't have an fcmToken, or if it's different from the new one,
+        // update it with the new value
+        user.fcmToken = fcmToken;
+        await user.save();
+      }
       return res.status(200).json({ message: "user founded", user });
     } else {
       return res

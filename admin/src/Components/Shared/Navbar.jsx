@@ -107,7 +107,7 @@ const Navbar = ({ setChangePassword }) => {
             src={Images.user}
             alt="user-profile"
           />
-          <p>
+          <div>
             <span className="text-gray-400 text-14">Hi,</span>{" "}
             <span className="text-gray-400 font-bold ml-1 text-14">
               {data?.name}
@@ -117,7 +117,7 @@ const Navbar = ({ setChangePassword }) => {
               setChangePassword={setChangePassword}
               handleLogOut={() => handleLogOut()}
             />
-          </p>
+          </div>
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
         </div>
         {/* {isClicked.cart && (<Cart />)}

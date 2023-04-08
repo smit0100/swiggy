@@ -11,17 +11,8 @@ const User = require("../module/UserModel");
 const { sendNotification } = require("../utils/PushNotification");
 const OrderModel = require("../module/OrderModel");
 
-
 const createResturnat = async (req, res, next) => {
-  let {
-    address,
-    name,
-    ownerName,
-    panCard,
-    bankDetails,
-    id
- 
-  } = req.body;
+  let { address, name, ownerName, panCard, bankDetails, id } = req.body;
   console.log(req.body);
   // console.log(typeof(outLetType));
   address = JSON.parse(address);
@@ -76,7 +67,6 @@ const createResturnat = async (req, res, next) => {
     console.log("this is ");
     console.log(bgimageUrl);
 
-  
     const response = await Resturant.findByIdAndUpdate(
       id,
       {
@@ -167,11 +157,7 @@ const loginResturant = async (req, res, next) => {
   try {
     console.log("hey===", req.body);
     const { email, password, fcmToken } = req.body;
-    const rest = await Resturant.findOneAndUpdate(
-      { email },
-      { fcmToken },
-      { new: true }
-    );
+    let rest = await Resturant.findOne({ email });
 
     if (!rest)
       return res.status(400).json({ messag: "resturant not registered" });
@@ -184,6 +170,12 @@ const loginResturant = async (req, res, next) => {
     const pass = await bcrypt.compareSync(password, rest.password);
 
     if (pass) {
+      if (rest?.fcmToken === undefined || rest?.fcmToken !== fcmToken) {
+        // If the rest doesn't have an fcmToken, or if it's different from the new one,
+        // update it with the new value
+        rest.fcmToken = fcmToken;
+        await rest.save();
+      }
       return res.status(200).json({ message: "restuarnt founded", rest });
     } else {
       return res
@@ -311,7 +303,10 @@ const fetchResturantAllProduct = async (req, res, next) => {
 
   let product;
   if (categories.length === 0) {
-    product = await Product.find({ resturnat: id ,isActive:{$ne:false}}).populate('category');
+    product = await Product.find({
+      resturnat: id,
+      isActive: { $ne: false },
+    }).populate("category");
   } else {
     categories = categories
       .split(",")
@@ -320,8 +315,8 @@ const fetchResturantAllProduct = async (req, res, next) => {
     product = await Product.find({
       resturnat: id,
       category: { $in: categories },
-      isActive:{$ne:false}
-    }).populate('category');
+      isActive: { $ne: false },
+    }).populate("category");
   }
   res.status(200).json({ message: "product finded", product, resturant });
 };
@@ -398,12 +393,15 @@ const fetchAllProduct = async (req, res, next) => {
     //     populate: {
     //       path: "category",
     //       module: "Category"
-       
+
     //     },
     //   },
     // ]).exec();
-    const result = await Product.find({resturnat:id,isActive:{$ne:false}}).populate('category')
-    console.log('checkt his');
+    const result = await Product.find({
+      resturnat: id,
+      isActive: { $ne: false },
+    }).populate("category");
+    console.log("checkt his");
     console.log(result);
     return res.status(200).json({ message: "product founded", result });
   } catch (e) {
@@ -518,10 +516,11 @@ const getAllReview = async (req, res) => {
 const deleteRestaurant = async (req, res, next) => {
   try {
     const { id } = req.query;
-    console.log("====id",id);
+    console.log("====id", id);
     const data = await Resturant.findByIdAndDelete(id);
 
-    if (!data) return res.status(400).json({ message: "Resturant not founded" });
+    if (!data)
+      return res.status(400).json({ message: "Resturant not founded" });
 
     res.status(200).json({ message: "Resturant deleted" });
   } catch (e) {
@@ -529,56 +528,70 @@ const deleteRestaurant = async (req, res, next) => {
   }
 };
 
-
 const searchProduct = async (req, res, next) => {
   const searchQuery = req.query.q;
-  const regex = new RegExp(searchQuery, 'i');
+  const regex = new RegExp(searchQuery, "i");
 
   const pageNumber = parseInt(req.query.pageNumber) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
-    console.log(req.query)
-  
-    try {
-        const totalCount = await Product.find({name: regex,resturnat:req.query.id }).countDocuments();
-    
-        const totalPages = Math.ceil(totalCount / pageSize);        
-  
-        const response = await Product.find({ name: regex,resturnat:req.query.id  }).skip((pageNumber - 1) * pageSize).limit(pageSize);
-            console.log(response)
-        return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
-        pageSize: pageSize,
-        totalCount: totalCount});    
-    } catch (e) {
-        res.status(400).json({ message: 'something went wrong' });
-    }
-}
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  console.log(req.query);
 
-
-const updateProfile = async (req,res,next) => {
   try {
-    const {id,name,number,email} = req.body;
+    const totalCount = await Product.find({
+      name: regex,
+      resturnat: req.query.id,
+    }).countDocuments();
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    const response = await Product.find({
+      name: regex,
+      resturnat: req.query.id,
+    })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+    console.log(response);
+    return res.status(200).json({
+      message: "product founded",
+      response,
+      totalPages: totalPages,
+      pageSize: pageSize,
+      totalCount: totalCount,
+    });
+  } catch (e) {
+    res.status(400).json({ message: "something went wrong" });
+  }
+};
+
+const updateProfile = async (req, res, next) => {
+  try {
+    const { id, name, number, email } = req.body;
     let user = await Resturant.findById(id);
     console.log(user);
     if (user.email === email) {
-      user = await Resturant.findByIdAndUpdate(id,{
-        ownerName:name,
-        number
-      },{
-        new:true
-      })
+      user = await Resturant.findByIdAndUpdate(
+        id,
+        {
+          ownerName: name,
+          number,
+        },
+        {
+          new: true,
+        }
+      );
 
-      return res.status(200).json({message:"updated",user})
+      return res.status(200).json({ message: "updated", user });
     } else {
-      const emailExist = await Resturant.find({email});
+      const emailExist = await Resturant.find({ email });
       if (emailExist.length != 0) {
-        return res.status(409).json({messag:'email id already exist'})
-      }else {
+        return res.status(409).json({ messag: "email id already exist" });
+      } else {
         const otpNumber = Math.floor(100000 + Math.random() * 900000);
         const token = await new Token({
-          userID: id, 
+          userID: id,
           token: otpNumber,
         }).save();
-       
+
         const url = otpNumber;
         console.log("this is url", url);
         res.status(201).json({
@@ -589,39 +602,42 @@ const updateProfile = async (req,res,next) => {
       }
     }
   } catch (e) {
-    res.status(500).json({message:"something went wrong"});
+    res.status(500).json({ message: "something went wrong" });
   }
-}
+};
 
 const changePassword = async (req, res, next) => {
   try {
-  const { userId, oldPass, newPass } = req.body;
+    const { userId, oldPass, newPass } = req.body;
     let user = await Resturant.findById(userId);
 
-    const pass = await bcrypt.compareSync(oldPass, user.password)
-    
+    const pass = await bcrypt.compareSync(oldPass, user.password);
+
     if (!pass) {
-      return res.status(401).json({messag:"your password is incorrect"})
+      return res.status(401).json({ messag: "your password is incorrect" });
     } else {
-    const encryptedPass = await bcrypt.hash(newPass, 10);
-    await user.updateOne({ password: encryptedPass });
-    return res.status(200).json({ messag: "user password updated" });
-      
+      const encryptedPass = await bcrypt.hash(newPass, 10);
+      await user.updateOne({ password: encryptedPass });
+      return res.status(200).json({ messag: "user password updated" });
     }
   } catch (e) {
-    res.status(500).json({messag:'something wetn wrong'})
+    res.status(500).json({ messag: "something wetn wrong" });
   }
-}
+};
 
-const rejectOrder = async (req,res,next) => {
-  console.log('hey');
+const rejectOrder = async (req, res, next) => {
+  console.log("hey");
   try {
     const { id } = req.query;
-    const response = await OrderModel.findByIdAndUpdate(id, {
-      status:'rejected'
-    }, {
-      new:true
-    }).populate([
+    const response = await OrderModel.findByIdAndUpdate(
+      id,
+      {
+        status: "rejected",
+      },
+      {
+        new: true,
+      }
+    ).populate([
       {
         path: "products.product",
         model: "Product",
@@ -643,16 +659,15 @@ const rejectOrder = async (req,res,next) => {
         module: "Review",
       },
       {
-        path: 'deliveryBoyReview',
-        module:'Review'
-      }
+        path: "deliveryBoyReview",
+        module: "Review",
+      },
     ]);
-    res.status(200).json({ messag: 'order rejected',response });
+    res.status(200).json({ messag: "order rejected", response });
   } catch (e) {
-    
-    res.status(500).json({ messag: 'something went  wrong' });
+    res.status(500).json({ messag: "something went  wrong" });
   }
-}
+};
 module.exports = {
   createResturnat,
   fetchResturant,
@@ -678,6 +693,5 @@ module.exports = {
   searchProduct,
   updateProfile,
   changePassword,
-  rejectOrder
-
+  rejectOrder,
 };
