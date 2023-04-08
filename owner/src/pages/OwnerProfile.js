@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
-import { ownerLogIn, userData } from "../redux/user/userSlice";
+import { ownerLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
 const OwnerProfile = () => {
@@ -31,7 +31,7 @@ const OwnerProfile = () => {
         setIsLoading(false);
       }
     })();
-
+    dispatch(setCurrentColor("slate-800"))
   }, []);
   const history = useNavigate();
 
