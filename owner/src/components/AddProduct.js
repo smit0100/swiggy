@@ -2,11 +2,12 @@ import axios from "axios";
 
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import Loader from "./Loader";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 const AddProduct = () => {
   const [categoryArray, setCategoryArray] = useState([]);
@@ -25,6 +26,7 @@ const AddProduct = () => {
   const [isValid, setIsValid] = useState(true);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const owner = useSelector((state) => state.userData.user);
 
@@ -77,6 +79,7 @@ const AddProduct = () => {
       setCategoryArray(res.data.response);
       setCategory(res.data.response[0]._id);
     })();
+    dispatch(setCurrentColor("slate-800"));
   }, []);
 
   useEffect(() => {

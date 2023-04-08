@@ -18,7 +18,7 @@ const SearchPage = () => {
   const owner = useSelector(state => state.userData.user);
 
   useEffect(() => {
-    dispatch(setCurrentColor("white"))
+    dispatch(setCurrentColor("slate-800"))
   }, [])
   useEffect(() => {
     (async () => {
