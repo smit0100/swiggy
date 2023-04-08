@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { cartData } from "../redux/cart/cartSlice";
+import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +27,20 @@ const CheckoutPage = () => {
 
   const user = useSelector((state) => state.userData.user);
   const cart = useSelector((state) => state.cartData.cart);
-
+  const handleDelete = (ids) => {
+    swal({
+      title: "Are you sure! you want to delete this address?",
+      icon: "warning",
+      buttons: ["NO", "YES"],
+      cancelButtonColor: "#DD6B55",
+      confirmButtonColor: "#DD6B55",
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        addressDelete(ids);
+      }
+    });
+  };
   const makePayment = async (token) => {
     console.log("this is token", token);
     const header = {
@@ -133,6 +147,7 @@ const CheckoutPage = () => {
         "userData",
         JSON.stringify(response?.data?.response)
       );
+      toast.success("🔥Address saved successfully.");
     } catch (err) {
       console.log(err);
     }
@@ -158,6 +173,7 @@ const CheckoutPage = () => {
         "userData",
         JSON.stringify(response?.data?.response)
       );
+      toast.success("🔥Address deleted successfully.");
     } catch (err) {
       console.log(err);
     }
@@ -209,7 +225,7 @@ const CheckoutPage = () => {
                             "-" +
                             address.pincode}
                         </p>
-                     
+
                         <StripeCheckout
                           stripeKey={process.env.REACT_APP_PUBLIC_KEY_PAYMENT}
                           token={makePayment}
@@ -229,9 +245,7 @@ const CheckoutPage = () => {
 
                         <button
                           className="ml-4 inline-block bg-white/30 hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
-                          onClick={() => {
-                            addressDelete(address._id);
-                          }}
+                          onClick={() => handleDelete(address._id)}
                         >
                           Delete
                         </button>
