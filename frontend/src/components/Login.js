@@ -26,7 +26,7 @@ export default function Login() {
   const dispatch = useDispatch();
   useEffect(() => {
     getFcmToken();
-    dispatch(setCurrentColor("white"))
+    dispatch(setCurrentColor("white"));
   }, []);
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmToken");
@@ -201,13 +201,8 @@ export default function Login() {
           >
             Sign up
           </Link>
-          <span className="w-full text-center mt-2 text-gray-500">or</span>
-          <div className="flex mt-3">
-            {/* <button className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center">
-            <BsFacebook className="w-5 mr-1" color="blue"/>
-            Facebook
-          </button>
-          <div style={{ width: "10%" }} /> */}
+          {/* <span className="w-full text-center mt-2 text-gray-500">or</span> */}
+          {/* <div className="flex mt-3">
             <button
               className="w-full hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300 flex items-center justify-center"
               onClick={googleAuth}
@@ -215,7 +210,7 @@ export default function Login() {
               <FcGoogle className="w-5 mr-1" />
               Google
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="relative">
           <img
