@@ -76,7 +76,7 @@ const createResturnat = async (req, res, next) => {
     console.log("this is ");
     console.log(bgimageUrl);
 
-    console.log(outLetType);
+  
     const response = await Resturant.findByIdAndUpdate(
       id,
       {
