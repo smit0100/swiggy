@@ -62,7 +62,7 @@ const Navbar = ({ setChangePassword }) => {
   const handleActiveMenu = () => dispatch(setActiveMenu(!activeMenu));
   const handleLogOut = () => {
     swal({
-      title: "Are you Sure !",
+      title: "Are you Sure! you want to log out?",
       icon: "warning",
       buttons: ["NO", "YES"],
       cancelButtonColor: "#DD6B55",
@@ -72,12 +72,12 @@ const Navbar = ({ setChangePassword }) => {
       if (willDelete) {
         localStorage.clear();
         history("/");
-        setIsLogIn(false)
+        setIsLogIn(false);
       }
     });
   };
   return (
-    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
+    <div className="flex justify-between p-2 md:ml-6 md:mr-6">
       <NavButton
         title="Menu"
         customFunc={handleActiveMenu}
@@ -85,19 +85,6 @@ const Navbar = ({ setChangePassword }) => {
         icon={<AiOutlineMenu />}
       />
       <div className="flex">
-        {/* <NavButton
-          title="Cart"
-          customFunc={() => handleClick("cart")}
-          color={currentColor}
-          icon={<FiShoppingCart />}
-        />
-        <NavButton
-          title="Notification"
-          dotColor="rgb(254, 201, 15)"
-          customFunc={() => handleClick("notification")}
-          color={currentColor}
-          icon={<RiNotification3Line />}
-        /> */}
         <div
           className="group flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
           onClick={() => handleClick("userProfile")}
@@ -120,9 +107,6 @@ const Navbar = ({ setChangePassword }) => {
           </div>
           <MdKeyboardArrowDown className="text-gray-400 text-14" />
         </div>
-        {/* {isClicked.cart && (<Cart />)}
-        {isClicked.notification && (<Notification />)}
-        {isClicked.userProfile && (<UserProfile />)} */}
       </div>
     </div>
   );

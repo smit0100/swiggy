@@ -5,20 +5,45 @@ import { Card } from "../../Components";
 import resto from "../../Assets/resto.jpg";
 import { Blocks } from "react-loader-spinner";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 export default function Request() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [data, setData] = useState([]);
+  const [ownerData, setOwnerData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [ownerPage, setOwnerPage] = useState(1);
+  const [ownerLoading, setOwnerLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getAllRequests();
     document.title = "Admin - Request";
   }, [currentPage]);
+  useEffect(() => {
+    getAllOwners();
+  }, [ownerPage]);
+
   const getAllRequests = () => {
     GetRequests();
     setIsLoading(true);
+  };
+  const getAllOwners = () => {
+    GetOwners();
+    setOwnerLoading(true);
+  };
+  const GetOwners = () => {
+    Restaurants.GetOwners(ownerPage, 9)
+      .then((res) => {
+        console.log("===owners", res);
+        if (res?.results) {
+          setOwnerLoading(false);
+          setOwnerData(res?.results);
+        }
+      })
+      .catch((e) => {
+        setOwnerLoading(false);
+        console.log(e);
+      });
   };
   const GetRequests = () => {
     Restaurants.GetRequests(currentPage, 9)
@@ -77,7 +102,7 @@ export default function Request() {
     if (req == "reject") {
       swal({
         title: "Are you sure?",
-        text: "Are you sure! you want to reject this restaurant?",
+        text: "You want to reject this restaurant.",
         icon: "warning",
         buttons: true,
         dangerMode: true,
@@ -92,6 +117,60 @@ export default function Request() {
   };
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+  const deleteOwner = (id) => {
+    Restaurants.deleteRestaurant(id)
+      .then((res) => {
+        if (res?.message == "Resturant deleted") {
+          toast.success("👌 Owner deleted successfully.");
+          getAllOwners();
+        }
+      })
+      .catch((re) => {
+        console.log("===re", re);
+        toast.error("☹️ Something went wrong,try again");
+      });
+  };
+  const handleReminder = (token) => {
+    if (token != undefined && token != null && token != "") {
+      Restaurants.ownerReminder(token)
+        .then((res) => {
+          if (res?.message == "notification sended") {
+            toast.success("👌 Owner has been invited via notification.");
+          }
+        })
+        .catch((re) => {
+          console.log("===re", re);
+          toast.error("☹️ Something went wrong,try again");
+        });
+    } else {
+      toast.error("☹️ This owner has not given notification permission.");
+    }
+  };
+  const handleRemind = (token) => {
+    swal({
+      title: "Would you send notification to remind this owner?",
+      icon: "info",
+      buttons: true,
+      dangerMode: true,
+    }).then((e) => {
+      if (e) {
+        handleReminder(token);
+      }
+    });
+  };
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: `You want to delete this owner.`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((e) => {
+      if (e) {
+        deleteOwner(id);
+      }
+    });
   };
   const ProductTable = (data) => {
     return (
@@ -196,8 +275,115 @@ export default function Request() {
       </div>
     );
   };
+  const ownerTable = (data) => {
+    return (
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg md:mx-10 md:mt-12 m-5">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                No.
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Owner name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                email
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Mobile
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.map((item, index) => (
+              <tr
+                key={index}
+                className={`${
+                  index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                } border-b dark:bg-gray-800 dark:border-gray-700`}
+              >
+                <td className="px-6 py-4">{index + 1}</td>
+                <td className="px-3 py-4">
+                  <div className="text-base font-semibold">{item?.name}</div>
+                </td>
+                <td className="px-6 py-4">
+                  {item?.email ? item?.email : "__"}
+                </td>
+                <td className="px-6 py-4">
+                  {item?.number ? item?.number : "___"}
+                </td>
+                <td className="px-6 py-4 ">
+                  <button
+                    disabled
+                    className={`border border-slate-600 dark:border-slate-300 dark:text-slate-300 text-slate-600 rounded-2xl py-1 px-3 text-sm font-medium`}
+                  >
+                    Not request
+                  </button>
+                </td>
+                <td className="px-6 py-4 flex gap-3">
+                  <button
+                    className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
+                    onClick={() => handleRemind(item?.fcmToken)}
+                  >
+                    Reminder
+                  </button>
+                  <button
+                    className="font-medium border-red-500 border-1 text-red-500 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white duration-150"
+                    onClick={() => handleDelete(item?._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
   return (
     <>
+      <div className="flex flex-wrap bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
+        <div>
+          <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
+            &bull; Owner
+          </h1>
+          <p className="ml-5 max-sm:mb-4 text-xs">
+            {"( who not register their restaurant )"}
+          </p>
+        </div>
+      </div>
+      <div className="my-12 mx-auto px-4 md:px-12">
+        <div className="lg:-mx-4 justify-start">
+          {ownerLoading ? (
+            <div className="w-full flex items-center justify-center">
+              <Blocks
+                visible={ownerLoading}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+              />
+            </div>
+          ) : ownerData?.length > 0 ? (
+            ownerTable(ownerData)
+          ) : (
+            <div>
+              <h1 className="text-center font-bold dark:text-white">
+                No Owners here
+              </h1>
+            </div>
+          )}
+        </div>
+      </div>
       <div className="flex flex-wrap bg-blue-100 py-5 rounded-2xl mx-3 justify-between">
         <h1 className="ml-5 max-sm:mb-4 font-semibold text-3xl">
           &bull; Restaurants
@@ -219,20 +405,6 @@ export default function Request() {
           ) : data?.length > 0 ? (
             ProductTable(data)
           ) : (
-            // data?.map((item, index) => {
-            //   return (
-            //     <Card
-            //       key={index}
-            //       name={item.name}
-            //       restaurantId={item._id}
-            //       items={item}
-            //       // image={item?.bgImageUrl[0] ? item?.bgImageUrl[0] : resto}
-            //       image={resto}
-            //       isApproved={item?.isApproved}
-            //       handleSubmit={(e) => handleSubmit(e, item._id)}
-            //     />
-            //   );
-            // })
             <div>
               <h1 className="text-center font-bold dark:text-white">
                 No request here

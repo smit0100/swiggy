@@ -259,12 +259,42 @@ const getAllResturant = async (req, res) => {
     const totalPages = Math.ceil(totalCount / pageSize);
 
     // retrieve the blog posts based on the page number and page size
-    const response = await Resturant.find()
+    const response = await Resturant.find({
+      isApproved: { $ne: "Not Request" },
+    })
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
     console.log(response);
     res.status(200).json({
       messag: "resturnat fetched",
+      results: response,
+      page: pageNumber,
+      totalPages: totalPages,
+      pageSize: pageSize,
+      totalCount: totalCount,
+    });
+  } catch (e) {
+    res.status(500).json({ messag: "something went wrong" });
+  }
+};
+const getAllResturantOwner = async (req, res) => {
+  const pageNumber = parseInt(req.query.pageNumber) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  try {
+    const totalCount = await Resturant.countDocuments();
+    // calculate the number of pages
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    // retrieve the blog posts based on the page number and page size
+    const response = await Resturant.find({
+      isApproved: "Not Request",
+    })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+    console.log(response);
+    res.status(200).json({
+      messag: "owners fetched",
       results: response,
       page: pageNumber,
       totalPages: totalPages,
@@ -501,6 +531,19 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
   }
 };
 
+const sendNotificationToOwner = async (req, res) => {
+  try {
+    const { token } = req.query;
+    let data = {
+      title: "👋 Request!",
+      body: "Please register your restaurant quickly and if you have any query kindly fill inquery form to contact us page, Our specialist contact you as soon as posible.",
+    };
+    sendNotification(token, data);
+    return res.status(200).json({ message: "notification sended" });
+  } catch (e) {
+    res.status(500).json({ messag: "something went wrong" });
+  }
+};
 const getAllReview = async (req, res) => {
   try {
     const { id } = req.query;
@@ -694,4 +737,6 @@ module.exports = {
   updateProfile,
   changePassword,
   rejectOrder,
+  getAllResturantOwner,
+  sendNotificationToOwner,
 };

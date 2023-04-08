@@ -18,6 +18,15 @@ function GetRequests(startNum,endNum) {
     },
   });
 }
+function GetOwners(startNum,endNum) {
+  return Api({
+    url: `/resturant/getOwners?pageNumber=${startNum}&pageSize=${endNum}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 
 function GetApprovedRestaurant() {
   return Api({
@@ -74,6 +83,15 @@ function deleteRestaurant(id) {
     },
   });
 }
+function ownerReminder(token) {
+  return Api({
+    url: `/resturant/remind?token=${token}`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 export default {
   GetRequests,
   getOneProduct,
@@ -81,5 +99,7 @@ export default {
   GetApprovedRestaurant,
   GetCounts,
   getAllReviews,
-  deleteRestaurant
+  deleteRestaurant,
+  GetOwners,
+  ownerReminder
 };
