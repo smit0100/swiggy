@@ -43,19 +43,13 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     } else {
       setIsValid(true);
     }
-  }, [
-    name,
-    email,
-    number,
-    nameError,
-    emailError,
-    numberError,
-  ]);
+  }, [name, email, number, nameError, emailError, numberError]);
   const [otpTab, setOtpTab] = useState(false);
 
   const changeProfileDetails = async (e) => {
     e.preventDefault();
     console.log(email, number, name);
+    setIsValidLoading(true);
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASEURL}/user/update`,
@@ -76,10 +70,12 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         localStorage.setItem("userData", JSON.stringify(response?.data?.user));
         swal("Profile updated successfully", "", "success");
       }
+      setIsValidLoading(false);
     } catch (err) {
       if (err.response.status == 409) {
         swal(`${err.response.data.message}`, "", "error");
       }
+      setIsValidLoading(false);
     }
   };
 

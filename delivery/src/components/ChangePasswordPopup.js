@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert";
@@ -8,7 +8,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [isValid, setIsValid] = useState(false);
-
+  const [isValidLoading, setIsValidLoading] = useState(false);
   const [oldPasswordError, setOldPasswordError] = useState("");
   const [newPasswordError, setNewPasswordError] = useState("");
   const [cnpass, setCnpass] = useState("");
@@ -20,7 +20,27 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
   const [emailError, setEmailError] = useState("");
 
   const user = useSelector((state) => state.userData.user);
-
+  useEffect(() => {
+    if (
+      oldPassword &&
+      newPassword &&
+      cnpass &&
+      oldPasswordError == "" &&
+      newPasswordError == "" &&
+      cnPassError == ""
+    ) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [
+    oldPassword,
+    newPassword,
+    cnpass,
+    oldPasswordError,
+    newPasswordError,
+    cnPassError,
+  ]);
   const handleOldPassword = (e) => {
     setOldPassword(e.target.value);
     if (oldPassword === null || oldPassword === "") {
@@ -58,6 +78,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
   const handleChangePassword = async (e) => {
     e.preventDefault();
     console.log(oldPassword, newPassword);
+    setIsValidLoading(true);
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASEURL}/courier/changepassword`,
@@ -68,10 +89,12 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
         }
       );
       swal("Password changed successfully", "", "success");
+      setIsValidLoading(false);
     } catch (err) {
       if (err.response.status == 401) {
         swal(`${err.response.data.message}`, "", "error");
       }
+      setIsValidLoading(false);
     }
   };
 
@@ -93,7 +116,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
         {/* <h1>hello sdfdfsdfsdfsdf</h1> */}
         <div className="relative w-auto md:w-1/3 my-6 mx-auto max-w-3xl">
           <div className="border-0 px-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-          <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900">
                 Change Password
               </h3>
@@ -183,7 +206,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                   handleChangePassword(e);
                 }}
               >
-                {isValid ? <InlineButtonLoader /> : "Save"}
+                {isValidLoading ? <InlineButtonLoader /> : "Save"}
               </button>
             </div>
           </div>

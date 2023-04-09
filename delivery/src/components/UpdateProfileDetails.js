@@ -15,6 +15,8 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
   const [emailError, setEmailError] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [isValid, setIsValid] = useState(false);
+  const [isValidLoading, setIsValidLoading] = useState(false);
+
   const [otpTab, setotpTab] = useState(false);
   const [newAddress, setNewAddress] = useState({});
   const [otp, setOtp] = useState("");
@@ -28,7 +30,20 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     setEmail(user.email);
     setNumber(user.number);
   }, []);
-
+  useEffect(() => {
+    if (
+      name &&
+      email &&
+      number &&
+      nameError.length === 0 &&
+      emailError.length === 0 &&
+      numberError.length === 0
+    ) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [name, email, number, nameError, emailError, numberError]);
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;
@@ -116,8 +131,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
 
   const changeProfileDetails = async (e) => {
     e.preventDefault();
-    console.log(email, number, name);
-    setIsValid(true);
+    setIsValidLoading(true);
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASEURL}/user/update`,
@@ -128,10 +142,12 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
           name,
         }
       );
+      console.log("====res", response);
+      setupdateProfile(false);
       if (response.status === 201) {
         console.log("ooo");
         setotpTab(true);
-        setIsValid(false);
+        setIsValidLoading(false);
         setNewAddress(response.data.newDetails);
       } else {
         // add redux
@@ -141,12 +157,12 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
           "deliveryData",
           JSON.stringify(response?.data?.user)
         );
-        setIsValid(false);
+        setIsValidLoading(false);
         swal("Profile updated successfully", "", "success");
       }
     } catch (err) {
       if (err.response.status === 409) {
-        setIsValid(false);
+        setIsValidLoading(false);
         swal(`${err.response.data.message}`, "", "error");
       }
     }
@@ -264,11 +280,10 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
                 onClick={(e) => {
-                  setupdateProfile(false);
                   changeProfileDetails(e);
                 }}
               >
-                {isValid ? <InlineButtonLoader /> : "Save"}
+                {isValidLoading ? <InlineButtonLoader /> : "Save"}
               </button>
             </div>
           </div>

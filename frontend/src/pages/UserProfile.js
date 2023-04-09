@@ -44,7 +44,7 @@ const UserProfile = () => {
 
   const logout = () => {
     swal({
-      title: "Are you Sure !",
+      title: "Are you Sure! you want to logout?",
       icon: "warning",
       buttons: ["NO", "YES"],
       cancelButtonColor: "#DD6B55",
@@ -148,7 +148,7 @@ const UserProfile = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5 ">
+                    <td className="text-white text-lg text-semibold pr-5 ">
                       Mobile No.
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-orange-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
@@ -156,7 +156,7 @@ const UserProfile = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5">
+                    <td className="text-white text-lg text-semibold pr-5">
                       E-mail
                     </td>
                     <td className="text-slate-500 font-semibold bg-orange-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
