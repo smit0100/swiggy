@@ -177,14 +177,14 @@ const ResturantPage = () => {
             <h1 className="text-white text-6xl font-bold">
               {data?.resturant ? data?.resturant?.name : ""}
             </h1>
-            <h2 className="text-slate-300 text-xl font-light mt-5">
+            <h2 className="text-slate-300 text-xl font-semibold mt-5">
               {data?.resturant && data?.resturant?.address
                 ? data?.resturant?.address?.street +
                   " " +
                   data?.resturant?.address?.area
                 : ""}
             </h2>
-            <h2 className="text-slate-300 text-xl font-light">
+            <h2 className="text-slate-300 text-xl font-semibold">
               {data?.resturant && data?.resturant?.address
                 ? data?.resturant?.address?.city +
                   "-" +
@@ -302,9 +302,12 @@ const ResturantPage = () => {
                     </ul>
 
                   </div> */}
-                  <h1 className="ml-5 max-sm:mb-4 text-black font-semibold text-3xl">
-                    &bull; Categories
+                  <h1 className="max-sm:mb-4 w-full text-center text-black font-semibold text-3xl">
+                    Categories
                   </h1>
+                  <div className="w-full h-2 flex flex-1 items-center justify-center mt-2">
+                  <span className="w-60 h-1 bg-orange-600 text-center rounded-full"/>
+                  </div>
                   <div className="flex flex-wrap w-full max-sm:gap-5 md:gap-5 lg:gap-10 items-center justify-center my-5">
                     {category &&
                       category?.map((item, index) => {
@@ -319,6 +322,9 @@ const ResturantPage = () => {
                           />
                         );
                       })}
+                  </div>
+                  <div className="flex justify-center items-center w-full h-2">
+                  <span className="w-11/12 h-1 bg-orange-600 rounded-full"/>
                   </div>
                   <div className="w-full sm:w-4/6 p-4 h-[800px] no-scrollbar">
                     {
