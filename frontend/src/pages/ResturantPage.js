@@ -280,9 +280,9 @@ const ResturantPage = () => {
               </ul>
               <div className="border-[1.5px] border-black mb-2"></div>
             </div>
-            <div className="p-3 mt-6 bg-inherit border">
+            <div className="mt-6 bg-inherit border">
               <div className={openTab === 1 ? "block" : "hidden"}>
-                <div className="row overflow-auto">
+                <div className="row overflow-auto bg-orange-200 p-4">
                   {/* <div className='sticky left-0 top-0 w-full sm:w-2/6 p-4 bg-orange-200 '>
                     <ul className="space-y-2">
                       {
@@ -348,9 +348,9 @@ const ResturantPage = () => {
               </div>
 
               <div className={openTab === 2 ? "block" : "hidden"}>
-                <section className="bg-white">
-                  <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-                    <div className="mx-auto max-w-xl text-center">
+                <section className="bg-orange-200">
+                  <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-xl text-center border-b-2 border-b-black pb-5">
                       <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
                         Read trusted reviews from our customers
                       </h2>
@@ -367,7 +367,7 @@ const ResturantPage = () => {
               </div>
 
               <div className={openTab === 3 ? "block" : "hidden"}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 bg-orange-200">
                   {data.length !== 0 &&
                     data?.product?.map((image, index) => (
                       <div className="overflow-hidden">
@@ -385,21 +385,19 @@ const ResturantPage = () => {
                       <div className="bg-gray-900 text-white rounded-lg overflow-hidden relative">
                         <img
                           src={data?.product[imageIndex]?.imageUrl}
-                          className="w-[400px] h-[250px] sm:w-[500px]  sm:h-[350px] object-cover"
+                          className="w-[400px] h-[250px] sm:w-[700px]  sm:h-1/2 object-contain"
                           alt="backbone"
                         />
                         <button
-                          className="hover:bg-black/50 text-white p-2 absolute top-0 left-0 h-full w-[40px]"
-                          onClick={handlePrev}
-                        >
+                          className="hover:bg-black/50 text-2xl font-bold text-white p-2 absolute top-0 left-0 h-full w-[40px]"
+                          onClick={handlePrev}>
                           &lt;
                         </button>
                         <button
-                          className="hover:bg-black/50 text-white p-2 absolute top-0 right-0 h-full w-[40px]"
-                          onClick={handleNext}
-                        >
-                          {" "}
-                          {">"}{" "}
+                          className="hover:bg-black/50 text-2xl font-bold text-white p-2 absolute top-0 right-0 h-full w-[40px]"
+                          onClick={handleNext}>
+                          &gt;
+                          
                         </button>
                       </div>
                       <div
