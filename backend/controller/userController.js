@@ -180,14 +180,14 @@ const loginUser = async (req, res, next) => {
   console.log(password);
   console.log(user.password);
 
-
-
   const pass = await bcrypt.compareSync(password, user.password);
 
   if (pass) {
     //userr not verified
     if (!user.verified)
-      return res.status(212).json({ message: "please verify you user account", user });
+      return res
+        .status(212)
+        .json({ message: "please verify you user account", user });
     const token = jwt.sign({ id: user._id }, "jwtsecret");
     res.cookie("token", token);
     req.session.isLoggedIn = true;
@@ -552,6 +552,36 @@ const handleSendNotification = async (req, res, next) => {
     res.status(500).json({ message: "something went wrong" });
   }
 };
+const userSearch = async (req, res, next) => {
+  try {
+    const searchQuery = req.query.q;
+
+    const regex = new RegExp(searchQuery, "i");
+
+    const pageNumber = parseInt(req.query.pageNumber) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+
+    const totalCount = await User.find({
+      name: regex,
+    }).countDocuments();
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+
+    const response = await User.find({ name: regex })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+    console.log("====", response.length, req.query);
+    return res.status(200).json({
+      message: "user founded",
+      response,
+      totalPages: totalPages,
+      pageSize: pageSize,
+      totalCount: totalCount,
+    });
+  } catch (e) {
+    res.status(400).json({ message: "something went wrong" });
+  }
+};
 module.exports = {
   createUser,
   verifyUser,
@@ -573,4 +603,5 @@ module.exports = {
   forgotAdminPassword,
   editUser,
   handleSendNotification,
+  userSearch,
 };

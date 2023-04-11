@@ -1,5 +1,5 @@
 import Api from "./Api";
-function GetAllUsers(startNum,endNum) {
+function GetAllUsers(startNum, endNum) {
   return Api({
     url: `/user/fetchAll?pageNumber=${startNum}&pageSize=${endNum}`,
     method: "GET",
@@ -11,6 +11,15 @@ function GetAllUsers(startNum,endNum) {
 function GetOneUser(id) {
   return Api({
     url: `/user/userforadmin?userId=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+function GetSearchUser(search, pageNumber) {
+  return Api({
+    url: `/user/fetchOne?q=${search}&pageNumber=${pageNumber}&pageSize=${10}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -54,7 +63,7 @@ function editUser(data) {
     headers: {
       "Content-Type": "application/json",
     },
-    data
+    data,
   });
 }
 function deleteUser(id) {
@@ -73,7 +82,7 @@ function sendNotificationToAll(data) {
     headers: {
       "Content-Type": "application/json",
     },
-    data
+    data,
   });
 }
 export default {
@@ -84,5 +93,6 @@ export default {
   editUser,
   deleteUser,
   sendNotificationToAll,
-  ChangePasswords
+  ChangePasswords,
+  GetSearchUser,
 };

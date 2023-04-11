@@ -10,6 +10,7 @@ export default function GetOrder() {
   const [datas, setDatas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState("All");
 
   const [filterDatas, setfilterDatas] = useState([]);
   const [action, setAction] = useState(false);
@@ -19,13 +20,20 @@ export default function GetOrder() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getOrders();
     document.title = "Admin - Orders";
   }, [currentPage]);
   useEffect(() => {
     dispatch(setActiveMenu(true));
   }, []);
-
+  useEffect(() => {
+    if (filter === "All") {
+      getOrders();
+    } else {
+      const filtered = datas?.filter((item) => item?.status === filter);
+      console.log("===fil",filtered);
+      setDatas(filtered);
+    }
+  }, [filter]);
   const rowsPerPage = 10;
   const getOrders = () => {
     setIsLoading(true);
@@ -221,7 +229,34 @@ export default function GetOrder() {
                 RUPEES
               </th>
               <th scope="col" className="px-6 py-3">
-                Type
+                {/* Type */}
+                <select
+                  className="outline-none text-xs bg-inherit"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                >
+                  <option value="All" className="text-base">
+                    All
+                  </option>
+                  <option value="process" className="text-base">
+                    Process
+                  </option>
+                  <option value="cancel" className="text-base">
+                    Cancel
+                  </option>
+                  <option value="accept" className="text-base">
+                    Accept
+                  </option>
+                  <option value="rejected" className="text-base">
+                    Reject
+                  </option>
+                  <option value="on the way" className="text-base">
+                    On the way
+                  </option>
+                  <option value="delivered" className="text-base">
+                    Delivered
+                  </option>
+                </select>
               </th>
               <th scope="col" className="px-6 py-3">
                 Action

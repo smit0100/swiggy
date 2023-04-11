@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import User from "../../Apis/User";
 import { Images } from "../../Assets";
 import { toast } from "react-toastify";
-import { Button } from "../../Components";
+import { Button, Tabs } from "../../Components";
 import { useStateContext } from "../../contexts/ContextProvider";
 import swal from "sweetalert";
 import { Blocks } from "react-loader-spinner";
@@ -25,9 +25,10 @@ export default function GetUser() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getUsers();
+    // getUsers();
+    getSearchUser(search)
     document.title = "Admin - Customers";
-  }, [currentPage]);
+  }, [currentPage,search]);
   const getUsers = () => {
     setIsLoading(true);
     getAllUser();
@@ -38,6 +39,21 @@ export default function GetUser() {
         console.log("response", res);
         if (res?.data?.length > 0 && res?.status != 404) {
           setDatas(res?.data);
+          setIsLoading(false);
+        }
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        console.log("====ee", e);
+      });
+  };
+  const getSearchUser = () => {
+    setIsLoading(true)
+    User.GetSearchUser(search,currentPage)
+      .then((res) => {
+        console.log("response=====>", res?.response);
+        if (res?.response?.length > 0 ) {
+          setDatas(res?.response);
           setIsLoading(false);
         }
       })
@@ -68,21 +84,8 @@ export default function GetUser() {
   };
 
   const handleSearch = (value) => {
-    if (value.trim() == "") {
-      setIsLoading(false);
-    } else {
-      setIsLoading(true);
-    }
+    // getSearchUser(value)
     setsearch(value);
-    const temp = [...datas];
-    const data = temp.filter((item) => item?.name == value);
-    if (data.length > 0) {
-      setfilterDatas(data);
-      setIsLoading(false);
-    }
-    if (search == "") {
-      setfilterDatas([]);
-    }
   };
   const handleModal = (id) => {
     let data = [...datas];
@@ -186,16 +189,16 @@ export default function GetUser() {
             scope="row"
             className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
           >
-            <Link
+            {/* <Link
               to={`/customers/${item._id}`}
               className="w-10 h-10 rounded-full"
-            >
+            > */}
               <img
                 className="w-10 h-10 rounded-full"
                 src={Images.user2}
                 alt="user"
               />
-            </Link>
+            {/* </Link> */}
             <div className="pl-3">
               <div className="text-base font-semibold">{item.name}</div>
               <div className="font-normal text-gray-500">{item.email}</div>
@@ -338,7 +341,7 @@ export default function GetUser() {
           <tbody>
             {!isLoading && (
               <>
-                {search?.length > 0 ? dataTable(filterDatas) : dataTable(datas)}
+                {dataTable(datas)}
               </>
             )}
           </tbody>
@@ -418,7 +421,7 @@ export default function GetUser() {
                 {/* <!-- Modal body --> */}
                 <div className="p-6 space-y-6">
                   <div className="grid grid-cols-6 gap-6">
-                    <div className="col-span-6 sm:col-span-3">
+                    {/* <div className="col-span-6 sm:col-span-3">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Name
                       </label>
@@ -432,7 +435,7 @@ export default function GetUser() {
                         placeholder="Enter name"
                         required=""
                       />
-                    </div>
+                    </div> */}
                     {/* <div className="col-span-6 sm:col-span-3">
                     <label
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -463,7 +466,7 @@ export default function GetUser() {
                         required=""
                       />
                     </div> */}
-                    <div className="col-span-6 sm:col-span-3">
+                    {/* <div className="col-span-6 sm:col-span-3">
                       <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Phone Number
                       </label>
@@ -477,7 +480,7 @@ export default function GetUser() {
                         required=""
                         maxLength={10}
                       />
-                    </div>
+                    </div> */}
                     {/* <div className="col-span-6 sm:col-span-3">
                             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
                             <input type="text" name="department" id="department" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Development" required=""/>
@@ -495,7 +498,7 @@ export default function GetUser() {
                       required=""
                     />
                   </div> */}
-                    <div className="col-span-6 sm:col-span-3 mt-5">
+                    <div className="col-span-6 sm:col-span-3">
                       <div className="flex items-center mb-4">
                         <input
                           type="radio"
