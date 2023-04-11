@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { cartData } from "../redux/cart/cartSlice";
 import { toast } from "react-toastify";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 const CheckoutPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -181,93 +182,95 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <div className="containerr pt-28 mb-10 shadow-black shadow-md backdrop-blur-md rounded-md">
-        <div className="grid grid-cols-1 grid-rows-3 gap-5">
-          <div className="w-full h-full  px-14 flex flex-col justify-center shadow-lg space-y-3">
-            <div className="flex space-x-3">
-              <p className="font-bold text-lg">Logged in</p>
-              {/* <img src="./svg/github.svg" className="w-7 h-7" alt="temp" /> */}
-            </div>
-            <div className="flex space-x-5">
-              <p className="font-semibold text-lg">
-                {user != null && user.name}
-              </p>{" "}
-              &nbsp;&nbsp;&nbsp; |
-              <p className="font-semibold text-lg">
-                {user != null && user.number}
-              </p>
+      <div className="pt-28 rounded-md">
+        <div className=" px-14 justify-center">
+          <div className="mb-5 shadow-md rounded-tl-3xl md:w-[50%] rounded-br-3xl bg-orange-700 bg-opacity-40 ">
+            <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+              Logged in
+            </h1>
+            <div className="bg-orange-200 pl-5 rounded-br-3xl">
+              <table className="table-auto border-spacing-y-3 border-separate">
+                <tr className="">
+                  <td className="text-white text-lg text-semibold pr-5 w-1/6">
+                    {user != null && user.name}
+                  </td>
+                  <td className="text-white font-semibold capitalize bg-opacity-20 p-1 px-2 border-l-2 border-black">
+                    {user != null && user.number}
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
+          <div className="mb-12 shadow-md rounded-bl-3xl rounded-tr-3xl bg-orange-700 bg-opacity-40 ">
+            <p className="text-2xl font-normal text-white capitalize px-5 pt-5">
+              Select delivery address
+            </p>
+            <p className="font-[400] text-slate-500 px-5 pb-5 border-b-4 border-yellow-300">
+              You have a saved address in this location
+            </p>
+            <div className="bg-orange-200 pl-5 py-5 rounded-bl-3xl">
+              <div className="flex flex-wrap gap-5">
+                {user !== null &&
+                  user.address.length !== 0 &&
+                  user.address.map((address, i) => (
+                    <div className="w-full md:w-[32%] sm:w-[49%] flex shadow-black hover:shadow-xl bg-orange-100 p-3 rounded-3xl">
+                      <div className="flex flex-row w-full p-1 sm:block justify-between">
+                        <div>
+                          <HiOutlineLocationMarker className="text-center" />
+                        </div>
+                        <div className="py-2">
+                          <p className="font-semibold text-xl">
+                            Address {i + 1}
+                          </p>
+                          <p className="w-10/12 font-[350] text-slate-500">
+                            {address.area +
+                              " " +
+                              address.city +
+                              " " +
+                              address.state +
+                              "-" +
+                              address.pincode}
+                          </p>
 
-          <div className="w-full h-full row-span-2  px-14 flex shadow-md flex-col space-y-3">
-            <div className="flex flex-col ">
-              <p className="font-bold text-lg">Select delivery address</p>
-              <p className="font-[400] text-slate-500 ">
-                You have a saved address in this location
-              </p>
-            </div>
-            <div className="flex flex-wrap">
-              {user !== null && user.address.length !== 0 ? (
-                user.address.map((address, i) => (
-                  <div className="p-3 w-full sm:w-4/12 flex ">
-                    <div className="shadow-black hover:shadow-xl w-full anim bg-orange-200 p-3">
-                      <div>
-                        <HiOutlineLocationMarker className="text-center" />
-                      </div>
-                      <div className="py-2">
-                        <p className="font-semibold text-xl">Address {i + 1}</p>
-                        <p className="w-10/12 font-[350] text-slate-500">
-                          {address.area +
-                            " " +
-                            address.city +
-                            " " +
-                            address.state +
-                            "-" +
-                            address.pincode}
-                        </p>
-
-                        <StripeCheckout
-                          stripeKey={process.env.REACT_APP_PUBLIC_KEY_PAYMENT}
-                          token={makePayment}
-                          namee="buy product"
-                          amount={String(Number(cart?.total) * 100)}
-                          currency="INR"
-                        >
-                          <button
-                            className="inline-block bg-white/30 hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
-                            onClick={() => {
-                              setSelectedAddress(address._id);
-                            }}
-                          >
-                            deliver here
-                          </button>
-                        </StripeCheckout>
-
-                        <button
-                          className="ml-4 inline-block bg-white/30 hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
-                          onClick={() => handleDelete(address._id)}
-                        >
-                          Delete
-                        </button>
+                          <div className="flex justify-start items-center mt-4 ">
+                            <StripeCheckout
+                              stripeKey={
+                                process.env.REACT_APP_PUBLIC_KEY_PAYMENT
+                              }
+                              token={makePayment}
+                              namee="buy product"
+                              amount={String(Number(cart?.total) * 100)}
+                              currency="INR"
+                            >
+                              <button
+                                className="text-center hover:bg-black text-black hover:text-white p-2 px-5 rounded-2xl uppercase duration-200 border border-black"
+                                onClick={() => {
+                                  setSelectedAddress(address._id);
+                                }}
+                              >
+                                deliver here
+                              </button>
+                            </StripeCheckout>
+                            <button
+                              className=" inline-block bg-orange-100 hover:text-white hover:bg-red-600 -bottom-4 font-bold  rounded-full border-2 border-red-600 w-fit p-2 ml-1 text-xs uppercase  text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none"
+                              onClick={() => {
+                                handleDelete(address._id);
+                              }}
+                            >
+                              <FiTrash2 size={20} className="hover:scale-110" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                // <></>
-                <></>
-              )}
+                  ))}
 
-              <div className="p-3 w-full sm:w-4/12 flex ">
-                <div className="shadow-black hover:shadow-xl w-full flex justify-center flex-col bg-orange-200 p-3">
-                  <div>
+                <div className="w-full md:w-[32%] sm::w-[49%] flex shadow-black hover:shadow-xl  bg-orange-100 p-3 rounded-3xl">
+                  <div className="py-2 flex-1">
                     <HiOutlineLocationMarker className="text-center" />
-                  </div>
-                  <div className="py-2">
                     <p className="font-semibold text-xl">Add New Address</p>
-                    <p className="w-10/12 font-[350] text-slate-500"></p>
                     <button
-                      className="inline-block mt-7 bg-white/30 hover:text-white hover:bg-green-600 -bottom-4 font-bold  rounded border border-current px-8 py-[6px] text-xs uppercase  text-green-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-green-500"
+                      className="w-[50%] text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-black uppercase mt-5"
                       type="button"
                       onClick={() => setShowModal(true)}
                     >
@@ -278,9 +281,6 @@ const CheckoutPage = () => {
               </div>
             </div>
           </div>
-          {/* <div className="w-full h-full shadow-md px-14">
-            Choose payment method{" "}
-          </div> */}
         </div>
       </div>
       {showModal ? (
