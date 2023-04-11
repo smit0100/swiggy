@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import User from "../../Apis/User";
 import swal from "sweetalert";
+import { requestForToken } from "../../firebase";
 
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 function LogIn() {
@@ -16,13 +17,22 @@ function LogIn() {
   const [cPassword, setCPassword] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmNpass, setConfirmNpass] = useState("");
+  const [tokenFound, setTokenFound] = useState(false);
   function getRandomIndex() {
     return Math.floor(Math.random() * BgImages.length);
   }
   useEffect(() => {
     setBgIndex(getRandomIndex());
     document.title = "Admin - Login";
+    getFcmToken();
   }, []);
+  const getFcmToken = () => {
+    const temp = localStorage.getItem("fcmToken");
+    console.log("===tempp", temp);
+    if (temp == null) {
+      requestForToken(setTokenFound);
+    }
+  };
   const history = useNavigate();
   const handleLogIn = () => {
     let data = {};
@@ -50,7 +60,6 @@ function LogIn() {
       };
       User.AdminLogIn(JSON.stringify(data))
         .then((result) => {
-          
           if (result?.response) {
             console.log("==result===", result);
             clearLogInState();

@@ -44,7 +44,7 @@ const UserProfile = () => {
 
   const logout = () => {
     swal({
-      title: "Are you Sure !",
+      title: "Are you Sure! you want to logout?",
       icon: "warning",
       buttons: ["NO", "YES"],
       cancelButtonColor: "#DD6B55",
@@ -84,27 +84,45 @@ const UserProfile = () => {
           <div className="w-full sm:w-1/5 p-5">
             <ul className="space-y-3">
               <li
-                className="text-lg border-b-2 cursor-pointer"
+                className={`text-lg ${
+                  openTab == 1
+                    ? "border-orange-700 border-2"
+                    : "bg-orange-200 border-orange-200 border-2"
+                } font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300`}
                 onClick={() => setOpenTab(1)}
               >
                 {" "}
                 Profile{" "}
               </li>
               <li
-                className="text-lg border-b-2 cursor-pointer"
+                className={`text-lg ${
+                  openTab == 2
+                    ? "border-orange-700 border-2"
+                    : "bg-orange-200 border-orange-200 border-2"
+                } font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300`}
                 onClick={() => setOpenTab(2)}
               >
                 {" "}
                 Your Orders{" "}
               </li>
-              <li className="text-lg border-b-2 cursor-pointer">
-                <button
-                  onClick={logout}
-                  className="inline-block bg-inherit hover:text-white hover:bg-red-600 font-bold rounded px-4 py-[6px] text-xs uppercase text-red-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-red-500"
-                >
-                  {" "}
-                  Logout{" "}
-                </button>
+              <li className="bg-orange-800 h-1 w-full rounded-full"></li>
+              <li
+                className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                onClick={() => setupdateProfile(true)}
+              >
+                <i className="fas fa-repeat"></i> Update Profile
+              </li>
+              <li
+                className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                onClick={() => setChangePassword(true)}
+              >
+                Change Password
+              </li>
+              <li
+                className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                onClick={logout}
+              >
+                LogOut
               </li>
             </ul>
           </div>
@@ -115,56 +133,47 @@ const UserProfile = () => {
               openTab === 1 ? "block" : "hidden"
             } w-full sm:w-4/5 p-5`}
           >
-            <h1 className="text-xl font-semibold pb-5 capitalize">
-              your profile
-            </h1>
-            <div className="flex gap-7 ">
-              <div>
-                <ul className="">
-                  <li className="py-3 text-lg font-extralight">Name</li>
-                  <li className=" text-lg font-extralight">Number</li>
-                  <li className="py-3 text-lg font-extralight">Email</li>
-                </ul>
-              </div>
-              <div>
-                <ul className="border-l-2 pl-5">
-                  <li className="py-3 text-lg font-normal capitalize">
-                    {user != null && user.name}
-                  </li>
-                  <li className=" text-lg font-normal">
-                    {user != null && user.number}
-                  </li>
-                  <li className="py-3 text-lg font-normal">
-                    {user != null && user.email}
-                  </li>
-                  <li className="py-3 text-lg font-normal">
-                    <button
-                      type="button"
-                      onClick={() => setChangePassword(true)}
-                      id="password"
-                      value="Change Password"
-                      className="inline-block mr-2 bg-inherit hover:text-white hover:bg-blue-400 -bottom-4 font-bold rounded border border-current px-4 py-[6px] text-xs uppercase text-blue-400 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-400"
-                    >
-                      {" "}
-                      <i className="fas fa-repeat"></i> Change Password{" "}
-                    </button>
-                    <button
-                      onClick={() => setupdateProfile(true)}
-                      className="inline-block bg-inherit hover:text-white hover:bg-blue-600 -bottom-4 font-bold rounded border border-current px-8 py-[6px] text-xs uppercase text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
-                    >
-                      {" "}
-                      Update Profile{" "}
-                    </button>
-                  </li>
-                </ul>
+            <div className="mb-2 shadow-md rounded-tl-3xl rounded-br-3xl bg-orange-700 bg-opacity-40 ">
+              <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+                Your profile
+              </h1>
+              <div className="bg-orange-200 pl-5 rounded-br-3xl">
+                <table className="table-auto border-spacing-y-3 border-separate">
+                  <tr className="">
+                    <td className="text-white text-lg text-semibold pr-5 w-1/6">
+                      Name
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize  bg-orange-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                      {user != null ? user?.name : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-white text-lg text-semibold pr-5 ">
+                      Mobile No.
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-orange-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.number : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-white text-lg text-semibold pr-5">
+                      E-mail
+                    </td>
+                    <td className="text-slate-500 font-semibold bg-orange-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.email : ""}
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
-
-            <h1 className="text-xl font-semibold pt-5 border-t-2 capitalize">
-              your Address
-            </h1>
-
-            <UserAddress />
+            <div className="mb-2 shadow-md rounded-bl-3xl rounded-tr-3xl bg-orange-700 bg-opacity-40 ">
+              <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+                Your Address
+              </h1>
+              <div className="bg-orange-200 pl-5 py-5 rounded-bl-3xl">
+                <UserAddress />
+              </div>
+            </div>
           </div>
           {/* order module  */}
           <div

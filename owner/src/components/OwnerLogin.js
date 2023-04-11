@@ -135,9 +135,7 @@ export default function OwnerLogin() {
         err?.response?.status === 401 ||
         err?.response?.status === 402
       ) {
-        toast.error(
-          `${err?.response?.data?.messag}`
-        );
+        toast.error(`${err?.response?.data?.messag}`);
         setLoading(false);
         return;
       }
@@ -197,13 +195,12 @@ export default function OwnerLogin() {
           <Link
             to="/ownerRegister"
             className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-          // onClick={() => {
-          //   clearState();
-          // }}
+            // onClick={() => {
+            //   clearState();
+            // }}
           >
             Sign up
           </Link>
-
         </div>
         <div className="relative">
           <img

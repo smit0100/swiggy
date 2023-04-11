@@ -172,11 +172,7 @@ const fetchOnlyOneUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   const { email, password, fcmToken } = req.body;
-  let user = await User.findOneAndUpdate(
-    { email },
-    { fcmToken },
-    { new: true }
-  );
+  let user = await User.findOne({ email });
 
   // user not exist
 
@@ -186,7 +182,7 @@ const loginUser = async (req, res, next) => {
 
   //userr not verified
   if (!user.verified)
-    return res.status(401).json({ message: "please verify you user account" });
+    return res.status(401).json({ message: "please verify you user account",user });
 
   const pass = await bcrypt.compareSync(password, user.password);
 
@@ -194,7 +190,12 @@ const loginUser = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, "jwtsecret");
     res.cookie("token", token);
     req.session.isLoggedIn = true;
-
+    if (user?.fcmToken === undefined || user?.fcmToken !== fcmToken) {
+      // If the user doesn't have an fcmToken, or if it's different from the new one,
+      // update it with the new value
+      user.fcmToken = fcmToken;
+      await user.save();
+    }
     return res.status(200).json({ message: "user founded", user, token });
   } else {
     return res
@@ -307,25 +308,24 @@ const updateAddress = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
   try {
     const { userId, oldPass, newPass } = req.body;
-  console.log(userId);
-  let user = await User.findById(userId);
-  console.log(user);
-  console.log(oldPass);
-  const pass = await bcrypt.compareSync(oldPass, user.password);
-  console.log(pass);
-  if (!pass) {
-    return res.status(401).json({
-      message: "Your password is incorrect",
-    });
-  } else {
-    const encryptedPass = await bcrypt.hash(newPass, 10);
-    await user.updateOne({ password: encryptedPass });
-    return res.status(200).json({ messag: "user password updated" });
-  }
+    console.log(userId);
+    let user = await User.findById(userId);
+    console.log(user);
+    console.log(oldPass);
+    const pass = await bcrypt.compareSync(oldPass, user.password);
+    console.log(pass);
+    if (!pass) {
+      return res.status(401).json({
+        message: "Your password is incorrect",
+      });
+    } else {
+      const encryptedPass = await bcrypt.hash(newPass, 10);
+      await user.updateOne({ password: encryptedPass });
+      return res.status(200).json({ messag: "user password updated" });
+    }
   } catch (e) {
-    res.status(500).json({message:'something went wrong'})
+    res.status(500).json({ message: "something went wrong" });
   }
-  
 };
 
 const deleteUser = async (req, res, next) => {
@@ -442,11 +442,7 @@ const loginAsAdmin = async (req, res) => {
   try {
     const { email, password, fcmToken } = req.body;
 
-    const response = await User.findOneAndUpdate(
-      { email, type: "admin" },
-      { fcmToken },
-      { new: true }
-    );
+    let response = await User.findOne({ email, type: "admin" });
 
     if (!response) return res.status(400).json({ messag: "user not exist" });
 
@@ -454,7 +450,12 @@ const loginAsAdmin = async (req, res) => {
 
     if (pass) {
       localStorage.setItem("fcmTokenAdmin", fcmToken);
-
+      if (response?.fcmToken === undefined || response?.fcmToken !== fcmToken) {
+        // If the response doesn't have an fcmToken, or if it's different from the new one,
+        // update it with the new value
+        response.fcmToken = fcmToken;
+        await response.save();
+      }
       return res.status(200).json({ messag: "user founded", response });
     } else {
       return res.status(300).json({ messag: "please check your crediential" });

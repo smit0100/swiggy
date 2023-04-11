@@ -55,11 +55,11 @@ const CartPage = () => {
               <div className="flex justify-between">
                 <p className="text-lg font-bold">Total</p>
                 <div className="">
-                  <p className="mb-1 text-lg font-bold">{cart != null ? cart.total : ''}</p>
+                  <p className="mb-1 text-lg font-bold">{cart != null ? "₹"+cart.total : ''}</p>
                 </div>
               </div>
-              <Link to="/checkout">
-                <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Check out</button>
+              <Link to="/checkout" >
+                <button className="w-full text-center hover:bg-black text-black hover:text-white p-2 px-5 rounded-2xl duration-200 border border-black mt-5 hover:scale-95">Check out</button>
               </Link>
             </div>}
 

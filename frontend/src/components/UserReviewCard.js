@@ -8,20 +8,14 @@ const UserReviewCard = ({ review }) => {
     }
   
     return (
-      <div>
-        <img alt="Woman" src="https://i.ibb.co/NxZH2Zg/avatar.png" className="mx-auto h-24 w-24 rounded-full object-cover shadow-xl" />
+      <div className="bg-orange-100 w-full h-fit  rounded">
+        <img alt="Woman" src="https://i.ibb.co/NxZH2Zg/avatar.png" className="mx-auto mt-2 h-24 w-24 rounded-full object-cover shadow-xl" />
   
-        <blockquote className="-mt-6 flex flex-col justify-between rounded-lg p-12 text-center shadow-xl">
+        <div className="flex flex-col justify-between rounded-lg p-6 text-center shadow-xl">
           <p className="text-lg font-bold text-gray-700">{review?.userName}</p>
-  
-          <p className="mt-4 text-sm text-gray-500">
-            {review?.review}
-          </p>
-  
-          <div className="mt-8 flex justify-center gap-0.5 text-green-500">
-            {Array}
-          </div>
-        </blockquote>
+          <p className="mt-4 text-sm text-gray-500">{review?.review}</p>
+          <div className="mt-8 flex justify-center gap-0.5 text-green-500">{Array}</div>
+        </div>
       </div>
     )
   }

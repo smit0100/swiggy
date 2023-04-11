@@ -196,21 +196,21 @@ const OrderSummary = () => {
                             summaryData.deliveryBoy.email}
                         </td>
                       </tr>
-                      <tr>
+                      {/* <tr>
                         <td className="text-slate-700 text-lg text-semibold pr-5">
                           Address
                         </td>
                         <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
-                          {/* {summaryData != null && summaryData.deliveryBoy != null &&  summaryData.deliveryBoy.address[0].area +
+                          {summaryData != null && summaryData.deliveryBoy != null &&  summaryData.deliveryBoy.address[0].area +
                           " " +
                           summaryData.deliveryBoy.address[0].city +
                           " " +
                           summaryData.deliveryBoy.address[0].state +
                           "-" +
                           summaryData.deliveryBoy.address[0].pincode
-                          } */}
+                          }
                         </td>
-                      </tr>
+                      </tr> */}
                     </table>
                   </div>
                 </div>

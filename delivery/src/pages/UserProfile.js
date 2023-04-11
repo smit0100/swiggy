@@ -4,8 +4,13 @@ import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { corierLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
+import {
+  corierLogIn,
+  setCurrentColor,
+  userData,
+} from "../redux/user/userSlice";
 import { toast } from "react-toastify";
+import swal from "sweetalert";
 
 const UserProfile = () => {
   // for popup state
@@ -18,8 +23,8 @@ const UserProfile = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setCurrentColor("black"))
-  }, [])
+    dispatch(setCurrentColor("black"));
+  }, []);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -34,10 +39,21 @@ const UserProfile = () => {
   }, []);
 
   const handleLogOut = () => {
-    localStorage.clear();
-    dispatch(corierLogIn(false));
-    dispatch(userData(null));
-    history("/");
+    swal({
+      title: "Are you Sure! you want to logout?",
+      icon: "warning",
+      buttons: ["NO", "YES"],
+      cancelButtonColor: "#DD6B55",
+      confirmButtonColor: "#DD6B55",
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        localStorage.clear();
+        dispatch(corierLogIn(false));
+        dispatch(userData(null));
+        history("/");
+      }
+    });
   };
   return (
     <>
@@ -52,8 +68,8 @@ const UserProfile = () => {
               src="https://i.ibb.co/NxZH2Zg/avatar.png"
             />
           </div>
-          
-          <div className="border-b-2 border-black/30"></div>
+
+          <div className="border-b-2 border-black/30 my-2"></div>
         </div>
 
         <div className="flex flex-wrap ">
@@ -61,17 +77,29 @@ const UserProfile = () => {
           <div className="w-full sm:w-1/5 p-5">
             <ul className="space-y-3">
               <li
-                className="text-lg border-b-2 cursor-pointer"
-                onClick={() => setOpenTab(1)}
+                className={`text-lg border-black border-2 font-mono font-semibold text-black pl-5 py-2 rounded-3xl hover:pl-8 duration-300`}
+                // onClick={() => setOpenTab(1)}
               >
                 Profile
               </li>
-              {/* <li className='text-lg border-b-2 cursor-pointer' onClick={() => navigate("/orderDetails")}>Order Detail</li> */}
+              <li className="bg-black h-1 w-full rounded-full"></li>
               <li
-                className="text-lg border-b-2 cursor-pointer"
-                onClick={() => setOpenTab(2)}
+                className={`text-base ${"bg-slate-100 border-slate-200 border-2"} font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                onClick={() => setupdateProfile(true)}
               >
-                Delivered Orders
+                <i className="fas fa-repeat"></i> Update Profile
+              </li>
+              <li
+                className={`text-base ${"bg-slate-100 border-slate-200 border-2"} font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                onClick={() => setChangePassword(true)}
+              >
+                Change Password
+              </li>
+              <li
+                className={`text-base ${"bg-slate-100 border-slate-200 border-2"} font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                onClick={handleLogOut}
+              >
+                LogOut
               </li>
             </ul>
           </div>
@@ -82,70 +110,39 @@ const UserProfile = () => {
               openTab === 1 ? "block" : "hidden"
             } w-full sm:w-4/5 p-5`}
           >
-            <h1 className="text-xl font-semibold pb-5 capitalize">
-              your profile
-            </h1>
-            <div className="flex gap-7">
-              <div>
-                <ul className="">
-                  <li className="py-3 text-lg font-extralight">Name</li>
-                  <li className=" text-lg font-extralight">Number</li>
-                  <li className="py-3 text-lg font-extralight">Email</li>
-                </ul>
-              </div>
-              <div>
-                <ul className="border-l-2 pl-5">
-                  <li className="py-3 text-lg font-normal capitalize">
-                    {user.name}
-                  </li>
-                  <li className=" text-lg font-normal">{user.number}</li>
-                  <li className="py-3 text-lg font-normal">{user.email}</li>
-                  <li className="py-3 text-lg font-normal">
-                    <button
-                      type="button"
-                      onClick={() => setChangePassword(true)}
-                      id="password"
-                      value="Change Password"
-                      className="w-full mt-3 hover:bg-black text-center text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-                    >
-                      <i className="fas fa-repeat"></i> Change Password
-                    </button>
-                    <button
-                      onClick={() => setupdateProfile(true)}
-                      className="w-full mt-3 hover:bg-black text-center text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-                    >
-                      Update Profile{" "}
-                    </button>
-                  </li>
-                </ul>
+            <div className="mb-2 shadow-md rounded-tl-3xl rounded-br-3xl bg-slate-700 bg-opacity-40 ">
+              <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+                Your profile
+              </h1>
+              <div className="bg-slate-200 pl-5 rounded-br-3xl">
+                <table className="table-auto border-spacing-y-3 border-separate">
+                  <tr className="">
+                    <td className="text-slate-700 text-lg text-semibold pr-5 w-1/6">
+                      Name
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                      {user != null ? user?.name : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5 ">
+                      Mobile No.
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.number : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5">
+                      E-mail
+                    </td>
+                    <td className="text-slate-500 font-semibold bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.email : ""}
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
-
-            {/* <h1 className="text-xl font-semibold pt-5 border-t-2 capitalize">
-              your Address
-            </h1> */}
-            <Link
-              to="/"
-              className={`my-5 px-2 py-2 flex justify-center items-center font-semibold text-xl text-white rounded-md self-center shadow-lg hover:pr-10 duration-500 bg-blue-400 w-36`}
-              onClick={handleLogOut}
-            >
-              Log out
-            </Link>
-          </div>
-          {/* order module  */}
-          <div
-            className={`${
-              openTab === 2 ? "block" : "hidden"
-            } w-full sm:w-4/5 p-5`}
-          >
-            <h1 className="text-xl font-semibold pb-5 capitalize">
-              Order Detail
-            </h1>
-            {/* <div className='w-3/4 h-full '>
-              {
-                order ? order.map(item => <OrderDetailsCard items={item}/>) : ''
-              }
-            </div> */}
           </div>
         </div>
 

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartData } from "../redux/cart/cartSlice";
 import swal from 'sweetalert'
-import Loader from '../components/Loader';
+
 const SearchPage = () => {
   const [data, setData] = useState([]);
   const [load, setLoad] = useState(false)
@@ -60,7 +60,7 @@ const SearchPage = () => {
       if (!isUser) {
         navigate('/login')
       } else {
-        if (cartItemData != null && cartItemData.products.length == 0) {
+        if (cartItemData !== null && cartItemData.products.length === 0) {
           const response = await axios.post(`${process.env.REACT_APP_BASEURL}/cart/add`, {
             productId: id,
             userId: isUser._id,
@@ -71,7 +71,7 @@ const SearchPage = () => {
           swal("Item added in cart", "", "success");
         }
         else {
-          if (cartItemData.resturant != restaurantId) {
+          if (cartItemData.resturant !== restaurantId) {
             console.log("hello jii");
             swal({
               title: "Items already in cart",
@@ -123,32 +123,35 @@ const SearchPage = () => {
   return (
     <>
       <div>
-        <img className='image-cover w-screen h-3/5 absolute -z-10 blur-sm' src='https://media.istockphoto.com/id/104731717/photo/luxury-resort.jpg?s=612x612&w=0&k=20&c=cODMSPbYyrn1FHake1xYz9M8r15iOfGz9Aosy9Db7mI=' /></div>
+        <img className="image-cover w-screen h-3/5 absolute -z-10 blur-sm" alt='nothing' src='https://media.istockphoto.com/id/104731717/photo/luxury-resort.jpg?s=612x612&w=0&k=20&c=cODMSPbYyrn1FHake1xYz9M8r15iOfGz9Aosy9Db7mI=' />
+      </div>
       <div className='w-full h-full flex justify-center pb-5  '>
-        <div className='w-4/5 h-full bg-slate-100 mt-60 flex flex-col items-center rounded-md'>
+        <div className='w-4/5 h-full rounded-3xl bg-orange-200 mt-60 flex flex-col items-center'>
           <div className='flex justify-center items-center w-full'>
             <input
               type="text"
-              className="border-0  mt-6 pl-5 pr-36 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-3/5 ease-linear transition-all duration-150 font-bold"
+              className="border-0  mt-6 pl-5 pr-36 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded-full text-sm shadow focus:outline-none focus:ring w-3/5 ease-linear transition-all duration-150 font-bold"
               placeholder="Search for restaurants and foods"
               onChange={(event) => setSearch(event.target.value)}
             />
-            <i className="fa-solid fa-magnifying-glass pr-3 -ml-8 mt-6 text-gray-400 text-xl"></i>
+            <i className="fa-solid fa-magnifying-glass pr-3 -ml-8 mt-6 text-orange-400 text-xl"></i>
           </div>
 
-          <div className='w-4/5 px-5'>
+          <div className='w-[70%] px-5'>
             {
               load === true ? (
-                <Loader />
+                <div className='w-full items-center justify-center flex'>
+                  <img src='https://s10.gifyu.com/images/loader175ba3dbc6a2636c.gif' className='w-56 ' alt='this is loader'/>
+                </div>
               ) : data.map(restaurant => <div className='cursor-pointer'>
-                <div onClick={() => redirectRestaurent(restaurant.resturnat)} className="bg-white flex items-center border rounded-lg p-6 shadow-lg mt-4">
-                  <img src={`${restaurant.imageUrl}`} alt="Food item" className="w-32 h-32 rounded-full mr-6" />
+                <div onClick={() => redirectRestaurent(restaurant.resturnat)} className="bg-white flex items-center border rounded-tl-2xl rounded-br-2xl p-3 shadow-lg mt-4">
+                  <img src={`${restaurant.imageUrl}`} alt="Food item" className="w-32 h-32 rounded-tl-3xl rounded-br-3xl mr-6 hover:scale-105 duration-300" />
                   <div className='w-full'>
                     <h2 className="text-2xl font-bold mb-2">{restaurant.name}</h2>
                     <p className="text-gray-700 text-base mb-4">{restaurant.description}</p>
                     <div className="flex items-center justify-between w-full">
                       <span className="text-lg font-bold">₹ {restaurant.price}</span>
-                      <button onClick={(e) => { e.stopPropagation(); addtoCart(restaurant.resturnat, restaurant._id) }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ">Add to cart</button>
+                      <button onClick={(e) => { e.stopPropagation(); addtoCart(restaurant.resturnat, restaurant._id) }} className=" text-center hover:bg-black text-black hover:text-white p-2 px-5 rounded-tl-2xl rounded-br-2xl duration-200 border border-black mt-5 hover:scale-95">Add to cart</button>
                     </div>
                   </div>
                 </div>
@@ -161,20 +164,16 @@ const SearchPage = () => {
                 {/* <a href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
                     &laquo;
                   </a> */}
-                <a href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
+                <button className="bg-orange-100 rounded-l-3xl hover:bg-orange-50 text-gray-800 font-bold py-2 px-4" onClick={handlePrevPage} disabled={pageNumber === 1}>
                   Pre
-                </a>
-                <span href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
+                </button>
+                <span className="bg-orange-100 hover:bg-orange-300 text-gray-800 font-bold py-2 px-4">
                   {pageNumber}
 
                 </span>
-                <button href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
+                <button href="#" className="bg-orange-100 rounded-r-3xl hover:bg-orange-50 text-gray-800 font-bold py-2 px-4" onClick={handleNextPage} disabled={pageNumber === totalPages}>
                   Next
                 </button>
-
-                {/* <a href="#" className="bg-gray-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-                    &raquo;
-                  </a> */}
               </div>
             </div>
 

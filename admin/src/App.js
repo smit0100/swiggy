@@ -72,6 +72,11 @@ function App() {
       className={currentMode === "Dark" ? "dark" : ""}
       style={{ overflowX: "hidden" }}
     >
+      <ToastContainer
+        pauseOnHover={false}
+        theme={currentMode === "Dark" ? "light" : "dark"}
+        style={{ zIndex: 9999 }}
+      />
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           {isLogIn ? (
@@ -105,12 +110,8 @@ function App() {
                     : "bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 "
                 }
               >
-                <div className="sticky top-0 z-30 backdrop-blur-xl dark:bg-main-dark-bg navbar w-full ">
-                  <ToastContainer
-                    pauseOnHover={false}
-                    theme={currentMode === "Dark" ? "light" : "dark"}
-                  />
-                  <Navbar setChangePassword={setChangePassword}/>
+                <div className="sticky top-0 z-30 backdrop-blur-xl dark:bg-main-dark-bg w-full ">
+                  <Navbar setChangePassword={setChangePassword} />
                 </div>
                 {themeSettings && <ThemeSettings />}
                 <Routes>
@@ -149,7 +150,10 @@ function App() {
       </BrowserRouter>
       <Notification />
       {changePassword ? (
-        <ChangePassword currentColor={currentColor} setChangePassword={setChangePassword} />
+        <ChangePassword
+          currentColor={currentColor}
+          setChangePassword={setChangePassword}
+        />
       ) : null}
     </div>
   );

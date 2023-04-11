@@ -155,7 +155,7 @@ export default function GetUser() {
   const handleDelete = (id) => {
     swal({
       title: "Are you sure?",
-      text: `Are you sure! you want to delete this User?`,
+      text: `You want to delete this User?`,
       icon: "warning",
       buttons: true,
       dangerMode: true,
