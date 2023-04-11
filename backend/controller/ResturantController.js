@@ -539,11 +539,11 @@ const searchProduct = async (req, res, next) => {
     console.log(req.query)
   
     try {
-        const totalCount = await Product.find({name: regex,resturnat:req.query.id }).countDocuments();
+      const totalCount = await Product.find({ name: regex, resturnat: req.query.id,isActive:{$ne:false} }).countDocuments();
     
         const totalPages = Math.ceil(totalCount / pageSize);        
   
-        const response = await Product.find({ name: regex,resturnat:req.query.id  }).skip((pageNumber - 1) * pageSize).limit(pageSize);
+        const response = await Product.find({ name: regex,resturnat:req.query.id,isActive:{$ne:false}  }).skip((pageNumber - 1) * pageSize).limit(pageSize);
             console.log(response)
         return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
         pageSize: pageSize,

@@ -156,11 +156,11 @@ const fetchAllProduct = async (req, res, next) => {
     try {
         
 
-        const totalCount = await Product.find({ name: regex }).countDocuments();
+        const totalCount = await Product.find({ name: regex,isActive:{$ne:false} }).countDocuments();
     
         const totalPages = Math.ceil(totalCount / pageSize);        
 
-        const response = await Product.find({ name: regex }).skip((pageNumber - 1) * pageSize).limit(pageSize);
+        const response = await Product.find({ name: regex,isActive:{$ne:false} }).skip((pageNumber - 1) * pageSize).limit(pageSize);
             console.log(response)
         return res.status(200).json({ message: 'product founded', response ,  totalPages: totalPages,
         pageSize: pageSize,
