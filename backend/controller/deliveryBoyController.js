@@ -299,11 +299,11 @@ const addReview = async (req, res, next) => {
     }).save();
 
     // console.log(review);
-    
+
     let response = await DeliveryBoy.findByIdAndUpdate(
       deliveryboyId,
       {
-        $push: {review:review._id}
+        $push: { review: review._id }
       },
       {
         new: true,
@@ -313,10 +313,10 @@ const addReview = async (req, res, next) => {
     console.log(review._id);
     const order = await Order.findByIdAndUpdate(orderId, {
       deliveryBoyReview: review._id,
-      
-      
+
+
     }, {
-      new:true
+      new: true
     }).populate('deliveryBoyReview')
     console.log(order);
     let ratingCount = 0;
@@ -386,7 +386,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
     const { id, newPassword } = req.body;
     let user = await DeliveryBoy.findById(id);
 
-    console.log("its user",user);
+    console.log("its user", user);
     if (!user)
       return res.status(404).send({
         messag: "user not found",
@@ -397,7 +397,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
       token: req.body.otp,
     });
 
-    console.log("its token",token);
+    console.log("its token", token);
 
     if (!token) {
       return res.status(205).json({ messag: "wrong otp" });
@@ -463,11 +463,24 @@ const changePassword = async (req, res, next) => {
 
 const makeAnAvilable = async (req, res) => {
   try {
-    const { id } = req.query;
+    let { id } = req.query;
+    const response = await DeliveryBoy.findByIdAndUpdate(id,{
+      $set:{isAvilable:false}
+    },{new:true})
+   
+    res.status(200).json({ messag: 'status chage', response });
+  } catch (e) {
+    res.status(500).json({ messag: 'something went wrong' });
+  }
+}
 
-    const response = await DeliveryBoy.findByIdAndUpdate(id, {
-      isAvilable:false
-    })
+const makeAvilable = async (req, res) => {
+  try {
+    let { id } = req.query;
+    const response = await DeliveryBoy.findByIdAndUpdate(id,{
+      $set:{isAvilable:true}
+    },{new:true})
+   
     res.status(200).json({ messag: 'status chage', response });
   } catch (e) {
     res.status(500).json({ messag: 'something went wrong' });
@@ -492,5 +505,6 @@ module.exports = {
   forgotPasswordForSentEmail,
   editDeliveryBoy,
   changePassword,
-  makeAnAvilable
+  makeAnAvilable,
+  makeAvilable
 };

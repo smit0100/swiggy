@@ -20,7 +20,7 @@ router.post('/forgotpassword', deliveryBoyController.forgotPasswordForSentEmail)
 router.post('/verfiyotp', deliveryBoyController.forgotPasswordForSetNewPassword);
 router.put('/edit',deliveryBoyController.editDeliveryBoy);
 router.post("/changepassword", deliveryBoyController.changePassword);
-router.post('/changestatus', deliveryBoyController.makeAnAvilable);
-
+router.put('/changestatus', deliveryBoyController.makeAnAvilable);
+router.put('/makeavilable',deliveryBoyController.makeAvilable);
 
 module.exports = router
