@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
+
 import { ownerLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
 import InlineButtonLoader from "./InlineButtonLoader";
 import { useDispatch } from "react-redux";
@@ -58,6 +58,7 @@ export default function OwnerLogin() {
     window.open("http://localhost:4000/auth/google/callback", "self");
   };
   console.log(googleAuth);
+
   const handleEmail = (e) => {
     setEmail(e.target.value);
     var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -117,6 +118,17 @@ export default function OwnerLogin() {
           fcmToken,
         }
       );
+      console.log(response);
+      if (response.status == 212) {
+        navigate({
+          pathname: "/otp",
+          search: createSearchParams({
+            id: response.data.rest._id,
+            email: response.data.rest.email,
+          }).toString(),
+        });
+      }
+      else{
       console.log("owner login res::", response);
       dispatch(userData(response.data.rest));
       dispatch(ownerLogIn(true));
@@ -128,6 +140,7 @@ export default function OwnerLogin() {
       });
       setLoading(false);
       navigate("/");
+    }
     } catch (err) {
       console.log(err);
       if (

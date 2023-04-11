@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { corierLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
@@ -24,7 +24,7 @@ export default function Login() {
     dispatch(setCurrentColor("white"))
     getFcmToken();
   }, [])
-  
+
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmTokenDelivery");
     console.log("===tempp", temp);
@@ -32,7 +32,7 @@ export default function Login() {
       requestForToken(setTokenFound);
     }
   };
-  
+
   const handleLogIn = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (email == "") {
@@ -73,24 +73,34 @@ export default function Login() {
           fcmToken,
         }
       );
-      console.log(response);
-      dispatch(userData(response.data.user));
+      if (response.status == 212) {
+        navigate({
+          pathname: "/otp",
+          search: createSearchParams({
+            id: response.data.user._id,
+            email: response.data.user.email,
+          }).toString(),
+        });
+      }
+      else {
+        console.log(response);
+        dispatch(userData(response.data.user));
+        dispatch(corierLogIn(true));
+        localStorage.setItem("isCorierLogIn", JSON.stringify(true));
+        localStorage.setItem(
+          "deliveryData",
+          JSON.stringify(response?.data?.user)
+        );
 
-      dispatch(corierLogIn(true));
-      localStorage.setItem("isCorierLogIn", JSON.stringify(true));
-      localStorage.setItem(
-        "deliveryData",
-        JSON.stringify(response?.data?.user)
-      );
+        setLoading(false);
+        swal("SuccessFully Login", "", "success");
 
-      setLoading(false);
-      swal("SuccessFully Login", "", "success");
-
-      // if (response.data.user.isApproved === "pending") {
-      //   navigate("/status");
-      // } else {
+        // if (response.data.user.isApproved === "pending") {
+        //   navigate("/status");
+        // } else {
         navigate("/");
-      // }
+        // }
+      }
     } catch (err) {
       console.log(err);
       if (
@@ -158,9 +168,9 @@ export default function Login() {
           <Link
             to="/register"
             className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-            // onClick={() => {
-            //   clearState();
-            // }}
+          // onClick={() => {
+          //   clearState();
+          // }}
           >
             Sign up
           </Link>

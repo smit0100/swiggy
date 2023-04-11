@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { setCurrentColor, userData, userLogIn } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
@@ -102,15 +101,28 @@ export default function Login() {
           fcmToken,
         }
       );
+      console.log(response);
+      if (response.status == 212) {
+        navigate({
+          pathname: "/otp",
+          search: createSearchParams({
+            id: response.data.user._id,
+            email: response.data.user.email,
+          }).toString(),
+        });
+      }
+      else {
+        // console.log("=====ress", response);
+        dispatch(userData(response?.data?.user));
+        dispatch(userLogIn(true));
+        localStorage.setItem("isUserLogIn", JSON.stringify(true));
+        localStorage.setItem("userData", JSON.stringify(response?.data?.user));
+        swal("SuccessFully Login", "", "success");
+        setLoading(false);
+        navigate("/");
+      }
 
-      // console.log("=====ress", response);
-      dispatch(userData(response?.data?.user));
-      dispatch(userLogIn(true));
-      localStorage.setItem("isUserLogIn", JSON.stringify(true));
-      localStorage.setItem("userData", JSON.stringify(response?.data?.user));
-      swal("SuccessFully Login", "", "success");
-      setLoading(false);
-      navigate("/");
+
     } catch ({ response }) {
       // console.log("===error", response);
       if (
@@ -194,9 +206,9 @@ export default function Login() {
           <Link
             to="/register"
             className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-            // onClick={() => {
-            //   clearState();
-            // }}
+          // onClick={() => {
+          //   clearState();
+          // }}
           >
             Sign up
           </Link>

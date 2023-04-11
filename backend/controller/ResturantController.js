@@ -159,17 +159,15 @@ const loginResturant = async (req, res, next) => {
     const { email, password, fcmToken } = req.body;
     let rest = await Resturant.findOne({ email });
 
-    if (!rest)
-      return res.status(400).json({ messag: "resturant not registered" });
-
-    if (!rest.registerVerfied)
-      return res
-        .status(401)
-        .json({ messag: "please verify your user account" });
-
     const pass = await bcrypt.compareSync(password, rest.password);
-
+    
     if (pass) {
+     console.log(pass);
+      if (!rest.registerVerfied)
+      return res
+        .status(212)
+        .json({ messag: "please verify your user account" ,rest});
+
       if (rest?.fcmToken === undefined || rest?.fcmToken !== fcmToken) {
         // If the rest doesn't have an fcmToken, or if it's different from the new one,
         // update it with the new value

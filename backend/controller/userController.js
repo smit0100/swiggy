@@ -180,13 +180,14 @@ const loginUser = async (req, res, next) => {
   console.log(password);
   console.log(user.password);
 
-  //userr not verified
-  if (!user.verified)
-    return res.status(401).json({ message: "please verify you user account",user });
+
 
   const pass = await bcrypt.compareSync(password, user.password);
 
   if (pass) {
+    //userr not verified
+    if (!user.verified)
+      return res.status(212).json({ message: "please verify you user account", user });
     const token = jwt.sign({ id: user._id }, "jwtsecret");
     res.cookie("token", token);
     req.session.isLoggedIn = true;

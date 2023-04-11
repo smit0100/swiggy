@@ -85,11 +85,13 @@ const login = async (req, res, next) => {
     if (!user) return res.status(400).json({ message: "user not exist" });
     console.log(user);
 
-    // if (!user.isVerified) return res.status(401).json({ message: 'please verify your account' })
     console.log(user.email);
     const pass = await bcrypt.compareSync(password, user.password);
     console.log(pass);
     if (pass) {
+      
+    if (!user.isVerified) return res.status(212).json({ message: 'please verify your account',user})
+
       if (user?.fcmToken === undefined || user?.fcmToken !== fcmToken) {
         // If the user doesn't have an fcmToken, or if it's different from the new one,
         // update it with the new value
