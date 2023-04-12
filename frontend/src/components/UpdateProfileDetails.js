@@ -70,6 +70,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         localStorage.setItem("userData", JSON.stringify(response?.data?.user));
         swal("Profile updated successfully", "", "success");
       }
+      setupdateProfile(false);
       setIsValidLoading(false);
     } catch (err) {
       if (err.response.status == 409) {
@@ -272,7 +273,6 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg hover:border duration-200 border border-gray-300`}
                 onClick={(e) => {
-                  setupdateProfile(false);
                   changeProfileDetails(e);
                 }}
               >

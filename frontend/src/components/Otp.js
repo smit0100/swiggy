@@ -199,7 +199,7 @@ const Otp = () => {
               ))}
             </div>
           </form>
-          <div className="mt-4 text-center">
+          {/* <div className="mt-4 text-center">
             {isTimerRunning > 0 ? (
               <OTPTimer onTimerComplete={handleTimerComplete} />
             ) : (
@@ -210,7 +210,7 @@ const Otp = () => {
                 Resend OTP
               </button>
             )}
-          </div>
+          </div> */}
           <button
             className="w-full bg-white h-14 text-black p-2 mt-5 rounded-lg hover:bg-black hover:text-white hover:border duration-200 border border-gray-300"
             onClick={handleClick}

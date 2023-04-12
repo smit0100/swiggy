@@ -63,9 +63,9 @@ const ContactUs = () => {
 
   function SubmitButton() {
     if (name && email && number && message && nameError.length === 0 && emailError.length === 0 && numberError.length === 0 && messageError.length === 0) {
-        return (<button onClick={handleSubmit} type="submit" className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90">{loading ? <InlineButtonLoader /> : "Send Message"}</button>);
+        return (<button onClick={handleSubmit} type="submit" className="bg-blue-700 border-blue-700 w-full rounded-xl border p-3 text-white transition hover:bg-opacity-90">{loading ? <InlineButtonLoader /> : "Send Message"}</button>);
     } else {
-      return (<button type="submit" className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90" disabled>Send Message</button>);
+      return (<button type="submit" className="bg-blue-700 border-blue-700 w-full rounded-xl border p-3 text-white transition hover:bg-opacity-90" disabled>Send Message</button>);
     }
   }
 
@@ -137,7 +137,7 @@ console.log(response,'contactUS')
               </div>
             </div>
             <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
-              <div className="relative rounded-lg bg-white p-8 shadow-lg sm:p-12">
+              <div className="relative rounded-lg bg-white p-8 hover:shadow-2xl duration-500 shadow-md sm:p-12">
                 <form>
                   <div className="mb-6">
                     <input type="text" value={name} onChange={handleName} onBlur={handleName} placeholder="Your Name" className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none" />

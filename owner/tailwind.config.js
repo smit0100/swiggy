@@ -12,7 +12,12 @@ module.exports = {
         headingColor: "#2e2e2e",
         cartNumBg: "#e80013",
         textColor: "#515151",
-      }
+      },
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '3rem',
+        '6xl': '4rem',
+      },
     },
   },
   plugins: [

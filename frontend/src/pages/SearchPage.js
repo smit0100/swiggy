@@ -123,15 +123,18 @@ const SearchPage = () => {
   return (
     <>
       <div>
-        <img className="image-cover w-screen h-3/5 absolute -z-10 blur-sm" alt='nothing' src='https://media.istockphoto.com/id/104731717/photo/luxury-resort.jpg?s=612x612&w=0&k=20&c=cODMSPbYyrn1FHake1xYz9M8r15iOfGz9Aosy9Db7mI=' />
+        <img
+          className="image-cover w-screen h-3/5 shadow-2xl absolute blur-0 -z-10 rounded-b-6xl"
+          src="https://images.unsplash.com/photo-1539136788836-5699e78bfc75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+        />
       </div>
       <div className='w-full h-full flex justify-center pb-5  '>
-        <div className='w-4/5 h-full rounded-3xl bg-orange-200 mt-60 flex flex-col items-center'>
+        <div className='w-4/5 h-full rounded-4xl shadow-2xl bg-orange-200 mt-60 flex flex-col items-center'>
           <div className='flex justify-center items-center w-full'>
             <input
               type="text"
               className="border-0  mt-6 pl-5 pr-36 py-4 placeholder-blueGray-300 text-blueGray-600 bg-white rounded-full text-sm shadow focus:outline-none focus:ring w-3/5 ease-linear transition-all duration-150 font-bold"
-              placeholder="Search for restaurants and foods"
+              placeholder="Search foods"
               onChange={(event) => setSearch(event.target.value)}
             />
             <i className="fa-solid fa-magnifying-glass pr-3 -ml-8 mt-6 text-orange-400 text-xl"></i>

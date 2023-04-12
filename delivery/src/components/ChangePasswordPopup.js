@@ -90,6 +90,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
       );
       swal("Password changed successfully", "", "success");
       setIsValidLoading(false);
+      setChangePassword(false);
     } catch (err) {
       if (err.response.status == 401) {
         swal(`${err.response.data.message}`, "", "error");
@@ -202,7 +203,6 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
                 onClick={(e) => {
-                  setChangePassword(false);
                   handleChangePassword(e);
                 }}
               >

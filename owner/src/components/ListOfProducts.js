@@ -9,8 +9,11 @@ const ListOfProducts = () => {
   const user = useSelector((state) => state.userData.user);
   const [load, setLoad] = useState(false);
   const [data, setData] = useState(null);
+  const [product, setProduct] = useState(null);
   const [category, setCategory] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [categoryID, setCategoryID] = useState("");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,6 +24,7 @@ const ListOfProducts = () => {
           `http://localhost:4000/resturant/allProduct?id=${user._id}`
         );
         setData(response.data.result);
+        setProduct(response.data.result);
         console.log(response.data, "this is data");
         setLoad(false);
       } catch (err) {
@@ -40,26 +44,26 @@ const ListOfProducts = () => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoad(true);
-        const ct = categories.map((id) => id.toString()).join(",");
-        console.log("this is ct log");
-        console.log(typeof ct);
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASEURL}/resturant/products?id=${user._id}&${
-            categories.length > 0 ? `categories=${categories.join(",")}` : ""
-          }`
-        );
-        console.log(response.data, "dataaaaaa");
-        setData(response.data.product);
-        setLoad(false);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [categories]);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       setLoad(true);
+  //       const ct = categories.map((id) => id.toString()).join(",");
+  //       console.log("this is ct log");
+  //       console.log(typeof ct);
+  //       const response = await axios.get(
+  //         `${process.env.REACT_APP_BASEURL}/resturant/products?id=${user._id}&${
+  //           categories.length > 0 ? `categories=${categories.join(",")}` : ""
+  //         }`
+  //       );
+  //       console.log(response.data, "dataaaaaa");
+  //       setData(response.data.product);
+  //       setLoad(false);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   })();
+  // }, [categories]);
 
   useEffect(() => {
     (async () => {
@@ -74,42 +78,60 @@ const ListOfProducts = () => {
       }
     })();
   }, []);
+  const handleFilter = (e, id) => {
+    e.preventDefault();
+    if (categoryID == id) {
+      setData(product);
+      setCategoryID("");
+      return;
+    }
+    setCategoryID(id);
+    let arrayData = [...product];
+    let datas = arrayData?.filter((item) => item.category._id == id);
+    console.log("===data====", id);
+    setData(datas);
+  };
+
   return (
     <>
-      <div className="flex flex-wrap pt-24">
-        <div className=" w-full sm:w-3/12 p-4 top-0 bg-black/10 left-0 overflow-hidden relative">
-          <h1 className="text-2xl font-semibold py-4">List of Products</h1>
-
-          <ul className="space-y-2">
+    <div className="pt-24 flex flex-grow-0 text-center justify-center items-center">
+            <h1 className="text-3xl text-center border-b-2 border-black uppercase mb-5 pb-3">
+              List of Products
+            </h1>
+          </div>
+      <div className="flex flex-wrap justify-center">
+        <div className="w-full sm:w-1/5 p-5">
+          <ul className="space-y-3">
+            <li
+              className={`text-lg ${
+                true
+                  ? "border-slate-700 border-2"
+                  : "bg-slate-200 border-slate-200 border-2"
+              } font-mono font-semibold text-black cursor-pointer pl-5 py-2 rounded-3xl hover:pl-8 duration-300`}
+              onClick={() => {
+                setCategoryID("");
+                setData(product);
+              }}
+            >
+              Categories
+            </li>
+            <li className="bg-black h-1 w-full rounded-full"></li>
             {category != null &&
               category.map((item) => (
-                <li>
-                  <input
-                    type="checkbox"
-                    id={item._id}
-                    value={item._id}
-                    onChange={handleCategoryChange}
-                    className="hidden peer"
-                    required=""
-                  />
-                  <label
-                    htmlFor={item._id}
-                    className="inline-flex items-center justify-between w-full p-1 text-gray-500 bg-inherit border-2 border-gray-200 cursor-pointer   peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 "
-                  >
-                    <div className="block">
-                      <div className="w-full text-lg font-semibold">
-                        {item.name}
-                      </div>
-                    </div>
-                  </label>
+                <li
+                  className={`text-base ${
+                    categoryID == item._id
+                      ? "border-slate-700 border-2"
+                      : "bg-slate-200 border-slate-200 border-2"
+                  } font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300`}
+                  onClick={(e) => handleFilter(e, item?._id)}
+                >
+                  {item.name}
                 </li>
               ))}
           </ul>
         </div>
         <div className="w-full sm:w-9/12 p-4">
-          <h1 className="text-3xl text-center border-b-2 border-black uppercase mb-5 pb-3">
-            List of Products
-          </h1>
           {load === true ? (
             <div className="flex justify-center items-center h-1/2 w-full bg-transparent">
               <img

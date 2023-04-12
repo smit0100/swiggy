@@ -140,7 +140,7 @@ const AddProduct = () => {
         <div className="bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 min-h-screen">
           <div className="mx-5">
             <div className="pt-20">
-              <form className="lg:px-16 lg:pt-10 p-5 bg-slate-200 shadow-lg lg:mx-10 rounded-2xl my-5">
+              <form className="lg:px-16 lg:pt-10 p-5 bg-slate-200 shadow-lg lg:mx-10 rounded-4xl my-5">
                 <h1 className="font-bold text-2xl mb-5">&bull; Add Product</h1>
                 <div className="flex flex-wrap mb-3">
                   <div className="w-full md:w-1/2 px-3">

@@ -85,7 +85,7 @@ const ContactUs = () => {
       return (
         <button
           type="submit"
-          className="bg-blue-700 border-blue-700 w-full rounded border p-3 text-white transition hover:bg-opacity-90"
+          className="bg-blue-700 border-blue-700 w-full rounded-xl border p-3 text-white transition hover:bg-opacity-90"
           disabled
         >
           Send Message
