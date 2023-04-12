@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { userData } from "../redux/user/userSlice";
+import { setCurrentColor, userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
+import { useEffect } from "react";
 
 const RestaurantRegister = () => {
   const navigate = useNavigate();
@@ -69,7 +70,10 @@ const RestaurantRegister = () => {
     pincode: "",
     ownerName: "",
   });
-
+  
+  useEffect(() => {
+    dispatch(setCurrentColor("black"));
+  }, []);
   const handleRestaurantName = (e) => {
     setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
     console.log(restaurantName);
@@ -424,7 +428,7 @@ console.log(bankNpan,banknpanError);
 
 
   return (
-    <>
+    <div className="pt-24">
       {loading && (
         <div className="fixed top-0 w-screen h-screen bg-black/20 z-50">
           <div className="flex justify-center items-center h-screen">
@@ -800,7 +804,7 @@ console.log(bankNpan,banknpanError);
           <></>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

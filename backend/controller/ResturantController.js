@@ -655,6 +655,7 @@ const updateProfile = async (req, res, next) => {
         id,
         {
           ownerName: name,
+          name: name,
           number,
         },
         {
