@@ -37,7 +37,7 @@ export default function Product(props) {
       </ul>
       <div className="text-center">
         <button className="rounded-tl-3xl rounded-br-3xl dark:bg-white bg-black px-10 py-2 text-white hover:scale-105 duration-300 dark:text-black dark:font-semibold">
-          View More
+          {props.status}
         </button>
       </div>
     </div>

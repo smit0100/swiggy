@@ -9,7 +9,7 @@ function GetCounts() {
     },
   });
 }
-function GetRequests(startNum,endNum) {
+function GetRequests(startNum, endNum) {
   return Api({
     url: `/resturant/getAllPending?pageNumber=${startNum}&pageSize=${endNum}`,
     method: "GET",
@@ -18,7 +18,7 @@ function GetRequests(startNum,endNum) {
     },
   });
 }
-function GetOwners(startNum,endNum) {
+function GetOwners(startNum, endNum) {
   return Api({
     url: `/resturant/getOwners?pageNumber=${startNum}&pageSize=${endNum}`,
     method: "GET",
@@ -64,6 +64,15 @@ function getAllReviews(id) {
     },
   });
 }
+function setProductDeactive(id, ownerId) {
+  return Api({
+    url: `/product/deleteProduct/?id=${id}&resturant=${ownerId}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function handleRequest(id, req) {
   console.log("==id,req", id, req);
   return Api({
@@ -101,5 +110,6 @@ export default {
   getAllReviews,
   deleteRestaurant,
   GetOwners,
-  ownerReminder
+  ownerReminder,
+  setProductDeactive,
 };

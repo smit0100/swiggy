@@ -210,6 +210,7 @@ export default function ApprovedRestaurant() {
                   price={item?.price}
                   bgImage={item?.imageUrl}
                   description={item?.description}
+                  status="activate"
                 />
               );
             })
