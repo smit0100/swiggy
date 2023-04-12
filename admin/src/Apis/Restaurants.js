@@ -39,7 +39,7 @@ function GetApprovedRestaurant() {
 }
 function getOneProduct(id) {
   return Api({
-    url: `/resturant/products?id=${id}`,
+    url: `/resturant/fetchAllProduct?id=${id}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -66,7 +66,7 @@ function getAllReviews(id) {
 }
 function setProductDeactive(id, ownerId) {
   return Api({
-    url: `/product/deleteProduct/?id=${id}&resturant=${ownerId}`,
+    url: `/product/changeType/?id=${id}&resturant=${ownerId}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",

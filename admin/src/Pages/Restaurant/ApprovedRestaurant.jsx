@@ -8,6 +8,8 @@ import { Categories, Product } from "../../Components";
 import Restaurants from "../../Apis/Restaurants";
 import Category from "../../Apis/Category";
 import { Images } from "../../Assets";
+import swal from "sweetalert";
+import { toast } from "react-toastify";
 
 export default function ApprovedRestaurant() {
   const location = useLocation();
@@ -66,9 +68,35 @@ export default function ApprovedRestaurant() {
     console.log("===data", datas);
     setData(datas);
   };
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+  const handleDelete = (status, id) => {
+    swal({
+      title: "Are you sure ?",
+      text: `You want to ${status ? "deactive" : "active"} this product`,
+      icon: "warning",
+      buttons: ["NO", "YES"],
+      cancelButtonColor: "#DD6B55",
+      confirmButtonColor: "#DD6B55",
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        Restaurants.setProductDeactive(id, state._id)
+          .then((res) => {
+            console.log("===res", res);
+            if (res?.message == "Product status updated successfully") {
+              getProducts();
+              toast.success(`Product ${status ? "deactived" : "actived"} successfully👌`);
+            }
+          })
+          .catch((e) => {
+            console.log("===e", e);
+            toast.error("Something went wrong,try again");
+          });
+      }
+    });
   };
   const getRemainingStar = (number) => {
     let Array = [];
@@ -204,14 +232,19 @@ export default function ApprovedRestaurant() {
           {data?.length > 0 ? (
             data?.map((item, index) => {
               return (
-                <Product
-                  key={index}
-                  name={item?.name}
-                  price={item?.price}
-                  bgImage={item?.imageUrl}
-                  description={item?.description}
-                  status="activate"
-                />
+                <>
+                  {item.price > 0 && (
+                    <Product
+                      key={index}
+                      name={item?.name}
+                      price={item?.price}
+                      bgImage={item?.imageUrl}
+                      description={item?.description}
+                      status={item?.isActive == true ? "Deactive" : "Active"}
+                      onClick={() => handleDelete(item?.isActive, item?._id)}
+                    />
+                  )}
+                </>
               );
             })
           ) : (

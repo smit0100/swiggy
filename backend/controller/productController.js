@@ -218,6 +218,18 @@ const isActive = async (req, res, next) => {
     res.status(500).json({ message: "something went wrong" });
   }
 };
+const changeType = async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const product = await Product.findById(id);
+    product.isActive = !product.isActive; // toggle the isActive flag
+    await product.save(); // save the updated product
+    res.status(200).json({ message: "Product status updated successfully" });
+  } catch (e) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 
 module.exports = {
   createProduct,
@@ -227,4 +239,5 @@ module.exports = {
   allResturantProduct,
   updateProduct,
   isActive,
+  changeType
 };

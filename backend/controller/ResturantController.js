@@ -160,13 +160,13 @@ const loginResturant = async (req, res, next) => {
     let rest = await Resturant.findOne({ email });
 
     const pass = await bcrypt.compareSync(password, rest.password);
-    
+
     if (pass) {
-     console.log(pass);
+      console.log(pass);
       if (!rest.registerVerfied)
-      return res
-        .status(212)
-        .json({ messag: "please verify your user account" ,rest});
+        return res
+          .status(212)
+          .json({ messag: "please verify your user account", rest });
 
       if (rest?.fcmToken === undefined || rest?.fcmToken !== fcmToken) {
         // If the rest doesn't have an fcmToken, or if it's different from the new one,
@@ -347,6 +347,19 @@ const fetchResturantAllProduct = async (req, res, next) => {
     }).populate("category");
   }
   res.status(200).json({ message: "product finded", product, resturant });
+};
+const fetchAllProducts = async (req, res, next) => {
+  const { id } = req.query;
+  const resturant = await Resturant.findById(id);
+
+  if (!resturant)
+    return res.status(404).json({ message: "resturant not exist" });
+
+  let product;
+  product = await Product.find({
+    resturnat: id,
+  }).populate("category");
+  res.status(200).json({ message: "product finded", product });
 };
 
 const fetchAllApprovedResturant = async (req, res, next) => {
@@ -575,24 +588,35 @@ const searchProduct = async (req, res, next) => {
 
   const pageNumber = parseInt(req.query.pageNumber) || 1;
   const pageSize = parseInt(req.query.pageSize) || 10;
-  console.log(req.query)
-  
+  console.log(req.query);
+
   try {
-    const totalCount = await Product.find({ name: regex, resturnat: req.query.id, isActive: { $ne: false } }).countDocuments();
-    
+    const totalCount = await Product.find({
+      name: regex,
+      resturnat: req.query.id,
+      isActive: { $ne: false },
+    }).countDocuments();
+
     const totalPages = Math.ceil(totalCount / pageSize);
-  
-    const response = await Product.find({ name: regex, resturnat: req.query.id, isActive: { $ne: false } }).skip((pageNumber - 1) * pageSize).limit(pageSize);
-    console.log(response)
+
+    const response = await Product.find({
+      name: regex,
+      resturnat: req.query.id,
+      isActive: { $ne: false },
+    })
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageSize);
+    console.log(response);
     return res.status(200).json({
-      message: 'product founded', response, totalPages: totalPages,
+      message: "product founded",
+      response,
+      totalPages: totalPages,
       pageSize: pageSize,
-      totalCount: totalCount
+      totalCount: totalCount,
     });
   } catch (e) {
-    res.status(400).json({ message: 'something went wrong' });
+    res.status(400).json({ message: "something went wrong" });
   }
-
 
   try {
     const totalCount = await Product.find({
@@ -619,9 +643,7 @@ const searchProduct = async (req, res, next) => {
   } catch (e) {
     res.status(400).json({ message: "something went wrong" });
   }
-}
-  
-
+};
 
 const updateProfile = async (req, res, next) => {
   try {
@@ -756,4 +778,5 @@ module.exports = {
   rejectOrder,
   getAllResturantOwner,
   sendNotificationToOwner,
+  fetchAllProducts,
 };

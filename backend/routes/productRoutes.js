@@ -7,6 +7,7 @@ router.get('/fetchAll', productController.fetchAllProduct);
 router.get('/allResturantProduct', productController.allResturantProduct);
 router.put('/update', productController.updateProduct);
 router.get('/deleteProduct',productController.isActive)
+router.get('/changeType',productController.changeType)
 
 
 module.exports = router

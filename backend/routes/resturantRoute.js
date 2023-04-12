@@ -13,6 +13,7 @@ router.get("/dashBoard", resturantController.getDashboardCount)
 router.get("/fetchAll", resturantController.fetchAllResturants)
 router.get("/fetch/:id",resturantController.fetchResturant)
 router.get('/products',resturantController.fetchResturantAllProduct)
+router.get('/fetchAllProduct',resturantController.fetchAllProducts)
 router.post("/add", resturantController.createResturnat);
 router.post("/approve/:id",resturantController.approveResturant)
 router.post("/reject/:id", resturantController.rejectResturant)

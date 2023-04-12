@@ -31,13 +31,15 @@ export default function Product(props) {
           </p>
         </li>
         <li className="flex flex-col">
-          <span className="font-bold">Review</span>{" "}
-          <p className="dark:text-gray-400">3.5/5</p>
+          <span className="font-bold">Status</span>{" "}
+          <div className={`border-2 ${props.status == "Deactive" ? "border-green-500 text-green-500":"border-red-500 text-red-500"} p-1 rounded-full`}>
+          <p className="dark:text-gray-400 text-xs">{props.status == "Deactive" ? "Active" : "Deactive"}</p>
+          </div>
         </li>
       </ul>
       <div className="text-center">
-        <button className="rounded-tl-3xl rounded-br-3xl dark:bg-white bg-black px-10 py-2 text-white hover:scale-105 duration-300 dark:text-black dark:font-semibold">
-          {props.status}
+        <button className="rounded-tl-3xl rounded-br-3xl dark:bg-white bg-black px-10 py-2 text-white hover:scale-105 duration-300 dark:text-black dark:font-semibold" onClick={props.onClick}>
+          <p>{props.status}</p>
         </button>
       </div>
     </div>
