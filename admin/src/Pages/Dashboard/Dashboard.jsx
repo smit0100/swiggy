@@ -6,9 +6,14 @@ import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
 import Restaurants from "../../Apis/Restaurants";
 import { FiBarChart } from "react-icons/fi";
-import { BiRestaurant } from "react-icons/bi";
-import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { HiOutlineRefresh } from "react-icons/hi";
+import { BiRestaurant, BiCategory } from "react-icons/bi";
+import { BsBox,BsBoxes } from "react-icons/bs";
+import {
+  MdOutlineSupervisorAccount,
+  MdOutlineDeliveryDining,
+  MdOutlineCategory,
+} from "react-icons/md";
+import { RiContactsBook2Line } from "react-icons/ri";
 import { Blocks } from "react-loader-spinner";
 const earningDatas = [
   {
@@ -40,12 +45,84 @@ const earningDatas = [
     pcColor: "green-600",
   },
   {
-    icon: <HiOutlineRefresh />,
+    icon: <MdOutlineDeliveryDining />,
     amount: "354",
     percentage: "-12%",
-    title: "delevery partner",
+    title: "Delevery partner",
     iconColor: "rgb(0, 194, 146)",
     iconBg: "rgb(235, 250, 242)",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BiCategory />,
+    amount: "354",
+    percentage: "-12%",
+    title: "Main Category",
+    iconColor: "#6C63FF",
+    iconBg: "#EDEBFF",
+    pcColor: "red-600",
+  },
+  {
+    icon: <MdOutlineCategory />,
+    amount: "354",
+    percentage: "-12%",
+    title: "Sub Category",
+    iconColor: "#D13D46",
+    iconBg: "#FFEBEE",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BsBox />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Total products",
+    iconColor: "#4A90E2",
+    iconBg: "#EAF2FE",
+    pcColor: "red-600",
+  },
+  {
+    icon: <RiContactsBook2Line />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Contact us",
+    iconColor: "#F9A826",
+    iconBg: "#FFF3E0",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BsBoxes />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Delivered Order",
+    iconColor: "#C2185B",
+    iconBg: "#FCE4EC",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BsBoxes />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Canceled Order",
+    iconColor: "#F9D71C",
+    iconBg: "#FFFCE0",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BsBoxes />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Rejected Order",
+    iconColor: "#00796B",
+    iconBg: "#E0F2F1",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BsBoxes />,
+    amount: "0",
+    percentage: "-12%",
+    title: "In process Order",
+    iconColor: "#3F51B5",
+    iconBg: "#E8EAF6",
     pcColor: "red-600",
   },
 ];
@@ -84,22 +161,29 @@ function Dashboard(props) {
   const getCount = () => {
     Restaurants.GetCounts()
       .then((res) => {
-        console.log("===res", res);
+        console.log("===res===count", res);
+        // console.log("===res===counts", JSON.stringify(res?.oorder));
         if (res?.message == "finded counts") {
           let temp = [...earningData];
           temp[0].amount = res?.userCount;
           temp[1].amount = res?.resCount;
           temp[2].amount = res?.totalSales + " ₹";
           temp[3].amount = res?.DeliveryCount;
+          temp[4].amount = res?.mainCategory;
+          temp[5].amount = res?.subCategory;
+          temp[6].amount = res?.Product;
+          temp[7].amount = res?.contactUS;
+          temp[8].amount = res?.deliveredOrder;
+          temp[9].amount = res?.canceledOrder;
+          temp[10].amount = res?.rejectedOrder;
+          temp[11].amount = res?.process;
           setEarningData(temp);
-          return;
         }
       })
       .then((e) => {
         console.log("==getCounts error::", e);
       });
   };
-  console.log("===item?.amount", earningData);
   return (
     <div className="mt-24">
       <div className="flex flex-wrap lg:flex-nowrap justify-center bg-slate-300 rounded-2xl">
@@ -107,12 +191,12 @@ function Dashboard(props) {
           {earningData.map((item, index) => (
             <div
               key={index}
-              className="bg-slate-100 h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl hover:drop-shadow-xl "
+              className="bg-slate-100 h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl hover:drop-shadow-xl duration-200"
             >
               <button
                 type="button"
                 style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-                className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+                className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl duration-150"
               >
                 {item.icon}
               </button>
@@ -120,9 +204,9 @@ function Dashboard(props) {
                 <span className="text-lg font-semibold">
                   {item?.amount != undefined ? item?.amount : 0}
                 </span>
-                <span className={`text-sm text-${item.pcColor} ml-2`}>
+                {/* <span className={`text-sm text-${item.pcColor} ml-2`}>
                   {item.percentage}
-                </span>
+                </span> */}
               </p>
               <p className="text-sm text-gray-400  mt-1">{item.title}</p>
             </div>

@@ -10,6 +10,10 @@ const sendEmail = require("../utils/sendEmail");
 const User = require("../module/UserModel");
 const { sendNotification } = require("../utils/PushNotification");
 const OrderModel = require("../module/OrderModel");
+const ProductModel = require("../module/ProductModel");
+const SubCategory = require("../module/SubCategory");
+const ContactUsModel = require("../module/ContactUsModel");
+const CategoryModel = require("../module/CategoryModel");
 
 const createResturnat = async (req, res, next) => {
   let { address, name, ownerName, panCard, bankDetails, id } = req.body;
@@ -459,24 +463,56 @@ const rejectedResturant = async (req, res) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 };
+
 const getDashboardCount = async (req, res) => {
   try {
     const resCount = await Resturant.countDocuments();
     const DeliveryCount = await DeliveryBoy.countDocuments();
+    const mainCategory = await CategoryModel.countDocuments();
+    const subCategory = await SubCategory.countDocuments();
     const userCount = await User.countDocuments();
+    const Product = await ProductModel.countDocuments();
+    const contactUS = await ContactUsModel.countDocuments();
     const order = await Order.find({ status: "delivered" });
+    const deliveredOrder = await Order.countDocuments({ status: "delivered" });
+    const canceledOrder = await Order.countDocuments({ status: "cancel" });
+    const rejectedOrder = await Order.countDocuments({ status: "rejected" });
+    const process = await Order.countDocuments({ status: "process" });
     let totalSales = 0;
-    for (let index = 0; index < order.length; index++) {
-      const element = order[index];
-      totalSales += element?.total;
+    for (const iterator of order) {
+      totalSales += iterator?.total;
     }
-    res.status(200).json({
-      message: "finded counts",
-      resCount,
-      DeliveryCount,
-      userCount,
-      totalSales,
-    });
+    if (
+      resCount ||
+      DeliveryCount ||
+      userCount ||
+      Product ||
+      order ||
+      totalSales ||
+      mainCategory ||
+      subCategory ||
+      contactUS ||
+      deliveredOrder ||
+      canceledOrder ||
+      rejectedOrder ||
+      process
+    ) {
+      res.status(200).json({
+        message: "finded counts",
+        resCount,
+        DeliveryCount,
+        userCount,
+        totalSales,
+        Product,
+        mainCategory,
+        subCategory,
+        contactUS,
+        deliveredOrder,
+        canceledOrder,
+        rejectedOrder,
+        process,
+      });
+    }
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });
   }
