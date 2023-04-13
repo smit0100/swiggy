@@ -40,7 +40,7 @@ const OrderDetail = () => {
   }, [filter]);
 
   return (
-    <>
+    <div className="min-h-screen">
       {isLoading ? (
         <Loader />
       ) : (
@@ -120,7 +120,7 @@ const OrderDetail = () => {
           }
         </>
       )}
-    </>
+    </div>
   );
 };
 

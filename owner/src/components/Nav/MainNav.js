@@ -37,10 +37,10 @@ const MainNav = () => {
       dangerMode: true,
     }).then(async (willDelete) => {
       if (willDelete) {
+        history("/");
         localStorage.clear();
         dispatch(ownerLogIn(false));
         dispatch(userData(null));
-        history("/");
       }
     });
   };

@@ -28,6 +28,7 @@ const ListOfProducts = () => {
         console.log(response.data, "this is data");
         setLoad(false);
       } catch (err) {
+        setLoad(false);
         console.log(err);
       }
     })();
@@ -93,30 +94,35 @@ const ListOfProducts = () => {
   };
 
   return (
-    <>
-    <div className="pt-24 flex flex-grow-0 text-center justify-center items-center">
-            <h1 className="text-3xl text-center border-b-2 border-black uppercase mb-5 pb-3">
-              List of Products
-            </h1>
-          </div>
+    <div className="min-h-screen">
+      <div className="pt-24 flex flex-grow-0 text-center justify-center items-center">
+        <h1 className="text-3xl text-center border-b-2 border-black uppercase mb-5 pb-3">
+          List of Products
+        </h1>
+      </div>
       <div className="flex flex-wrap justify-center">
         <div className="w-full sm:w-1/5 p-5">
           <ul className="space-y-3">
-            <li
-              className={`text-lg ${
-                true
-                  ? "border-slate-700 border-2"
-                  : "bg-slate-200 border-slate-200 border-2"
-              } font-mono font-semibold text-black cursor-pointer pl-5 py-2 rounded-3xl hover:pl-8 duration-300`}
-              onClick={() => {
-                setCategoryID("");
-                setData(product);
-              }}
-            >
-              Categories
-            </li>
-            <li className="bg-black h-1 w-full rounded-full"></li>
-            {category != null &&
+            {/* {data?.length > 0 && ( */}
+              <>
+                <li
+                  className={`text-lg ${
+                    true
+                      ? "border-slate-700 border-2"
+                      : "bg-slate-200 border-slate-200 border-2"
+                  } font-mono font-semibold text-black cursor-pointer pl-5 py-2 rounded-3xl hover:pl-8 duration-300`}
+                  onClick={() => {
+                    setCategoryID("");
+                    setData(product);
+                  }}
+                >
+                  Categories
+                </li>
+                <li className="bg-black h-1 w-full rounded-full"></li>
+              </>
+            {/* )} */}
+            {category?.length > 0 &&
+              // data?.length > 0 &&
               category.map((item) => (
                 <li
                   className={`text-base ${
@@ -133,7 +139,7 @@ const ListOfProducts = () => {
         </div>
         <div className="w-full sm:w-9/12 p-4">
           {load === true ? (
-            <div className="flex justify-center items-center h-1/2 w-full bg-transparent">
+            <div className="flex justify-center items-center h-full w-full">
               <img
                 src="https://s10.gifyu.com/images/loader175ba3dbc6a2636c.gif"
                 className="w-56 "
@@ -150,7 +156,7 @@ const ListOfProducts = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

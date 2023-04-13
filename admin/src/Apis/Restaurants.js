@@ -46,6 +46,15 @@ function getOneProduct(id) {
     },
   });
 }
+function getResDetail(id) {
+  return Api({
+    url: `/resturant/products?id=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 // function getAllReviews(id,startNum,endNum) {
 //   return Api({
 //     url: `/resturant/getreview/?id=${id}&pageNumber=${startNum}&pageSize=${endNum}`,
@@ -112,4 +121,5 @@ export default {
   GetOwners,
   ownerReminder,
   setProductDeactive,
+  getResDetail
 };

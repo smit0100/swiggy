@@ -242,14 +242,14 @@ export default function Request() {
                     className={`${
                       item?.isApproved == "Accepted"
                         ? "bg-green-500"
-                        : item?.isApproved == "Not Request"
+                        : item?.isApproved == "pending"
                         ? "bg-orange-400"
                         : "bg-red-500"
                     } text-white rounded-2xl py-1 px-3 text-sm font-medium`}
                   >
                     {item?.isApproved == "Accepted"
                       ? "Approved"
-                      : item?.isApproved == "Not Request"
+                      : item?.isApproved == "pending"
                       ? "Pending"
                       : "Rejected"}
                   </span>
