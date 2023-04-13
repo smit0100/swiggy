@@ -5,10 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentColor, userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
 import { useEffect } from "react";
-
+import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 const RestaurantRegister = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(true);
+  const [isSaveValid, setSaveIsValid] = useState(true);
+
   const owner = useSelector((state) => state.userData.user);
   const [restaurant, setRestaurent] = useState({
     restaurantName: "",
@@ -18,7 +22,6 @@ const RestaurantRegister = () => {
     state: "",
     pincode: "",
     ownerName: "",
-
   });
 
   const [bankNpan, setBankNpan] = useState({
@@ -37,9 +40,8 @@ const RestaurantRegister = () => {
     panno: "",
     panholdername: "",
   });
-
-
-
+  const { accountno, confirmAccountno, ifsc, panno, panholdername, acType } =
+    bankNpan;
   const {
     restaurantName,
     restaurantAddress,
@@ -48,7 +50,6 @@ const RestaurantRegister = () => {
     state,
     pincode,
     ownerName,
-
   } = restaurant;
 
   const [tabOpen, setTabOpen] = useState(1);
@@ -70,10 +71,87 @@ const RestaurantRegister = () => {
     pincode: "",
     ownerName: "",
   });
-  
+
   useEffect(() => {
     dispatch(setCurrentColor("black"));
   }, []);
+  useEffect(() => {
+    if (
+      restaurantName &&
+      restaurantAddress &&
+      area &&
+      city &&
+      pincode &&
+      state &&
+      ownerName &&
+      errorHandle.restaurantName.length === 0 &&
+      errorHandle.restaurantAddress.length === 0 &&
+      errorHandle.area.length === 0 &&
+      errorHandle.city.length === 0 &&
+      errorHandle.state.length === 0 &&
+      errorHandle.pincode.length === 0 &&
+      errorHandle.ownerName.length === 0
+    ) {
+      if (
+        accountno &&
+        confirmAccountno &&
+        ifsc &&
+        panno &&
+        panholdername &&
+        acType &&
+        banknpanError.accountno === "" &&
+        banknpanError.confirmAccountno === "" &&
+        banknpanError.ifsc === "" &&
+        banknpanError.panno === "" &&
+        banknpanError.panholdername === "" &&
+        bg1 != null &&
+        bg2 != null &&
+        bg3 != null &&
+        pancardPhoto != null &&
+        bankDetailsPhoto != null
+      ) {
+        setSaveIsValid(false);
+      } else {
+        setSaveIsValid(true);
+      }
+      setIsValid(false);
+    } else {
+      setSaveIsValid(true);
+      setIsValid(true);
+    }
+  }, [
+    restaurantName,
+    restaurantAddress,
+    area,
+    city,
+    pincode,
+    state,
+    ownerName,
+    errorHandle.restaurantName,
+    errorHandle.restaurantAddress,
+    errorHandle.area,
+    errorHandle.city,
+    errorHandle.state,
+    errorHandle.pincode,
+    errorHandle.ownerName,
+    accountno,
+    confirmAccountno,
+    ifsc,
+    panno,
+    panholdername,
+    acType,
+    banknpanError,
+    banknpanError,
+    banknpanError,
+    banknpanError,
+    banknpanError,
+    bg1,
+    bg2,
+    bg3,
+    pancardPhoto,
+    bankDetailsPhoto,
+  ]);
+
   const handleRestaurantName = (e) => {
     setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
     console.log(restaurantName);
@@ -163,26 +241,25 @@ const RestaurantRegister = () => {
     } else {
       setBanknpanError({ ...banknpanError, [e.target.name]: "" });
     }
-
   };
 
   const handleConfirmACno = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
-    console.log(e.target.value,bankNpan.confirmAccountno);
+    console.log(e.target.value, bankNpan.confirmAccountno);
     var regex = /^\d{11,18}$/;
     if (!regex.test(e.target.value)) {
       setBanknpanError({
         ...banknpanError,
-        [e.target.name]: "Please enter your account no",
+        [e.target.name]: "Please re-enter your account no",
       });
-    }
-    else if (e.target.value != bankNpan.accountno) {
-      setBanknpanError({ ...banknpanError, [e.target.name]: "please enter same account number" });
-    }
-    else {
+    } else if (e.target.value != bankNpan.accountno) {
+      setBanknpanError({
+        ...banknpanError,
+        [e.target.name]: "please enter same account number",
+      });
+    } else {
       setBanknpanError({ ...banknpanError, [e.target.name]: "" });
     }
-
   };
 
   const handleAcType = (e) => {
@@ -209,13 +286,12 @@ const RestaurantRegister = () => {
     if (!regex.test(e.target.value)) {
       setBanknpanError({
         ...banknpanError,
-        [e.target.name]: "Please enter PAN number",
+        [e.target.name]: "Please enter valid PAN number",
       });
     } else {
       setBanknpanError({ ...banknpanError, [e.target.name]: "" });
     }
   };
-
 
   const handlepanholder = (e) => {
     setBankNpan({ ...bankNpan, [e.target.name]: e.target.value });
@@ -251,7 +327,9 @@ const RestaurantRegister = () => {
       return (
         <button
           onClick={() => setTabOpen(2)}
-          className="inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+          className={`${
+            isValid ? "bg-black" : "hover:bg-white hover:text-black"
+          } md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}
         >
           Next {">"}
         </button>
@@ -261,44 +339,18 @@ const RestaurantRegister = () => {
         <button
           disabled
           onClick={() => setTabOpen(2)}
-          className="inline-block  bg-white hover:text-white border border-current hover:bg-blue-600 font-bold  rounded  px-10  py-[10px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500"
+          className={`${
+            isValid ? "bg-black" : "hover:bg-white hover:text-black"
+          } md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}
         >
           Next {">"}
         </button>
       );
     }
   }
-
-console.log(bankNpan,banknpanError);
-  function saveUpdate() {
-    if (bankNpan.accountno && bankNpan.confirmAccountno && bankNpan.acType && bankNpan.ifsc && bankNpan.panno && bankNpan.panholdername && banknpanError.accountno === "" && banknpanError.confirmAccountno === "" && banknpanError.ifsc === "" && banknpanError.panno === "" && banknpanError.panholdername === "") {
-      return (<button className="bg-emerald-500 w-full my-2  text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button"
-        onClick={handleUpload}>
-        Save Update
-      </button>)
-    } else {
-      return (
-        <button className="bg-emerald-300 w-full my-2  text-white active:bg-emerald-200 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={handleUpload} disabled>
-          Save Update
-        </button>)
-    }
-  }
-
-
-  // function handelchange(e) {
-  //   e.preventDefault();
-  //   setRestaurent({ ...restaurant, [e.target.name]: e.target.value });
-  // }
-  // console.log(restaurant);
-
-
-
   async function handleUpload(e) {
     e.preventDefault();
-
+    const id = toast.loading(`Processing your request\n,Please wait...`);
     const formData = new FormData();
 
     const address = {
@@ -331,7 +383,7 @@ console.log(bankNpan,banknpanError);
     formData.append("bankDetails", JSON.stringify(bankDetails));
     formData.append("panCard", JSON.stringify(pancardDetail));
     formData.append("id", owner._id);
-
+    console.log("=====formData", formData);
     try {
       setLoading(true);
       const res = await axios.post(
@@ -341,6 +393,16 @@ console.log(bankNpan,banknpanError);
       console.log(res);
       setLoading(false);
       navigate("/");
+      toast.update(id, {
+        render: "Request created successfully👌",
+        type: "default",
+        isLoading: false,
+        autoClose: 2000,
+        closeOnClick: true,
+        draggable: true,
+        pauseOnHover: false,
+      });
+      toast.dismiss(id);
       dispatch(userData(res.data.response));
       localStorage.setItem("ownerData", JSON.stringify(res?.data?.response));
       swal("Registration successfully", "", "success");
@@ -349,459 +411,461 @@ console.log(bankNpan,banknpanError);
     }
   }
 
-  // by smit
-  //  async function handleUpload(e) {
-  //     e.preventDefault()
-
-  //     const formData = new FormData();
-  //     // formData.append(
-  //     //   "bankPassbook",
-  //     //   bankDetailsPhoto,
-  //     //   bankDetailsPhoto.name
-  //     //   );
-  //     // formData.append("pancard",
-  //     //   pancardPhoto,
-  //     //   pancardPhoto.name
-  //     // )
-
-  //     const address = {
-  //       street:restaurantAddress,
-  //       area:area,
-  //       state:state,
-  //       city:city,
-  //       pincode:pincode
-  //     }
-  //     formData.append("bank", bankDetailsPhoto)
-  //     formData.append("pancard", pancardPhoto)
-  //     formData.append("address", address)
-  //     formData.append("email", restaurant.email)
-  //     formData.append("number", restaurant.number);
-  //     formData.append("category", selectCuisinesType)
-  //     formData.append("outLetType",selectOutletType)
-
-  //     // console.log(formData);
-  //     // console.log(formData.getAll("bankPassbook"));
-  //     // console.log(bankDetailsPhoto);
-
-  //     // axios.post("api/uploadfile", formData);
-  //     // axios.post("http://localhost:4000/resturant/add", {
-  //     //   formData,
-  //     //   address:{
-  //     //     street:restaurantAddress,
-  //     //     area:area,
-  //     //     state:state,
-  //     //     city:city,
-  //     //     pincode:pincode
-  //     //   },
-  //     //   category:selectCuisinesType,
-  //     //   outLetType:selectOutletType,
-  //     //   resturantType:restaurantType,
-  //     //   timing:{
-  //     //     openAt:opentime,
-  //     //     closeAt:closetime
-  //     //   }
-  //     // })
-
-  //     // const form=await JSON.stringify({ address:{
-  //     //   street:restaurantAddress,
-  //     //   area:area,
-  //     //   state:state,
-  //     //   city:city,
-  //     //   pincode:pincode
-  //  // },
-  //     // name:restaurantName,
-  //     // ownerName:ownerName,
-  //     // email:email,
-  //     // number:number,
-  //     // category:selectCuisinesType,
-  //     // outLetType:selectOutletType,
-  //     // resturantType:restaurantType,
-  //     // timing:{
-  //     //   openAt:opentime,
-  //     //   closeAt:closetime
-  //     //   }
-  //     // })
-
-  //     await axios.post("http://localhost:4000/resturant/add",formData)
-  //   }
-
-
-
+  const handleLogOut = () => {
+    swal({
+      title: "Are you Sure! you want to go back?",
+      icon: "warning",
+      buttons: ["NO", "YES"],
+      cancelButtonColor: "#DD6B55",
+      confirmButtonColor: "#DD6B55",
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        navigate("/");
+      }
+    });
+  };
   return (
     <div className="pt-24">
-      {loading && (
-        <div className="fixed top-0 w-screen h-screen bg-black/20 z-50">
-          <div className="flex justify-center items-center h-screen">
-            <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className="mx-10 sm:mx-20 md:mx-28 lg:mx-40 xl:mx-72 flex flex-wrap">
-        <div className="w-full sm:w-1/4 p-5 shadow-lg rounded">
-          <h1 className="text-xl pb-5">1. Create your restaurant page</h1>
-          <ul className="space-y-4">
+      <div className="mx-2 md:mx-10 flex flex-wrap">
+        <div className="w-full sm:w-[25%] p-5">
+          <ul className="space-y-3">
             <li
-              onClick={() => setTabOpen(1)}
-              className="text-lg font-normal cursor-pointer"
+              className={`text-lg ${
+                true
+                  ? "border-blue-800 border-2"
+                  : "bg-black border-slate-200 border-2"
+              } font-mono font-semibold text-blue-800 pl-5 py-2  rounded-3xl hover:pl-8 duration-300`}
             >
               Restaurant information
-              <br />
-              <span className="text-sm text-slate-500">
-                Restaurant name,address,contact no.,owner details
-              </span>
             </li>
 
+            <li className="bg-black h-1 w-full rounded-full"></li>
             <li
-              onClick={() => setTabOpen(2)}
-              className="text-lg font-normal cursor-pointer"
+              className={`text-base ${
+                tabOpen == 1
+                  ? "border-slate-700 border-2"
+                  : "bg-slate-200 border-slate-200 border-2"
+              } font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+              onClick={() => setTabOpen(1)}
             >
-              Upload Images <br />{" "}
-              <span className="text-sm text-slate-500">
-                Menu,restaurant,food images
-              </span>
+              Restaurant Details
+            </li>
+            <li
+              className={`text-base ${
+                tabOpen == 2
+                  ? "border-slate-700 border-2"
+                  : "bg-slate-200 border-slate-200 border-2"
+              } font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+              onClick={() => setTabOpen(2)}
+            >
+              Other Details
+            </li>
+            <li
+              className={`text-base ${"bg-slate-200 border-slate-200 border-2"} font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+              onClick={handleLogOut}
+            >
+              Cancel
             </li>
           </ul>
         </div>
 
         {/* Restaurant information  */}
-        {tabOpen === 1 ? (
+        {tabOpen === 1 && (
           <div className="w-full sm:w-3/4">
-            <h2 className="text-4xl font-normal pb-10">
-              Restaurant Information
-            </h2>
-
-            <form className="">
-              <div className="p-5 border-[1.5px] shadow-md shadow-black">
-                <h2 className="text-2xl font-semibold">Restaurant Details</h2>
-                <h3 className="text-slate-500">Name, Address and location</h3>
-                <div className="pt-10 space-y-10">
+            <form className="lg:px-16 lg:py-10 p-5 bg-slate-200 lg:w-10/12 hover:shadow-2xl duration-300 shadow-lg lg:mx-10 rounded-2xl my-5">
+              <h1 className="font-bold text-2xl">&bull; Restaurant Details</h1>
+              <h3 className="text-slate-500 mb-10 pl-5 text-xs">
+                Name, Address and location
+              </h3>
+              <div className="flex flex-wrap mb-6">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Restaurant name
+                  </label>
                   <input
+                    className="appearance-none duration-300 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
                     type="text"
-                    name="restaurantName"
-                    onChange={handleRestaurantName}
-                    onBlur={handleRestaurantName}
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Restaurant name"
+                    name="restaurantName"
+                    value={restaurantName}
+                    onBlur={handleRestaurantName}
+                    onChange={handleRestaurantName}
                   />
                   <span className="text-sm text-red-500">
                     {errorHandle.restaurantName}
                   </span>
-                  <input
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-6">
+                <div className="w-full px-3">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Address
+                  </label>
+                  <textarea
+                    className="appearance-none duration-300 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                     type="text"
+                    placeholder="Address"
+                    value={restaurantAddress}
                     name="restaurantAddress"
                     onChange={handleRestaurantAddress}
                     onBlur={handleRestaurantAddress}
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Restaurant address"
                   />
                   <span className="text-sm text-red-500">
                     {errorHandle.restaurantAddress}
                   </span>
                 </div>
-                <div className="pt-10 ">
-                  <h1 className="text-xl">Restaurant address details</h1>
-                  <h1>
-                    Address details are basis the restaurant location mentioned
-                    above
-                  </h1>
-                  <div className="space-y-5 pt-5">
-                    <div className="gap-5 flex">
-                      <div>
-                        <input
-                          type="text"
-                          name="area"
-                          onChange={handleArea}
-                          onBlur={handleArea}
-                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                          placeholder="Area"
-                        />
-                        <br />
-                        <span className="text-sm text-red-500">
-                          {errorHandle.area}
-                        </span>
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          name="pincode"
-                          onChange={handlePincode}
-                          onBlur={handlePincode}
-                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                          placeholder="Pincode"
-                        />
-                        <br />
-                        <span className="text-sm text-red-500">
-                          {errorHandle.pincode}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex gap-5">
-                      <div>
-                        <input
-                          type="text"
-                          onChange={handleCity}
-                          onBlur={handleCity}
-                          name="city"
-                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                          placeholder="City"
-                        />
-                        <br />
-                        <span className="text-sm text-red-500">
-                          {errorHandle.city}
-                        </span>
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          onChange={handleState}
-                          onBlur={handleState}
-                          name="state"
-                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                          placeholder="State"
-                        />
-                        <br />
-                        <span className="text-sm text-red-500">
-                          {errorHandle.state}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+              </div>
+              <h1 className="font-bold text-2xl">
+                &bull; Restaurant address details
+              </h1>
+              <h3 className="text-slate-500 mb-5 pl-5 text-xs">
+                Address details are basis the restaurant location mentioned
+                above
+              </h3>
+              <div className="flex flex-wrap mb-6">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Area
+                  </label>
+                  <input
+                    className="appearance-none duration-300 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    value={area}
+                    placeholder="Area"
+                    name="area"
+                    onChange={handleArea}
+                    onBlur={handleArea}
+                  />
+                  <span className="text-sm text-red-500">
+                    {errorHandle.area}
+                  </span>
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Pin code
+                  </label>
+                  <input
+                    className="appearance-none duration-300 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    placeholder="Pin code"
+                    name="pincode"
+                    value={pincode}
+                    onChange={handlePincode}
+                    onBlur={handlePincode}
+                  />
+                  <span className="text-sm text-red-500">
+                    {errorHandle.pincode}
+                  </span>
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    City
+                  </label>
+                  <input
+                    className="appearance-none block duration-300 focus:shadow-2xl w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    placeholder="City"
+                    value={city}
+                    onChange={handleCity}
+                    onBlur={handleCity}
+                    name="city"
+                  />
+                  <span className="text-sm text-red-500">
+                    {errorHandle.city}
+                  </span>
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    State
+                  </label>
+                  <input
+                    className="appearance-none duration-300 block focus:shadow-2xl w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    placeholder="State"
+                    onChange={handleState}
+                    onBlur={handleState}
+                    value={state}
+                    name="state"
+                  />
+                  <span className="text-sm text-red-500">
+                    {errorHandle.state}
+                  </span>
                 </div>
               </div>
-              <div className="p-5 border-[1.5px] shadow-md shadow-black mt-4 relative">
-                <h2 className="text-2xl font-semibold">
-                  Restaurant Owner name
-                </h2>
-                <h3 className="text-slate-500">
-                  Your Customer will call on this nanme for general enquiries
-                </h3>
-                <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-8">
-                  <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                    <i className="fas fa-user"></i>
-                  </span>
+            </form>
+            <form className="lg:p-16 p-5 bg-slate-200 lg:w-10/12 hover:shadow-2xl duration-300 shadow-lg lg:mx-10 rounded-2xl my-5">
+              <h1 className="font-bold text-2xl">
+                &bull; Restaurant Owner name
+              </h1>
+              <h3 className="text-slate-500 mb-5 pl-5 text-xs">
+                Your Customer will call on this nanme for general enquiries
+              </h3>
+              <div className="flex flex-wrap mb-6">
+                <div className="w-full px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Restaurant name
+                  </label>
                   <input
+                    className="appearance-none duration-300 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                     onChange={handleOwnerName}
                     onBlur={handleOwnerName}
+                    value={ownerName}
                     type="text"
                     id="name"
                     name="ownerName"
                     placeholder="Owner full name"
-                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
                   />
                   <span className="text-sm text-red-500">
                     {errorHandle.ownerName}
                   </span>
-                </div>
-                {/* <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
-                    <span className="z-10 h-full leading-snug font-normal  text-center text-slate-700 absolute bg-transparent rounded text-base items-center justify-center w-8 px-3 py-3">
-                      +91
-                    </span>
-                    <input onChange={handleNumber} onBlur={handleNumber} type="text" name='number' id='number' placeholder="Enter Your Number" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-12" />
-                    <span className='text-sm text-red-500'>{errorHandle.number}</span>
+                  <div className="flex justify-end pt-12">
+                    {handleFirstForm()}
                   </div>
-                  <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
-                    <span className="z-10 h-full leading-snug font-normal  text-center text-slate-700 absolute bg-transparent rounded text-base items-center justify-center w-8 px-3 py-3">
-                      @
-                    </span>
-                    <input onChange={handleEmail} onBlur={handleEmail} type="email" id='number' name='email' placeholder="Enter Your Email" className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-3/6 md:w-4/6 pl-12" />
-
-                    <button className=' sm:ml-3 inline-block bg-white hover:text-white w-28 sm:w-fit hover:bg-blue-600 font-bold  rounded border border-current px-10 text-center py-[6px] text-xs uppercase  text-blue-600 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-blue-500'>Verify</button>
-                    <span className='text-sm text-red-500'>{errorHandle.email}</span>
-
-                  </div> */}
-                <div className="flex justify-end pt-12">
-                  {handleFirstForm()}
                 </div>
               </div>
             </form>
           </div>
-        ) : (
-          <></>
         )}
 
-
-
         {/* Upload images  */}
-        {tabOpen === 2 ? (
-          <div className="w-full sm:w-3/4 p-5">
-            <form>
-              <div className="shadow-md p-5">
-                <h2 className="text-2xl font-medium">Bank details</h2>
-                <h3 className="text-slate-500">
-                  Let us know where to diposit your money
-                </h3>
-                <div className="space-y-5 pt-5">
-                  <div className="gap-5 flex">
-                    <div>
-                      <input
-                        type="text"
-                        name="accountno"
-                        onChange={handleACno}
-                        onBlur={handleACno}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                        placeholder="Bank account number"
-                      />
-                      <br />
-                      <span className="text-sm text-red-500">
-                        {banknpanError.accountno}
-                      </span>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        name="confirmAccountno"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                        placeholder="Re-enter account number"
-                        onChange={handleConfirmACno}
-                        onBlur={handleConfirmACno}
-                      />
-                      <br />
-                      <span className="text-sm text-red-500">
-                        {banknpanError.confirmAccountno}
-                      </span>
-                    </div>
+        {tabOpen === 2 && (
+          <div className="w-full sm:w-3/4">
+            <form className="lg:px-16 lg:py-10 p-5 bg-slate-200 hover:shadow-2xl duration-500 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
+              <h1 className="font-bold text-2xl">&bull; Bank details</h1>
+              <h3 className="text-slate-500 mb-10 pl-5 text-xs">
+                Let us know where to diposit your money
+              </h3>
+              <div className="flex flex-wrap mb-6">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Account number
+                  </label>
+                  <input
+                    className="appearance-none duration-500 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    name="accountno"
+                    onChange={handleACno}
+                    onBlur={handleACno}
+                    placeholder="Bank account number"
+                  />
+                  <span className="text-sm text-red-500">
+                    {banknpanError.accountno}
+                  </span>
+                </div>
+                <div className="w-full md:w-1/2 px-3">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Re-enter Account number
+                  </label>
+                  <input
+                    className="appearance-none duration-500 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-last-name"
+                    type="text"
+                    name="confirmAccountno"
+                    placeholder="Re-enter account number"
+                    onChange={handleConfirmACno}
+                    onBlur={handleConfirmACno}
+                  />
+
+                  <span className="text-sm text-red-500">
+                    {banknpanError.confirmAccountno}
+                  </span>
+                </div>
+                <div className="w-full lg:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Account type
+                  </label>
+                  <div className="relative">
+                    <select
+                      className="block duration-500 focus:shadow-2xl appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                      name="acType"
+                      onChange={handleAcType}
+                      onBlur={handleAcType}
+                    >
+                      <option value="">Select account type</option>
+                      <option value="saving">Saving account</option>
+                      <option value="current">Current account</option>
+                    </select>
                   </div>
-                  <div className="gap-5 flex">
-                    <div>
-                      <select
-                        name="acType"
-                        onChange={handleAcType}
-                        onBlur={handleAcType}
-                        className="w-fit p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
-                      >
-                        <option value="">Select account type</option>
-                        <option value="saving">Saving account</option>
-                        <option value="current">Current account</option>
-                      </select>
-                    </div>
-                    <div>
+                </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    IFSC code
+                  </label>
+                  <input
+                    className="appearance-none duration-500 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    name="ifsc"
+                    onChange={handleifsc}
+                    onBlur={handleifsc}
+                    placeholder="Bank IFSC code"
+                  />
+                  <span className="text-sm text-red-500">
+                    {banknpanError.ifsc}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-2">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Upload passbook photo
+                  </label>
+                  <div className="mt-4">
+                    <label className="block">
+                      <span className="sr-only">Choose profile photo</span>
                       <input
-                        type="text"
-                        name="ifsc"
-                        onChange={handleifsc}
-                        onBlur={handleifsc}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                        placeholder="Bank IFSC code"
-                      />
-                      <br />
-                      <span className="text-sm text-red-500">
-                        {banknpanError.ifsc}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="mb-3 w-96">
-                      <label
-                        for="formFile"
-                        className="form-label inline-block mb-2 text-gray-700"
-                      >
-                        Upload passbook photo
-                      </label>
-                      <input
-                        className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                        name="bank"
                         type="file"
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                         onChange={(e) => setBankDetailsPhoto(e.target.files[0])}
                         id="formFile"
+                        name="bank"
                       />
-                    </div>
+                    </label>
                   </div>
                 </div>
               </div>
-              <div className="shadow-md p-5">
-                <h2 className="text-2xl font-medium">PAN detail</h2>
-                <h3 className="text-slate-500">
-                  Let us know where to diposit your money
-                </h3>
-                <div className="space-y-5 pt-5">
-                  <div className="gap-5 flex">
-                    <div>
+            </form>
+            <form className="lg:px-16 lg:py-10 p-5 bg-slate-200 hover:shadow-2xl duration-500 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
+              <h1 className="font-bold text-2xl">&bull; PAN detail</h1>
+              <h3 className="text-slate-500 mb-10 pl-5 text-xs">
+                Let us know where to diposit your money
+              </h3>
+              <div className="flex flex-wrap mb-6">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    PAN Number
+                  </label>
+                  <input
+                    className="appearance-none duration-500 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    name="panno"
+                    onChange={handlepanno}
+                    onBlur={handlepanno}
+                    placeholder="PAN Number"
+                  />
+                  <span className="text-sm text-red-500">
+                    {banknpanError.panno}
+                  </span>
+                </div>
+                <div className="w-full md:w-1/2 px-3">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    PAN holder name
+                  </label>
+                  <input
+                    className="appearance-none duration-500 focus:shadow-2xl block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-last-name"
+                    type="text"
+                    name="panholdername"
+                    onChange={handlepanholder}
+                    onBlur={handlepanholder}
+                    placeholder="PAN holder name"
+                  />
+                  <span className="text-sm text-red-500">
+                    {banknpanError.panholdername}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-2">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Upload PAN card image
+                  </label>
+                  <div className="mt-4">
+                    <label className="block">
+                      <span className="sr-only">Choose PAN card image</span>
                       <input
-                        type="text"
-                        name="panno"
-                        onChange={handlepanno}
-                        onBlur={handlepanno}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                        placeholder="PAN Number"
-                      />
-                      <br />
-                      <span className="text-sm text-red-500">
-                        {banknpanError.panno}
-                      </span>
-                    </div>
-                    <div>
-                      <input
-                        type="text"
-                        name="panholdername"
-                        onChange={handlepanholder}
-                        onBlur={handlepanholder}
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-fit ease-linear transition-all duration-150"
-                        placeholder="PAN holder name"
-                      />
-                      <br />
-                      <span className="text-sm text-red-500">
-                        {banknpanError.panholdername}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="mb-3 w-96">
-                      <label
-                        for="formFile"
-                        className="form-label inline-block mb-2 text-gray-700"
-                      >
-                        Upload PAN card image
-                      </label>
-                      <input
-                        className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         name="pancard"
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                         onChange={(e) => setPanCardPhoto(e.target.files[0])}
                         type="file"
                         id="formFile"
                       />
-                    </div>
+                    </label>
                   </div>
                 </div>
               </div>
-              <div className="shadow-md p-5">
-                <h2 className="text-2xl font-medium">Restaurant Images</h2>
-                <h3 className="text-slate-500 pb-7">
-                  Let us know how your restaurant looks like
-                </h3>
-                <div className="flex items-center justify-center w-full">
-
+            </form>
+            <form className="lg:px-16 lg:pt-10 p-5 bg-slate-200 hover:shadow-2xl duration-500 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
+              <h1 className="font-bold text-2xl">&bull; Restaurant Images</h1>
+              <h3 className="text-slate-500 mb-10 pl-5 text-xs">
+                Let us know how your restaurant looks like
+              </h3>
+              <div className="flex flex-wrap mb-2">
+                <div className="w-full px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ">
+                    Upload image 1
+                  </label>
+                  <div className="mt-2">
+                    <label className="block">
+                      <span className="sr-only">Choose image 1</span>
+                      <input
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                        name="bg1"
+                        type="file"
+                        id="formFile"
+                        onChange={(e) => setBg1(e.target.files[0])}
+                      />
+                    </label>
+                  </div>
                 </div>
-                <input
-                  className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  name="bg1"
-                  type="file"
-                  id="formFile"
-                  onChange={(e) => setBg1(e.target.files[0])}
-                />
-                <br />
-                <input
-                  className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  name="bg2"
-                  type="file"
-                  id="formFile"
-                  onChange={(e) => setBg2(e.target.files[0])}
-                />
-                <br />
-                <input
-                  className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                  name="bg3"
-                  type="file"
-                  id="formFile"
-                  onChange={(e) => setBg3(e.target.files[0])}
-                />
+                <div className="w-full px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-4">
+                    Upload image 2
+                  </label>
+                  <div className="mt-2">
+                    <label className="block">
+                      <span className="sr-only">Choose image 2</span>
+                      <input
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                        name="bg2"
+                        type="file"
+                        id="formFile"
+                        onChange={(e) => setBg2(e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="w-full px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-4">
+                    Upload image 3
+                  </label>
+                  <div className="mt-2">
+                    <label className="block">
+                      <span className="sr-only">Choose image 3</span>
+                      <input
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                        name="bg3"
+                        type="file"
+                        id="formFile"
+                        onChange={(e) => setBg3(e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                  <div className="text-center mt-5">
+                    <button
+                      className={`${
+                        isSaveValid
+                          ? "bg-black"
+                          : "hover:bg-white hover:text-black"
+                      } md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}
+                      onClick={handleUpload}
+                      disabled={isSaveValid}
+                    >
+                      {loading ? <InlineButtonLoader /> : "Save"}
+                    </button>
+                  </div>
+                </div>
               </div>
-              {saveUpdate()}
             </form>
           </div>
-        ) : (
-          <></>
         )}
       </div>
     </div>

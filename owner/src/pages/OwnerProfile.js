@@ -238,72 +238,80 @@ const OwnerProfile = () => {
           </div>
 
           {/* your restaurant  */}
+
           <div
             className={`${
               openTab === 2 ? "block" : "hidden"
             } w-full sm:w-4/5 p-5`}
           >
-            <h1 className="text-xl font-semibold pb-5 capitalize">
-              Your Restaurant
-            </h1>
-            <div className="w-3/4 h-full ">
-              <div className="flex gap-7 ">
-                <div>
-                  <ul className="">
-                    <li className="py-3 text-lg font-extralight">
+            <div className="mb-2 shadow-md rounded-tl-3xl rounded-br-3xl bg-slate-700 bg-opacity-40 ">
+              <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+                Your Restaurant
+              </h1>
+              <div className="bg-slate-200 pl-5 rounded-br-3xl">
+                <table className="table-auto border-spacing-y-3 border-separate">
+                  <tr className="">
+                    <td className="text-slate-700 text-lg text-semibold pr-5 w-1/6">
                       Restaurant Name
-                    </li>
-                    <li className=" text-lg font-extralight">Email</li>
-                    <li className="py-3 text-lg font-extralight">Address</li>
-                  </ul>
-                </div>
-                <div>
-                  <ul className="border-l-2 pl-5">
-                    <li className="py-3 text-lg font-normal capitalize">
-                      {user != null && user.name}
-                    </li>
-                    <li className=" text-lg font-normal">
-                      {user != null && user.email}
-                    </li>
-                    <li className="py-3 text-lg font-normal">{`${
-                      user != null && user.address?.street
-                    } ${user != null && user.address?.area} ${
-                      user != null && user.address?.city
-                    } ${user != null && user.address?.state}-${
-                      user != null && user.address?.pincode
-                    }`}</li>
-                  </ul>
-                </div>
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                      {user != null ? user?.name : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5 ">
+                      Email
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.email : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5">
+                      Address
+                    </td>
+                    <td className="text-slate-500 font-semibold bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {`${user != null && user.address?.street} ${
+                        user != null && user.address?.area
+                      } ${user != null && user.address?.city} ${
+                        user != null && user.address?.state
+                      }-${user != null && user.address?.pincode}`}
+                    </td>
+                  </tr>
+                </table>
               </div>
-
-              <h1 className="py-5 text-xl text-semibold">Other Details</h1>
-              <div className="flex gap-7 ">
-                <div>
-                  <ul className="">
-                    <li className="py-2 text-lg font-extralight">
+            </div>
+            <div className="mb-2 shadow-md rounded-tl-3xl rounded-br-3xl bg-slate-700 bg-opacity-40 ">
+              <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+                Other Details
+              </h1>
+              <div className="bg-slate-200 pl-5 rounded-br-3xl">
+                <table className="table-auto border-spacing-y-3 border-separate">
+                  <tr className="">
+                    <td className="text-slate-700 text-lg text-semibold pr-5 w-1/6">
                       Restaurant Type
-                    </li>
-                    <li className="py-2 text-lg font-extralight">
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                      {user?.outLetType?.length > 0 ? user?.outLetType[0] : "-"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5 ">
                       Total Listed products
-                    </li>
-                    <li className="py-2 text-lg font-extralight">
+                    </td>
+                    <td className="text-slate-500 font-semibold capitalize bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.product?.length : "-"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5">
                       Total Received order
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <ul className="border-l-2 pl-5">
-                    <li className="py-2 text-lg font-normal capitalize">
-                      {user != null && user.outLetType}
-                    </li>
-                    <li className="py-2 text-lg font-normal capitalize">
-                      {user != null && user.product.length}
-                    </li>
-                    <li className="py-2 text-lg font-normal capitalize">
-                      {user != null && user.order.length}
-                    </li>
-                  </ul>
-                </div>
+                    </td>
+                    <td className="text-slate-500 font-semibold bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user != null ? user?.order?.length : "-"}
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
