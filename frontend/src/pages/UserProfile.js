@@ -112,12 +112,15 @@ const UserProfile = () => {
               >
                 <i className="fas fa-repeat"></i> Update Profile
               </li>
-              <li
-                className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
-                onClick={() => setChangePassword(true)}
-              >
-                Change Password
-              </li>
+              {  user!=null && user.googleId==null &&
+                <li
+                  className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
+                  onClick={() => setChangePassword(true)}
+                >
+                  Change Password
+                </li>
+              }
+
               <li
                 className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
                 onClick={logout}

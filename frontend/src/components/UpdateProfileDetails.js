@@ -246,7 +246,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                   />
                 </div>
                 <span className="text-sm text-red-500">{numberError}</span>
-                <label htmlFor="email">Email</label>
+                {/* <label htmlFor="email">Email</label>
                 <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                   <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <i className="fas fa-envelope"></i>
@@ -261,7 +261,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
                   />
                 </div>
-                <span className="text-sm text-red-500">{emailError}</span>
+                <span className="text-sm text-red-500">{emailError}</span> */}
               </form>
             </div>
             {/*footer*/}
