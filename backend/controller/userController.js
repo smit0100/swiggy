@@ -117,6 +117,7 @@ const fetchAllUser = async (req, res, next) => {
 
     // retrieve the blog posts based on the page number and page size
     const response = await User.find()
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
     // return the paginated results
@@ -172,7 +173,7 @@ const fetchOnlyOneUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   const { email, password, fcmToken } = req.body;
-  let user = await User.findOne({ email });
+  let user = await User.findOne({ email: email, type: "customer" });
 
   // user not exist
 
@@ -396,7 +397,7 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
       }).save();
 
       await sendEmail(user.email, "verify email", String(otpNumber));
-
+      console.log("===String(otpNumber)",String(otpNumber));
       res.status(200).json({ messag: "otop sent", user });
     }
   } catch (e) {
@@ -450,7 +451,7 @@ const loginAsAdmin = async (req, res) => {
     const pass = bcrypt.compareSync(password, response.password);
 
     if (pass) {
-      localStorage.setItem("fcmTokenAdmin", fcmToken);
+      // localStorage.setItem("fcmTokenAdmin", fcmToken);
       if (response?.fcmToken === undefined || response?.fcmToken !== fcmToken) {
         // If the response doesn't have an fcmToken, or if it's different from the new one,
         // update it with the new value
@@ -568,6 +569,7 @@ const userSearch = async (req, res, next) => {
     const totalPages = Math.ceil(totalCount / pageSize);
 
     const response = await User.find({ name: regex })
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
     console.log("====", response.length, req.query);
@@ -648,5 +650,5 @@ module.exports = {
   editUser,
   handleSendNotification,
   userSearch,
-  isExist
+  isExist,
 };

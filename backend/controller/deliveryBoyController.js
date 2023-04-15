@@ -374,7 +374,7 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
       }).save();
 
       await sendEmail(user.email, "verify email", String(otpNumber));
-
+      console.log("===String(otpNumber)",String(otpNumber));
       res.status(200).json({ messag: "otop sent", user });
     }
   } catch (e) {

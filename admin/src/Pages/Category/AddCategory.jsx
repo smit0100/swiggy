@@ -114,13 +114,7 @@ export default function AddCategory() {
       Category.AddMainCategory(JSON.stringify(data)).then((response) => {
         console.log("==response", response);
         if (response?.message) {
-          swal({
-            title: "Success!",
-            text: response?.message,
-            icon: "success",
-            buttons: false,
-            timer: 1500,
-          });
+          toast.success(response?.message)
           setDescription("");
           setName("");
           setIsDisabled(false);
@@ -143,13 +137,7 @@ export default function AddCategory() {
       Category.AddSubCategory(data).then((response) => {
         console.log("==response", response);
         if (response?.message) {
-          swal({
-            title: "Success!",
-            text: response?.message,
-            icon: "success",
-            buttons: false,
-            timer: 1500,
-          });
+          toast.success(response?.message)
           setSubDescription("");
           setSubName("");
           setSelectedOption("");
@@ -295,7 +283,7 @@ export default function AddCategory() {
                 <td className="px-6 py-4">{item?.description}</td>
                 <td className="px-6 py-4 flex gap-3">
                   <button
-                    className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
+                    className="font-medium border-cyan-400 border-1 text-cyan-400 px-3 py-1 rounded-lg hover:bg-cyan-400 hover:text-white duration-150"
                     onClick={() => handleModal(item?._id, type)}
                   >
                     Edit

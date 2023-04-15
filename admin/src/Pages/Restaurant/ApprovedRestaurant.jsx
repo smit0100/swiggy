@@ -258,9 +258,14 @@ export default function ApprovedRestaurant() {
         &bull; Reviews
       </h1>
       <div className="flex flex-wrap py-10 gap-10 w-full rounded-2xl mb-11 items-center justify-center bg-gradient-to-tr from-teal-300 to-violet-500 ">
-        {reviewData.map((item, index) => {
+        {reviewData?.length >0 ? 
+        reviewData.map((item, index) => {
           return <ReviewCard item={item} key={item._id} />;
-        })}
+        }):(
+          <div>
+            <p className="text-white">No reviews here</p>
+          </div>
+        )}
         {/* <div className="justify-center items-center flex">
           <button
             disabled={currentPage > 1 ? false : true}

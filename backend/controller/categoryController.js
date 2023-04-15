@@ -40,7 +40,7 @@ const disactive = async (req, res, next) => {
 };
 const fetchAllCategory = async (req, res, next) => {
   try {
-    const response = await Category.find();
+    const response = await Category.find()
     res.status(200).json({ message: "category founded", response });
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });

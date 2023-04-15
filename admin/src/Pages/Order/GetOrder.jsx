@@ -21,6 +21,7 @@ export default function GetOrder() {
 
   useEffect(() => {
     document.title = "Admin - Orders";
+    getOrders()
   }, [currentPage]);
   useEffect(() => {
     dispatch(setActiveMenu(true));
@@ -34,7 +35,6 @@ export default function GetOrder() {
       setDatas(filtered);
     }
   }, [filter]);
-  const rowsPerPage = 10;
   const getOrders = () => {
     setIsLoading(true);
     Order.GetOrders(currentPage)
@@ -50,9 +50,10 @@ export default function GetOrder() {
         console.log("====ee", e);
       });
   };
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const rows = datas?.slice(startIndex, endIndex);
+  // const rowsPerPage = 10;
+  // const startIndex = (currentPage - 1) * rowsPerPage;
+  // const endIndex = startIndex + rowsPerPage;
+  // const rows = datas?.slice(startIndex, endIndex);
 
   const handleSelection = (e) => {
     if (selectedFilter == e) {
@@ -73,17 +74,17 @@ export default function GetOrder() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const handleSearch = (value) => {
-    setsearch(value);
-    const temp = [...rows];
-    const data = temp.filter((item) => item?.name == value);
-    if (data?.length > 0) {
-      setfilterDatas(data);
-    }
-    if (search == "") {
-      setfilterDatas([]);
-    }
-  };
+  // const handleSearch = (value) => {
+  //   setsearch(value);
+  //   const temp = [...rows];
+  //   const data = temp.filter((item) => item?.name == value);
+  //   if (data?.length > 0) {
+  //     setfilterDatas(data);
+  //   }
+  //   if (search == "") {
+  //     setfilterDatas([]);
+  //   }
+  // };
   const dataTable = (data) =>
     data?.map((item, index) => {
       return (

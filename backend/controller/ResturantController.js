@@ -472,6 +472,8 @@ const getDashboardCount = async (req, res) => {
     const subCategory = await SubCategory.countDocuments();
     const userCount = await User.countDocuments();
     const Product = await ProductModel.countDocuments();
+    const activeProducts = await ProductModel.countDocuments({isActive:true});
+    const deactiveProducts = await ProductModel.countDocuments({isActive:false});
     const contactUS = await ContactUsModel.countDocuments();
     const order = await Order.find({ status: "delivered" });
     const deliveredOrder = await Order.countDocuments({ status: "delivered" });
@@ -511,6 +513,8 @@ const getDashboardCount = async (req, res) => {
         canceledOrder,
         rejectedOrder,
         process,
+        activeProducts,
+        deactiveProducts
       });
     }
   } catch (e) {
@@ -536,7 +540,7 @@ const forgotPasswordForSentEmail = async (req, res) => {
       }).save();
 
       await sendEmail(rest.email, "verify email", String(otpNumber));
-
+      console.log("===String(otpNumber)",String(otpNumber));
       res.status(200).json({ messag: "otop sent", rest });
     }
   } catch (e) {

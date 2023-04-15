@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 
 const ChangePasswordPopup = ({ setChangePassword }) => {
   const [oldPassword, setOldPassword] = useState("");
@@ -90,13 +91,14 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
           newPass: newPassword,
         }
       );
-      swal("Password changed successfully", "", "success");
+      setChangePassword(false);
+      toast.success("👌Password changed successfully");
       setIsValidLoading(false);
     } catch (err) {
       if (err.response.status == 401) {
-        swal(`${err.response.data.message}`, "", "error");
-        setIsValidLoading(true);
+        toast.error(err?.response?.data?.message + "☹️");
       }
+      setIsValidLoading(false);
     }
   };
 
@@ -203,7 +205,6 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg hover:border duration-200 border border-gray-300`}
                 onClick={(e) => {
-                  setChangePassword(false);
                   handleChangePassword(e);
                 }}
               >

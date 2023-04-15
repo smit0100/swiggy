@@ -84,7 +84,7 @@ const CheckoutPage = () => {
         .then((response) => {
           handleDelivery(address);
           console.log("=====payment res:::", response);
-          swal("Order place successfully..", "", "success");
+          toast.success("Order place successfully.🍟");
           navigate("/");
           dispatch(cartData(null));
         })

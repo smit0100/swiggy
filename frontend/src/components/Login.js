@@ -59,32 +59,7 @@ export default function Login() {
     );
   };
 
-  function SubmitButton() {
-    if (email && pass && emailError.length === 0 && passError.length === 0) {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          onClick={handleSubmit}
-        >
-          {loading ? <InlineButtonLoader /> : "Login"}
-        </button>
-      );
-    } else {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          disabled
-        >
-          Login
-        </button>
-      );
-    }
-  }
-
   const handleSubmit = async () => {
-    console.log("hey");
     setLoading(true);
     try {
       let fcmToken = "";
@@ -130,7 +105,7 @@ export default function Login() {
         response?.status === 401 ||
         response?.status === 402
       ) {
-        swal(`${response?.data?.message}`, "", "error");
+        toast.error("☹️ " + response?.data?.message);
         setLoading(false);
         return;
       }
@@ -200,8 +175,9 @@ export default function Login() {
           <button
             className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
             onClick={handleLogIn}
+            disabled={loading}
           >
-            Sign in
+          {loading ? <InlineButtonLoader /> : "Sign in"}
           </button>
           <Link
             to="/register"

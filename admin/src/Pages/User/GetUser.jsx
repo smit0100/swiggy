@@ -139,7 +139,7 @@ export default function GetUser() {
         .then((res) => {
           console.log("===res", res);
           if (res?.response) {
-            toast.success("⭐ User edited successfully");
+            toast.success("⭐ User type changed successfully");
             setIsVisible(false);
             getAllUser();
           }
@@ -210,7 +210,7 @@ export default function GetUser() {
               className={`inline-flex items-center bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-2xl text-sm px-3 py-1.5 dark:bg-gray-800 dark:hover:bg-gray-700 ${
                 item.type == "admin"
                   ? "text-purple-500 border-purple-600 hover:bg-purple-200"
-                  : "text-yellow-400 border-yellow-400 hover:bg-yellow-200"
+                  : "text-yellow-400 border-yellow-400 hover:bg-yellow-100"
               }`}
             >
               <span>{item.type}</span>

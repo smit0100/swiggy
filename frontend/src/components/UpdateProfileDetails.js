@@ -5,6 +5,7 @@ import axios from "axios";
 import { userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 
 const UpdateProfileDetails = ({ setupdateProfile }) => {
   const [name, setName] = useState("");
@@ -68,7 +69,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         // add redux
         dispatch(userData(response.data.user));
         localStorage.setItem("userData", JSON.stringify(response?.data?.user));
-        swal("Profile updated successfully", "", "success");
+        toast.success("Profile updated successfully ⭐");
       }
       setupdateProfile(false);
       setIsValidLoading(false);
@@ -241,6 +242,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     onBlur={handleNumber}
                     onChange={handleNumber}
                     id="number"
+                    maxLength={10}
                     placeholder="Enter Your Number"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
                   />

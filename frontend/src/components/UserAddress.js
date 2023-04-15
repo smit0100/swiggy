@@ -139,6 +139,7 @@ const UserAddress = () => {
         }
       );
       console.log(response.data);
+      setUpdateAddress(false);
       dispatch(userData(response.data.response));
       localStorage.setItem(
         "userData",
@@ -149,7 +150,7 @@ const UserAddress = () => {
       setState("");
       setPincode("");
       setChangeAddress("");
-      swal("Address changed successfully", "", "success");
+      toast.success("⭐ Address changed successfully.");
       setIsValidLoading(false);
     } catch (err) {
       if (err.response.status == 500) {
@@ -526,7 +527,6 @@ const UserAddress = () => {
                       isValid ? "bg-black" : "hover:bg-white hover:text-black"
                     } w-full bg-black text-white p-2 rounded-lg hover:border duration-200 border border-gray-300`}
                     onClick={(e) => {
-                      setUpdateAddress(false);
                       handelChangeAddress(e);
                       clearAddress();
                     }}

@@ -97,9 +97,9 @@ const fetchOneOrder = async (req, res, next) => {
         module: "Review",
       },
       {
-        path: 'deliveryBoyReview',
-        module:'Review'
-      }
+        path: "deliveryBoyReview",
+        module: "Review",
+      },
     ]);
 
     if (!order) return res.status(404).json({ message: "order not found" });
@@ -122,8 +122,10 @@ const fetchAllOrder = async (req, res, next) => {
 
     // retrieve the blog posts based on the page number and page size
     const response = await Order.find()
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
       .skip((pageNumber - 1) * pageSize)
       .limit(pageSize);
+
     // return the paginated results
     res.status(200).json({
       message: "order founded",
@@ -196,9 +198,7 @@ const fetchAllResturantOrder = async (req, res, next) => {
 const acceptOrder = async (req, res, next) => {
   try {
     const { id } = req.query;
-    let response = await Order.findById(
-      id,
-    ).populate([
+    let response = await Order.findById(id).populate([
       {
         path: "products.product",
         model: "Product",
@@ -212,10 +212,9 @@ const acceptOrder = async (req, res, next) => {
         model: "User",
       },
     ]);
-    
+
     let courierBoys = await Courier.findOne({ isAvilable: { $ne: false } });
     console.log(courierBoys);
-   
 
     if (courierBoys == null) {
       return res.status(200).json({ message: "courier boy is not avilable " });
@@ -260,7 +259,6 @@ const acceptOrder = async (req, res, next) => {
       res.status(200).json({ message: "order status update", response });
     }
   } catch (e) {
-    
     console.log(e);
     res.status(500).json({ message: "something went wrong" });
   }
@@ -270,11 +268,15 @@ const cancelOrder = async (req, res, next) => {
   try {
     const { id } = req.query;
     console.log("oo");
-    const response = await Order.findByIdAndUpdate(id, {
-      status: 'cancel'
-    }, {
-      new:true
-    }).populate([
+    const response = await Order.findByIdAndUpdate(
+      id,
+      {
+        status: "cancel",
+      },
+      {
+        new: true,
+      }
+    ).populate([
       {
         path: "products.product",
         model: "Product",
@@ -296,15 +298,15 @@ const cancelOrder = async (req, res, next) => {
         module: "Review",
       },
       {
-        path: 'deliveryBoyReview',
-        module:'Review'
-      }
-    ])
-    res.status(200).json({message:'order canceled',response})
+        path: "deliveryBoyReview",
+        module: "Review",
+      },
+    ]);
+    res.status(200).json({ message: "order canceled", response });
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });
   }
-}
+};
 
 module.exports = {
   createOrder,
@@ -313,5 +315,5 @@ module.exports = {
   fetchOneOrder,
   fetchAllResturantOrder,
   acceptOrder,
-  cancelOrder
+  cancelOrder,
 };

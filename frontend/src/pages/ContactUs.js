@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import InlineButtonLoader from "../components/InlineButtonLoader";
 import swal from 'sweetalert'
+import { toast } from "react-toastify";
 
 const ContactUs = () => {
   const [name, setName] = useState("");
@@ -84,6 +85,7 @@ const ContactUs = () => {
       setEmail('')
       setNumber('')
       setMessage('')
+      toast.success("⭐ Query send successfully");
     } catch (err) {
       console.log(err);
       if (err?.response?.status === 500) {
@@ -241,6 +243,7 @@ const ContactUs = () => {
                       value={number}
                       onChange={handleNumber}
                       onBlur={handleNumber}
+                      maxLength={10}
                       placeholder="Your Phone"
                       className="text-body-color border-[f0f0f0] focus:border-primary w-full rounded-xl border py-3 px-[14px] text-base outline-none focus-visible:shadow-none bg-white/60"
                     />

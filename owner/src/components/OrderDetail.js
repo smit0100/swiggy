@@ -114,6 +114,13 @@ const OrderDetail = () => {
                         ))}
                     </tbody>
                   </table>
+                  {order.length == 0 && (
+                    <div className="flex justify-center items-center">
+                      <p className="text-xl font-mono font-bold">
+                        No orders here
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

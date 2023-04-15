@@ -237,8 +237,8 @@ export default function GetDeliveryBoy() {
                   <span
                     className={`${
                       item?.isAvilable
-                        ? "border-green-500 border-2"
-                        : "border-2 border-red-500"
+                        ? "border-green-500 text-green-500 border-2"
+                        : "border-2 border-red-500 text-red-500"
                     } text-black dark:text-white rounded-2xl py-1 px-3 text-sm font-medium`}
                   >
                     {item?.isAvilable ? "Available" : "Delivery"}
@@ -264,7 +264,7 @@ export default function GetDeliveryBoy() {
                 </td>
                 <td className="px-6 py-4 flex gap-3">
                   <button
-                    className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
+                    className="font-medium border-cyan-400 border-1 text-cyan-400 px-3 py-1 rounded-lg hover:bg-cyan-400 hover:text-white duration-150"
                     onClick={() => handleModal(item?._id)}
                   >
                     Edit

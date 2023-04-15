@@ -1,149 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { earningData } from "../../data/dummy";
+import { earningDatas } from "../../data/dummy";
 import User from "../../Apis/User";
 import { Link } from "react-router-dom";
-import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
 import Restaurants from "../../Apis/Restaurants";
-import { FiBarChart } from "react-icons/fi";
-import { BiRestaurant, BiCategory } from "react-icons/bi";
-import { BsBox,BsBoxes } from "react-icons/bs";
-import {
-  MdOutlineSupervisorAccount,
-  MdOutlineDeliveryDining,
-  MdOutlineCategory,
-} from "react-icons/md";
-import { RiContactsBook2Line } from "react-icons/ri";
 import { Blocks } from "react-loader-spinner";
-const earningDatas = [
-  {
-    icon: <MdOutlineSupervisorAccount />,
-    amount: "1354",
-    percentage: "-4%",
-    title: "Customers",
-    iconColor: "#03C9D7",
-    iconBg: "#E5FAFB",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BiRestaurant />,
-    amount: "96",
-    percentage: "+23%",
-    title: "Restaurants",
-    iconColor: "rgb(255, 244, 229)",
-    iconBg: "rgb(254, 201, 15)",
-    pcColor: "green-600",
-  },
-  {
-    icon: <FiBarChart />,
-    amount: "42,339",
-    percentage: "+38%",
-    title: "Sales",
-    iconColor: "rgb(228, 106, 118)",
-    iconBg: "rgb(255, 244, 229)",
 
-    pcColor: "green-600",
-  },
-  {
-    icon: <MdOutlineDeliveryDining />,
-    amount: "354",
-    percentage: "-12%",
-    title: "Delevery partner",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BiCategory />,
-    amount: "354",
-    percentage: "-12%",
-    title: "Main Category",
-    iconColor: "#6C63FF",
-    iconBg: "#EDEBFF",
-    pcColor: "red-600",
-  },
-  {
-    icon: <MdOutlineCategory />,
-    amount: "354",
-    percentage: "-12%",
-    title: "Sub Category",
-    iconColor: "#D13D46",
-    iconBg: "#FFEBEE",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBox />,
-    amount: "0",
-    percentage: "-12%",
-    title: "Total products",
-    iconColor: "#4A90E2",
-    iconBg: "#EAF2FE",
-    pcColor: "red-600",
-  },
-  {
-    icon: <RiContactsBook2Line />,
-    amount: "0",
-    percentage: "-12%",
-    title: "Contact us",
-    iconColor: "#F9A826",
-    iconBg: "#FFF3E0",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBoxes />,
-    amount: "0",
-    percentage: "-12%",
-    title: "Delivered Order",
-    iconColor: "#C2185B",
-    iconBg: "#FCE4EC",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBoxes />,
-    amount: "0",
-    percentage: "-12%",
-    title: "Canceled Order",
-    iconColor: "#F9D71C",
-    iconBg: "#FFFCE0",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBoxes />,
-    amount: "0",
-    percentage: "-12%",
-    title: "Rejected Order",
-    iconColor: "#00796B",
-    iconBg: "#E0F2F1",
-    pcColor: "red-600",
-  },
-  {
-    icon: <BsBoxes />,
-    amount: "0",
-    percentage: "-12%",
-    title: "In process Order",
-    iconColor: "#3F51B5",
-    iconBg: "#E8EAF6",
-    pcColor: "red-600",
-  },
-];
-function Dashboard(props) {
+function Dashboard() {
   const [datas, setDatas] = useState([]);
   const [earningData, setEarningData] = useState(earningDatas);
   const [isLoading, setIsLoading] = useState(false);
-  const { rupee } = useStateContext();
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      User.GetAllUsers()
+      User.GetAllUsers(1, 5)
         .then((res) => {
           console.log("response", res);
           if (res?.data) {
-            const filteredData = res?.data?.sort(
-              (a, b) => b.createdAt - a.createdAt
-            );
-            const data = filteredData?.splice(0, 5);
-            console.log("========", data);
-            setDatas(data);
+            // const filteredData = res?.data?.sort(
+            //   (a, b) => b.createdAt - a.createdAt
+            // );
+            setDatas(res?.data);
             setIsLoading(false);
           }
         })
@@ -172,11 +49,13 @@ function Dashboard(props) {
           temp[4].amount = res?.mainCategory;
           temp[5].amount = res?.subCategory;
           temp[6].amount = res?.Product;
-          temp[7].amount = res?.contactUS;
-          temp[8].amount = res?.deliveredOrder;
-          temp[9].amount = res?.canceledOrder;
-          temp[10].amount = res?.rejectedOrder;
-          temp[11].amount = res?.process;
+          temp[7].amount = res?.activeProducts;
+          temp[8].amount = res?.deactiveProducts;
+          temp[9].amount = res?.contactUS;
+          temp[10].amount = res?.deliveredOrder;
+          temp[11].amount = res?.canceledOrder;
+          temp[12].amount = res?.rejectedOrder;
+          temp[13].amount = res?.process;
           setEarningData(temp);
         }
       })
@@ -262,9 +141,6 @@ function Dashboard(props) {
                             {item?.email}
                           </p>
                         </div>
-                        {/* <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        {rupee}320
-                      </div> */}
                       </div>
                     </li>
                   );

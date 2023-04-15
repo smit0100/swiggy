@@ -222,7 +222,7 @@ function LogIn() {
                   onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
-              <div className="flex justify-between w-full py-4">
+              {/* <div className="flex justify-between w-full py-4">
                 <div className="mr-24">
                   <input type="checkbox" name="ch" id="ch" className="mr-2" />
                   <span className="text-md">Remember me</span>
@@ -233,7 +233,7 @@ function LogIn() {
                 >
                   Forgot password
                 </span>
-              </div>
+              </div> */}
             </>
           )}
           {isForgot ? (

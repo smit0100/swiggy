@@ -77,30 +77,6 @@ export default function OwnerLogin() {
     }
   };
 
-  function SubmitButton() {
-    if (email && pass && emailError.length === 0 && passError.length === 0) {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          onClick={handleSubmit}
-        >
-          {loading ? <InlineButtonLoader /> : "Login"}
-        </button>
-      );
-    } else {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          disabled
-        >
-          {loading ? <InlineButtonLoader /> : "Login"}
-        </button>
-      );
-    }
-  }
-
   const handleSubmit = async () => {
     try {
       let fcmToken = "";
@@ -127,28 +103,26 @@ export default function OwnerLogin() {
             email: response.data.rest.email,
           }).toString(),
         });
+      } else {
+        console.log("owner login res::", response);
+        dispatch(userData(response.data.rest));
+        dispatch(ownerLogIn(true));
+        localStorage.setItem("isOwnerLogIn", JSON.stringify(true));
+        localStorage.setItem("ownerData", JSON.stringify(response?.data?.rest));
+        swal("SuccessFully Login", "", "success", {
+          buttons: false,
+          timer: 1000,
+        });
+        setLoading(false);
+        navigate("/");
       }
-      else{
-      console.log("owner login res::", response);
-      dispatch(userData(response.data.rest));
-      dispatch(ownerLogIn(true));
-      localStorage.setItem("isOwnerLogIn", JSON.stringify(true));
-      localStorage.setItem("ownerData", JSON.stringify(response?.data?.rest));
-      swal("SuccessFully Login", "", "success", {
-        buttons: false,
-        timer: 1000,
-      });
-      setLoading(false);
-      navigate("/");
-    }
     } catch (err) {
-      console.log(err);
       if (
         err?.response?.status === 400 ||
         err?.response?.status === 401 ||
         err?.response?.status === 402
       ) {
-        toast.error(`${err?.response?.data?.messag}`);
+        toast.error(err?.response?.data?.message);
         setLoading(false);
         return;
       }
@@ -202,8 +176,9 @@ export default function OwnerLogin() {
           <button
             className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
             onClick={handleLogIn}
+            disabled={loading}
           >
-            Sign in
+            {loading ? <InlineButtonLoader /> : "Sign in"}
           </button>
           <Link
             to="/ownerRegister"

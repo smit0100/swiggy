@@ -5,6 +5,7 @@ import axios from "axios";
 import { userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 
 const UpdateProfileDetails = ({ setupdateProfile }) => {
   const [name, setName] = useState("");
@@ -118,8 +119,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         console.log("oossssso");
         dispatch(userData(response.data.user));
         localStorage.setItem("ownerData", JSON.stringify(response?.data?.user));
-
-        swal("Profile updated successfully", "", "success");
+        toast.success("Profile updated successfully ⭐");
       }
       setupdateProfile(false)
     } catch (err) {
@@ -192,7 +192,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     onChange={handleName}
                     id="name"
                     placeholder="Enter Your Name"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
                 <span className="text-sm text-red-500">{nameError}</span>
@@ -206,9 +206,10 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     value={number}
                     onBlur={handleNumber}
                     onChange={handleNumber}
+                    maxLength={10}
                     id="number"
                     placeholder="Enter Your Number"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
                 <span className="text-sm text-red-500">{numberError}</span>
@@ -224,7 +225,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     value={email}
                     onBlur={handleEmail}
                     onChange={handleEmail}
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
                 <span className="text-sm text-red-500">{emailError}</span>

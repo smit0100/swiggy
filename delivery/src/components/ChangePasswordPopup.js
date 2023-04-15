@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 
 const ChangePasswordPopup = ({ setChangePassword }) => {
   const [oldPassword, setOldPassword] = useState("");
@@ -88,12 +89,12 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
           newPass: newPassword,
         }
       );
-      swal("Password changed successfully", "", "success");
+      toast.success("👌Password changed successfully");
       setIsValidLoading(false);
       setChangePassword(false);
     } catch (err) {
-      if (err.response.status == 401) {
-        swal(`${err.response.data.message}`, "", "error");
+      if (err?.response?.status == 401) {
+        toast.error(err.response.data.messag + "☹️");
       }
       setIsValidLoading(false);
     }
@@ -155,7 +156,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     onChange={handleOldPassword}
                     id="password"
                     placeholder="Enter Old Password"
-                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
+                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full"
                   />
                 </div>
                 <span className="text-red-500 text-sm">{oldPasswordError}</span>
@@ -171,7 +172,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     onChange={handlePassword}
                     id="newpassword"
                     placeholder="Enter New Password"
-                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
+                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full"
                   />
                 </div>
                 <span className="text-red-500 text-sm">{newPasswordError}</span>
@@ -188,7 +189,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     onChange={handleCpass}
                     id="rnewpassword"
                     placeholder="Re-enter New Password"
-                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
+                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full"
                   />
                 </div>
                 <span className="text-red-500 text-sm">{cnPassError}</span>

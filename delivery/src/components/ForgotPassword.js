@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
-
+import { toast } from "react-toastify";
 import { Images } from "../Assets";
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 const ForgotPassword = () => {
@@ -36,17 +35,6 @@ const ForgotPassword = () => {
       setEmailError("Please enter valid email address");
     } else {
       setEmailError("");
-    }
-  };
-
-  const handleOtp = (e) => {
-    // setOtp(e.target.value);
-    // const regex = /^\d{6}$/
-    const regex = /^\d+$/;
-    if (regex.test(otp)) {
-      setOtpError("");
-    } else {
-      setOtpError("Enter valid otp");
     }
   };
 
@@ -85,13 +73,17 @@ const ForgotPassword = () => {
       );
       console.log(response);
       if (response.status === 205) {
-        console.log("something wrong");
         setLoading(false);
+        toast.error("User not exists ☹️");
       } else {
         console.log(response);
         setId(response.data.user._id);
         setOtpShow(true);
         setLoading(false);
+        setPass("");
+        setCpass("");
+        setCpassError("");
+        setPassError("");
       }
     } catch (err) {
       console.log(err);
@@ -112,14 +104,18 @@ const ForgotPassword = () => {
       );
       console.log(response);
       if (response.status === 205) {
-        swal(`wrong otp`, "", "error");
+        toast.error("Wrong OTP, try again ☹️");
         setLoading(false);
       } else {
-        swal("SuccessFully Forget Password", "", "success");
+        toast.success("🔥 Password Forgot Successfully.");
+        setPass("");
+        setCpass("");
+        setLoading(false);
+        setEmail("");
         navigate("/login");
       }
     } catch (err) {
-      swal(`something error`, "", "error");
+      toast.error("Something went wrong try again ☹️");
       setLoading(false);
       console.log(err);
     }
@@ -149,6 +145,7 @@ const ForgotPassword = () => {
             className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleClick}
+            disabled={loading}
           >
             {loading ? <InlineButtonLoader /> : "Forgot Password"}
           </button>
@@ -170,16 +167,16 @@ const ForgotPassword = () => {
         emailError.length === 0 &&
         pass &&
         cpass &&
-        otp &&
         passError.length === 0 &&
         cpassError.length === 0 &&
-        otpError.length === 0
+        otp.join("").length == 6
       ) {
         return (
           <button
             className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleSavePassword}
+            disabled={loading}
           >
             {loading ? <InlineButtonLoader /> : "Forgot Password"}
           </button>
@@ -271,49 +268,46 @@ const ForgotPassword = () => {
             )}
 
             <div>
-              {email &&
-                otp &&
-                emailError.length === 0 &&
-                otpError.length === 0 && (
-                  <>
-                    <div className="mb-4">
-                      <label
-                        className="block mb-2 text-sm font-bold text-gray-700"
-                        htmlFor="password"
-                      >
-                        New password
-                      </label>
-                      <input
-                        className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="password"
-                        type="password"
-                        value={pass}
-                        onChange={handlePass}
-                        onBlur={handlePass}
-                        placeholder="Enter new password"
-                      />
-                      <div className="text-sm text-red-500">{passError}</div>
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        className="block mb-2 text-sm font-bold text-gray-700"
-                        htmlFor="password"
-                      >
-                        Confirm new password
-                      </label>
-                      <input
-                        className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="password"
-                        type="password"
-                        value={cpass}
-                        onChange={handleCpass}
-                        onBlur={handleCpass}
-                        placeholder="Confirm new password"
-                      />
-                      <div className="text-sm text-red-500">{cpassError}</div>
-                    </div>
-                  </>
-                )}
+              {email && otpShow && emailError.length === 0 && (
+                <>
+                  <div className="mb-4">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700"
+                      htmlFor="password"
+                    >
+                      New password
+                    </label>
+                    <input
+                      className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      id="password"
+                      type="password"
+                      value={pass}
+                      onChange={handlePass}
+                      onBlur={handlePass}
+                      placeholder="Enter new password"
+                    />
+                    <div className="text-sm text-red-500">{passError}</div>
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700"
+                      htmlFor="password"
+                    >
+                      Confirm new password
+                    </label>
+                    <input
+                      className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      id="password"
+                      type="password"
+                      value={cpass}
+                      onChange={handleCpass}
+                      onBlur={handleCpass}
+                      placeholder="Confirm new password"
+                    />
+                    <div className="text-sm text-red-500">{cpassError}</div>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="mb-6 text-center">{ResetBtn()}</div>

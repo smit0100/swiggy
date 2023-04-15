@@ -104,22 +104,22 @@ const ListOfProducts = () => {
         <div className="w-full sm:w-1/5 p-5">
           <ul className="space-y-3">
             {/* {data?.length > 0 && ( */}
-              <>
-                <li
-                  className={`text-lg ${
-                    true
-                      ? "border-slate-700 border-2"
-                      : "bg-slate-200 border-slate-200 border-2"
-                  } font-mono font-semibold text-black cursor-pointer pl-5 py-2 rounded-3xl hover:pl-8 duration-300`}
-                  onClick={() => {
-                    setCategoryID("");
-                    setData(product);
-                  }}
-                >
-                  Categories
-                </li>
-                <li className="bg-black h-1 w-full rounded-full"></li>
-              </>
+            <>
+              <li
+                className={`text-lg ${
+                  true
+                    ? "border-slate-700 border-2"
+                    : "bg-slate-200 border-slate-200 border-2"
+                } font-mono font-semibold text-black cursor-pointer pl-5 py-2 rounded-3xl hover:pl-8 duration-300`}
+                onClick={() => {
+                  setCategoryID("");
+                  setData(product);
+                }}
+              >
+                Categories
+              </li>
+              <li className="bg-black h-1 w-full rounded-full"></li>
+            </>
             {/* )} */}
             {category?.length > 0 &&
               // data?.length > 0 &&
@@ -148,10 +148,17 @@ const ListOfProducts = () => {
             </div>
           ) : (
             <div className="flex flex-wrap gap-4 justify-evenly">
-              {data != null &&
+              {data?.length > 0 ? (
                 data.map((item) => (
                   <ListOfProductCard item={item} setData={setData} />
-                ))}
+                ))
+              ) : (
+                <div className="flex justify-center items-center">
+                  <p className="text-xl font-mono font-bold">
+                    No Products here
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

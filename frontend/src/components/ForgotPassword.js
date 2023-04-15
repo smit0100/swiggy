@@ -59,17 +59,6 @@ const ForgotPassword = () => {
     }
   };
 
-  const handleOtp = (e) => {
-    // setOtp(e.target.value)
-    // const regex = /^\d{6}$/
-    const regex = /^\d+$/;
-    if (regex.test(otp)) {
-      setOtpError("");
-    } else {
-      setOtpError("Enter valid otp");
-    }
-  };
-
   const handleCpass = (e) => {
     setCpass(e.target.value);
     if (pass == e.target.value) {
@@ -106,13 +95,17 @@ const ForgotPassword = () => {
       console.log("===us", response);
       if (response.status === 205) {
         console.log("something wrogn");
-        toast.error("Opps, User not exists.");
+        toast.error("Opps, User not exists ☹️");
         setLoading(false);
       } else {
         console.log(response);
         setId(response.data.user._id);
         setOtpShow(true);
         setLoading(false);
+        setPass("");
+        setCpass("");
+        setCpassError("");
+        setPassError("");
       }
     } catch (err) {
       console.log(err);
@@ -133,14 +126,18 @@ const ForgotPassword = () => {
       );
       // console.log(response);
       if (response.status === 205) {
-        swal(`wrong otp`, "", "error");
+        toast.error("Wrong OTP, try again ☹️");
         setLoading(false);
       } else {
-        swal("SuccessFully Forget Password", "", "success");
+        toast.success("🔥 Password Forgot Successfully.");
+        setPass("");
+        setCpass("");
+        setLoading(false);
+        setEmail("");
         navigate("/login");
       }
     } catch (err) {
-      swal(`something error`, "", "error");
+      toast.error("Something went wrong try again ☹️");
       setLoading(false);
       console.log(err);
     }
@@ -153,6 +150,7 @@ const ForgotPassword = () => {
             className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleClick}
+            disabled={loading}
           >
             {loading ? <InlineButtonLoader /> : "Forgot Password"}
           </button>
@@ -174,16 +172,16 @@ const ForgotPassword = () => {
         emailError.length === 0 &&
         pass &&
         cpass &&
-        otp &&
         passError.length === 0 &&
         cpassError.length === 0 &&
-        otpError.length === 0
+        otp.join("").length == 6
       ) {
         return (
           <button
             className="w-full px-4 py-2 font-bold text-white bg-red-500 rounded-full hover:bg-red-700 focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleSavePassword}
+            disabled={loading}
           >
             {loading ? <InlineButtonLoader /> : "Forgot Password"}
           </button>
@@ -276,7 +274,7 @@ const ForgotPassword = () => {
 
             <div>
               {email &&
-                otp &&
+                otpShow &&
                 emailError.length === 0 &&
                 otpError.length === 0 && (
                   <>

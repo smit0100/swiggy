@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentColor } from "../redux/user/userSlice";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const ContactUs = () => {
   const [name, setName] = useState("");
@@ -104,6 +105,12 @@ const ContactUs = () => {
         { name, email, number, message }
       );
       setLoading(false);
+      
+      setName('')
+      setEmail('')
+      setNumber('')
+      setMessage('')
+      toast.success("⭐ Query send successfully");
       console.log(response, "contactUS");
     } catch (err) {
       console.log(err);
@@ -227,6 +234,7 @@ const ContactUs = () => {
                     <input
                       type="text"
                       value={number}
+                      maxLength={10}
                       onChange={handleNumber}
                       onBlur={handleNumber}
                       placeholder="Your Phone"

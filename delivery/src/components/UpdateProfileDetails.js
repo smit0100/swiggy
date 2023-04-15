@@ -5,6 +5,7 @@ import axios from "axios";
 import { userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 
 const UpdateProfileDetails = ({ setupdateProfile }) => {
   const [name, setName] = useState("");
@@ -158,7 +159,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
           JSON.stringify(response?.data?.user)
         );
         setIsValidLoading(false);
-        swal("Profile updated successfully", "", "success");
+        toast.success("Profile updated successfully ⭐");
       }
     } catch (err) {
       if (err.response.status === 409) {
@@ -197,7 +198,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
           <div className="border-0 px-5 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900">
-                Edit Delivery boy
+                Update your profile
               </h3>
               <button
                 type="button"
@@ -246,6 +247,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     type="text"
                     value={number}
                     onBlur={handleNumber}
+                    maxLength={10}
                     onChange={handleNumber}
                     id="number"
                     placeholder="Enter Your Number"

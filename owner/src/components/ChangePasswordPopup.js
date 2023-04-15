@@ -4,6 +4,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useEffect } from "react";
 import InlineButtonLoader from "./InlineButtonLoader";
+import { toast } from "react-toastify";
 
 const ChangePasswordPopup = ({ setChangePassword }) => {
   const [oldPassword, setOldPassword] = useState("");
@@ -90,14 +91,14 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
           newPass: newPassword,
         }
       );
-      swal("Password changed successfully", "", "success");
+      toast.success("👌Password changed successfully");
       setChangePassword(false);
       setIsValidLoading(false);
 
     } catch (err) {
       setIsValidLoading(false);
       if (err.response.status == 401) {
-        swal(`${err.response.data.message}`, "", "error");
+        toast.error(err?.response?.data?.message + "☹️");
       }
     }
   };
@@ -157,7 +158,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     onChange={handleOldPassword}
                     id="password"
                     placeholder="Enter Old Password"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
                 <span className="text-red-500 text-sm">{oldPasswordError}</span>
@@ -173,7 +174,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     onChange={handlePassword}
                     id="newpassword"
                     placeholder="Enter New Password"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
                 <span className="text-red-500 text-sm">{newPasswordError}</span>
@@ -190,7 +191,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     onChange={handleCpass}
                     id="rnewpassword"
                     placeholder="Re-enter New Password"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 pl-10"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
                 <span className="text-red-500 text-sm">{cnPassError}</span>

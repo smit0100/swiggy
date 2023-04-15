@@ -306,7 +306,7 @@ const ResturantPage = () => {
                     Categories
                   </h1>
                   <div className="w-full h-2 flex flex-1 items-center justify-center mt-2">
-                  <span className="w-60 h-1 bg-orange-600 text-center rounded-full"/>
+                    <span className="w-60 h-1 bg-orange-600 text-center rounded-full" />
                   </div>
                   <div className="flex flex-wrap w-full max-sm:gap-5 md:gap-5 lg:gap-10 items-center justify-center my-5">
                     {category &&
@@ -324,7 +324,7 @@ const ResturantPage = () => {
                       })}
                   </div>
                   <div className="flex justify-center items-center w-full h-2">
-                  <span className="w-11/12 h-1 bg-orange-600 rounded-full"/>
+                    <span className="w-11/12 h-1 bg-orange-600 rounded-full" />
                   </div>
                   <div className="w-full sm:w-4/6 p-4 h-[800px] no-scrollbar">
                     {
@@ -390,14 +390,15 @@ const ResturantPage = () => {
                         />
                         <button
                           className="hover:bg-black/50 text-2xl font-bold text-white p-2 absolute top-0 left-0 h-full w-[40px]"
-                          onClick={handlePrev}>
+                          onClick={handlePrev}
+                        >
                           &lt;
                         </button>
                         <button
                           className="hover:bg-black/50 text-2xl font-bold text-white p-2 absolute top-0 right-0 h-full w-[40px]"
-                          onClick={handleNext}>
+                          onClick={handleNext}
+                        >
                           &gt;
-                          
                         </button>
                       </div>
                       <div
@@ -606,14 +607,11 @@ export const RestroCategoryCard = ({ item }) => {
                 );
                 dispatch(cartData(response.data.data.cart));
 
-                swal(
-                  "your previous restuarant Item removed and add this restaurant item",
-                  {
-                    icon: "success",
-                  }
+                toast.success(
+                  "Your previous restuarant Item removed and add this restaurant item 👌"
                 );
               } else {
-                swal("Your cart still remainning");
+                toast("Your cart still remainning.");
               }
             });
           } else {
@@ -625,7 +623,6 @@ export const RestroCategoryCard = ({ item }) => {
                 resturantId: restaurantId,
               }
             );
-            console.log("ok");
             dispatch(cartData(response.data.data.cart));
             toastElement();
           }

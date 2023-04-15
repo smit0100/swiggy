@@ -41,6 +41,7 @@ export default function ContactUs() {
       toast.error("☹️ Message must be filled.");
       return;
     }
+    const id = toast.loading(`Processing your request...`);
     setIsValid(true);
     let data = {
       email,
@@ -50,16 +51,29 @@ export default function ContactUs() {
       .then((res) => {
         console.log("===res", res);
         if (res?.message == "response sended") {
+          toast.update(id, {
+            render: "⭐ response send successfully.",
+            type: "default",
+            isLoading: false,
+            autoClose: 2000,
+            closeOnClick: true,
+            draggable: true,
+            pauseOnHover: false,
+          });
           setIsVisible(false);
-          toast.success("⭐ response send successfully.");
           setEmail("");
+          setMessage("")
         } else {
-          toast.error("☹️ Something went wrong, try again.");
+          toast.update(id, {
+            render: "☹️ Something went wrong, try again.",
+          });
         }
         setIsValid(false);
+        toast.dismiss(id);
       })
       .catch((e) => {
         console.log("====e", e);
+        toast.dismiss(id);
         toast.error("☹️ Something went wrong, try again.");
         setIsValid(false);
       });
@@ -137,7 +151,7 @@ export default function ContactUs() {
                 <td className="px-6 py-4">{item?.message}</td>
                 <td className="px-6 py-4 flex gap-3">
                   <button
-                    className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
+                    className="font-medium border-cyan-400 border-1 text-cyan-400 px-3 py-1 rounded-lg hover:bg-cyan-400 hover:text-white duration-150"
                     onClick={() => handleModal(item?._id)}
                   >
                     Response
@@ -188,7 +202,11 @@ export default function ContactUs() {
                 </h3>
                 <button
                   type="button"
-                  onClick={() => setIsVisible(false)}
+                  onClick={() => {
+                    setIsVisible(false)
+                    setIsValid(false)
+                    setMessage("")
+                  }}
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   <svg

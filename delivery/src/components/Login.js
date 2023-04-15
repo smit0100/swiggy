@@ -2,13 +2,18 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { corierLogIn, setCurrentColor, userData } from "../redux/user/userSlice";
+import {
+  corierLogIn,
+  setCurrentColor,
+  userData,
+} from "../redux/user/userSlice";
 import swal from "sweetalert";
 import { toast } from "react-toastify";
 import { Images } from "../Assets";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { requestForToken } from "../firebase";
+import InlineButtonLoader from "./InlineButtonLoader";
 
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 export default function Login() {
@@ -21,9 +26,9 @@ export default function Login() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(setCurrentColor("white"))
+    dispatch(setCurrentColor("white"));
     getFcmToken();
-  }, [])
+  }, []);
 
   const getFcmToken = () => {
     const temp = localStorage.getItem("fcmTokenDelivery");
@@ -81,8 +86,7 @@ export default function Login() {
             email: response.data.user.email,
           }).toString(),
         });
-      }
-      else {
+      } else {
         console.log(response);
         dispatch(userData(response.data.user));
         dispatch(corierLogIn(true));
@@ -109,7 +113,7 @@ export default function Login() {
         err?.response?.status === 402
       ) {
         setLoading(false);
-        swal(`${err?.response?.data?.message}`, "", "error");
+        toast.error("☹️ " + err?.response?.data?.message);
         return;
       }
     }
@@ -162,15 +166,16 @@ export default function Login() {
           <button
             className="w-full bg-black text-white p-2 rounded-lg mt-2 hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
             onClick={handleLogIn}
+            disabled={loading}
           >
-            Sign in
+          {loading ? <InlineButtonLoader /> : "Sign in"}
           </button>
           <Link
             to="/register"
             className="w-full mt-5 text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-gray-300"
-          // onClick={() => {
-          //   clearState();
-          // }}
+            // onClick={() => {
+            //   clearState();
+            // }}
           >
             Sign up
           </Link>
