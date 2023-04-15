@@ -107,7 +107,7 @@ export default function ChangePassword({ setChangePassword, currentColor }) {
                     onChange={handleOldPassword}
                     id="password"
                     placeholder="Enter Old Password"
-                    className="px-3 py-3 placeholder-slate-800 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
+                    className="px-3 py-3 placeholder-slate-800 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full"
                   />
                 </div>
                 <label htmlFor="newpassword">New Password</label>
@@ -121,7 +121,7 @@ export default function ChangePassword({ setChangePassword, currentColor }) {
                     onChange={handlePassword}
                     id="newpassword"
                     placeholder="Enter New Password"
-                    className="px-3 py-3 placeholder-slate-800 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
+                    className="px-3 py-3 placeholder-slate-800 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full"
                   />
                 </div>
 
@@ -136,7 +136,7 @@ export default function ChangePassword({ setChangePassword, currentColor }) {
                     onChange={handleCpass}
                     id="rnewpassword"
                     placeholder="Re-enter New Password"
-                    className="px-3 py-3 placeholder-slate-800 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
+                    className="px-3 py-3 placeholder-slate-800 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full"
                   />
                 </div>
               </form>

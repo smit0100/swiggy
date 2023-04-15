@@ -177,7 +177,7 @@ export default function OrderDetail() {
                         Sub Total
                       </div>
                       <div className="text-slate-800 font-medium capitalize">
-                        {summaryData != null ? summaryData?.total : ""}
+                        {summaryData != null ? "₹" +summaryData?.total : ""}
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
@@ -193,7 +193,7 @@ export default function OrderDetail() {
                         Charges
                       </div>
                       <div className="text-slate-800 font-medium capitalize">
-                        50
+                      ₹50
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
@@ -201,7 +201,7 @@ export default function OrderDetail() {
                         Total
                       </div>
                       <div className="text-black text-lg font-semibold capitalize">
-                        {summaryData != null ? summaryData?.total + 50 : 0}
+                        {summaryData != null ?"₹" + (summaryData?.total + 50) : 0}
                       </div>
                     </div>
                   </div>

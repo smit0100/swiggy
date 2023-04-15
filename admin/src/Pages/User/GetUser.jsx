@@ -26,9 +26,9 @@ export default function GetUser() {
 
   useEffect(() => {
     // getUsers();
-    getSearchUser(search)
+    getSearchUser(search);
     document.title = "Admin - Customers";
-  }, [currentPage,search]);
+  }, [currentPage, search]);
   const getUsers = () => {
     setIsLoading(true);
     getAllUser();
@@ -48,11 +48,11 @@ export default function GetUser() {
       });
   };
   const getSearchUser = () => {
-    setIsLoading(true)
-    User.GetSearchUser(search,currentPage)
+    setIsLoading(true);
+    User.GetSearchUser(search, currentPage)
       .then((res) => {
         console.log("response=====>", res?.response);
-        if (res?.response?.length > 0 ) {
+        if (res?.response?.length > 0) {
           setDatas(res?.response);
           setIsLoading(false);
         }
@@ -193,11 +193,11 @@ export default function GetUser() {
               to={`/customers/${item._id}`}
               className="w-10 h-10 rounded-full"
             > */}
-              <img
-                className="w-10 h-10 rounded-full"
-                src={Images.user2}
-                alt="user"
-              />
+            <img
+              className="w-10 h-10 rounded-full"
+              src={Images.user2}
+              alt="user"
+            />
             {/* </Link> */}
             <div className="pl-3">
               <div className="text-base font-semibold">{item.name}</div>
@@ -206,26 +206,33 @@ export default function GetUser() {
           </th>
           <td className="pl-10 py-4">{item.order.length}</td>
           <td className="py-4">
-            {/* <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {item.type}
-                </div> */}
-            <div className="inline-flex items-center text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-2xl text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600">
+            <div
+              className={`inline-flex items-center bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-2xl text-sm px-3 py-1.5 dark:bg-gray-800 dark:hover:bg-gray-700 ${
+                item.type == "admin"
+                  ? "text-purple-500 border-purple-600 hover:bg-purple-200"
+                  : "text-yellow-400 border-yellow-400 hover:bg-yellow-200"
+              }`}
+            >
               <span>{item.type}</span>
             </div>
           </td>
-          <td className="px-6 py-4 flex gap-3">
+          <td className="px-6 py-4">
+            <div className="flex">
+
             <button
-              className="font-medium border-blue-600 border-1 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-600 hover:text-white duration-150"
+              className="font-medium border-cyan-400 border-1 text-cyan-400 px-3 py-1 rounded-lg hover:bg-cyan-400 hover:text-white duration-150"
               onClick={() => handleModal(item?._id)}
             >
-              Edit
+              Type
             </button>
             <button
-              className="font-medium border-red-500 border-1 text-red-500 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white duration-150"
+              className="font-medium border-red-500 border-1 text-red-500 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white duration-150 ml-3"
               onClick={() => handleDelete(item?._id)}
             >
               Delete
             </button>
+            </div>
+
           </td>
         </tr>
       );
@@ -338,13 +345,7 @@ export default function GetUser() {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {!isLoading && (
-              <>
-                {dataTable(datas)}
-              </>
-            )}
-          </tbody>
+          <tbody>{!isLoading && <>{dataTable(datas)}</>}</tbody>
         </table>
         {isLoading && (
           <div className="w-full flex items-center justify-center">
