@@ -213,7 +213,10 @@ const acceptOrder = async (req, res, next) => {
       },
     ]);
 
-    let courierBoys = await Courier.findOne({ isAvilable: { $ne: false } });
+    let courierBoys = await Courier.findOne({
+      isApproved: "approved",
+      isAvilable: { $ne: false },
+    });
     console.log(courierBoys);
 
     if (courierBoys == null) {

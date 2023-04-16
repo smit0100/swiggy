@@ -6,10 +6,9 @@ import UserAddress from "../components/UserAddress";
 import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
-
-import { useCookies } from "react-cookie";
 import { userData, userLogIn } from "../redux/user/userSlice";
 import swal from "sweetalert";
+import { useCookies } from "react-cookie";
 
 import OrderDetailsCard from "../components/OrderDetailsCard";
 
@@ -21,6 +20,7 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(null);
   const [order, setOrder] = useState([]);
   const user = useSelector((state) => state.userData.user);
+  const [, , removeCookie] = useCookies(["connect.sid"]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ const UserProfile = () => {
       if (willDelete) {
         dispatch(userData(null));
         localStorage.clear();
+        removeCookie("connect.sid")
         dispatch(userLogIn(false));
         swal("Successfully logout", {
           icon: "success",
