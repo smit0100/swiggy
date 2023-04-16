@@ -31,7 +31,7 @@ const Navigations = ({ currentColor = "", isLogedIn = false, isApproved }) => {
             >
               <Link
                 to={"/search"}
-                onClick={() => dispatch(setCurrentColor("white"))}
+                onClick={() => dispatch(setCurrentColor("slate-800"))}
               >
                 Search
               </Link>

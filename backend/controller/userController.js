@@ -582,6 +582,50 @@ const userSearch = async (req, res, next) => {
     res.status(400).json({ message: "something went wrong" });
   }
 };
+
+const isExist = async (req, res) => {
+  try {
+    const access_token = req.cookies.access_token;
+    if (access_token) {
+      jwt.verify(access_token, "jwtsecret", async (err, data) => {
+        if (err) {
+          console.log(err + "this is error");
+          res.sendStatus(403);
+        } else {
+          let user = await User.findById(data.id);
+          console.log(user);
+          return res.status(200).json({ message: "user founded", user });
+        }
+      });
+    } else {
+      res.sendStatus(403);
+    }
+  } catch (e) {
+    resaccess_tokenstatus(500).json({ messag: "something went wrong" });
+  }
+
+  // try {
+  //     // const token = req.cookies.token;
+  //     const user = req.session.user;
+
+  // console.log(token + "check this token");
+  // console.log(user);
+
+  // console.log(JSON.stringify(req.cookies));
+  // console.log(JSON.stringify(req.session));
+
+  //     if ( !user) {
+
+  //         res.sendStatus(403)
+
+  //     } else {
+
+  //     }
+  // } catch (e) {
+  //     console.log(e);
+  //     res.status(500).json({ messag: 'something went wrong' });
+  // }
+};
 module.exports = {
   createUser,
   verifyUser,
@@ -604,4 +648,5 @@ module.exports = {
   editUser,
   handleSendNotification,
   userSearch,
+  isExist
 };

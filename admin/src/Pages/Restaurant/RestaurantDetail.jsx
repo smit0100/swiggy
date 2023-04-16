@@ -26,7 +26,7 @@ export default function RestaurantDetail() {
     GetRestaurant();
   }, []);
   const GetRestaurant = () => {
-    Restaurants.getOneProduct(restaurantId)
+    Restaurants.getResDetail(restaurantId)
       .then((res) => {
         console.log("resresresresres", res);
         setData(res?.resturant);
@@ -129,8 +129,8 @@ export default function RestaurantDetail() {
         </div>
       ) : (
         <>
-          <div className="container mx-auto min-h-[800px] px-2">
-            <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
+          <div className="container mx-auto min-h-[700px] px-2">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <h2 className="text-3xl font-bold dark:text-white">
                   {data.length != 0 ? data?.name : ""}{" "}

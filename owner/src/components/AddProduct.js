@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -128,6 +128,10 @@ const AddProduct = () => {
       swal("SuccessFully Added", "", "success");
       navigate("/listofproducts");
     } catch (error) {
+      console.log("=====e", error);
+      if (error?.response?.status == 400) {
+        toast.error("Request does not approve by admin");
+      }
       setLoading(false);
     }
   };
