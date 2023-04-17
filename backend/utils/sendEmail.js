@@ -24,7 +24,8 @@ let transporter = nodemailer.createTransport({
         from: 'smitdankhra01@gmail.com', // sender address
         to: email, // list of receivers
         subject: subject, // Subject line
-        text: text, // plain text body
+        // text: text, // plain text body,
+       html:`<!DOCTYPEhtml><htmllang="en"><head><metacharset="UTF-8"><metaname="viewport"content="width=device-width,initial-scale=1.0"><title>OTPEmailTemplate</title><style>/*TailwindCSS*/@importurl('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.4/tailwind.min.css');</style></head><body><divclass="bg-whiteshadow-lgmx-automax-w-2xl"><divclass="p-8"><h1class="text-3xlfont-boldmb-4">YourOTPis:</h1><divclass="flexitems-centerjustify-centerbg-gray-100rounded-lgpy-6px-8mb-4"><h2class="text-6xlfont-boldtext-gray-800">${text}</h2></div><pclass="text-lgtext-gray-800">ThisOTPisvalidfor10minutes.PleasedonotsharethisOTPwithanyone.</p><pclass="text-lgtext-gray-800">IfyoudidnotrequestthisOTP,pleaseignorethisemail.</p></div><divclass="bg-gray-100px-8py-4"><pclass="text-lgtext-gray-800">Thanks,</p><pclass="text-lgtext-gray-800">TheOTPTeam</p></div></div></body></html>`
         // html: "<b>smit</b>", // html body
     });
     
