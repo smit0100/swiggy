@@ -212,8 +212,11 @@ const acceptOrder = async (req, res, next) => {
         model: "User",
       },
     ]);
-    
-    let courierBoys = await Courier.findOne({ isApproved: "approved", isAvilable: { $ne: false } });
+
+    let courierBoys = await Courier.findOne({
+      isApproved: "approved",
+      isAvilable: { $ne: false },
+    });
     console.log(courierBoys);
    
 

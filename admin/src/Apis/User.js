@@ -85,6 +85,26 @@ function sendNotificationToAll(data) {
     data,
   });
 }
+function ForgotPassword(data) {
+  return Api({
+    url: `/user/forgotpassword`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
+  });
+}
+function NewPassword(data) {
+  return Api({
+    url: `/user/verfiyotp`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data,
+  });
+}
 export default {
   GetAllUsers,
   GetOneUser,
@@ -95,4 +115,6 @@ export default {
   sendNotificationToAll,
   ChangePasswords,
   GetSearchUser,
+  ForgotPassword,
+  NewPassword
 };

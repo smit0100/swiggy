@@ -21,6 +21,7 @@ import {
   OrderDetail,
   Notifications,
   ChangePassword,
+  ForgotPassword,
 } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { useSelector } from "react-redux";
@@ -143,6 +144,7 @@ function App() {
             <Routes>
               <Route path="/" element={<LogIn />} />
               <Route path="/login" element={<LogIn />} />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}
