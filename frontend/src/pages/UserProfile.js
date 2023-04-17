@@ -52,6 +52,16 @@ const UserProfile = () => {
       dangerMode: true,
     }).then(async (willDelete) => {
       if (willDelete) {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_BASEURL}/logout`,
+          );
+          if (response) {
+            console.log("====res",response);
+          }
+        } catch (err) {
+          console.log("===err",err);
+        }
         dispatch(userData(null));
         localStorage.clear();
         removeCookie("connect.sid")

@@ -26,7 +26,7 @@ const DropDown = ({ user,handleLogOut }) => {
         Profile <FaUserCog />
       </Link>
       <button className="cursor-pointer px-10 py-2 flex items-center gap-3 hover:bg-slate-100 transition-all duration-100 ease-in-out text-base text-red-500"
-      onClick={()=>handleLogOut()}
+      onClick={(e)=>handleLogOut(e)}
       >
         Logout
         <MdLogout />

@@ -42,12 +42,18 @@ const Home = () => {
             `${process.env.REACT_APP_BASEURL}/user/isExist`,
             { withCredentials: true }
           );
-          console.log(isExist + "check this exist");
-          dispatch(userData(isExist?.data?.user));
-
-          dispatch(userLogIn(true));
-          localStorage.setItem("isUserLogIn", JSON.stringify(true));
-          localStorage.setItem("userData", JSON.stringify(isExist?.data?.user));
+          console.log("check this exist",isExist);
+          if (isExist?.data?.user != null) {
+            dispatch(userData(isExist?.data?.user));
+            dispatch(userLogIn(true));
+            localStorage.setItem("isUserLogIn", JSON.stringify(true));
+            localStorage.setItem("userData", JSON.stringify(isExist?.data?.user));
+          }else{
+            dispatch(userData(null));
+            dispatch(userLogIn(false));
+            localStorage.setItem("isUserLogIn", JSON.stringify(false));
+            localStorage.setItem("userData", JSON.stringify(null));
+          }
         } else {
           dispatch(userData(data?.data?.user));
           dispatch(userLogIn(true));
