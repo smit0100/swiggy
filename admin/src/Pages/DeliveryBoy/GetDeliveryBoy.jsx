@@ -406,7 +406,7 @@ export default function GetDeliveryBoy() {
               {/* <!-- Modal body --> */}
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-6 gap-6">
-                  <div className="col-span-6 sm:col-span-3">
+                  {/* <div className="col-span-6 sm:col-span-3">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Name
                     </label>
@@ -420,8 +420,8 @@ export default function GetDeliveryBoy() {
                       placeholder="Enter name"
                       required=""
                     />
-                  </div>
-                  <div className="col-span-6 sm:col-span-3">
+                  </div> */}
+                  {/* <div className="col-span-6 sm:col-span-3">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Email
                     </label>
@@ -435,8 +435,8 @@ export default function GetDeliveryBoy() {
                       placeholder="example@company.com"
                       required=""
                     />
-                  </div>
-                  <div className="col-span-6 sm:col-span-3">
+                  </div> */}
+                  {/* <div className="col-span-6 sm:col-span-3">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Phone Number
                     </label>
@@ -450,7 +450,7 @@ export default function GetDeliveryBoy() {
                       required=""
                       maxLength={10}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="col-span-6 sm:col-span-3 mt-5">
                     <div className="flex items-center mb-4">
