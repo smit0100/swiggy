@@ -28,10 +28,10 @@ export default function RestroCard(props) {
             </h4>
             <div className="mt-2">
               <span className="text-teal-600 text-md font-semibold">
-                3.5/5 ratings{" "}
+                {props?.item?.rating}/5 ratings{" "}
               </span>
               <span className="text-sm text-gray-600">
-                (based on 12 ratings)
+                (based on {props?.item?.review?.length > 0 ? props?.item?.review?.length : 0} ratings)
               </span>
             </div>
           </div>

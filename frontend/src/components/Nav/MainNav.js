@@ -16,6 +16,7 @@ import {
   setCurrentColor,
 } from "../../redux/user/userSlice";
 import swal from "sweetalert";
+import axios from "axios";
 const MainNav = () => {
   const currentColor = useSelector((state) => state.userData.currentColor);
   const isUserLogIn = useSelector((state) => state.userData.isUserLogIn);
@@ -27,8 +28,9 @@ const MainNav = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   console.log("==user", currentColor);
-  const handleLogOut = () => {
+  const handleLogOut = (e) => {
     console.log("===calllll");
+    e.preventDefault();
     swal({
       title: "Are you sure! you want to log out?",
       icon: "warning",
@@ -38,6 +40,16 @@ const MainNav = () => {
       dangerMode: true,
     }).then(async (willDelete) => {
       if (willDelete) {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_BASEURL}/logout`,
+          );
+          if (response) {
+            console.log("====res",response);
+          }
+        } catch (err) {
+          console.log("===err",err);
+        }
         localStorage.clear();
         dispatch(userLogIn(false));
         dispatch(userData(null));
@@ -94,7 +106,7 @@ const MainNav = () => {
                 <RiArrowDropDownLine />
               </p>
             </motion.div>
-            <DropDown user={user} handleLogOut={() => handleLogOut()} />
+            <DropDown user={user} handleLogOut={(e) => handleLogOut(e)} />
           </div>
         ) : (
           <LoginAction text={"Login"} currentColor={currentColor} />
