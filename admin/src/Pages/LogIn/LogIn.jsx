@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Images } from "../../Assets";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import User from "../../Apis/User";
 import swal from "sweetalert";
@@ -222,18 +222,18 @@ function LogIn() {
                   onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
-              {/* <div className="flex justify-between w-full py-4">
+              <div className="flex justify-between w-full py-4">
                 <div className="mr-24">
-                  <input type="checkbox" name="ch" id="ch" className="mr-2" />
-                  <span className="text-md">Remember me</span>
+                  {/* <input type="checkbox" name="ch" id="ch" className="mr-2" />
+                  <span className="text-md">Remember me</span> */}
                 </div>
-                <span
-                  onClick={hanldeForgot}
+                <Link
                   className="font-bold text-md cursor-pointer hover:underline"
+                  to={"/forgotPassword"}
                 >
                   Forgot password
-                </span>
-              </div> */}
+                </Link>
+              </div>
             </>
           )}
           {isForgot ? (
