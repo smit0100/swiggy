@@ -85,7 +85,7 @@ function setProductDeactive(id, ownerId) {
 function handleRequest(id, req) {
   console.log("==id,req", id, req);
   return Api({
-    url: `/resturant/${req}/${id}`,
+    url: `/resturant/${req}?id=${id}`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",

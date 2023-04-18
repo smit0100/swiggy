@@ -201,16 +201,17 @@ const fetchResturant = async (req, res, next) => {
 
 const approveResturant = async (req, res, next) => {
   const { id } = req.query;
+  console.log("=====>>>",id);
   const response = await Resturant.findByIdAndUpdate(
     id,
     { isApproved: "Accepted" },
     { new: true }
   );
-
+  console.log("=====",response);
   return res.status(200).json({ message: "resturant is active", response });
 };
 const rejectResturant = async (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.query;
   const response = await Resturant.findByIdAndUpdate(
     id,
     { isApproved: "Rejected" },
@@ -265,8 +266,7 @@ const getAllResturant = async (req, res) => {
       isApproved: { $ne: "Not Request" },
     })
       .skip((pageNumber - 1) * pageSize)
-      .limit(pageSize);
-    console.log(response);
+      .limit(pageSize);  console.log(response);
     res.status(200).json({
       messag: "resturnat fetched",
       results: response,

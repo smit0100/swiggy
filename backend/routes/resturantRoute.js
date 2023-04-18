@@ -16,7 +16,7 @@ router.get('/products',resturantController.fetchResturantAllProduct)
 router.get('/fetchAllProduct',resturantController.fetchAllProducts)
 router.post("/add", resturantController.createResturnat);
 router.post("/approve",resturantController.approveResturant)
-router.post("/reject/:id", resturantController.rejectResturant)
+router.post("/reject", resturantController.rejectResturant)
 router.get('/fetchAllActive', resturantController.fetchAllApprovedResturant);
 router.get('/status', resturantController.resturantStatus);
 router.get('/allProduct', resturantController.fetchAllProduct);
