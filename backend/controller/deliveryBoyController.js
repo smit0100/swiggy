@@ -488,6 +488,18 @@ const makeAvilable = async (req, res) => {
     res.status(500).json({ messag: 'something went wrong' });
   }
 }
+
+const updateProfile = async (req, res) => {
+  try {
+    const { id, name, number } = req.body;
+    const user = await DeliveryBoy.findByIdAndUpdate(id, { name, number }, {
+      new:true
+    })
+    res.status(200).json({messag:'updated user',user})
+  } catch (e) {
+    res.status(500).json({ messag: "something went wrong" });
+  }
+}
 module.exports = {
   register,
   login,
@@ -508,5 +520,6 @@ module.exports = {
   editDeliveryBoy,
   changePassword,
   makeAnAvilable,
-  makeAvilable
+  makeAvilable,
+  updateProfile
 };

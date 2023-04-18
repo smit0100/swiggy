@@ -26,11 +26,5 @@ router.put('/edit',userController.editUser);
 router.post('/notification',userController.handleSendNotification);
 router.get('/fetchOne', userController.userSearch);
 router.get('/isExist', userController.isExist);
-app.post('/logout', (req, res) => {
-    res.cookie('connect.sid', null, { maxAge: 0 });
-    
-    
-    res.status(200).json({ message: 'Logged out successfully' });
-  });
 
 module.exports = router
