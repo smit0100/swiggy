@@ -151,7 +151,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     <i className="fas fa-lock-open"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     value={oldPassword}
                     onBlur={handleOldPassword}
                     onChange={handleOldPassword}
@@ -167,7 +167,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     <i className="fas fa-unlock"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     value={newPassword}
                     onBlur={handlePassword}
                     onChange={handlePassword}
@@ -184,7 +184,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     <i className="fas fa-lock"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     value={cnpass}
                     onBlur={handleCpass}
                     onChange={handleCpass}
