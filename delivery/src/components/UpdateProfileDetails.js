@@ -135,7 +135,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     setIsValidLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASEURL}/user/update`,
+        `${process.env.REACT_APP_BASEURL}/courier/update`,
         {
           userId: user._id,
           email,
@@ -255,8 +255,8 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                   />
                 </div>
                 <span className="text-sm text-red-500">{numberError}</span>
-                <label htmlFor="email">Email</label>
-                <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
+                {/* <label htmlFor="email">Email</label> */}
+                {/* <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                   <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <i className="fas fa-envelope"></i>
                   </span>
@@ -269,8 +269,8 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     onChange={handleEmail}
                     className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-3"
                   />
-                </div>
-                <span className="text-sm text-red-500">{emailError}</span>
+                </div> */}
+                {/* <span className="text-sm text-red-500">{emailError}</span> */}
               </form>
             </div>
             {/*footer*/}

@@ -491,8 +491,8 @@ const makeAvilable = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { id, name, number } = req.body;
-    const user = await DeliveryBoy.findByIdAndUpdate(id, { name, number }, {
+    const { userId, name, number } = req.body;
+    const user = await DeliveryBoy.findByIdAndUpdate(userId, { name, number }, {
       new:true
     })
     res.status(200).json({messag:'updated user',user})
