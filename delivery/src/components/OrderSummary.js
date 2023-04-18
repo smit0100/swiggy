@@ -305,7 +305,7 @@ const OrderSummary = () => {
                   <div className="flex items-center justify-between gap-2 pb-2 border-b border-black">
                     <div className="text-slate-500  text-semibold">Charges</div>
                     <div className="text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded">
-                      ₹50
+                      0
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-2">
@@ -313,7 +313,7 @@ const OrderSummary = () => {
                       Total
                     </div>
                     <div className="text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded">
-                      ₹{userData != null ? userData?.total + 50 : 0}
+                      ₹{userData != null ? userData?.total : 0}
                     </div>
                   </div>
                 </div>

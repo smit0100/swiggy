@@ -21,13 +21,19 @@ const OrderDetail = () => {
   useEffect(() => {
     if (user != null) {
       (async () => {
-        setIsLoading(true);
-        const response = await axios.get(
-          `http://localhost:4000/courier/fetchall/?id=${owner._id}`
-        );
-        console.log("===>>",response);
-        setOrderData(response.data.courierBoy);
-        setIsLoading(false);
+        console.log("====owner",owner._id);
+        try {
+          
+          setIsLoading(true);
+          const response = await axios.get(
+            `http://localhost:4000/courier/fetchall/?id=${owner._id}`
+          );
+          console.log("===>>dixit here",response);
+          setOrderData(response.data.courierBoy);
+          setIsLoading(false);
+        } catch (error) {
+          console.log("====er",error);
+        }
       })();
     }
   }, []);
