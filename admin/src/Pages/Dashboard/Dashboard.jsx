@@ -44,18 +44,26 @@ function Dashboard() {
           let temp = [...earningData];
           temp[0].amount = res?.userCount;
           temp[1].amount = res?.resCount;
-          temp[2].amount = res?.totalSales + " ₹";
-          temp[3].amount = res?.DeliveryCount;
-          temp[4].amount = res?.mainCategory;
-          temp[5].amount = res?.subCategory;
-          temp[6].amount = res?.Product;
-          temp[7].amount = res?.activeProducts;
-          temp[8].amount = res?.deactiveProducts;
-          temp[9].amount = res?.contactUS;
-          temp[10].amount = res?.deliveredOrder;
-          temp[11].amount = res?.canceledOrder;
-          temp[12].amount = res?.rejectedOrder;
-          temp[13].amount = res?.process;
+          temp[2].amount = res?.resActive;
+          temp[3].amount = res?.resDeActive;
+          temp[4].amount = res?.totalSales + " ₹";
+          temp[5].amount = res?.DeliveryCount;
+          temp[6].amount = res?.DeliveryActive;
+          temp[7].amount = res?.DeliveryDeactive;
+          temp[8].amount = res?.mainCategory;
+          temp[9].amount = res?.mainCategoryActive;
+          temp[10].amount = res?.mainCategoryDeActive;
+          temp[11].amount = res?.subCategory;
+          temp[12].amount = res?.SubCategoryActive;
+          temp[13].amount = res?.SubCategoryDeActive;
+          temp[14].amount = res?.Product;
+          temp[15].amount = res?.activeProducts;
+          temp[16].amount = res?.deactiveProducts;
+          temp[17].amount = res?.contactUS;
+          temp[18].amount = res?.deliveredOrder;
+          temp[19].amount = res?.canceledOrder;
+          temp[20].amount = res?.rejectedOrder;
+          temp[21].amount = res?.process;
           setEarningData(temp);
         }
       })

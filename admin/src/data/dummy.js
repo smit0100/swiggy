@@ -1,24 +1,34 @@
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FiShoppingBag, FiBarChart, FiCodesandbox } from "react-icons/fi";
-import { BiRestaurant, BiCategory } from "react-icons/bi";
+import {
+  BiRestaurant,
+  BiCategory,
+  BiCategoryAlt,
+  BiShapeCircle,
+} from "react-icons/bi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import {
   RiContactsLine,
   RiContactsBookLine,
   RiContactsBook2Line,
+  RiRestaurantLine,
 } from "react-icons/ri";
 import {
   MdOutlineNotificationAdd,
   MdOutlineFastfood,
   MdOutlineSupervisorAccount,
+  MdOutlineShapeLine,
   MdOutlineDeliveryDining,
   MdOutlineCategory,
+  MdOutlineTableRestaurant,
 } from "react-icons/md";
 
 import { BsBox, BsBoxes, BsBoxSeam } from "react-icons/bs";
 import { CiBoxes } from "react-icons/ci";
 import { FaBoxes } from "react-icons/fa";
+import { TbTruckDelivery, TbCategory2 } from "react-icons/tb";
+import { GiDeliveryDrone } from "react-icons/gi";
 import { DiDropbox } from "react-icons/di";
 
 export const themeColors = [
@@ -159,7 +169,7 @@ export const links = [
 export const earningDatas = [
   {
     icon: <MdOutlineSupervisorAccount />,
-    amount: "1354",
+    amount: "0",
     percentage: "-4%",
     title: "Customers",
     iconColor: "#03C9D7",
@@ -168,7 +178,7 @@ export const earningDatas = [
   },
   {
     icon: <BiRestaurant />,
-    amount: "96",
+    amount: "0",
     percentage: "+23%",
     title: "Restaurants",
     iconColor: "rgb(255, 244, 229)",
@@ -176,8 +186,26 @@ export const earningDatas = [
     pcColor: "green-600",
   },
   {
+    icon: <MdOutlineTableRestaurant />,
+    amount: "0",
+    percentage: "+23%",
+    title: "Active restaurants",
+    iconColor: "#E77F67",
+    iconBg: "#FFEFEA",
+    pcColor: "green-600",
+  },
+  {
+    icon: <RiRestaurantLine />,
+    amount: "0",
+    percentage: "+23%",
+    title: "Inactive restaurants",
+    iconColor: "#3B82F6",
+    iconBg: "#DBEAFE",
+    pcColor: "green-600",
+  },
+  {
     icon: <FiBarChart />,
-    amount: "42,339",
+    amount: "0",
     percentage: "+38%",
     title: "Sales",
     iconColor: "rgb(228, 106, 118)",
@@ -187,16 +215,34 @@ export const earningDatas = [
   },
   {
     icon: <MdOutlineDeliveryDining />,
-    amount: "354",
+    amount: "0",
     percentage: "-12%",
-    title: "Delevery partner",
+    title: "Delivery partner",
     iconColor: "rgb(0, 194, 146)",
     iconBg: "rgb(235, 250, 242)",
     pcColor: "red-600",
   },
   {
+    icon: <TbTruckDelivery />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Active delivery partner",
+    iconColor: "#F472B6",
+    iconBg: "#FCE7F3",
+    pcColor: "red-600",
+  },
+  {
+    icon: <GiDeliveryDrone />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Inactive delivery partner",
+    iconColor: "#6B7280",
+    iconBg: "#F3F4F6",
+    pcColor: "red-600",
+  },
+  {
     icon: <BiCategory />,
-    amount: "354",
+    amount: "0",
     percentage: "-12%",
     title: "Main Category",
     iconColor: "#6C63FF",
@@ -204,12 +250,48 @@ export const earningDatas = [
     pcColor: "red-600",
   },
   {
+    icon: <BiCategoryAlt />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Active Main Category",
+    iconColor: "#F59E0B",
+    iconBg: "#FEF3C7",
+    pcColor: "red-600",
+  },
+  {
+    icon: <TbCategory2 />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Inactive Main Category",
+    iconColor: "#47B881",
+    iconBg: "#E1FAF2",
+    pcColor: "red-600",
+  },
+  {
     icon: <MdOutlineCategory />,
-    amount: "354",
+    amount: "0",
     percentage: "-12%",
     title: "Sub Category",
     iconColor: "#D13D46",
     iconBg: "#FFEBEE",
+    pcColor: "red-600",
+  },
+  {
+    icon: <MdOutlineShapeLine />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Active Sub Category",
+    iconColor: "#6B46C1",
+    iconBg: "#EDE9FE",
+    pcColor: "red-600",
+  },
+  {
+    icon: <BiShapeCircle />,
+    amount: "0",
+    percentage: "-12%",
+    title: "Inactive Sub Category",
+    iconColor: "#14B8A6",
+    iconBg: "#E6FFFA",
     pcColor: "red-600",
   },
   {

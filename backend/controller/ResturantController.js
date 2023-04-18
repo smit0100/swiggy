@@ -468,18 +468,46 @@ const getDashboardCount = async (req, res) => {
   try {
     const resCount = await Resturant.countDocuments();
     const DeliveryCount = await DeliveryBoy.countDocuments();
+    const DeliveryActive = await DeliveryBoy.countDocuments({
+      isApproved: "approved",
+    });
+    const DeliveryDeactive = await DeliveryBoy.countDocuments({
+      isApproved: "rejected",
+    });
     const mainCategory = await CategoryModel.countDocuments();
     const subCategory = await SubCategory.countDocuments();
     const userCount = await User.countDocuments();
     const Product = await ProductModel.countDocuments();
-    const activeProducts = await ProductModel.countDocuments({isActive:true});
-    const deactiveProducts = await ProductModel.countDocuments({isActive:false});
+    const activeProducts = await ProductModel.countDocuments({
+      isActive: true,
+    });
+    const deactiveProducts = await ProductModel.countDocuments({
+      isActive: false,
+    });
     const contactUS = await ContactUsModel.countDocuments();
     const order = await Order.find({ status: "delivered" });
     const deliveredOrder = await Order.countDocuments({ status: "delivered" });
     const canceledOrder = await Order.countDocuments({ status: "cancel" });
     const rejectedOrder = await Order.countDocuments({ status: "rejected" });
     const process = await Order.countDocuments({ status: "process" });
+    const mainCategoryActive = await CategoryModel.countDocuments({
+      isActive: true,
+    });
+    const resActive = await Resturant.countDocuments({
+      isApproved: "Accepted",
+    });
+    const resDeActive = await Resturant.countDocuments({
+      isApproved: "Rejected",
+    });
+    const mainCategoryDeActive = await CategoryModel.countDocuments({
+      isActive: false,
+    });
+    const SubCategoryActive = await SubCategory.countDocuments({
+      isActive: true,
+    });
+    const SubCategoryDeActive = await SubCategory.countDocuments({
+      isActive: false,
+    });
     let totalSales = 0;
     for (const iterator of order) {
       totalSales += iterator?.total;
@@ -514,7 +542,15 @@ const getDashboardCount = async (req, res) => {
         rejectedOrder,
         process,
         activeProducts,
-        deactiveProducts
+        deactiveProducts,
+        mainCategoryActive,
+        mainCategoryDeActive,
+        SubCategoryActive,
+        SubCategoryDeActive,
+        resActive,
+        resDeActive,
+        DeliveryActive,
+        DeliveryDeactive,
       });
     }
   } catch (e) {
@@ -540,7 +576,7 @@ const forgotPasswordForSentEmail = async (req, res) => {
       }).save();
 
       await sendEmail(rest.email, "verify email", String(otpNumber));
-      console.log("===String(otpNumber)",String(otpNumber));
+      console.log("===String(otpNumber)", String(otpNumber));
       res.status(200).json({ messag: "otop sent", rest });
     }
   } catch (e) {
