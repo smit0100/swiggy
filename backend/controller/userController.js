@@ -172,38 +172,43 @@ const fetchOnlyOneUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  const { email, password, fcmToken } = req.body;
-  let user = await User.findOne({ email: email, type: "customer" });
-
-  // user not exist
-
-  if (!user) return res.status(400).json({ message: "user not exist" });
-  console.log(password);
-  console.log(user.password);
-
-  const pass = await bcrypt.compareSync(password, user.password);
-
-  if (pass) {
-    //userr not verified
-    if (!user.verified)
+  try {
+    const { email, password, fcmToken } = req.body;
+    let user = await User.findOne({ email: email, type: "customer" });
+  
+    // user not exist
+  
+    if (!user) return res.status(400).json({ message: "user not exist" });
+    console.log(password);
+    console.log(user.password);
+  
+    const pass = await bcrypt.compareSync(password, user.password);
+  
+    if (pass) {
+      //userr not verified
+      if (!user.verified)
+        return res
+          .status(212)
+          .json({ message: "please verify you user account", user });
+      const token = jwt.sign({ id: user._id }, "jwtsecret");
+      res.cookie("token", token);
+      req.session.isLoggedIn = true;
+      if (user?.fcmToken === undefined || user?.fcmToken !== fcmToken) {
+        // If the user doesn't have an fcmToken, or if it's different from the new one,
+        // update it with the new value
+        user.fcmToken = fcmToken;
+        await user.save();
+      }
+      return res.status(200).json({ message: "user founded", user, token });
+    } else {
       return res
-        .status(212)
-        .json({ message: "please verify you user account", user });
-    const token = jwt.sign({ id: user._id }, "jwtsecret");
-    res.cookie("token", token);
-    req.session.isLoggedIn = true;
-    if (user?.fcmToken === undefined || user?.fcmToken !== fcmToken) {
-      // If the user doesn't have an fcmToken, or if it's different from the new one,
-      // update it with the new value
-      user.fcmToken = fcmToken;
-      await user.save();
+        .status(402)
+        .json({ message: "please check your email and password" });
     }
-    return res.status(200).json({ message: "user founded", user, token });
-  } else {
-    return res
-      .status(402)
-      .json({ message: "please check your email and password" });
+  } catch (e) {
+    res.status(500).json({ messag: 'something went wrong' });
   }
+
 };
 
 const addAdddress = async (req, res, next) => {
