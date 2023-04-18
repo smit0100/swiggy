@@ -200,7 +200,7 @@ const fetchResturant = async (req, res, next) => {
 };
 
 const approveResturant = async (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.query;
   const response = await Resturant.findByIdAndUpdate(
     id,
     { isApproved: "Accepted" },
