@@ -57,25 +57,6 @@ export default function OwnerLogin() {
   const googleAuth = () => {
     window.open("http://localhost:4000/auth/google/callback", "self");
   };
-  console.log(googleAuth);
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address");
-    } else {
-      setEmailError("");
-    }
-  };
-  const handlePassword = (e) => {
-    setPass(e.target.value);
-    if (e.target.value.length < 8) {
-      setPassError("password must be 8 character");
-    } else {
-      setPassError("");
-    }
-  };
 
   const handleSubmit = async () => {
     try {
@@ -103,7 +84,7 @@ export default function OwnerLogin() {
             email: response.data.rest.email,
           }).toString(),
         });
-      } else {
+      } else if (response.status === 200) {
         console.log("owner login res::", response);
         dispatch(userData(response.data.rest));
         dispatch(ownerLogIn(true));
@@ -115,6 +96,8 @@ export default function OwnerLogin() {
         });
         setLoading(false);
         navigate("/");
+      } else {
+        setLoading(false);
       }
     } catch (err) {
       if (
@@ -123,9 +106,8 @@ export default function OwnerLogin() {
         err?.response?.status === 402
       ) {
         toast.error(err?.response?.data?.message);
-        setLoading(false);
-        return;
       }
+      setLoading(false);
     }
   };
   return (

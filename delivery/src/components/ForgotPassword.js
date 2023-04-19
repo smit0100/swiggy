@@ -73,18 +73,17 @@ const ForgotPassword = () => {
       );
       console.log(response);
       if (response.status === 205) {
-        setLoading(false);
         toast.error("User not exists ☹️");
-      } else {
+      } else if (response?.status === 200) {
         console.log(response);
         setId(response.data.user._id);
         setOtpShow(true);
-        setLoading(false);
         setPass("");
         setCpass("");
         setCpassError("");
         setPassError("");
       }
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -115,7 +114,10 @@ const ForgotPassword = () => {
         navigate("/login");
       }
     } catch (err) {
-      toast.error("Something went wrong try again ☹️");
+      // toast.error("Something went wrong try again ☹️");
+      if (err?.response?.status == 205) {
+        toast.error(err?.response?.data?.messag + "☹️");
+      }
       setLoading(false);
       console.log(err);
     }
@@ -169,7 +171,8 @@ const ForgotPassword = () => {
         cpass &&
         passError.length === 0 &&
         cpassError.length === 0 &&
-        otp.join("").length == 6
+        otp.join("").length == 6 &&
+        !isNaN(otp.join(""))
       ) {
         return (
           <button

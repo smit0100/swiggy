@@ -22,7 +22,7 @@ function AddSubCategory(data) {
 }
 function getAllCategory() {
   return Api({
-    url: `/category/allAdmin`,
+    url: `/category/all`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",

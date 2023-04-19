@@ -162,6 +162,7 @@ const loginResturant = async (req, res, next) => {
     console.log("hey===", req.body);
     const { email, password, fcmToken } = req.body;
     let rest = await Resturant.findOne({ email });
+    if (!rest) return res.status(400).json({ message: "Restaurant not exist" });
 
     const pass = await bcrypt.compareSync(password, rest.password);
 

@@ -96,6 +96,7 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const id = toast.loading(`Creating your product\n,Please wait...`);
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -107,30 +108,35 @@ const AddProduct = () => {
       formData.append("subCategory", subCategory);
       formData.append("productImage", productImage);
 
-      console.log(
-        name,
-        price,
-        description,
-        productImage,
-        owner._id,
-        category,
-        subCategory,
-        productImage
-      );
-
-      console.log(owner._id);
       const data = await axios.post(
         "http://localhost:4000/product/add",
         formData
       );
-      console.log(data);
+      if (data?.status === 200) {
+        toast.update(id, {
+          render: "Product created successfully👌",
+          type: "default",
+          isLoading: false,
+          autoClose: 2000,
+          closeOnClick: true,
+          draggable: true,
+          pauseOnHover: false,
+        });
+        toast.dismiss(id);
+        setLoading(false);
+        navigate("/listofproducts");
+        return;
+      }
+      toast.dismiss(id);
       setLoading(false);
-      swal("SuccessFully Added", "", "success");
-      navigate("/listofproducts");
     } catch (error) {
-      console.log("=====e", error);
-      if (error?.response?.status == 400) {
-        toast.error("Request does not approve by admin");
+      toast.dismiss(id);
+      if (
+        error?.response?.status == 400 ||
+        error?.response?.status == 404 ||
+        error?.response?.status == 500
+      ) {
+        toast.error(error?.response?.data?.message);
       }
       setLoading(false);
     }
@@ -138,138 +144,134 @@ const AddProduct = () => {
 
   return (
     <>
-      {loading == true ? (
-        <Loader />
-      ) : (
-        <div className="bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 min-h-screen">
-          <div className="mx-5">
-            <div className="pt-20">
-              <form className="lg:px-16 lg:pt-10 p-5 bg-slate-200 shadow-lg lg:mx-10 rounded-4xl my-5">
-                <h1 className="font-bold text-2xl mb-5">&bull; Add Product</h1>
-                <div className="flex flex-wrap mb-3">
-                  <div className="w-full md:w-1/2 px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Product Name
-                    </label>
-                    <input
-                      className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                      id="grid-first-name"
-                      type="text"
-                      placeholder="Enter product name"
-                      value={name}
-                      onChange={handleName}
-                      onBlur={handleName}
-                    />
-                    <span className="text-red-500 text-sm">{nameError}</span>
-                  </div>
-                  <div className="w-full md:w-1/2 px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Price
-                    </label>
-                    <input
-                      className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                      id="grid-last-name"
-                      type="text"
-                      placeholder="0"
-                      maxLength={4}
-                      value={price}
-                      onChange={handlePrice}
-                      onBlur={handlePrice}
-                    />
-                    <span className="text-red-500 text-sm">{priceError}</span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap mb-3">
-                  <div className="w-full px-3">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Desription
-                    </label>
-                    <textarea
-                      className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                      type="text"
-                      placeholder="Write product description..."
-                      value={description}
-                      onChange={handleDescription}
-                      onBlur={handleDescription}
-                    />
-                    <p className="text-gray-600 text-xs italic">
-                      Make it as long as you'd like
-                    </p>
-                    <span className="text-red-500 text-sm">
-                      {descriptionError}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap mb-2">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Type
-                    </label>
-                    <select
-                      data-te-select-init
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                    >
-                      {categoryArray
-                        ? categoryArray.map((item) => (
-                            <option value={item._id} key={item.name}>
-                              {item.name}
-                            </option>
-                          ))
-                        : ""}
-                    </select>
-                  </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Type
-                    </label>
-                    <select
-                      data-te-select-init
-                      onChange={(e) => setSubCategory(e.target.value)}
-                      className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                    >
-                      {subCategoryArray
-                        ? subCategoryArray.map((item) => (
-                            <option value={item._id} key={item.name}>
-                              {item.name}
-                            </option>
-                          ))
-                        : ""}
-                    </select>
-                  </div>
-                </div>
-                <div className="w-full md:w-1/3 px-3 mb-6 mt-4 md:mb-0">
+      <div className="bg-gradient-to-bl from-indigo-200 via-red-200 to-yellow-100 min-h-screen">
+        <div className="mx-5">
+          <div className="pt-20">
+            <form className="lg:px-16 lg:pt-10 p-5 bg-slate-200 shadow-lg lg:mx-10 rounded-4xl my-5">
+              <h1 className="font-bold text-2xl mb-5">&bull; Add Product</h1>
+              <div className="flex flex-wrap mb-3">
+                <div className="w-full md:w-1/2 px-3">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Add Image
+                    Product Name
                   </label>
-                  <div className="mt-4">
-                    <label className="block">
-                      <input
-                        type="file"
-                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-                        name="productImage"
-                        id="pdImage"
-                        onChange={(e) => setProductImage(e.target.files[0])}
-                      />
-                    </label>
-                  </div>
+                  <input
+                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-first-name"
+                    type="text"
+                    placeholder="Enter product name"
+                    value={name}
+                    onChange={handleName}
+                    onBlur={handleName}
+                  />
+                  <span className="text-red-500 text-sm">{nameError}</span>
                 </div>
-                <div className="text-center">
-                  <button
-                    className={`${
-                      isValid ? "bg-black" : "hover:bg-white hover:text-black"
-                    } md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}
-                    onClick={handleSubmit}
-                    disabled={isValid}
+                <div className="w-full md:w-1/2 px-3">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Price
+                  </label>
+                  <input
+                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    id="grid-last-name"
+                    type="text"
+                    placeholder="0"
+                    maxLength={4}
+                    value={price}
+                    onChange={handlePrice}
+                    onBlur={handlePrice}
+                  />
+                  <span className="text-red-500 text-sm">{priceError}</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-3">
+                <div className="w-full px-3">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Desription
+                  </label>
+                  <textarea
+                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded-md py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    type="text"
+                    placeholder="Write product description..."
+                    value={description}
+                    onChange={handleDescription}
+                    onBlur={handleDescription}
+                  />
+                  <p className="text-gray-600 text-xs italic">
+                    Make it as long as you'd like
+                  </p>
+                  <span className="text-red-500 text-sm">
+                    {descriptionError}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap mb-2">
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Type
+                  </label>
+                  <select
+                    data-te-select-init
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                   >
-                    {loading ? <InlineButtonLoader /> : "Add Product"}
-                  </button>
+                    {categoryArray
+                      ? categoryArray.map((item) => (
+                          <option value={item._id} key={item.name}>
+                            {item.name}
+                          </option>
+                        ))
+                      : ""}
+                  </select>
                 </div>
-              </form>
-            </div>
+                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Type
+                  </label>
+                  <select
+                    data-te-select-init
+                    onChange={(e) => setSubCategory(e.target.value)}
+                    className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                  >
+                    {subCategoryArray
+                      ? subCategoryArray.map((item) => (
+                          <option value={item._id} key={item.name}>
+                            {item.name}
+                          </option>
+                        ))
+                      : ""}
+                  </select>
+                </div>
+              </div>
+              <div className="w-full md:w-1/3 px-3 mb-6 mt-4 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Add Image
+                </label>
+                <div className="mt-4">
+                  <label className="block">
+                    <input
+                      type="file"
+                      className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-1 file:border-violet-500 file:text-sm file:font-semibold   file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                      name="productImage"
+                      id="pdImage"
+                      onChange={(e) => setProductImage(e.target.files[0])}
+                    />
+                  </label>
+                </div>
+              </div>
+              <div className="text-center">
+                <button
+                  className={`${
+                    isValid ? "bg-black" : "hover:bg-white hover:text-black"
+                  } md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}
+                  onClick={handleSubmit}
+                  disabled={isValid || loading}
+                >
+                  {loading ? <InlineButtonLoader /> : "Add Product"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

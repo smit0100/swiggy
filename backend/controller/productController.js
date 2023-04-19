@@ -75,14 +75,9 @@ const createProduct = async (req, res, next) => {
         new: true,
       }
     );
-    console.log("this is resturant id");
-    console.log(resturnat);
-
-    console.log(addProductInResturnat);
-
     return res.status(200).json({ message: "product created", product });
   }
-  return res.status(400).json({ message: "Request not approved by admin" });
+  return res.status(400).json({ message: "Request not approve by admin" });
 
   } catch (e) {
     console.log(e);
