@@ -389,7 +389,7 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    console.log(user);
+    console.log("===>>>",email);
     if (user === null) {
       console.log("this is ru");
       return res.status(205).json({ message: "user not exist" });
@@ -415,7 +415,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
   try {
     const { id, newPassword } = req.body;
     let user = await User.findById(id);
-
+    console.log("=====",req.body);
     if (!user)
       return res.status(404).send({
         messag: "user not found",

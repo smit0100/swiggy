@@ -81,27 +81,32 @@ const ForgotPassword = () => {
     }
   };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const response = await User.ForgotPassword({ email });
-      console.log("===ressss", response);
-      if (response?.status === 205) {
-        toast.error("Opps, User not exists ☹️");
+  const handleClick = async () => {
+    setLoading(true);
+    // User.ForgotPassword({ email })
+    axios
+      .post("http://localhost:4000/user/forgotpassword", {
+        email,
+      })
+      .then((response) => {
+        console.log("===ressss", response);
+        if (response?.status === 205) {
+          toast.error("Opps, User not exists ☹️");
+        } else if (response?.status === 200) {
+          setId(response?.data?.user?._id);
+          setOtpShow(true);
+          setPass("");
+          setCpass("");
+          setCpassError("");
+          setPassError("");
+        } else {
+          toast.error("something went wrong,try again");
+        }
         setLoading(false);
-      } else {
-        setId(response?.user?._id);
-        setOtpShow(true);
-        setLoading(false);
-        setPass("");
-        setCpass("");
-        setCpassError("");
-        setPassError("");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+      })
+      .catch((err) => {
+        console.log("=====err", err);
+      });
   };
 
   // const handleSavePassword = async (e) => {
@@ -138,34 +143,36 @@ const ForgotPassword = () => {
   //     });
   // };
   const handleSavePassword = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        "http://localhost:4000/user/verfiyotp",
-        {
-          id,
-          otp: otp.join(""),
-          newPassword: pass,
+    setLoading(true);
+    let data = {
+      id: id,
+      otp: otp.join(""),
+      newPassword: pass,
+    };
+    console.log("====data",data);
+    axios
+      .post("http://localhost:4000/user/verfiyotp", data)
+      .then((response) => {
+        console.log("response", response);
+        if (response.status === 205) {
+          toast.error("Wrong OTP, try again ☹️");
+          setLoading(false);
+        } else {
+          toast.success("🔥 Password Forgot Successfully.");
+          setPass("");
+          setCpass("");
+          setLoading(false);
+          setEmail("");
+          navigate("/");
         }
-      );
-      console.log("response", response);
-      if (response.status === 205) {
-        toast.error("Wrong OTP, try again ☹️");
+      })
+      .catch((err) => {
+        if (err?.response?.status == 404) {
+          toast.error(err?.response?.data?.messag + "☹️");
+        }
         setLoading(false);
-      } else {
-        toast.success("🔥 Password Forgot Successfully.");
-        setPass("");
-        setCpass("");
-        setLoading(false);
-        setEmail("");
-        navigate("/");
-      }
-    } catch (err) {
-      toast.error("Something went wrong try again ☹️");
-      setLoading(false);
-      console.log(err);
-    }
+        console.log("=====err", err);
+      });
   };
   function ResetBtn() {
     if (!otpShow) {
@@ -199,7 +206,8 @@ const ForgotPassword = () => {
         cpass &&
         passError.length === 0 &&
         cpassError.length === 0 &&
-        otp.join("").length == 6
+        otp.join("").length == 6 &&
+        !isNaN(otp.join(""))
       ) {
         return (
           <button
