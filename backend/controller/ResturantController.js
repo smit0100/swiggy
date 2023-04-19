@@ -731,7 +731,7 @@ const updateProfile = async (req, res, next) => {
       user = await Resturant.findByIdAndUpdate(
         id,
         {
-          ownerName: name,
+          // ownerName: name,
           name: name,
           number,
         },

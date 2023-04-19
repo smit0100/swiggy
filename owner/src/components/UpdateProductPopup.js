@@ -26,7 +26,7 @@ const UpdateProductPopup = ({
   });
   const [subCategoryArray, setSubCategoryArray] = useState(null);
   const [CategoryArray, setCategoryArray] = useState(null);
-
+  const [productImage, setProductImage] = useState(null);
   const [isValid, setIsValid] = useState(false);
   const [isValidLoading, setIsValidLoading] = useState(false);
   const [category, setCategory] = useState(catId);
@@ -36,7 +36,19 @@ const UpdateProductPopup = ({
   const handlechange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
-
+  useEffect(() => {
+    if (
+      productData?.name.trim() != "" &&
+      !isNaN(productData?.price) &&
+      isNaN(productData?.name) &&
+      isNaN(productData?.description) &&
+      productData?.description.trim() != ""
+    ) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [productData]);
   useEffect(() => {
     (async () => {
       try {
@@ -87,6 +99,9 @@ const UpdateProductPopup = ({
       }
     } catch (err) {
       console.log(err);
+      if (err?.response?.status == 500) {
+        toast.error(err?.response?.data?.message);
+      }
       setIsValidLoading(false);
     }
   };
@@ -219,7 +234,12 @@ const UpdateProductPopup = ({
                   >
                     Upload prodouct image
                   </label>
-                  <input type="file" name="productImage" id="pdImage" />
+                  <input
+                    type="file"
+                    name="productImage"
+                    id="pdImage"
+                    onChange={(e) => setProductImage(e.target.files[0])}
+                  />
                 </div> */}
               </form>
             </div>
@@ -227,7 +247,7 @@ const UpdateProductPopup = ({
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
               <button
                 type="button"
-                disabled={isValid}
+                disabled={isValid || isValidLoading}
                 className={`${
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}

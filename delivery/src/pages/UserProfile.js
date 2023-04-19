@@ -127,7 +127,7 @@ const UserProfile = () => {
                   className={`text-base ${"bg-slate-100 border-slate-200 border-2"} font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
                   onClick={() => handelAvilable(false)}
                 >
-                  I am not Avilable
+                  I am not Available
                 </li>
               )}
               {user != null && user.isAvilable == false && (
@@ -135,7 +135,7 @@ const UserProfile = () => {
                   className={`text-base ${"bg-slate-100 border-slate-200 border-2"} font-mono font-semibold text-black pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}
                   onClick={() => handelAvilable(true)}
                 >
-                  I am Avilable
+                  I am Available
                 </li>
               )}
               <li
