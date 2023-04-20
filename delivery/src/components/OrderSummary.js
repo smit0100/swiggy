@@ -101,7 +101,7 @@ const OrderSummary = () => {
             setIsValid(false);
           }
           if (res?.data?.message == "please check ones otp") {
-            toast.error("OTP is not valid, please check once");
+            toast.error("OTP is wrong, please check once");
             setIsValid(false);
           }
         })
@@ -146,7 +146,7 @@ const OrderSummary = () => {
             setIsValid(false);
           }
           if (res?.data?.message == "please check ones otp") {
-            toast.error("OTP is not valid, please check once");
+            toast.error("OTP is wrong, please check once");
             setIsValid(false);
           }
         })

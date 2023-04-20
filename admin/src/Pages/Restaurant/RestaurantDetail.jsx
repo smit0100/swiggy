@@ -139,7 +139,7 @@ export default function RestaurantDetail() {
               </div>
               <div className="mb-4 1g:mb-0 flex gap-x-2 text-sm">
                 <div className="bg-green-500 text-white px-3 rounded-full">
-                  {item.type}
+                  {data?.rating + " ⭐"}
                 </div>
                 {data?.address?.area && (
                   <div
@@ -311,6 +311,17 @@ export default function RestaurantDetail() {
                     </h3>
                     <p className="text-gray-600 font-semibold">
                       {data?.product?.length}
+                    </p>
+                  </div>
+                  <div
+                    style={{ flexDirection: "row", display: "flex" }}
+                    className="mb-1"
+                  >
+                    <h3 style={{ flex: 1 }} className="text-lg font-semibold ">
+                      {"Review"}
+                    </h3>
+                    <p className="text-gray-600 font-semibold">
+                      {data?.review?.length}
                     </p>
                   </div>
                   <div

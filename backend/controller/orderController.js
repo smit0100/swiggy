@@ -217,10 +217,10 @@ const acceptOrder = async (req, res, next) => {
       isApproved: "approved",
       isAvilable: { $ne: false },
     });
-    console.log(courierBoys);
+    console.log("====>>>0",courierBoys);
 
     if (courierBoys == null) {
-      return res.status(200).json({ message: "courier boy is not avilable " });
+      return res.status(401).json({ message: "courier boy is not avilable " });
     } else {
       response.status = "accept";
       response.save();

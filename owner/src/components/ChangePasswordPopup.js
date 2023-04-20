@@ -94,10 +94,9 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
       toast.success("👌Password changed successfully");
       setChangePassword(false);
       setIsValidLoading(false);
-
     } catch (err) {
       setIsValidLoading(false);
-      console.log("====err",err);
+      console.log("====err", err);
       if (err.response.status == 401) {
         toast.error(err?.response?.data?.messag + "☹️");
       }
@@ -153,7 +152,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     <i className="fas fa-lock-open"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     value={oldPassword}
                     onBlur={handleOldPassword}
                     onChange={handleOldPassword}
@@ -169,7 +168,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     <i className="fas fa-unlock"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     value={newPassword}
                     onBlur={handlePassword}
                     onChange={handlePassword}
@@ -186,7 +185,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
                     <i className="fas fa-lock"></i>
                   </span>
                   <input
-                    type="text"
+                    type="password"
                     value={cnpass}
                     onBlur={handleCpass}
                     onChange={handleCpass}
@@ -202,7 +201,7 @@ const ChangePasswordPopup = ({ setChangePassword }) => {
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
               <button
                 type="button"
-                disabled={isValid}
+                disabled={isValid || isValidLoading}
                 className={`${
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg hover:border duration-200 border border-gray-300`}

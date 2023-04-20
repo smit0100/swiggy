@@ -85,7 +85,7 @@ function Dashboard() {
                 style={{ color: item.iconColor, backgroundColor: item.iconBg }}
                 className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl duration-150"
               >
-                {item.icon}
+                <Link to={"/" + item?.navigation}>{item.icon}</Link>
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">

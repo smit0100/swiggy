@@ -70,7 +70,7 @@ export default function AddCategory() {
         if (result?.response) {
           setIsLoading(false);
           setMainCategory(result?.response);
-          setSelectedOption(result?.response[0]._id)
+          setSelectedOption(result?.response[0]._id);
         }
       })
       .catch((e) => {
@@ -114,7 +114,9 @@ export default function AddCategory() {
       Category.AddMainCategory(JSON.stringify(data)).then((response) => {
         console.log("==response", response);
         if (response?.message) {
-          toast.success(response?.message)
+          toast.success(response?.message);
+          getCategory();
+          getSubCategory("All");
           setDescription("");
           setName("");
           setIsDisabled(false);
@@ -137,7 +139,7 @@ export default function AddCategory() {
       Category.AddSubCategory(data).then((response) => {
         console.log("==response", response);
         if (response?.message) {
-          toast.success(response?.message)
+          toast.success(response?.message);
           setSubDescription("");
           setSubName("");
           setSelectedOption("");

@@ -357,11 +357,18 @@ const ResturantPage = () => {
                     </div>
 
                     <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-16 lg:grid-cols-3">
-                      {userReview != null &&
-                        userReview.map((review) => (
+                      {userReview?.length > 0 &&
+                        userReview?.map((review) => (
                           <UserReviewCard review={review} />
                         ))}
                     </div>
+                    {userReview?.length == 0 &&
+                      (
+                        <div className="flex justify-center items-center">
+                          <p className="font-mono">No reviews here</p>
+                        </div>
+                      )
+                    }
                   </div>
                 </section>
               </div>

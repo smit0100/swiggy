@@ -108,7 +108,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
           name,
         }
       );
-      console.log("response",response);
+      console.log("response", response);
       setIsValidLoading(false);
       if (response.status === 201) {
         console.log("ooo");
@@ -121,7 +121,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         localStorage.setItem("ownerData", JSON.stringify(response?.data?.user));
         toast.success("Profile updated successfully ⭐");
       }
-      setupdateProfile(false)
+      setupdateProfile(false);
     } catch (err) {
       setIsValidLoading(false);
       if (err.response.status == 409) {
@@ -213,7 +213,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                   />
                 </div>
                 <span className="text-sm text-red-500">{numberError}</span>
-                <label htmlFor="email">Email</label>
+                {/* <label htmlFor="email">Email</label>
                 <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                   <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <i className="fas fa-envelope"></i>
@@ -228,14 +228,14 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
-                <span className="text-sm text-red-500">{emailError}</span>
+                <span className="text-sm text-red-500">{emailError}</span> */}
               </form>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
               <button
                 type="button"
-                disabled={isValid}
+                disabled={isValid || isValidLoading}
                 className={`${
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg hover:border duration-200 border border-gray-300`}

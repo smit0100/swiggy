@@ -198,6 +198,9 @@ export default function GetDeliveryBoy() {
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
+                Review
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Mobile
               </th>
               <th scope="col" className="px-6 py-3">
@@ -244,6 +247,7 @@ export default function GetDeliveryBoy() {
                     {item?.isAvilable ? "Available" : "Delivery"}
                   </span>
                 </td>
+                <td className="px-6 py-4">{item?.review?.length}</td>
                 <td className="px-6 py-4">{item?.number}</td>
                 <td className="px-6 py-4 ">
                   <span

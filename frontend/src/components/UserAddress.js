@@ -389,7 +389,7 @@ const UserAddress = () => {
                       <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                         <button
                           type="button"
-                          disabled={isValidAdd}
+                          disabled={isValidAdd || isAddLoading}
                           className={`${
                             isValidAdd
                               ? "bg-black"
@@ -522,7 +522,7 @@ const UserAddress = () => {
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
                     type="button"
-                    disabled={isValid}
+                    disabled={isValid || isValidLoading}
                     className={`${
                       isValid ? "bg-black" : "hover:bg-white hover:text-black"
                     } w-full bg-black text-white p-2 rounded-lg hover:border duration-200 border border-gray-300`}

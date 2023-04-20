@@ -219,7 +219,7 @@ const receiveFoodFromResturant = async (req, res, next) => {
     } else {
       order.status = "on the way";
       await order.save();
-      if (userfcmToken != "") {
+      if (userfcmToken != "" && userfcmToken != null) {
         let data = {
           title: "👋 Hurray!",
           body: "Delivery boy picked your order from restaurant",

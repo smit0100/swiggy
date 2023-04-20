@@ -31,7 +31,7 @@ export default function RestroCard(props) {
                 {props?.item?.rating}/5 ratings{" "}
               </span>
               <span className="text-sm text-gray-600">
-                (based on {props?.item?.review?.length > 0 ? props?.item?.review?.length : 0} ratings)
+                (based on {props?.item?.review?.length > 0 ? props?.item?.review?.length : 0} reviews)
               </span>
             </div>
           </div>

@@ -75,7 +75,7 @@ function getAllReviews(id) {
 }
 function setProductDeactive(id, ownerId) {
   return Api({
-    url: `/product/changeType/?id=${id}&resturant=${ownerId}`,
+    url: `/product/changeType?id=${id}&resturant=${ownerId}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",

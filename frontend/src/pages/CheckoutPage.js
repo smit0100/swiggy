@@ -434,7 +434,7 @@ const CheckoutPage = () => {
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
                     type="button"
-                    disabled={isValidAdd}
+                    disabled={isValidAdd || isAddLoading}
                     className={`${
                       isValidAdd
                         ? "bg-black"

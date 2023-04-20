@@ -28,7 +28,7 @@ const CartPage = () => {
   }, [])
 
   return (
-    <div className="mb-4">
+    <div className="pb-4 min-h-screen">
       <div className="h-full bg-inherit pt-24">
         <h1 className="mb-10 text-center text-2xl font-bold uppercase"> {cart != null ? cart.products.length === 0 ? "your cart is empty" : "cart items " : ''}</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">

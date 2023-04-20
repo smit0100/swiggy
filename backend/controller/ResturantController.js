@@ -202,13 +202,13 @@ const fetchResturant = async (req, res, next) => {
 
 const approveResturant = async (req, res, next) => {
   const { id } = req.query;
-  console.log("=====>>>",id);
+  console.log("=====>>>", id);
   const response = await Resturant.findByIdAndUpdate(
     id,
     { isApproved: "Accepted" },
     { new: true }
   );
-  console.log("=====",response);
+  console.log("=====", response);
   return res.status(200).json({ message: "resturant is active", response });
 };
 const rejectResturant = async (req, res, next) => {
@@ -267,7 +267,8 @@ const getAllResturant = async (req, res) => {
       isApproved: { $ne: "Not Request" },
     })
       .skip((pageNumber - 1) * pageSize)
-      .limit(pageSize);  console.log(response);
+      .limit(pageSize);
+    console.log(response);
     res.status(200).json({
       messag: "resturnat fetched",
       results: response,
@@ -467,7 +468,9 @@ const rejectedResturant = async (req, res) => {
 
 const getDashboardCount = async (req, res) => {
   try {
-    const resCount = await Resturant.countDocuments();
+    const resCount = await Resturant.countDocuments({
+      isApproved: { $ne: "Not Request" },
+    });
     const DeliveryCount = await DeliveryBoy.countDocuments();
     const DeliveryActive = await DeliveryBoy.countDocuments({
       isApproved: "approved",
@@ -477,7 +480,7 @@ const getDashboardCount = async (req, res) => {
     });
     const mainCategory = await CategoryModel.countDocuments();
     const subCategory = await SubCategory.countDocuments();
-    const userCount = await User.countDocuments();
+    const userCount = await User.countDocuments({ type: "customer" });
     const Product = await ProductModel.countDocuments();
     const activeProducts = await ProductModel.countDocuments({
       isActive: true,

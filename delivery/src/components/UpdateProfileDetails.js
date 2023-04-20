@@ -147,7 +147,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
       setupdateProfile(false);
       if (response.status === 201) {
         console.log("ooo");
-        setotpTab(true);
+        // setotpTab(true);
         setIsValidLoading(false);
         setNewAddress(response.data.newDetails);
       } else {
@@ -277,7 +277,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
             <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
               <button
                 type="button"
-                disabled={isValid}
+                disabled={isValid || isValidLoading}
                 className={`${
                   isValid ? "bg-black" : "hover:bg-white hover:text-black"
                 } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}

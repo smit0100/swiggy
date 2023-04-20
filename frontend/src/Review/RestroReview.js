@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import InlineButtonLoader from "../components/InlineButtonLoader";
 
 const RestroReview = ({
   setRestroReview,
@@ -15,15 +16,17 @@ const RestroReview = ({
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
   const [showModal, setShowModal] = useState(true);
+  const [isValid, setIsValid] = useState(false);
   console.log("Rating point", rating);
   const user = useSelector((state) => state.userData.user);
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
-  console.log("Review text : ", review, "Rating", rating,ownerFcmToken);
+  console.log("Review text : ", review, "Rating", rating, ownerFcmToken);
 
   const goreview = async (e) => {
     e.preventDefault();
+    setIsValid(true);
     try {
       const res = await axios.post(`http://localhost:4000/review/addreview`, {
         userId: user._id,
@@ -43,32 +46,47 @@ const RestroReview = ({
         setIsResturantButton(res.data.data.isreviewGiven.forResturant);
       }
       setRestroReview(false);
+      setIsValid(false);
     } catch (err) {
       console.log(err);
+      setIsValid(false);
       setRestroReview(false);
     }
   };
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+        <div className="relative my-6 mx-auto w-auto md:w-1/3">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-              <h3 className="text-xl font-semibold">
+            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900">
                 Write Your Review for Restaurant
               </h3>
               <button
-                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                type="button"
                 onClick={() => setRestroReview(false)}
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
               >
-                <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  X
-                </span>
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
               </button>
             </div>
             <div className="relative p-6 flex-auto space-x-4">
               <form className="flex flex-col">
-                <label htmlFor="review">Review</label>
+                <label htmlFor="review" className="pb-2">
+                  Review
+                </label>
                 <div className="relative flex w-full flex-wrap items-stretch mb-3">
                   <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <MdOutlineRateReview className="text-black/50" />
@@ -79,7 +97,7 @@ const RestroReview = ({
                     onChange={(e) => setReview(e.target.value)}
                     id="review"
                     placeholder="Write your review"
-                    className="px-3 py-3 resize-none placeholder-slate-300 text-slate-600 relative  bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-72 h-24 pl-10"
+                    className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm border border-slate-300 outline-none focus:outline-none focus:ring w-full pl-10"
                   ></textarea>
                 </div>
                 {/* <ReviewCard /> */}
@@ -90,20 +108,16 @@ const RestroReview = ({
               </form>
             </div>
             {/*footer*/}
-            <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+            <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
               <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setRestroReview(false)}
-              >
-                Close
-              </button>
-              <button
+                disabled={isValid}
+                className={`${
+                  isValid ? "bg-black" : "hover:bg-white hover:text-black"
+                } bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300 w-[50%]`}
                 onClick={goreview}
-                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
               >
-                Submit
+                {isValid ? <InlineButtonLoader /> : "Save"}
               </button>
             </div>
           </div>
@@ -158,18 +172,3 @@ const StarRating = ({ rating, onRatingChange }) => {
     </div>
   );
 };
-
-// const ReviewCard = () => {
-//   const [rating, setRating] = useState(0);
-//   const handleRatingChange = (newRating) => {
-//     setRating(newRating);
-//   };
-
-//   return (
-//     <div className="bg-white rounded-lg shadow-lg p-6">
-//       <div className="flex items-center mb-4">
-//         <StarRating rating={rating} onRatingChange={handleRatingChange} />
-//       </div>
-//     </div>
-//   );
-// };

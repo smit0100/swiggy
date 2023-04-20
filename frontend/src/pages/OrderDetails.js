@@ -99,7 +99,7 @@ const OrderDetails = () => {
       }
     }
   };
-
+  console.log("===orderData",orderData);
   return (
     <>
       {isLoading === true ? (
@@ -244,7 +244,7 @@ const OrderDetails = () => {
                               )}
 
                               {(orderData?.status == "on the way" ||
-                                orderData?.status == "accepted") && (
+                                orderData?.status == "accept") && (
                                 <>
                                   <div className="flex flex-col justify-start ">
                                     <h1 className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-green-600 bg-green-200 last:mr-0 mr-1 self-start mt-2">
@@ -259,12 +259,12 @@ const OrderDetails = () => {
                                       {orderData?.customerOtpNumber}
                                     </p>
                                   </div>
-                                  <button
+                                  {/* <button
                                     onClick={handleCancel}
                                     className="w-full mt-5 text-center hover:bg-red-600 text-red-600 hover:text-white p-2 rounded-lg duration-200 border border-gray-300 backdrop-blur-sm"
                                   >
                                     Cancel Order
-                                  </button>
+                                  </button> */}
                                 </>
                               )}
 

@@ -199,11 +199,15 @@ const UserProfile = () => {
               Order Detail
             </h1>
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
-              {order
-                ? order.map((item) => {
+              {order?.length > 0
+                ? order?.map((item) => {
                     return <OrderDetailsCard items={item} />;
                   })
-                : ""}
+                : (
+                  <div className="flex justify-center items-center">
+                    <p className="font-mono">No orders here</p>
+                  </div>
+                )}
             </div>
           </div>
         </div>

@@ -13,12 +13,12 @@ import UserReviewCard from "./UserReviewCard";
 const OrderSummary = () => {
   const { state } = useLocation();
   const [summaryData, setSummaryData] = useState(null);
-  const [reviewData, setReviewData] = useState(null)
+  const [reviewData, setReviewData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
-  console.log('hety');
+  console.log("hety");
   useEffect(() => {
-    console.log('sjdljfklsjkdlfjksldflkjfkjsklfdk;ofs');
+    console.log("sjdljfklsjkdlfjksldflkjfkjsklfdk;ofs");
     (async () => {
       setLoading(true);
       console.log(state);
@@ -26,7 +26,7 @@ const OrderSummary = () => {
         `http://localhost:4000/order/fetchOneOrder?id=${state}`
       );
       console.log(response.data.order);
-      
+
       setSummaryData(response.data.order);
       setLoading(false);
     })();
@@ -56,8 +56,10 @@ const OrderSummary = () => {
       })
       .catch((e) => {
         console.log("===e", e);
+        if (e?.response?.status == 401) {
+          toast.error("☹️ " +e?.response?.data?.message);
+        }
         setIsDisable(false);
-        toast.error("☹️ Something went wrong,Please try again");
       });
   };
 
@@ -81,14 +83,13 @@ const OrderSummary = () => {
         setIsDisable(false);
         toast.error("☹️ Something went wrong,Please try again");
       });
-  }
+  };
 
   let qty = 0;
   if (summaryData != null) {
     summaryData.products.map((product) => (qty += product.quantity));
   }
 
-  
   return (
     <>
       {loading ? (
@@ -134,12 +135,12 @@ const OrderSummary = () => {
                       <td className="text-black capitalize bg-white w-full bg-opacity-20 pl-2 rounded">
                         {summaryData != null
                           ? summaryData.customer.address[0].area +
-                          " " +
-                          summaryData.customer.address[0].city +
-                          " " +
-                          summaryData.customer.address[0].state +
-                          "-" +
-                          summaryData.customer.address[0].pincode
+                            " " +
+                            summaryData.customer.address[0].city +
+                            " " +
+                            summaryData.customer.address[0].state +
+                            "-" +
+                            summaryData.customer.address[0].pincode
                           : ""}
                       </td>
                     </tr>
@@ -230,7 +231,7 @@ const OrderSummary = () => {
                         Sub Total
                       </div>
                       <div className="text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded">
-                        {summaryData != null ? summaryData.total : ""}
+                        {summaryData != null ? "₹" + summaryData.total : ""}
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
@@ -246,7 +247,7 @@ const OrderSummary = () => {
                         Charges
                       </div>
                       <div className="text-slate-800 font-medium capitalize bg-white bg-opacity-20 rounded">
-                        50
+                        0
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
@@ -254,14 +255,14 @@ const OrderSummary = () => {
                         Total
                       </div>
                       <div className="text-black text-lg font-semibold capitalize bg-white bg-opacity-20 rounded">
-                        {summaryData != null ? summaryData.total + 50 : 0}
+                        {summaryData != null ? "₹" + summaryData.total : 0}
                       </div>
                     </div>
                   </div>
                   <div className="pt-5">
-                    {
-                      summaryData!=null && summaryData.status === "delivered" &&
-                      <>
+                    {summaryData != null &&
+                      summaryData.status === "delivered" && (
+                        <>
                           <h2 className="text-lg font-medium my-1">
                             Order Status
                           </h2>
@@ -270,10 +271,10 @@ const OrderSummary = () => {
                             delivered Successfully
                           </span>
                         </>
-                    }
-                    {
-                       summaryData!=null && summaryData.status === "on the way" &&
-                       <>
+                      )}
+                    {summaryData != null &&
+                      summaryData.status === "on the way" && (
+                        <>
                           <h2 className="text-lg font-medium my-1">
                             Order Status
                           </h2>
@@ -281,67 +282,74 @@ const OrderSummary = () => {
                             On the Way
                           </span>
                         </>
-                    }
-                    {
-                     summaryData!=null && summaryData.status === "rejected" &&
-                     <>
+                      )}
+                    {summaryData != null &&
+                      summaryData.status === "rejected" && (
+                        <>
+                          <h2 className="text-lg font-medium my-1">
+                            Order Status
+                          </h2>
+                          <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
+                            Order Rejected
+                          </span>
+                        </>
+                      )}
+                    {summaryData != null && summaryData.status === "cancel" && (
+                      <>
                         <h2 className="text-lg font-medium my-1">
                           Order Status
                         </h2>
                         <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
-                          Order Rejected
+                          Order Cancelled
                         </span>
                       </>
-                    }
-                    {
-                     summaryData!=null && summaryData.status === "cancel" && 
-                     <>
-                      <h2 className="text-lg font-medium my-1">
-                        Order Status
-                      </h2>
-                      <span className="text-xs font-semibold font-mono inline-block py-1 px-2 uppercase rounded text-orange-600 bg-orange-200 last:mr-0 mr-1">
-                        Order Cancelled
-                      </span>
-                    </>
-                    }
-                    {
-                      summaryData!=null && summaryData.status ==="accept" &&
+                    )}
+                    {summaryData != null && summaryData.status === "accept" && (
                       <div>
-                              Courier-Boy OTP :
-                              <span className="font-semibold text-lg">
-                                {" "}
-                                {summaryData.courierBoyotpNumber}
-                              </span>
-                            </div>
-
-                    }
-                    {
-                      summaryData!=null && summaryData.status === "process" &&  
-                      <>
-                            <button
-                              type="button"
-                              disabled={isDisable}
-                              className={`${isDisable
+                        Courier-Boy OTP :
+                        <span className="font-semibold text-lg">
+                          {" "}
+                          {summaryData.courierBoyotpNumber}
+                        </span>
+                      </div>
+                    )}
+                    {summaryData != null &&
+                      summaryData.status === "process" && (
+                        <>
+                          <button
+                            type="button"
+                            disabled={isDisable}
+                            className={`${
+                              isDisable
                                 ? "bg-black"
                                 : "hover:bg-white hover:text-black"
-                                } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
-                              onClick={handleOrder}
-                            >
-                              {isDisable ? <InlineButtonLoader /> : "Accept Order"}
-                            </button>
-                            <button
-                              type="button"
-                              disabled={isDisable}
-                              className={`${isDisable
+                            } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                            onClick={handleOrder}
+                          >
+                            {isDisable ? (
+                              <InlineButtonLoader />
+                            ) : (
+                              "Accept Order"
+                            )}
+                          </button>
+                          <button
+                            type="button"
+                            disabled={isDisable}
+                            className={`${
+                              isDisable
                                 ? "bg-black"
                                 : "hover:bg-white hover:text-black"
-                                } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
-                              onClick={handleReject}
-                            >
-                              {isDisable ? <InlineButtonLoader /> : "Reject Order"}
-                            </button>
-                          </>
-                    }
+                            } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                            onClick={handleReject}
+                          >
+                            {/* {isDisable ? (
+                              <InlineButtonLoader />
+                            ) : ( */}
+                              Reject Order
+                            {/* )} */}
+                          </button>
+                        </>
+                      )}
 
                     {/* {summaryData !== null && summaryData.courierBoyotpNumber && (
                       loading ? (
@@ -370,16 +378,14 @@ const OrderSummary = () => {
                             
                           )
                     )  */}
-                    
                   </div>
                 </div>
-                {
-                  summaryData?.isreviewGiven.forResturant === true ?
-                    <UserReviewCard review={summaryData.resturantReview} /> : <></>
-                }
-
+                {summaryData?.isreviewGiven.forResturant === true ? (
+                  <UserReviewCard review={summaryData.resturantReview} />
+                ) : (
+                  <></>
+                )}
               </div>
-
             </div>
           </div>
         </div>
