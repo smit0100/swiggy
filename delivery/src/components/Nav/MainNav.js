@@ -74,14 +74,16 @@ const MainNav = () => {
                 className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-2xl rounded-full cursor-pointer object-contain"
                 alt="profile"
               />
-              <p className="text-white cursor-pointer flex items-center justify-center gap-2">
+              <p
+                className={`text-${currentColor} cursor-pointer flex items-center justify-center gap-2`}
+              >
                 <RiArrowDropDownLine />
               </p>
             </motion.div>
-            <DropDown user={user} handleLogOut={()=>handleLogOut()} />
+            <DropDown user={user} handleLogOut={() => handleLogOut()} />
           </div>
         ) : (
-          <LoginAction text={"Login"} currentColor={currentColor}/>
+          <LoginAction text={"Login"} currentColor={currentColor} />
         )}
       </div>
 
@@ -92,7 +94,11 @@ const MainNav = () => {
         exit={{ opacity: 0, x: 200 }}
       >
         {isOpenMobileNav ? (
-            <MobileNav isOpen={isOpenMobileNav} isLogedIn={isCorierLogIn} setIsOpen={setIsOpenMobileNav} />
+          <MobileNav
+            isOpen={isOpenMobileNav}
+            isLogedIn={isCorierLogIn}
+            setIsOpen={setIsOpenMobileNav}
+          />
         ) : (
           <div className="p-5 flex items-center justify-between w-full">
             <motion.div
@@ -112,7 +118,9 @@ const MainNav = () => {
                   alt="Logo"
                   className="w-8 object-cover"
                 />
-                <p className={`text-${currentColor} text-xl font-bold`}>FoodPoint</p>
+                <p className={`text-${currentColor} text-xl font-bold`}>
+                  FoodPoint
+                </p>
               </motion.div>
             </Link>
             {user ? (
@@ -133,12 +141,12 @@ const MainNav = () => {
                     <RiArrowDropDownLine />
                   </p>
                   {isOpen && (
-                    <DropDown user={user} handleLogOut={()=>handleLogOut()} />
+                    <DropDown user={user} handleLogOut={() => handleLogOut()} />
                   )}
                 </motion.div>
               </div>
             ) : (
-              <LoginAction mobile currentColor={currentColor}/>
+              <LoginAction mobile currentColor={currentColor} />
             )}
           </div>
         )}

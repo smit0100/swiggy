@@ -42,13 +42,13 @@ const MainNav = () => {
       if (willDelete) {
         try {
           const response = await axios.get(
-            `${process.env.REACT_APP_BASEURL}/logout`,
+            `${process.env.REACT_APP_BASEURL}/logout`
           );
           if (response) {
-            console.log("====res",response);
+            console.log("====res", response);
           }
         } catch (err) {
-          console.log("===err",err);
+          console.log("===err", err);
         }
         localStorage.clear();
         dispatch(userLogIn(false));
@@ -102,7 +102,9 @@ const MainNav = () => {
                 className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-2xl rounded-full cursor-pointer object-contain"
                 alt="profile"
               />
-              <p className="text-white cursor-pointer flex items-center justify-center gap-2">
+              <p
+                className={`text-${currentColor} cursor-pointer flex items-center justify-center gap-2`}
+              >
                 <RiArrowDropDownLine />
               </p>
             </motion.div>

@@ -82,8 +82,10 @@ const MainNav = () => {
                 src={user?.imageURL || Images?.user}
                 className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-2xl rounded-full cursor-pointer object-contain"
                 alt="profile"
-              />
-              <p className="text-white cursor-pointer flex items-center justify-center gap-2">
+              />{" "}
+              <p
+                className={`text-${currentColor} cursor-pointer flex items-center justify-center gap-2`}
+              >
                 <RiArrowDropDownLine />
               </p>
             </motion.div>
