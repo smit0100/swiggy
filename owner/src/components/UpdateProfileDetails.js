@@ -31,7 +31,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
 
   useEffect(() => {
     setName(user?.name);
-    setOwnerName(user?.ownerName);
+    setOwnerName(user?.ownerName != "" && user?.ownerName != null ? user?.ownerName : user?.name);
     setEmail(user?.email);
     setNumber(user?.number);
   }, []);

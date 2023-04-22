@@ -77,7 +77,7 @@ const Otp = () => {
     } catch (err) {
       console.log(err);
       if (err?.response?.status === 401 || err?.response?.status === 404) {
-        toast.error(`${err?.response?.data?.message}`, "", "error");
+        toast.error(`${err?.response?.data?.message}`);
         return;
       }
     }

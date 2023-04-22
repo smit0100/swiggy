@@ -143,7 +143,9 @@ const OwnerProfile = () => {
                       Name
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
-                      {user?.ownerName != "" ? user?.ownerName : user?.name}
+                      {user?.ownerName != "" && user?.ownerName != null
+                        ? user?.ownerName
+                        : user?.name}
                     </td>
                   </tr>
                   <tr>
@@ -292,7 +294,7 @@ const OwnerProfile = () => {
                       Rating
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
-                      {user?.rating!= "" ? user?.rating + " ⭐" : "-"}
+                      {user?.rating != "" ? user?.rating + " ⭐" : "-"}
                     </td>
                   </tr>
                   <tr>

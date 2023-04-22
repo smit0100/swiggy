@@ -89,8 +89,20 @@ const login = async (req, res, next) => {
     const pass = await bcrypt.compareSync(password, user.password);
     console.log(pass);
     if (pass) {
-      
-    if (!user.isVerified) return res.status(212).json({ message: 'please verify your account',user})
+      if (!user.isVerified) {
+        const otpNumber = Math.floor(100000 + Math.random() * 900000);
+        const token = await new Token({
+          userID: user._id,
+          token: otpNumber,
+        }).save();
+
+        const url = otpNumber;
+        console.log("this is url", url,otpNumber);
+        await sendEmail(user.email, "Verify Email", String(url));
+        return res
+          .status(212)
+          .json({ message: "otp sent", user });
+      }
 
       if (user?.fcmToken === undefined || user?.fcmToken !== fcmToken) {
         // If the user doesn't have an fcmToken, or if it's different from the new one,

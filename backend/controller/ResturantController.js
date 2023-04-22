@@ -115,7 +115,7 @@ const register = async (req, res, next) => {
 
     const restuarnt = await new Resturant({
       name,
-      ownerName:name,
+      ownerName: name,
       email,
       number,
       password: encryptedPass,
@@ -169,11 +169,18 @@ const loginResturant = async (req, res, next) => {
 
     if (pass) {
       console.log(pass);
-      if (!rest.registerVerfied)
-        return res
-          .status(212)
-          .json({ messag: "please verify your user account", rest });
+      if (!rest.registerVerfied) {
+        const otpNumber = Math.floor(100000 + Math.random() * 900000);
+        const token = await new Token({
+          userID: rest._id,
+          token: otpNumber,
+        }).save();
 
+        const url = otpNumber;
+        console.log("this is url", url, otpNumber);
+        await sendEmail(rest.email, "Verify Email", String(url));
+        return res.status(212).json({ message: "otp sent", rest });
+      }
       if (rest?.fcmToken === undefined || rest?.fcmToken !== fcmToken) {
         // If the rest doesn't have an fcmToken, or if it's different from the new one,
         // update it with the new value
@@ -728,7 +735,7 @@ const searchProduct = async (req, res, next) => {
 
 const updateProfile = async (req, res, next) => {
   try {
-    const { id, name, number, email,ownerName } = req.body;
+    const { id, name, number, email, ownerName } = req.body;
     let user = await Resturant.findById(id);
     console.log(user);
     if (user.email === email) {

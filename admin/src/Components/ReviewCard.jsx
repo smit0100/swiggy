@@ -2,7 +2,7 @@ import { Images } from "../Assets";
 
 export default function ReviewCard({ item }) {
   let Arrays = [];
-  for (let i = 1; i <= +item.star; i++) {
+  for (let i = 1; i <= +item?.star; i++) {
     Arrays.push(
       <svg
         xmlns="http://www.w3.org/2000/svg"

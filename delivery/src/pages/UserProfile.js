@@ -25,7 +25,7 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(setCurrentColor("black"));
   }, []);
-
+  console.log("====user",user);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -181,6 +181,14 @@ const UserProfile = () => {
                     </td>
                     <td className="text-slate-500 font-semibold bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
                       {user != null ? user?.email : ""}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-slate-700 text-lg text-semibold pr-5">
+                      Review
+                    </td>
+                    <td className="text-slate-500 font-semibold bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                      {user?.review?.length > 0 ? user?.review?.length : "0"}
                     </td>
                   </tr>
                 </table>

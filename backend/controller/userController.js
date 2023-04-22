@@ -192,10 +192,20 @@ const loginUser = async (req, res, next) => {
 
     if (pass) {
       //userr not verified
-      if (!user.verified)
+      if (!user.verified) {
+        const otpNumber = Math.floor(100000 + Math.random() * 900000);
+        const token = await new Token({
+          userID: user._id,
+          token: otpNumber,
+        }).save();
+
+        const url = otpNumber;
+        console.log("this is url", url,otpNumber);
+        await sendEmail(user.email, "Verify Email", String(url));
         return res
           .status(212)
-          .json({ message: "please verify you user account", user });
+          .json({ message: "otp sent", user });
+      }
       const token = jwt.sign({ id: user._id }, "jwtsecret");
       res.cookie("token", token);
       req.session.isLoggedIn = true;

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import InlineButtonLoader from "./InlineButtonLoader";
 import {
@@ -89,7 +90,7 @@ const Otp = () => {
     } catch (err) {
       console.log(err);
       if (err?.response?.status === 401 || err?.response?.status === 404) {
-        swal(`${err?.response?.data?.message}`, "", "error");
+        toast.error(`${err?.response?.data?.message}`);
         setIsDisable(false);
         return;
       }
