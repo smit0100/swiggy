@@ -29,7 +29,7 @@ messaging.onBackgroundMessage(function (payload) {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: "./favicon.ico",
+    icon: "./logo/favicon.ico",
   };
   return self.registration.showNotification(
     notificationTitle,
