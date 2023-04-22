@@ -143,7 +143,7 @@ const OwnerProfile = () => {
                       Name
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
-                      {user != null ? user?.name : ""}
+                      {user?.ownerName != "" ? user?.ownerName : user?.name}
                     </td>
                   </tr>
                   <tr>
@@ -289,18 +289,18 @@ const OwnerProfile = () => {
                 <table className="table-auto border-spacing-y-3 border-separate">
                   <tr className="">
                     <td className="text-slate-700 text-lg text-semibold pr-5 w-1/6">
-                      Restaurant Type
+                      Rating
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-slate-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
-                      {user?.outLetType?.length > 0 ? user?.outLetType[0] : "-"}
+                      {user?.rating!= "" ? user?.rating + " ⭐" : "-"}
                     </td>
                   </tr>
                   <tr>
                     <td className="text-slate-700 text-lg text-semibold pr-5 ">
-                      Total Listed products
+                      Review
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-slate-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
-                      {user != null ? user?.product?.length : "-"}
+                      {user?.review?.length > 0 ? user?.review?.length : "0"}
                     </td>
                   </tr>
                   <tr>

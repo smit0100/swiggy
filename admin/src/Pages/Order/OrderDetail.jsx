@@ -146,7 +146,7 @@ export default function OrderDetail() {
                       <td className="text-slate-500 font-semibold capitalize dark:bg-slate-300 bg-blue-400 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
                         {summaryData?.resturant?.rating
                           ? summaryData?.resturant?.rating
-                          : "0"}
+                          : "0"} ⭐
                       </td>
                     </tr>
                     <tr className="">

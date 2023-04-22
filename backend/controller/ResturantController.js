@@ -115,6 +115,7 @@ const register = async (req, res, next) => {
 
     const restuarnt = await new Resturant({
       name,
+      ownerName:name,
       email,
       number,
       password: encryptedPass,
@@ -727,14 +728,14 @@ const searchProduct = async (req, res, next) => {
 
 const updateProfile = async (req, res, next) => {
   try {
-    const { id, name, number, email } = req.body;
+    const { id, name, number, email,ownerName } = req.body;
     let user = await Resturant.findById(id);
     console.log(user);
     if (user.email === email) {
       user = await Resturant.findByIdAndUpdate(
         id,
         {
-          // ownerName: name,
+          ownerName,
           name: name,
           number,
         },

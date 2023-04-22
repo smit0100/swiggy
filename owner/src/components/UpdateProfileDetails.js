@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 
 const UpdateProfileDetails = ({ setupdateProfile }) => {
   const [name, setName] = useState("");
+  const [ownerName, setOwnerName] = useState("");
   const [nameError, setNameError] = useState("");
+  const [ownerError, setOwnerError] = useState("");
   const [number, setNumber] = useState("");
   const [numberError, setNumberError] = useState("");
   const [email, setEmail] = useState("");
@@ -29,15 +31,18 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
 
   useEffect(() => {
     setName(user?.name);
+    setOwnerName(user?.ownerName);
     setEmail(user?.email);
     setNumber(user?.number);
   }, []);
   useEffect(() => {
     if (
       name &&
+      ownerName &&
       email &&
       number &&
       nameError.length === 0 &&
+      ownerError.length === 0 &&
       emailError.length === 0 &&
       numberError.length === 0
     ) {
@@ -45,16 +50,36 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     } else {
       setIsValid(true);
     }
-  }, [name, email, number, nameError, emailError, numberError]);
+  }, [
+    name,
+    email,
+    number,
+    nameError,
+    emailError,
+    numberError,
+    ownerError,
+    ownerName,
+  ]);
 
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;
 
     if (!regex.test(e.target.value)) {
-      setNameError("please enter valid name");
+      setNameError("please enter valid restaurant name");
     } else {
       setNameError("");
+    }
+    handledisable();
+  };
+  const handleownerName = (e) => {
+    setOwnerName(e.target.value);
+    var regex = /^[\sA-Za-z]+$/;
+
+    if (!regex.test(e.target.value)) {
+      setOwnerError("please enter valid name");
+    } else {
+      setOwnerError("");
     }
     handledisable();
   };
@@ -106,6 +131,7 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
           email,
           number,
           name,
+          ownerName
         }
       );
       console.log("response", response);
@@ -180,22 +206,42 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
             </div>
             <div className="relative p-6 flex-auto space-x-4">
               <form className="flex flex-col">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Your Name</label>
                 <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                   <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
                     <i className="fas fa-user"></i>
                   </span>
                   <input
                     type="text"
-                    value={name}
-                    onBlur={handleName}
-                    onChange={handleName}
+                    value={ownerName}
+                    onBlur={handleownerName}
+                    onChange={handleownerName}
                     id="name"
                     placeholder="Enter Your Name"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
                 </div>
-                <span className="text-sm text-red-500">{nameError}</span>
+                <span className="text-sm text-red-500">{ownerError}</span>
+                {user?.isApproved != "Not Request" && (
+                  <>
+                    <label htmlFor="name">Restaurant Name</label>
+                    <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
+                      <span className="z-10 h-full leading-snug font-normal text-center flex  text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                        <i className="fas fa-user"></i>
+                      </span>
+                      <input
+                        type="text"
+                        value={name}
+                        onBlur={handleName}
+                        onChange={handleName}
+                        id="name"
+                        placeholder="Enter Your Name"
+                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      />
+                    </div>
+                    <span className="text-sm text-red-500">{nameError}</span>
+                  </>
+                )}
                 <label htmlFor="number">Number</label>
                 <div className="relative flex w-full flex-wrap items-stretch mb-3 pt-2">
                   <span className="z-10 h-full leading-snug font-normal  text-center text-slate-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">

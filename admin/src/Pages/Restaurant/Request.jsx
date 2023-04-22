@@ -311,7 +311,7 @@ export default function Request() {
               >
                 <td className="px-6 py-4">{index + 1}</td>
                 <td className="px-3 py-4">
-                  <div className="text-base font-semibold">{item?.name}</div>
+                  <div className="text-base font-semibold">{item?.ownerName ? item?.ownerName : item?.name}</div>
                 </td>
                 <td className="px-6 py-4">
                   {item?.email ? item?.email : "__"}
