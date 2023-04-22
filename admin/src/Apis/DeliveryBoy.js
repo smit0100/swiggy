@@ -47,6 +47,16 @@ function handleRequest(id, req) {
     },
   });
 }
+
+function getAllReviews(id) {
+  return Api({
+    url: `/courier/getallreview?id=${id}`,
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 function editDeliveryBoy(data) {
   return Api({
     url: `/courier/edit`,
@@ -64,4 +74,5 @@ export default {
   GetApprovedRestaurant,
   deleteDeliveryBoy,
   editDeliveryBoy,
+  getAllReviews
 };

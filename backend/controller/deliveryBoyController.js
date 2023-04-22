@@ -288,7 +288,7 @@ const deleteDeliveryBoy = async (req, res, next) => {
 const addReview = async (req, res, next) => {
   try {
     console.log(req.body);
-    const { deliveryboyId, user, description, star, orderId, fcmToken } =
+    const { deliveryboyId, user, description, star, orderId, fcmToken,userName } =
       req.body;
     // console.log(req.body)
     const review = await new Review({
@@ -296,6 +296,7 @@ const addReview = async (req, res, next) => {
       orderId,
       review: description,
       star,
+      userName,
       deliveryBoyId: deliveryboyId,
       itsFor: 'Delivery'
     }).save();
@@ -500,6 +501,18 @@ const updateProfile = async (req, res) => {
     res.status(500).json({ messag: "something went wrong" });
   }
 }
+const getAllReview = async (req, res) => {
+  try {
+    const { id } = req.query;
+    console.log("=====",req.query);
+    const review = await DeliveryBoy.findById(id, { review: 1 }).populate(
+      "review"
+    );
+    return res.status(200).json({ message: "fetched all review", review });
+  } catch (e) {
+    res.status(500).json({ messag: "something went wrong" });
+  }
+};
 module.exports = {
   register,
   login,
@@ -521,5 +534,6 @@ module.exports = {
   changePassword,
   makeAnAvilable,
   makeAvilable,
-  updateProfile
+  updateProfile,
+  getAllReview
 };

@@ -25,6 +25,13 @@ const RestroReview = ({
   console.log("Review text : ", review, "Rating", rating, ownerFcmToken);
 
   const goreview = async (e) => {
+    if (review.trim() == "" || rating == 0) {
+      toast.error("Please provide review and rating to continue", {
+        theme: "dark",
+        autoClose: 2000,
+      });
+      return
+    }
     e.preventDefault();
     setIsValid(true);
     try {

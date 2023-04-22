@@ -24,9 +24,15 @@ const ReviewPopUp = ({
   };
   console.log("Review text : ", review, "Rating", rating);
   const user = useSelector((state) => state.userData.user);
-
   const goreview = async (e) => {
     e.preventDefault();
+    if (review.trim() == "" && rating == 0) {
+      toast.error("Please provide review and rating to continue", {
+        theme: "dark",
+        autoClose: 2000,
+      });
+      return
+    }
     setIsValid(true);
     try {
       const res = await axios.post(`http://localhost:4000/courier/addreview`, {
@@ -35,6 +41,7 @@ const ReviewPopUp = ({
         description: review,
         star: rating,
         orderId: orderId,
+        userName:user.name,
         fcmToken,
       });
       console.log(res);

@@ -10,3 +10,4 @@ export { default as Product } from './Product';
 export { default as Tabs } from './Tabs';
 export { default as FoodCard } from './FoodCard';
 export { default as InlineButtonLoader } from './InlineButtonLoader';
+export { default as ReviewCard } from './ReviewCard';

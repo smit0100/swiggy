@@ -66,7 +66,7 @@ function getResDetail(id) {
 // }
 function getAllReviews(id) {
   return Api({
-    url: `/resturant/getallreview/?id=${id}`,
+    url: `/resturant/getallreview?id=${id}`,
     method: "GET",
     headers: {
       "Content-Type": "application/json",

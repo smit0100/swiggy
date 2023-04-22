@@ -3,17 +3,21 @@ import { RxCrossCircled } from "react-icons/rx";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { VscTrash } from "react-icons/vsc";
 import { Images } from "../Assets";
+import { Link } from "react-router-dom";
 
 export default function DeliveryBoyCard(props) {
-  const { name, email, image, number, isAvilable, isApproved } = props.data;
+  const { name, email, image, number, isAvilable, isApproved, _id } =
+    props.data;
   return (
-    <div className="mt-20 md:mt-28 md:ml-5">
+    <div className="mt-20 md:mt-28">
       <div className="bg-slate-200 dark:bg-gray-800 h-64 w-80 md:w-96 md:rounded-3xl rounded-tl-3xl drop-shadow-xl rounded-br-3xl rounded-tr-lg rounded-bl-lg shadow-md relative flex flex-col items-center justify-between md:items-start py-5 md:p-5 transition-all duration-150">
-        <img
-          className="rounded-tr-3xl rounded-tl-3xl rounded-br-3xl rounded-bl-sm w-28 h-28 absolute -top-12 transform md:scale-110 duration-300 hover:shadow-2xl drop-shadow-lg"
-          src={image ? image : Images.user2}
-          alt="Delivery boy"
-        />
+        <Link to={`/deliveryboy/${_id}`} state={props.data}>
+          <img
+            className="rounded-tr-3xl rounded-tl-3xl rounded-br-3xl rounded-bl-sm w-28 h-28 absolute -top-12 transform md:scale-110 duration-300 hover:shadow-2xl drop-shadow-lg"
+            src={image ? image : Images.user2}
+            alt="Delivery boy"
+          />
+        </Link>
 
         <div className="align-middle text-2xl md:pl-3 font-semibold text-black text-center mt-11 md:m-0 md:mt-14 dark:text-white">
           {name}
@@ -46,9 +50,7 @@ export default function DeliveryBoyCard(props) {
         <div className="flex w-full justify-around absolute -bottom-7 md:-ml-5">
           <button
             className={`rounded-3xl drop-shadow-lg w-14 h-14 ${
-              isApproved != "approved"
-                ? "hover:shadow-xl"
-                : ""
+              isApproved != "approved" ? "hover:shadow-xl" : ""
             } bg-white backdrop-blur-lg`}
             onClick={() => props.handleSubmit("accept")}
             disabled={isApproved == "approved" ? true : false}
@@ -62,9 +64,7 @@ export default function DeliveryBoyCard(props) {
           </button>
           <button
             className={`rounded-3xl drop-shadow-lg w-14 h-14 ${
-              isApproved != "rejected"
-                ? "hover:shadow-xl"
-                : ""
+              isApproved != "rejected" ? "hover:shadow-xl" : ""
             } bg-white backdrop-blur-lg`}
             onClick={() => props.handleSubmit("reject")}
             alt=""

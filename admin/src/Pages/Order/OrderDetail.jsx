@@ -3,8 +3,7 @@ import Order from "../../Apis/Order";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
-import { Images } from "../../Assets";
-import { FoodCard } from "../../Components";
+import { FoodCard, ReviewCard } from "../../Components";
 
 export default function OrderDetail() {
   const { state } = useLocation();
@@ -123,6 +122,92 @@ export default function OrderDetail() {
                   </div>
                 </div>
               )}
+
+              <div className="mb-2 shadow-md rounded-tl-3xl rounded-br-3xl bg-white bg-opacity-40 ">
+                <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
+                  Restaurant Details
+                </h1>
+                <div className="bg-white pl-5 rounded-br-3xl dark:bg-neutral-700">
+                  <table className="table-auto border-spacing-y-3 border-separate">
+                    <tr className="">
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5 w-1/6">
+                        Name
+                      </td>
+                      <td className="text-slate-500 font-semibold capitalize dark:bg-slate-300 bg-blue-400 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                        {summaryData?.resturant?.name
+                          ? summaryData?.resturant?.name
+                          : ""}
+                      </td>
+                    </tr>
+                    <tr className="">
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5 w-1/6">
+                        Rating
+                      </td>
+                      <td className="text-slate-500 font-semibold capitalize dark:bg-slate-300 bg-blue-400 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                        {summaryData?.resturant?.rating
+                          ? summaryData?.resturant?.rating
+                          : "0"}
+                      </td>
+                    </tr>
+                    <tr className="">
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5 w-1/6">
+                      Owner Name
+                      </td>
+                      <td className="text-slate-500 font-semibold capitalize dark:bg-slate-300 bg-blue-400 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
+                        {summaryData?.resturant?.ownerName
+                          ? summaryData?.resturant?.ownerName
+                          : ""}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5 ">
+                        Mobile No.
+                      </td>
+                      <td className="text-slate-500 font-semibold capitalize bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                        {summaryData?.resturant?.number
+                          ? summaryData?.resturant?.number
+                          : ""}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5">
+                        E-mail
+                      </td>
+                      <td className="text-slate-500 font-semibold bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                        {summaryData?.resturant?.email
+                          ? summaryData?.resturant?.email
+                          : ""}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5">
+                        Reviews
+                      </td>
+                      <td className="text-slate-500 font-semibold bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                        {summaryData?.resturant?.review?.length > 0
+                          ? summaryData?.resturant?.review?.length
+                          : "0"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-slate-700 dark:text-white text-lg text-semibold pr-5">
+                        Address
+                      </td>
+                      <td className="text-slate-500 font-semibold capitalize bg-blue-400 dark:bg-slate-300 w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
+                        {summaryData != null
+                          ? summaryData?.resturant?.address.area +
+                            " " +
+                            summaryData?.resturant?.address.city +
+                            " " +
+                            summaryData?.resturant?.address.state +
+                            "-" +
+                            summaryData?.resturant?.address.pincode
+                          : ""}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
               {summaryData != null && summaryData?.courierBoyotpNumber && (
                 <div className="mb-2 shadow-md rounded-tl-3xl rounded-br-3xl bg-white bg-opacity-40 ">
                   <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
@@ -166,7 +251,7 @@ export default function OrderDetail() {
               )}
             </div>
             <div className="w-full sm:w-1/3 px-5 sm:p-5 ">
-              <div className="border-yellow-300 rounded-4xl border-4 shadow-md h-full bg-gradient-to-b from-teal-200 to-violet-300 p-3">
+              <div className="border-yellow-300 py-10 rounded-4xl border-4 shadow-md min-h-fit bg-gradient-to-b from-teal-200 to-violet-300 p-3">
                 <h1 className="text-2xl font-normal capitalize bg-slate-100 mb-4 p-5 rounded-xl">
                   Order summary
                 </h1>
@@ -177,7 +262,7 @@ export default function OrderDetail() {
                         Sub Total
                       </div>
                       <div className="text-slate-800 font-medium capitalize">
-                        {summaryData != null ? "₹" +summaryData?.total : ""}
+                        {summaryData != null ? "₹" + summaryData?.total : ""}
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
@@ -193,7 +278,7 @@ export default function OrderDetail() {
                         Charges
                       </div>
                       <div className="text-slate-800 font-medium capitalize">
-                      ₹50
+                        ₹50
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
@@ -201,11 +286,33 @@ export default function OrderDetail() {
                         Total
                       </div>
                       <div className="text-black text-lg font-semibold capitalize">
-                        {summaryData != null ?"₹" + (summaryData?.total + 50) : 0}
+                        {summaryData != null
+                          ? "₹" + (summaryData?.total + 50)
+                          : 0}
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="my-10">
+                {summaryData?.resturantReview && (
+                  <>
+                    <h2 className="font-medium text-white text-center text-sm my-2">
+                    &bull; Restaurant review
+                    </h2>
+                    <ReviewCard item={summaryData?.resturantReview} />
+                  </>
+                )}
+              </div>
+              <div className="my-10">
+                {summaryData?.resturantReview && (
+                  <>
+                    <h2 className="font-medium text-white text-center text-sm my-2">
+                    &bull; Delivery boy review
+                    </h2>
+                    <ReviewCard item={summaryData?.deliveryBoyReview} />
+                  </>
+                )}
               </div>
             </div>
           </div>

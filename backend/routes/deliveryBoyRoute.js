@@ -23,5 +23,6 @@ router.post("/changepassword", deliveryBoyController.changePassword);
 router.put('/changestatus', deliveryBoyController.makeAnAvilable);
 router.post('/update', deliveryBoyController.updateProfile);
 router.put('/makeavilable',deliveryBoyController.makeAvilable);
+router.get('/getallreview', deliveryBoyController.getAllReview);
 
 module.exports = router

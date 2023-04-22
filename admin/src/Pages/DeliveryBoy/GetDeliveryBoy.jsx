@@ -9,6 +9,7 @@ import { ImTable } from "react-icons/im";
 import { toast } from "react-toastify";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { Blocks } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 export default function GetDeliveryBoy() {
   const { currentColor } = useStateContext();
@@ -229,12 +230,16 @@ export default function GetDeliveryBoy() {
                     src={Images.user2}
                     alt="user"
                   />
-                  <div className="pl-3">
-                    <div className="text-base font-semibold">{item.name}</div>
+                  <Link
+                    to={`/deliveryboy/${item?._id}`}
+                    state={item}
+                    className="pl-3"
+                  >
+                    <div className="text-base font-semibold">{item?.name}</div>
                     <div className="font-normal text-gray-500">
-                      {item.email}
+                      {item?.email}
                     </div>
-                  </div>
+                  </Link>
                 </th>
                 <td className="px-6 py-4 ">
                   <span
@@ -317,7 +322,7 @@ export default function GetDeliveryBoy() {
       {isTable ? (
         <ProductTable data={datas} />
       ) : (
-        <div className="flex flex-wrap justify-start gap-2 max-sm:justify-center items-center mb-16">
+        <div className="flex flex-wrap justify-start ml-2 gap-5 max-sm:justify-center items-center mb-16">
           {datas.map((item, index) => {
             return (
               <DeliveryBoyCard
