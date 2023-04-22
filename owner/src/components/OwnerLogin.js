@@ -102,7 +102,7 @@ export default function OwnerLogin() {
     } catch (err) {
       if (
         err?.response?.status === 400 ||
-        err?.response?.status === 401 ||
+        err?.response?.status === 404 ||
         err?.response?.status === 402
       ) {
         toast.error(err?.response?.data?.message);

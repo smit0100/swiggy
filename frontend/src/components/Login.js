@@ -102,7 +102,7 @@ export default function Login() {
       // console.log("===error", response);
       if (
         response?.status === 400 ||
-        response?.status === 401 ||
+        response?.status === 500 ||
         response?.status === 402
       ) {
         toast.error("☹️ " + response?.data?.message);

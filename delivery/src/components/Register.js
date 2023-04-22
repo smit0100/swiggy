@@ -178,8 +178,8 @@ export default function Register() {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      if (err?.response?.status === 409) {
-        toast.error(`${err.response?.data?.message}`, "", "error");
+      if (err?.response?.status === 402 || err?.response?.status === 500) {
+        toast.error(`${err.response?.data?.message}`);
         return;
       }
     }
@@ -283,6 +283,7 @@ export default function Register() {
           <button
             className="w-full bg-black text-white p-2 rounded-lg hover:bg-white hover:text-black hover:border duration-200 border border-gray-300"
             onClick={handleSignUp}
+            disabled={loading}
           >
             {loading ? <InlineButtonLoader /> : "Sign up"}
           </button>

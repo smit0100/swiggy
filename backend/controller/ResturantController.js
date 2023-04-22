@@ -186,7 +186,7 @@ const loginResturant = async (req, res, next) => {
         .json({ message: "please check your email and password" });
     }
   } catch (e) {
-    res.status(404).json({ messag: "something wnet wrong" });
+    res.status(404).json({ message: "something wnet wrong" });
   }
 };
 

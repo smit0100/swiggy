@@ -19,51 +19,57 @@ const {
 } = require("../utils/PushNotification");
 
 const createUser = async (req, res, next) => {
-  const { name, email, number, password, fcmToken } = req.body;
+  try {
+    const { name, email, number, password, fcmToken } = req.body;
 
-  const userExist = await User.findOne({ email });
+    const userExist = await User.findOne({ email });
 
-  if (userExist)
-    return res.status(409).json({ message: "email id already exist" });
-  const saltGen = await bcrypt.genSalt(10);
-  console.log(saltGen);
-  // res.send(saltGen)
-  const encryptedPass = await bcrypt.hash(password, saltGen);
-  // const encryptedPass = await bcrypt.hash(password, 10);
-  console.log("this is encrypted");
-  console.log(encryptedPass);
-  const user = await new User({
-    name,
-    email,
-    number,
-    password: encryptedPass,
-    fcmToken,
-  }).save();
-  const otpNumber = Math.floor(100000 + Math.random() * 900000);
-  const token = await new Token({
-    userID: user._id,
-    token: otpNumber,
-  }).save();
+    if (userExist)
+      return res.status(409).json({ message: "email id already exist" });
+    const saltGen = await bcrypt.genSalt(10);
+    console.log(saltGen);
+    // res.send(saltGen)
+    const encryptedPass = await bcrypt.hash(password, saltGen);
+    // const encryptedPass = await bcrypt.hash(password, 10);
+    console.log("this is encrypted");
+    console.log(encryptedPass);
+    const user = await new User({
+      name,
+      email,
+      number,
+      password: encryptedPass,
+      fcmToken,
+    }).save();
+    const otpNumber = Math.floor(100000 + Math.random() * 900000);
+    const token = await new Token({
+      userID: user._id,
+      token: otpNumber,
+    }).save();
 
-  const url = otpNumber;
-  console.log("this is url", url);
-  await sendEmail(user.email, "Verify Email", String(url));
+    const url = otpNumber;
+    console.log("this is url", url);
+    await sendEmail(user.email, "Verify Email", String(url));
 
-  res.status(200).json({ message: "otp sent", user });
+    res.status(200).json({ message: "otp sent", user });
 
-  // const cryptedPass = await bcrypt.hash(pass, 10, async (err, hash) => {
-  //     if (err) {
-  //         console.log('this is error');
-  //         console.log(err);
+    // const cryptedPass = await bcrypt.hash(pass, 10, async (err, hash) => {
+    //     if (err) {
+    //         console.log('this is error');
+    //         console.log(err);
 
-  //         res.send(err)
-  //     }
-  //     console.log(hash);
-  // const user =  new User({ name, email, number, password:pass });
-  // const response = await user.save();
-  // console.log(response);
+    //         res.send(err)
+    //     }
+    //     console.log(hash);
+    // const user =  new User({ name, email, number, password:pass });
+    // const response = await user.save();
+    // console.log(response);
 
-  // });
+    // });
+  } catch (error) {
+    res.status(500).send({
+      message: "internal server error",
+    });
+  }
 };
 
 const verifyUser = async (req, res, next) => {
@@ -175,15 +181,15 @@ const loginUser = async (req, res, next) => {
   try {
     const { email, password, fcmToken } = req.body;
     let user = await User.findOne({ email: email, type: "customer" });
-  
+
     // user not exist
-  
+
     if (!user) return res.status(400).json({ message: "user not exist" });
     console.log(password);
     console.log(user.password);
-  
+
     const pass = await bcrypt.compareSync(password, user.password);
-  
+
     if (pass) {
       //userr not verified
       if (!user.verified)
@@ -206,9 +212,8 @@ const loginUser = async (req, res, next) => {
         .json({ message: "please check your email and password" });
     }
   } catch (e) {
-    res.status(500).json({ messag: 'something went wrong' });
+    res.status(500).json({ messag: "something went wrong" });
   }
-
 };
 
 const addAdddress = async (req, res, next) => {
@@ -389,7 +394,7 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    console.log("===>>>",email);
+    console.log("===>>>", email);
     if (user === null) {
       console.log("this is ru");
       return res.status(205).json({ message: "user not exist" });
@@ -402,7 +407,7 @@ const forgotPasswordForSentEmail = async (req, res, next) => {
       }).save();
 
       await sendEmail(user.email, "verify email", String(otpNumber));
-      console.log("===String(otpNumber)",String(otpNumber));
+      console.log("===String(otpNumber)", String(otpNumber));
       res.status(200).json({ messag: "otop sent", user });
     }
   } catch (e) {
@@ -415,7 +420,7 @@ const forgotPasswordForSetNewPassword = async (req, res, next) => {
   try {
     const { id, newPassword } = req.body;
     let user = await User.findById(id);
-    console.log("=====",req.body);
+    console.log("=====", req.body);
     if (!user)
       return res.status(404).send({
         messag: "user not found",

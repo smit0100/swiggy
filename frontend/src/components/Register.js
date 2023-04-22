@@ -29,9 +29,9 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(setCurrentColor("white"))
-  }, [])
-  
+    dispatch(setCurrentColor("white"));
+  }, []);
+
   const handledisable = () => {
     if (
       nameError.length === 0 &&
@@ -219,7 +219,7 @@ export default function Register() {
       });
     } catch (err) {
       console.log(err);
-      if (err.response?.status === 409) {
+      if (err.response?.status === 409 || err.response?.status === 500) {
         swal(`${err.response?.data?.message}`, "", "error");
         setLoading(false);
         return;
@@ -227,178 +227,6 @@ export default function Register() {
     }
   };
   return (
-    // <>
-    //   {
-    //     loading &&
-    //     <div className="absolute w-screen h-screen bg-black/20 z-50"></div>
-    //   }
-    //   <div className="relative h-screen w-screen ">
-    //     <img src="https://i.ibb.co/dL8GQvF/4.png" className="absolute w-screen h-screen blur-[3px]" alt="background" />
-    //     <div className="flex content-center items-center justify-center h-full w-screen ">
-    //       <div className="w-full sm:w-8/12 md:w-6/12 lg:w-4/12 px-4">
-    //         <div className="relative bg-white/60 flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
-    //           <div className="rounded-t mb-0 px-6">
-    //             <div className="text-center mb-3">
-    //               <h6 className="text-blueGray-500 text-sm font-bold pt-5 ">
-    //                 Sign up with
-    //               </h6>
-    //             </div>
-    //             <div className="btn-wrapper text-center">
-
-    //               <button
-    //                 className="bg-white active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-    //                 type="button"
-    //                 onClick={googleAuth}
-    //               >
-    //                 <img
-    //                   alt="google logo"
-    //                   className="w-5 mr-1"
-    //                   src="./svg/google.svg"
-    //                 />
-    //                 Google
-    //               </button>
-    //             </div>
-    //             <hr className="mt-6 border-b-1 border-blueGray-300" />
-    //           </div>
-    //           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-    //             <div className="text-blueGray-400 text-center mb-3 font-bold">
-    //               <small>Or sign up with credentials</small>
-    //             </div>
-    //             <form>
-    //               <div className="relative w-full mb-3">
-    //                 <label
-    //                   className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-    //                   htmlFor="grid-password"
-    //                 >
-    //                   Name
-    //                 </label>
-    //                 <input
-    //                   type="text"
-    //                   value={name}
-    //                   onChange={handleName}
-    //                   onBlur={handleName}
-    //                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-    //                   placeholder="Name"
-    //                 />
-    //                 <span className="text-sm text-red-500">{nameError}</span>
-    //               </div>
-
-    //               <div className="relative w-full mb-3">
-    //                 <label
-    //                   className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-    //                   htmlFor="grid-password"
-    //                 >
-    //                   Phone No.
-    //                 </label>
-    //                 <input
-    //                   type="text"
-    //                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-    //                   placeholder="Phone no"
-    //                   value={number}
-    //                   onChange={handleNumber}
-    //                   onBlur={handleNumber}
-    //                 />
-    //                 <div className="text-sm text-red-500">{numberError}</div>
-
-    //               </div>
-
-    //               <div className="relative w-full mb-3">
-    //                 <label
-    //                   className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-    //                   htmlFor="grid-password"
-    //                 >
-    //                   Email
-    //                 </label>
-    //                 <input
-    //                   type="email"
-    //                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-    //                   placeholder="Email"
-    //                   value={email}
-    //                   onChange={handleEmail}
-    //                   onBlur={handleEmail}
-    //                 />
-    //                 <div className="text-sm text-red-500">{emailError}</div>
-    //               </div>
-
-    //               <div className="relative w-full mb-3">
-    //                 <label
-    //                   className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-    //                   htmlFor="grid-password"
-    //                 >
-    //                   Password
-    //                 </label>
-    //                 <input
-    //                   type="password"
-    //                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-    //                   placeholder="Password"
-    //                   value={pass}
-    //                   onChange={handlePassword}
-    //                   onBlur={handlePassword}
-    //                 />
-    //                 <div className="text-sm text-red-500">{passError}</div>
-    //               </div>
-
-    //               <div className="relative w-full mb-3">
-    //                 <label
-    //                   className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-    //                   htmlFor="grid-password"
-    //                 >
-    //                   Confirm Password
-    //                 </label>
-    //                 <input
-    //                   type="password"
-    //                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-    //                   placeholder="Password"
-    //                   value={cpass}
-    //                   onChange={handleCpass}
-    //                   onBlur={handleCpass}
-
-    //                 />
-    //                 <div className="text-sm text-red-500">{cpassError}</div>
-    //               </div>
-
-    //               <div>
-    //                 <label className="inline-flex items-center cursor-pointer">
-    //                   <input
-    //                     checked={check}
-    //                     onChange={(e) => SetCheck(!check)}
-    //                     id="customCheckLogin"
-    //                     type="checkbox"
-    //                     className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-
-    //                   />
-    //                   <span className="ml-2 text-sm font-semibold text-blueGray-600">
-    //                     I agree with the{" "}
-    //                     <Link
-    //                       to="/privacypolicy"
-    //                       className="text-blue-500 border-b-[1px] border-blue-500"
-    //                     >
-    //                       Privacy Policy
-    //                     </Link>
-    //                   </span>
-
-    //                 </label>
-
-    //               </div>
-    //               {SubmitButton()}
-
-    //             </form>
-    //           </div>
-    //         </div>
-    //         <div className="flex flex-wrap mt-6 relative">
-    //           <div className="w-1/2">
-    //           </div>
-    //           <div className="w-1/2 text-right">
-    //             <Link to="/login" className="text-blueGray-200">
-    //               <div className="text-white text-md">Sign In...</div>
-    //             </Link>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-
-    // </>
     <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
       <img
         src={BgImages[0]}
@@ -480,7 +308,7 @@ export default function Register() {
                 className="mr-2"
                 checked={check}
                 onChange={(e) => {
-                  SetCheck(!check)
+                  SetCheck(!check);
                 }}
               />
               <span className="ml-2 text-sm font-semibold text-blueGray-600">
@@ -488,7 +316,7 @@ export default function Register() {
                 <Link
                   to="/privacyPolicy"
                   className="text-blue-500 border-b-[1px] border-blue-500"
-                  onClick={()=>dispatch(setCurrentColor("slate-800"))}
+                  onClick={() => dispatch(setCurrentColor("slate-800"))}
                 >
                   Privacy Policy
                 </Link>

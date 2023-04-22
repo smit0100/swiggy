@@ -67,9 +67,9 @@ const verify = async (req, res, next) => {
     //   };
     //   sendNotification(admin?.fcmToken, data);
     // }
-    res.status(200).json({ message: "user veruified", user });
+    res.status(200).json({ message: "user verified", user });
   } catch (e) {
-    res.status(500).json({ message: "somehting went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 };
 

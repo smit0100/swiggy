@@ -109,7 +109,7 @@ export default function Login() {
       console.log(err);
       if (
         err?.response?.status === 400 ||
-        err?.response?.status === 401 ||
+        err?.response?.status === 500 ||
         err?.response?.status === 402
       ) {
         setLoading(false);

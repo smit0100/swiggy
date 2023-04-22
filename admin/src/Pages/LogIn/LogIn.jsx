@@ -60,8 +60,8 @@ function LogIn() {
       };
       User.AdminLogIn(JSON.stringify(data))
         .then((result) => {
+          console.log("==result===", result);
           if (result?.response) {
-            console.log("==result===", result);
             clearLogInState();
             localStorage.setItem("isLogIn", JSON.stringify(true));
             let data = {
@@ -80,7 +80,7 @@ function LogIn() {
               timer: 3000,
             });
           }
-          if (result?.data?.messag != "user founded") {
+          if (result?.status == 400 || result?.status == 300) {
             toast.error(result?.data?.messag, { theme: "dark" });
             return;
           }
@@ -148,7 +148,6 @@ function LogIn() {
   };
   return (
     <div className="flex items-center justify-center flex-1 min-h-screen bg-black bg-opacity-30 backdrop-blur-sm">
-      <ToastContainer />
       <img
         src={BgImages[bgIndex]}
         className="w-full h-full object-cover absolute mix-blend-overlay"
