@@ -32,18 +32,6 @@ export default function Register() {
     dispatch(setCurrentColor("white"));
   }, []);
 
-  const handledisable = () => {
-    if (
-      nameError.length === 0 &&
-      numberError.length === 0 &&
-      emailError.length === 0 &&
-      passError.length === 0 &&
-      cpass.length === 0
-    ) {
-      setDisabled(!disabled);
-      console.log(disabled);
-    }
-  };
   const handleSignUp = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     const nameRegex = /^[\sA-Za-z]+$/;
@@ -76,43 +64,6 @@ export default function Register() {
       handleSubmit();
     }
   };
-  function SubmitButton() {
-    if (
-      name &&
-      email &&
-      number &&
-      pass &&
-      check &&
-      cpass &&
-      nameError.length === 0 &&
-      emailError.length === 0 &&
-      numberError.length === 0 &&
-      passError.length === 0 &&
-      cpassError.length === 0
-    ) {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          onClick={handleSubmit}
-        >
-          {" "}
-          {loading ? <InlineButtonLoader /> : "Register Account"}{" "}
-        </button>
-      );
-    } else {
-      return (
-        <button
-          className="bg-black/30 border-1 border-black/50 active:bg-black/50 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-          type="button"
-          disabled
-        >
-          {" "}
-          Register Account{" "}
-        </button>
-      );
-    }
-  }
 
   const googleAuth = () => {
     window.open(
@@ -126,65 +77,6 @@ export default function Register() {
       `${process.env.REACT_APP_BASEURL}/auth/facebook/callback`,
       "self"
     );
-  };
-
-  const handleName = (e) => {
-    setName(e.target.value);
-    var regex = /^[\sA-Za-z]+$/;
-
-    if (!regex.test(e.target.value)) {
-      setNameError("please enter valid name");
-    } else {
-      setNameError("");
-    }
-    handledisable();
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address");
-    } else {
-      setEmailError("");
-    }
-    handledisable();
-  };
-
-  const handleNumber = (e) => {
-    setNumber(e.target.value);
-    const regx = /^[789]\d{9}$/;
-    if (!regx.test(e.target.value)) {
-      setNumberError("please enter valid number");
-    } else {
-      setNumberError("");
-    }
-    handledisable();
-  };
-
-  const handleCpass = (e) => {
-    setCpass(e.target.value);
-    if (pass === e.target.value) {
-      setCpassError("");
-    } else {
-      setCpassError("please enter same password");
-    }
-    handledisable();
-  };
-
-  const handlePassword = (e) => {
-    setPass(e.target.value);
-    if (e.target.value.length < 8) {
-      setPassError("password must be 8 character");
-    } else {
-      setPassError("");
-    }
-    if (e.target.value === cpass) {
-      setCpassError("");
-    } else {
-      setCpassError("please enter same password");
-    }
-    handledisable();
   };
 
   // const user = useSelector(state => state.userData.user);

@@ -33,24 +33,6 @@ export default function Login() {
       requestForToken(setTokenFound);
     }
   };
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if (!regex.test(e.target.value)) {
-      setEmailError("Please enter valid email address");
-    } else {
-      setEmailError("");
-    }
-  };
-
-  const handlePassword = (e) => {
-    setPass(e.target.value);
-    if (e.target.value.length < 8) {
-      setPassError("password must be 8 character");
-    } else {
-      setPassError("");
-    }
-  };
 
   const googleAuth = () => {
     window.open(

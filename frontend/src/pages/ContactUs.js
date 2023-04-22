@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InlineButtonLoader from "../components/InlineButtonLoader";
 import swal from 'sweetalert'
 import { toast } from "react-toastify";
+import { setCurrentColor } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const ContactUs = () => {
   const [name, setName] = useState("");
@@ -14,7 +16,10 @@ const ContactUs = () => {
   const [message, setMessage] = useState("");
   const [messageError, setMessageError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   const handleName = (e) => {
     setName(e.target.value);
     var regex = /^[\sA-Za-z]+$/;

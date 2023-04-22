@@ -31,7 +31,9 @@ const Otp = () => {
     useRef(null),
     useRef(null),
   ];
-
+  useEffect(() => {
+    dispatch(setCurrentColor("white"));
+  }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(otp.join(""));

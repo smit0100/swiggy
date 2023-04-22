@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import swal from "sweetalert";
 import InlineButtonLoader from "./InlineButtonLoader";
 import { Images } from "../Assets";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 const BgImages = [Images.Bg_LogIn1, Images.Bg_LogIn2, Images.Bg_LogIn3];
 
@@ -31,7 +33,10 @@ const ForgotPassword = () => {
   ];
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCurrentColor("white"));
+  }, []);
   const handleChange = (event, index) => {
     const value = event.target.value;
     setOTP((prevOTP) => {

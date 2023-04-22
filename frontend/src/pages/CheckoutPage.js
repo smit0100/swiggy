@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userData } from "../redux/user/userSlice";
+import { setCurrentColor, userData } from "../redux/user/userSlice";
 import StripeCheckout from "react-stripe-checkout";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,9 @@ const CheckoutPage = () => {
 
   const user = useSelector((state) => state.userData.user);
   const cart = useSelector((state) => state.cartData.cart);
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   useEffect(() => {
     if (
       address &&

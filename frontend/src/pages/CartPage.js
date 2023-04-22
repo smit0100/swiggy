@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { cartData } from "../redux/cart/cartSlice";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 const CartPage = () => {
   
@@ -11,7 +12,9 @@ const CartPage = () => {
 
   const isUser = useSelector(state => state.userData.user);
   const cart = useSelector(state => state.cartData.cart)
-
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   useEffect(() => {
     (async () => {
       if (isUser != null) {

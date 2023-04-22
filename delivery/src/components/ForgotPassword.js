@@ -1,4 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { setCurrentColor } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import InlineButtonLoader from "./InlineButtonLoader";
@@ -27,6 +29,11 @@ const ForgotPassword = () => {
     useRef(null),
   ];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCurrentColor("white"));
+  }, []);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);

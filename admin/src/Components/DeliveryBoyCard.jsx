@@ -11,12 +11,12 @@ export default function DeliveryBoyCard(props) {
   return (
     <div className="mt-20 md:mt-28">
       <div className="bg-slate-200 dark:bg-gray-800 h-64 w-80 md:w-96 md:rounded-3xl rounded-tl-3xl drop-shadow-xl rounded-br-3xl rounded-tr-lg rounded-bl-lg shadow-md relative flex flex-col items-center justify-between md:items-start py-5 md:p-5 transition-all duration-150">
-        <Link to={`/deliveryboy/${_id}`} state={props.data}>
-          <img
-            className="rounded-tr-3xl rounded-tl-3xl rounded-br-3xl rounded-bl-sm w-28 h-28 absolute -top-12 transform md:scale-110 duration-300 hover:shadow-2xl drop-shadow-lg"
-            src={image ? image : Images.user2}
-            alt="Delivery boy"
-          />
+        <Link
+          to={`/deliveryboy/${_id}`}
+          state={props.data}
+          className="rounded-tr-3xl rounded-tl-3xl rounded-br-3xl rounded-bl-sm w-28 h-28 absolute -top-12 transform md:scale-110 duration-300 hover:shadow-2xl drop-shadow-lg"
+        >
+          <img src={image ? image : Images.user2} alt="Delivery boy" />
         </Link>
 
         <div className="align-middle text-2xl md:pl-3 font-semibold text-black text-center mt-11 md:m-0 md:mt-14 dark:text-white">

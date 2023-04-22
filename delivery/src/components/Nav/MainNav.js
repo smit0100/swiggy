@@ -92,7 +92,7 @@ const MainNav = () => {
         exit={{ opacity: 0, x: 200 }}
       >
         {isOpenMobileNav ? (
-          <MobileNav isOpen={isOpenMobileNav} setIsOpen={setIsOpenMobileNav} />
+            <MobileNav isOpen={isOpenMobileNav} isLogedIn={isCorierLogIn} setIsOpen={setIsOpenMobileNav} />
         ) : (
           <div className="p-5 flex items-center justify-between w-full">
             <motion.div

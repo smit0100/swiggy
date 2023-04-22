@@ -25,6 +25,9 @@ const ResturantPage = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userData.user);
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   const handleFilter = (e, id) => {
     e.preventDefault();
     if (categoryID == id) {

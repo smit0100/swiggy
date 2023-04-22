@@ -6,7 +6,7 @@ import UserAddress from "../components/UserAddress";
 import ChangePasswordPopup from "../components/ChangePasswordPopup";
 import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
-import { userData, userLogIn } from "../redux/user/userSlice";
+import { setCurrentColor, userData, userLogIn } from "../redux/user/userSlice";
 import swal from "sweetalert";
 import { useCookies } from "react-cookie";
 
@@ -24,7 +24,9 @@ const UserProfile = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   useEffect(() => {
     (async () => {
       try {

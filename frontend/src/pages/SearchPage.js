@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartData } from "../redux/cart/cartSlice";
 import swal from "sweetalert";
 import { toast } from "react-toastify";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 const SearchPage = () => {
   const [data, setData] = useState([]);
@@ -18,7 +19,9 @@ const SearchPage = () => {
   const dispatch = useDispatch();
   const isUser = useSelector((state) => state.userData.user);
   const cartItemData = useSelector((state) => state.cartData.cart);
-
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   useEffect(() => {
     (async () => {
       try {

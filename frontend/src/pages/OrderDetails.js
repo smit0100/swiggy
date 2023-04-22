@@ -13,6 +13,7 @@ import DeliveryReview from "../Review/DeliveryReview";
 import { useDispatch } from "react-redux";
 import CustomerOrderCard from "../components/CustomerOrderCard";
 import { toast } from "react-toastify";
+import { setCurrentColor } from "../redux/user/userSlice";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,9 @@ const OrderDetails = () => {
   const data = location.state;
   console.log(data);
   const createdDate = "ok";
-
+  useEffect(() => {
+    dispatch(setCurrentColor("slate-800"));
+  }, []);
   // console.log(createdDate);
 
   // useEffect(() => {
