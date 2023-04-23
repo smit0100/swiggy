@@ -14,7 +14,7 @@ const Directory = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setCurrentColor("slate-800"));
+    dispatch(setCurrentColor("white"));
   }, []);
   useEffect(() => {
     (async () => {

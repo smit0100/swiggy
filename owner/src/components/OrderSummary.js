@@ -7,6 +7,7 @@ import InlineButtonLoader from "./InlineButtonLoader";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
 import UserReviewCard from "./UserReviewCard";
+import RejectOrderModal from "./RejectOrderModal";
 // import io from 'socket.io-client';
 // const socket = io("http://localhost:4000");
 
@@ -16,9 +17,11 @@ const OrderSummary = () => {
   const [reviewData, setReviewData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
-  console.log("hety");
+  const [isVisible, setIsVisible] = useState(false);
+
+  const [isValid, setIsValid] = useState(false);
+  const [message, setMessage] = useState("");
   useEffect(() => {
-    console.log("sjdljfklsjkdlfjksldflkjfkjsklfdk;ofs");
     (async () => {
       setLoading(true);
       console.log(state);
@@ -42,7 +45,6 @@ const OrderSummary = () => {
   // }, []);
 
   const handleOrder = async () => {
-    console.log("hello");
     setIsDisable(true);
     axios
       .get(`http://localhost:4000/order/acceptOrder?id=${state}`)
@@ -57,30 +59,39 @@ const OrderSummary = () => {
       .catch((e) => {
         console.log("===e", e);
         if (e?.response?.status == 401) {
-          toast.error("☹️ " +e?.response?.data?.message);
+          toast.error("☹️ " + e?.response?.data?.message);
         }
         setIsDisable(false);
       });
   };
 
   const handleReject = async () => {
-    console.log("hello");
-    setIsDisable(true);
+    if (message.trim() == "") {
+      toast.error("☹️ Reason must be filled.");
+      return;
+    } else if (message?.length <= 2) {
+      toast.error("☹️ Reason must be longer than 2 characters");
+      return;
+    }
+    setIsValid(true);
     axios
-      .get(`http://localhost:4000/resturant/rejectorder?id=${state}`)
+      .get(
+        `http://localhost:4000/resturant/rejectorder?id=${state}&fcmToken=${summaryData?.customer?.fcmToken}&reason=${message}&name=${summaryData?.resturant?.name}`
+      )
       .then((response) => {
         console.log("=====>>>", response);
         if (response?.data?.response) {
-          setIsDisable(false);
           toast.success(" Order rejected.");
           // setSummaryData(response?.data?.response);
           console.log(response);
           setSummaryData(response.data.response);
+          setIsValid(false);
+          setMessage(false);
+          setIsVisible(false);
         }
       })
       .catch((e) => {
         console.log("===e", e);
-        setIsDisable(false);
         toast.error("☹️ Something went wrong,Please try again");
       });
   };
@@ -315,7 +326,7 @@ const OrderSummary = () => {
                     )}
                     {summaryData != null &&
                       summaryData.status === "process" && (
-                        <>
+                        <div className="flex gap-2">
                           <button
                             type="button"
                             disabled={isDisable}
@@ -337,18 +348,18 @@ const OrderSummary = () => {
                             disabled={isDisable}
                             className={`${
                               isDisable
-                                ? "bg-black"
-                                : "hover:bg-white hover:text-black"
-                            } w-full bg-black text-white p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
-                            onClick={handleReject}
+                                ? "bg-white"
+                                : "hover:bg-black hover:text-white"
+                            } w-full bg-white text-black p-2 rounded-lg mt-2   hover:border duration-200 border border-gray-300`}
+                            onClick={() => setIsVisible(!isVisible)}
                           >
                             {/* {isDisable ? (
                               <InlineButtonLoader />
                             ) : ( */}
-                              Reject Order
+                            Reject Order
                             {/* )} */}
                           </button>
-                        </>
+                        </div>
                       )}
 
                     {/* {summaryData !== null && summaryData.courierBoyotpNumber && (
@@ -389,6 +400,21 @@ const OrderSummary = () => {
             </div>
           </div>
         </div>
+      )}
+      {isVisible && (
+        <RejectOrderModal
+          onClose={() => {
+            setIsVisible(false);
+            setIsValid(false);
+            setMessage("");
+          }}
+          message={message}
+          setMessage={(value) => setMessage(value)}
+          onClick={(e) => {
+            handleReject(e);
+          }}
+          isValid={isValid}
+        />
       )}
     </>
   );

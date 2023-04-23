@@ -56,14 +56,13 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         `${process.env.REACT_APP_BASEURL}/user/update`,
         {
           userId: user._id,
-          email,
           number,
           name,
         }
       );
       console.log(response);
       if (response.status === 201) {
-        setOtpTab(!otpTab);
+        // setOtpTab(!otpTab);
         setNewAddress(response.data.newDetails);
       } else {
         // add redux
@@ -115,44 +114,6 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
     }
     handledisable();
   };
-
-  function SubmitButton() {
-    if (
-      name &&
-      email &&
-      number &&
-      nameError.length === 0 &&
-      emailError.length === 0 &&
-      numberError.length === 0
-    ) {
-      return (
-        <button
-          className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={(e) => {
-            setupdateProfile(false);
-            changeProfileDetails(e);
-          }}
-        >
-          Save Update
-        </button>
-      );
-    } else {
-      return (
-        <button
-          className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={(e) => {
-            setupdateProfile(false);
-            changeProfileDetails(e);
-          }}
-          disabled
-        >
-          Save Update
-        </button>
-      );
-    }
-  }
 
   const handledisable = () => {
     if (

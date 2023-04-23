@@ -217,7 +217,7 @@ const acceptOrder = async (req, res, next) => {
       isApproved: "approved",
       isAvilable: { $ne: false },
     });
-    console.log("====>>>0",courierBoys);
+    console.log("====>>>0", courierBoys);
 
     if (courierBoys == null) {
       return res.status(401).json({ message: "courier boy is not avilable " });
@@ -269,8 +269,7 @@ const acceptOrder = async (req, res, next) => {
 
 const cancelOrder = async (req, res, next) => {
   try {
-    const { id } = req.query;
-    console.log("oo");
+    const { id, fcmToken, reason } = req.query;
     const response = await Order.findByIdAndUpdate(
       id,
       {
@@ -305,6 +304,14 @@ const cancelOrder = async (req, res, next) => {
         module: "Review",
       },
     ]);
+
+    if (fcmToken && reason) {
+      let data = {
+        title: `Your order is canceled by the customer.😔`,
+        body: "Reason : " + reason,
+      };
+      sendNotification(fcmToken, data);
+    }
     res.status(200).json({ message: "order canceled", response });
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });

@@ -128,7 +128,6 @@ const UpdateProfileDetails = ({ setupdateProfile }) => {
         `http://localhost:4000/resturant/updateProfile`,
         {
           id: user._id,
-          email,
           number,
           name,
           ownerName

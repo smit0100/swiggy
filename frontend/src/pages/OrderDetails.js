@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import CustomerOrderCard from "../components/CustomerOrderCard";
 import { toast } from "react-toastify";
 import { setCurrentColor } from "../redux/user/userSlice";
+import RejectOrderModal from "../components/RejectOrderModal";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
@@ -28,12 +29,15 @@ const OrderDetails = () => {
 
   const [isResturantButton, setIsResturantButton] = useState(false);
   const [isDeliveryButton, setIsDeliveryButton] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isValid, setIsValid] = useState(false);
   const user = useSelector((state) => state.userData.user);
 
   const location = useLocation();
   const data = location.state;
   console.log(data);
-  const createdDate = "ok";
   useEffect(() => {
     dispatch(setCurrentColor("slate-800"));
   }, []);
@@ -88,21 +92,31 @@ const OrderDetails = () => {
 
   const handleCancel = async (e) => {
     e.preventDefault();
-    console.log("hello");
+    if (message.trim() == "") {
+      toast.error("☹️ Reason must be filled.");
+      return;
+    } else if (message?.length <= 2) {
+      toast.error("☹️ Reason must be longer than 2 characters");
+      return;
+    }
+    setIsValid(true);
     if (orderData != null) {
       try {
         const response = await axios.get(
-          `http://localhost:4000/order/cancelOrder/?id=${orderData._id}`
+          `http://localhost:4000/order/cancelOrder?id=${orderData._id}&fcmToken=${orderData?.resturant?.fcmToken}&reason=${message}`
         );
         setOrderData(response.data.response);
         console.log(data);
         toast.success("Order canceled successfully.🔥");
+        setIsValid(false);
+        setMessage(false);
+        setIsVisible(false);
       } catch (err) {
         console.log(err);
       }
     }
   };
-  console.log("===orderData",orderData);
+  console.log("===orderData", orderData);
   return (
     <>
       {isLoading === true ? (
@@ -238,10 +252,10 @@ const OrderDetails = () => {
                                     {orderData?.status}
                                   </h1>
                                   <button
-                                    onClick={handleCancel}
+                                    onClick={() => setIsVisible(true)}
                                     className="w-full mt-5 text-center hover:bg-red-600 text-red-600 hover:text-white p-2 rounded-lg duration-200 border border-gray-300 backdrop-blur-sm"
                                   >
-                                    Cancle Order
+                                    Cancel Order
                                   </button>
                                 </div>
                               )}
@@ -421,6 +435,23 @@ const OrderDetails = () => {
           orderId={orderId}
           deliverboyId={orderData != null && orderData.deliveryBoy._id}
           fcmToken={orderData?.deliveryBoy?.fcmToken}
+        />
+      )}
+      {isVisible && (
+        <RejectOrderModal
+          onClose={() => {
+            setIsVisible(false);
+            setIsValid(false);
+            setMessage("");
+          }}
+          message={message}
+          setMessage={(value) => setMessage(value)}
+          onClick={(e) => {
+            handleCancel(e);
+          }}
+          isValid={isValid}
+          title="Cancel Order"
+          buttonText="Cancel Order"
         />
       )}
     </>

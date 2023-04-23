@@ -799,7 +799,7 @@ const changePassword = async (req, res, next) => {
 const rejectOrder = async (req, res, next) => {
   console.log("hey");
   try {
-    const { id } = req.query;
+    const { id, fcmToken, reason, name } = req.query;
     const response = await OrderModel.findByIdAndUpdate(
       id,
       {
@@ -834,6 +834,13 @@ const rejectOrder = async (req, res, next) => {
         module: "Review",
       },
     ]);
+    if (fcmToken && reason && name) {
+      let data = {
+        title: `Your order is rejected by ${name}.😔`,
+        body: "Reason : " + reason,
+      };
+      sendNotification(fcmToken, data);
+    }
     res.status(200).json({ messag: "order rejected", response });
   } catch (e) {
     res.status(500).json({ messag: "something went  wrong" });
