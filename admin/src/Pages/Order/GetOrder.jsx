@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import pizza from "../../Assets/pizza.jpg";
 import { Blocks } from "react-loader-spinner";
 import Order from "../../Apis/Order";
 import { Images } from "../../Assets";

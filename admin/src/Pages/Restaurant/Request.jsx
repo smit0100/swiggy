@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Restaurants from "../../Apis/Restaurants";
 import swal from "sweetalert";
-import { Card } from "../../Components";
-import resto from "../../Assets/resto.jpg";
 import { Blocks } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";

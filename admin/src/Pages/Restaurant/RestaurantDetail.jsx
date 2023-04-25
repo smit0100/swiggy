@@ -3,7 +3,6 @@ import { BiBed } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import resto from "../../Assets/resto.jpg";
-import avatar from "../../Assets/avatar.jpg";
 import { BsWifi } from "react-icons/bs";
 import { GrRestaurant } from "react-icons/gr";
 import { MdDeliveryDining, MdOutlineSupportAgent } from "react-icons/md";

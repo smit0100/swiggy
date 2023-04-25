@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import pizza from "../../Assets/pizza.jpg";
 import { MdFastfood } from "react-icons/md";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useState } from "react";

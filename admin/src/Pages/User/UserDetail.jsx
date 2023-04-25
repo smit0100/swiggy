@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import avatar from "../../Assets/avatar.jpg";
 import Users from "../../Apis/User";
 export default function UserDetail() {
   const { id } = useParams();
@@ -23,11 +22,11 @@ export default function UserDetail() {
   return (
     <div className="p-5">
       <div className="flex flex-col sm:flex-row items-center p-4">
-        <img
-          src={avatar}
+        {/* <img
+          src={""}
           alt="User"
           className="w-32 h-32 rounded-full object-cover mr-4"
-        />
+        /> */}
         <div className="flex-1">
           <h3 className="text-xl font-bold mb-2 dark:text-white">
             {data?.name}
