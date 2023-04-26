@@ -9,3 +9,4 @@ export { default as DeliveryBoyCard } from './DeliveryBoyCard';
 export { default as Product } from './Product';
 export { default as Tabs } from './Tabs';
 export { default as FoodCard } from './FoodCard';
+export { default as InlineButtonLoader } from './InlineButtonLoader';
